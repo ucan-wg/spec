@@ -3,13 +3,14 @@
 ## Editors
 
 * [Brooklyn Zelenka](https://github.com/expede), [Fission](https://fission.codes)
-* [Daniel Holmgren](https://github.com/dholms)
 
 ## Authors
 
 * [Brooklyn Zelenka](https://github.com/expede), [Fission](https://fission.codes)
 * [Philipp Krüger](https://github.com/matheus23), [Fission](https://fission.codes)
 * [Daniel Holmgren](https://github.com/dholms)
+
+## Contributors 
 
 # 0. Introduction
 
@@ -147,11 +148,11 @@ The `iss` and `aud` fields describe the token's principals. This can be conceptu
 
 `nbf` and `exp` stand for "not before" and "expires at" respectively. These are standard fields from RFC 7519 (JWT). Taken together they represent the time bounds for a token.
 
-The `nbf` field is OPTIONAL. When omitted, the token MUST BE be valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay use of a UCAN. For example, preprovisioning access to conference materials ahead of time, but not allowing access until the day of is achievable with judicious use of `nbf`.
+The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay use of a UCAN. For example, preprovisioning access to conference materials ahead of time, but not allowing access until the day of is achievable with judicious use of `nbf`.
 
 The `exp` field MUST be set. If the time is in the past, the token MUST fail validation.
 
-It is RECOMMENDED to keep the window of validity be as short as possible. By limiting the time range, the risk of a malicious user abusing a UCAN. This is situationally dependent, as trusted devices may not want to  reauthorize it very often. Due to clock drift, time bounds SHOULD NOT be considered exact. A buffer of +/- 60 seconds is RECOMMENDED.
+It is RECOMMENDED to keep the window of validity be as short as possible. By limiting the time range, the risk of a malicious user abusing a UCAN. This is situationally dependent, as trusted devices may not want to  reauthorize it very often. Due to clock drift, time bounds SHOULD NOT be considered exact. A buffer of ±60 seconds is RECOMMENDED.
 
 #### Examples
 
@@ -259,13 +260,25 @@ Proofs referenced by content address MUST be resolvable by the recipient, for in
 
 # 8. Validation
 
-Bounds
+## 8.X Time
 
-## 8.1 Efficiency
+## 8.x Pricipal Alignment
 
-content addressing & memoized validation
+## 8.X Proof Chaining
 
-# 9. Acknowledgements
+## 8.X Rights Amplification
+
+## 8.X Attenuations
+
+## 9. Implementation Recommendations
+
+### 9.X Generalized Store
+
+### 9.X Content Addressing
+
+### 9.X Memoized Validation
+
+# 10. Acknowledgements
 
 * Irakli Gozalishvili
 * Brendan O'Brien
