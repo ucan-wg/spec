@@ -1,4 +1,4 @@
-# UCAN 0.8 Spec
+# UCAN 0.8.0 Spec
 
 ## Editors
 
@@ -14,13 +14,13 @@
 
 # 0. Introduction
 
-User Controlled Authorization Network (UCAN) is a secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifable, delegatable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability via chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifyable chain compression is specified via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). UCAN improves on the familiaity and adoptability of similar schemes, like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html). UCAN inverts the [Macaroon](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf) model by allowing creation and discharge by any agent with a DID, including peer-to-peer beyond traditional cloud computing.
+User Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifable, delegatable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability via chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifyable chain compression is specified via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). UCAN improves on the familiaity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html). UCAN inverts the [Macaroon](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf) model by allowing creation and discharge by any agent with a DID, including peer-to-peer beyond traditional cloud computing.
+
+## Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
 
 # 1. Motivation
-
-
 
 NOTE TO SELF: who cares about the below? What is the problem that you're solving?!
 
@@ -53,15 +53,15 @@ What if you're writing a collaborative application, and it needs access across u
 
 The potency (also known as a "caveat") are the represented rights to some resource. Each potency type has its own elements and semantics. They may by unary, support a semilattice, be monotone, and so on. Potencies may be considered on their own — separate from resources — and applied to different resources. Potencies are extensible, and definiable to match any resource. For example:
 
-APPEND is a potency for WNFS paths. The potency OVERWRITE also implies the ability to APPEND. Email has no such tiered relationship. You may SEND email, but there is no ”super send”.
+`APPEND` is a potency for WNFS paths. The potency `OVERWRITE` also implies the ability to APPEND. Email has no such tiered relationship. You may SEND email, but there is no ”super send”.
 
 ## 2.3 Scope
 
-An authorization scope is the tuple `resource x potency`. Scopes compose, so a list of scopes can be considered the union of all of the inner scopes.
+An authorization scope is the set of tuples `[resource x potency]`. Scopes compose, so a list of scopes can be considered the union of all of the inner scopes.
 
 ![](./assets/scope_union.jpg)
 
-You can think of this as ”scoping” the total rights of the authorization space down to the relevant volume of authorizations.
+The ”scope” is the total rights of the authorization space down to the relevant volume of authorizations. With the exception of rights amplification, every individual delegation MUST have equal or less scope from their delegator.
 
 Inside this content space, can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities (potencies).
 
@@ -87,7 +87,7 @@ A user holding two scopes may have more rights than the sum of their parts. The 
 
 # 7. JWT Structure
 
-UCANs MUST BE formatted as JWTs, with additional required and optional keys. The overall container of a header, claims, and siganture remain. Please refer to RFC 7519 for more omn this format
+UCANs MUST be formatted as JWTs, with additional required and optional keys. The overall container of a header, claims, and siganture remain. Please refer to RFC 7519 for more omn this format
 
 ## 7.1 Header
 
@@ -117,16 +117,16 @@ EdDSA as applied to JOSE (including JWT) is described in [RFC 8037](https://data
 
 The payload MUST describe the authorization claims being made, who is involved, and its validity period.
 
-| Field | Type       | Description                            | Required |
-|-------|------------|----------------------------------------|----------|
-| `iss` | `String`   | Issuer DID (sender)                    | Yes      |
-| `aud` | `String`   | Audience DID (receiver)                | Yes      |
-| `nbf` | `Number`   | Not Before Unix Timestamp (valid from) | No       |
-| `exp` | `Number`   | Expiratio Time (valid until)           | Yes      |
-| `nnc` | `String`   | Nonce                                  | No       |
-| `fct` | `Json[]`   | Facts (asserted, signed data)          | No       |
-| `prf` | `String[]` | Proofs (nested UCANs)                  | Yes      |
-| `att` | `Json[]`   | Attenuations                           | Yes      |
+| Field | Type       | Description                                      | Required |
+|-------|------------|--------------------------------------------------|----------|
+| `iss` | `String`   | Issuer DID (sender)                              | Yes      |
+| `aud` | `String`   | Audience DID (receiver)                          | Yes      |
+| `nbf` | `Number`   | Not Before Unix Timestamp (valid from)           | No       |
+| `exp` | `Number`   | Expiratio Time (valid until)                     | Yes      |
+| `nnc` | `String`   | Nonce                                            | No       |
+| `fct` | `Json[]`   | Facts (asserted, signed data)                    | No       |
+| `prf` | `String[]` | Proof of delegation (witnesses are nested UCANs) | Yes      |
+| `att` | `Json[]`   | Attenuations                                     | Yes      |
 
 ### 7.2.1 Principals
 
@@ -192,40 +192,45 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 ]
 ```
 
-### 7.2.5 Attenuation
+### 7.2.5 Attenuation Scope
 
-The attenuated resources (i.e. output) of a UCAN is an array of heterogeneous resources and capabilities (defined below).
+The attenuation scope (i.e. UCAN output) MUST be an array of heterogeneous resources and capabilities (defined below). This array MAY be empty.
 
-The union of this array must be a strict subset (attenuation) of the proofs plus resources created/owned/originated by the ”iss” DID. This scoping also includes time ranges, making the proof that starts latest and proof the end soonest the lower and upper time bounds.
+The union of this array MUST be a strict subset (attenuation) of the proofs, resources originated by the `iss` DID (i.e. by parenthood), or resources that compositions of others (see rights amplification). This scoping also includes time ranges, making the proofs that starts latest and end soonest the lower and upper time bounds.
 
-Each capability has its own semantics, which need to be interpretable by the target resource handler. They consist of at least a resource and a capability, generally adhering to the form:
+Each capability has its own semantics, which need to be interpretable by the target resource handler. A particular validator SHOULD NOT reject UCANs with resources that it does not know how to interpret.
+
+The attenuation field MUST contain either a wildcard (`*`), or an array of JSON objects. A JSON capability MUST contain the `with` and `can` field, and MAY contain additional field needed to describe the capability.
 
 ``` json
 {
-  "with": $URI,
-  "can": $CAPABILITY
+  "with": $RESOURCE,
+  "can": $POTENCY
 }
 ```
 
-#### 7.2.5.1 Resources
+#### Resource Pointer
 
-URI
+A resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI merely a unique identifier to describe the pointer to -- and within -- a resource.
 
-This merely a unique identifier to indicate the type of thing being described. For example, “wnfs“ for the WebNative File System, “email” for email, and “domain“ for domain names.
+The same resource MAY be validly addressed several forms. For instance a database may be addressed at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
-
-This value depends on the resource type. A resource identifier is a canonical reference of some sort. For instance, a DNSLink, email address, domain name, or username.
-
-These values may also include the wildcard (*). This means ”any resource of this type”, even if not yet created, bounded by proofs. These are generally used for account linking. Wildcards are not required to delegate longer paths, as paths are generally taken as OR filters.
-
-URI format -- https://datatracker.ietf.org/doc/html/rfc3986
+Resource pointers MAY also include wildcards (`*`) to indicate "any resource of this type" -- even if not yet created -- bounded by attenuation witnesses. These are generally used for account linking. Wildcards are not required to delegate longer paths, as paths are generally taken as OR filters.
 
 | Value | Meaning |
 |-------|---------|
 | `"*"`      | Delegate all resources of any type that are in scope        |
 | `{"with": "wnfs://user.example.com/path", ...}`      | File paths in our file system        |
-| `{"with": "app://*", ...}` | All apps that the iss has access to, including future ones |
+| `{"with": "app:*", ...}` | All apps that the iss has access to, including future ones |
 | `{"with": "app://myapp.fission.app", ...}` | A URL for the app (ideally the auto-assigned one) |
+
+Capabilities MUST NOT be case sensitive.
+
+#### Potency
+
+The `can` field describes the action or "potency" of a capability. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be the possible `can` values for an `http` resource.
+
+Potencies MAY be organized in a heirarchy with enums. A common example is super user access ("anything") on a file system. Another would be read vs write access, such that in an HTTP context `READ` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiing the need to reissue UCANs with new resource semantics.
 
 #### Examples
 
@@ -233,7 +238,7 @@ URI format -- https://datatracker.ietf.org/doc/html/rfc3986
 "att": [
   {
     "with": "wnfs://boris.fission.name/public/photos/",
-    "can": "OVERWRITE"
+    "can": "fs/OVERWRITE"
   },
   {
     "with": "wnfs://boris.fission.name/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr",
@@ -246,9 +251,9 @@ URI format -- https://datatracker.ietf.org/doc/html/rfc3986
 ]
 ```
 
-### 7.2.6 Proofs
+### 7.2.6 Proof of Delegation
 
-The `prf` field MUST contain UCAN proofs (the ”inputs” of a UCAN). As they need to be independently verifiable, proofs MUST either be the fully encoded version of a UCAN (including the signature), or the content address of the relevant proof. Attenuations not covered by a proof in the `prf` array MUST BE treated as owned by the issuer DID.
+The `prf` field MUST contain UCAN witnesses (the ”inputs” of a UCAN). As they need to be independently verifiable, proofs MUST either be the fully encoded version of a UCAN (including the signature), or the content address of the relevant proof. Attenuations not covered by a proof in the `prf` array MUST be treated as owned by the issuer DID.
 
 Proofs referenced by content address MUST be resolvable by the recipient, for instance over a DHT or database. Since they have no availability concern, inlined proofs SHOULD be preferred, unless the proof chain has become too large for a request.
 
@@ -260,13 +265,26 @@ Proofs referenced by content address MUST be resolvable by the recipient, for in
 
 # 8. Validation
 
+Each capability has its own semantics, which need to be interpretable by the target resource handler. A particular validator SHOULD NOT reject UCANs with resources that it does not know how to interpret.
+
+If any of the following criterea are not met, the UCAN MUST be considered invalid.
+
 ## 8.X Time
+
+A UCAN's time bounds MUST NOT be considered valid if the current system time is prior to the `nbf` field, or after the `exp` field. This is called "ambient time validity".
+
+Further, all witnesses MUST contain time bounds equal to or wider than the UCAN being delegated to. This is called "timely delegation".
 
 ## 8.x Pricipal Alignment
 
+In delegation, the `aud` field of every witness MUST match the `iss` field of the outer UCAN (the one being delegated to). This forms a chain all the way back to the originating principal for each resource. 
+
 ## 8.X Proof Chaining
 
+
 ## 8.X Rights Amplification
+
+Some capabilities are more than the sum of their parts.
 
 ## 8.X Attenuations
 
@@ -280,6 +298,8 @@ Proofs referenced by content address MUST be resolvable by the recipient, for in
 
 # 10. Acknowledgements
 
-* Irakli Gozalishvili
 * Brendan O'Brien
-* Mark Miller
+* Irakli Gozalishvili
+* Mark Miller, erights.org
+* SPKI/SDSI working groups
+* Google Macaroon Team
