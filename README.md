@@ -12,7 +12,7 @@
 
 ## Contributors 
 
-# 0. Introduction
+# 0. Abstract
 
 User Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifable, delegatable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability via chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifyable chain compression is specified via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). UCAN improves on the familiaity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html). UCAN inverts the [Macaroon](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf) model by allowing creation and discharge by any agent with a DID, including peer-to-peer beyond traditional cloud computing.
 
@@ -20,7 +20,50 @@ User Controlled Authorization Network (UCAN) is a trustless, secure, local-first
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
 
-# 1. Motivation
+# 1. Introduction
+
+## 1.1 Motivation
+
+Since at least the release of Unix, the most popular form of digital authorization has been access control lists (ACLs), where a list of what each user is allowed to do is maintained on the resource. This has been a successful model, and is well suited to architectures where persistent access to a single list is viable, such as in a centralized database.
+
+With increasing interconnectivity between machines becomes commonplace, authorization need to scale to meet the demands of the high load, partition fault reality of distributed systems. It is not always practical to maintain a single list. Even if distirbuting the copies of a list to many authorization servers, latency and patitions introduce particularly troblesome challenges with conflicting updates, to say nothing of storage requirements.
+
+An large portion of personal information now also moves through connected systems. Data privacy is a prominent theme when considering the design of modern applications, to the point of being legislated in parts of the world. 
+
+Ahead-of-time coordination is often a barrier to development in many projects. Flexbilty to define specialized authorization sementics for a resources, and the ability to trustlessly integrate with external systems are important as the number of autonomous, specilialized, and coordinating applications increases.
+
+Two related models that work extremeley well under such constraints are Simple Public Key Infrastructure ([SPKI](https://www.rfc-editor.org/rfc/rfc2693.html)) and object capabilities ([OCAP](http://erights.org/elib/capability/index.html)). Since offline operation and self-verifiability are two requirements, UCAN adopts an approach closely related to SPKI. UCANs follow the "capabilties as certificates" model, with extensions for revocation and stateful capabilities.
+
+## 1.2 Intuition
+
+By analogy, ACLs are like the bouncer at an exclusive event. This bouncer has a list names of who is allowed in, and which of those are VIPs that get extra access. The attendees show their government-issued ID, and are accepted or rejected. They may get a lanyard to identify that they have previously been allowed in. If someone is disruptive, they can simply be crossed off the list and denied further entry.
+
+If there are many such events at many venues, then the organizers need to coordinate ahead of time, denials need to be synchronized, and attendees need to show their ID cards to many bouncers. The likelihood of the bouncer letting in the wrong person due to synchronization lag or confusion by someone sharing a name is nonzero.
+
+UCANs work more like movie tickets. At the door, no one needs to check your ID; you have a ticket to see Citizen Kane, and thus are allowed into Theatre 3. If you are unable to make it to the event, you can hand this ticket to a friend who wants to see the film instead, and there is no coordination required with the theatre ahead of time.
+
+
+
+
+As the number of systems increase -- espeically agents and autonomous systems -- this architecture becomes untenable. 
+
+
+Much of modern computing security infrastructure relies on "who is doing something" using access control lists. For example, our friend Alyssa P. Hacker has a car, and she would like to drive it In the access control list world, the car itself may scan Alyssa's face, determine that Alyssa is the driver, and say "Welcome Alyssa, you are now free to drive." Talking cars are appealing and fun, but Alyssa may run into challenges when she would like to allow others to drive her car. 
+
+
+
+
+Access control lists have been the dominant form of authorization since the dawn on Unix. However, in the same way that objects don't scale well to 
+
+Data nonlocality requires auth nonlocality.
+
+The solution space where UCAN aims is for highly 
+
+With the rise of high concurrency, distributed systems 
+
+Low-coordination
+
+Has applications in IoT, local-first, 
 
 NOTE TO SELF: who cares about the below? What is the problem that you're solving?!
 
@@ -49,9 +92,11 @@ What if you're writing a collaborative application, and it needs access across u
 
 ## 2.1 Resource
 
+A resource is some data or process that has an address. It can be anything from a row in a database, a user account, storage quota, email address, and so on.
+
 ## 2.2 Potency
 
-The potency (also known as a "caveat") are the represented rights to some resource. Each potency type has its own elements and semantics. They may by unary, support a semilattice, be monotone, and so on. Potencies may be considered on their own — separate from resources — and applied to different resources. Potencies are extensible, and definiable to match any resource. For example:
+The potency represents rights to some resource. Each potency type has its own elements and semantics. They may by unary, support a semilattice, be monotone, and so on. Potencies may be considered on their own — separate from resources — and applied to different resources. Potencies are extensible, and definiable to match any resource. For example:
 
 `APPEND` is a potency for WNFS paths. The potency `OVERWRITE` also implies the ability to APPEND. Email has no such tiered relationship. You may SEND email, but there is no ”super send”.
 
@@ -194,7 +239,7 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 
 ### 7.2.5 Attenuation Scope
 
-The attenuation scope (i.e. UCAN output) MUST be an array of heterogeneous resources and capabilities (defined below). This array MAY be empty.
+The attenuation scope (i.e. UCAN output, also known as a "caveat") MUST be an array of heterogeneous access scopes (defined below). This array MAY be empty.
 
 The union of this array MUST be a strict subset (attenuation) of the proofs, resources originated by the `iss` DID (i.e. by parenthood), or resources that compositions of others (see rights amplification). This scoping also includes time ranges, making the proofs that starts latest and end soonest the lower and upper time bounds.
 
@@ -295,6 +340,12 @@ Some capabilities are more than the sum of their parts.
 ### 9.X Content Addressing
 
 ### 9.X Memoized Validation
+
+# 10. Related Work
+
+OCAP-LD, zCAP, CACAO, Local-First Auth, Macaroons
+
+[Verifiable credentials](https://www.w3.org/2017/vc/WG/) are a solution for this on data about people or organziations.
 
 # 10. Acknowledgements
 
