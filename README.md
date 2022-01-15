@@ -10,8 +10,6 @@
 * [Philipp Krüger](https://github.com/matheus23), [Fission](https://fission.codes)
 * [Daniel Holmgren](https://github.com/dholms)
 
-## Contributors 
-
 # 0. Abstract
 
 User Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifable, delegatable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability via chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifyable chain compression is specified via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). UCAN improves on the familiaity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html). UCAN inverts the [Macaroon](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf) model by allowing creation and discharge by any agent with a DID, including peer-to-peer beyond traditional cloud computing.
@@ -323,8 +321,12 @@ OCAP-LD, zCAP, CACAO, Local-First Auth, Macaroons
 
 # 10. Acknowledgements
 
-* Brendan O'Brien
-* Irakli Gozalishvili
-* Mark Miller, erights.org
-* SPKI/SDSI working groups
-* Google Macaroon Team
+Thank you to [Brendan O'Brien](https://github.com/b5) for real-world feedback, technical collaboration, and implementing the first Golang library for UCAN.
+
+Many thanks to [Irakli Gozalishvili](https://github.com/Gozala) for feedback and recommendations, including suggesting renaming a field to `can`.
+
+Thank you to [Dan Finlay](https://github.com/danfinlay) for being sufficiently passionate about OCAP that we realized that such systems had an actual chance of adoption in an ACL-dominated world.
+
+Thank you to the entire [SPKI WG](https://datatracker.ietf.org/wg/spki/about/) for their prioneering work on this style of authentication.
+
+We are indebted to [Mark Miller](https://github.com/erights) for his numerous contributions to the field of distributed auth systems, programming langauges, and computer security.
