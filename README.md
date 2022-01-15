@@ -32,7 +32,9 @@ An large portion of personal information now also moves through connected system
 
 Ahead-of-time coordination is often a barrier to development in many projects. Flexbilty to define specialized authorization sementics for a resources, and the ability to trustlessly integrate with external systems are important as the number of autonomous, specilialized, and coordinating applications increases.
 
-Two related models that work extremeley well under such constraints are Simple Public Key Infrastructure ([SPKI](https://www.rfc-editor.org/rfc/rfc2693.html)) and object capabilities ([OCAP](http://erights.org/elib/capability/index.html)). Since offline operation and self-verifiability are two requirements, UCAN adopts an approach closely related to SPKI. UCANs follow the "capabilties as certificates" model, with extensions for revocation and stateful capabilities.
+Many high-value applications run in hostile environments. In recognition of this, many vendors have started including public key functionality, such as [nonextractable keys in browsers](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey), [cerificate systems for external keys](https://fidoalliance.org/fido-authentication/), and [secure hardware enclaves](https://support.apple.com/en-ca/guide/security/sec59b0b31ff) in widespread consumer devices.
+
+Two related models that work extremeley well in the above context are Simple Public Key Infrastructure ([SPKI](https://www.rfc-editor.org/rfc/rfc2693.html)) and object capabilities ([OCAP](http://erights.org/elib/capability/index.html)). Since offline operation and self-verifiability are two requirements, UCAN adopts an approach closely related to SPKI. UCANs follow the "capabilties as certificates" model, with extensions for revocation and stateful capabilities.
 
 ## 1.2 Intuition
 
@@ -40,39 +42,11 @@ By analogy, ACLs are like the bouncer at an exclusive event. This bouncer has a 
 
 If there are many such events at many venues, then the organizers need to coordinate ahead of time, denials need to be synchronized, and attendees need to show their ID cards to many bouncers. The likelihood of the bouncer letting in the wrong person due to synchronization lag or confusion by someone sharing a name is nonzero.
 
-UCANs work more like movie tickets. At the door, no one needs to check your ID; you have a ticket to see Citizen Kane, and thus are allowed into Theatre 3. If you are unable to make it to the event, you can hand this ticket to a friend who wants to see the film instead, and there is no coordination required with the theatre ahead of time.
+UCANs work more like [movie tickets](http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys) or a festival pass between multiple venues. At the door, no one needs to check your ID; who you are is irrelevant. You have a ticket to see Citizen Kane, and are admitted to Theatre 3. If you are unable to attend an event, you can hand this ticket to a friend who wants to see the film instead, and there is no coordination required with the theatre ahead of time. If the theatre needs to cancel tickets for some reason, they need a way of uniquely identifying them and sharing this information between them.
 
+The above analogies illustrate several important tradeoffs between these systems, but is only accurate enough to build an intuition. For a more thorough presentation of these tradeoffs, a good resource is [Capability Myths Demolished](https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf). In this framework, UCAN approximates SPKI with some dynamic features.
 
-
-
-As the number of systems increase -- espeically agents and autonomous systems -- this architecture becomes untenable. 
-
-
-Much of modern computing security infrastructure relies on "who is doing something" using access control lists. For example, our friend Alyssa P. Hacker has a car, and she would like to drive it In the access control list world, the car itself may scan Alyssa's face, determine that Alyssa is the driver, and say "Welcome Alyssa, you are now free to drive." Talking cars are appealing and fun, but Alyssa may run into challenges when she would like to allow others to drive her car. 
-
-
-
-
-Access control lists have been the dominant form of authorization since the dawn on Unix. However, in the same way that objects don't scale well to 
-
-Data nonlocality requires auth nonlocality.
-
-The solution space where UCAN aims is for highly 
-
-With the rise of high concurrency, distributed systems 
-
-Low-coordination
-
-Has applications in IoT, local-first, 
-
-NOTE TO SELF: who cares about the below? What is the problem that you're solving?!
-
-Combine capabilities
-
-Traditional client-server architectures store data in a [multitenant](https://en.wikipedia.org/wiki/Multitenancy) way. Since all data is kept together, _____. [Access control lists (ACLs)](https://en.wikipedia.org/wiki/Access-control_list) _______________. You can think of this as being a single horizontal volume per app, with vertical stripes; one for each user. ACLs are intended to keep those stripes separate from each other. Sometimes this code is broken, and users are accidentally given access to each others data.
-
-
-* Nonexportable keys
+## Security Considerations
 
 * attenuation & contextual confinment (macaroon paper)
 
