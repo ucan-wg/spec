@@ -8,7 +8,7 @@
 
 * [Brooklyn Zelenka](https://github.com/expede), [Fission](https://fission.codes)
 * [Philipp Krüger](https://github.com/matheus23), [Fission](https://fission.codes)
-* [Daniel Holmgren](https://github.com/dholms)
+* [Daniel Holmgren](https://github.com/dholms), `<REDACTED>`
 
 # 0. Abstract
 
@@ -138,8 +138,8 @@ The payload MUST describe the authorization claims being made, who is involved, 
 |-------|------------|--------------------------------------------------|----------|
 | `iss` | `String`   | Issuer DID (sender)                              | Yes      |
 | `aud` | `String`   | Audience DID (receiver)                          | Yes      |
-| `nbf` | `Number`   | Not Before Unix Timestamp (valid from)           | No       |
-| `exp` | `Number`   | Expiratio Time (valid until)                     | Yes      |
+| `nbf` | `Number`   | Not Before UTC Unix Timestamp (valid from)       | No       |
+| `exp` | `Number`   | Expiration UTC Unix Timestamp (valid until)      | Yes      |
 | `nnc` | `String`   | Nonce                                            | No       |
 | `fct` | `Json[]`   | Facts (asserted, signed data)                    | No       |
 | `prf` | `String[]` | Proof of delegation (witnesses are nested UCANs) | Yes      |
@@ -228,7 +228,7 @@ The attenuation field MUST contain either a wildcard (`*`), or an array of JSON 
 
 #### Resource Pointer
 
-A resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI merely a unique identifier to describe the pointer to -- and within -- a resource.
+A resource described the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI merely a unique identifier to describe the pointer to -- and within -- a resource.
 
 The same resource MAY be validly addressed several forms. For instance a database may be addressed at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
@@ -243,11 +243,11 @@ Resource pointers MAY also include wildcards (`*`) to indicate "any resource of 
 
 Capabilities MUST NOT be case sensitive.
 
-#### Potency
+#### Ability
 
-The `can` field describes the action or "potency" of a capability. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be the possible `can` values for an `http` resource.
+The `can` field describes the verb portion of the capability: an action, potency, or ability. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. Arbitrary ability semantics can be described, but nit G
 
-Potencies MAY be organized in a heirarchy with enums. A common example is super user access ("anything") on a file system. Another would be read vs write access, such that in an HTTP context `READ` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiing the need to reissue UCANs with new resource semantics.
+Abilities MAY be organized in a heirarchy with enums. A common example is super user access ("anything") on a file system. Another would be read vs write access, such that in an HTTP context `READ` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiing the need to reissue UCANs with new resource semantics.
 
 #### Examples
 
@@ -290,32 +290,55 @@ If any of the following criterea are not met, the UCAN MUST be considered invali
 
 A UCAN's time bounds MUST NOT be considered valid if the current system time is prior to the `nbf` field, or after the `exp` field. This is called "ambient time validity".
 
-Further, all witnesses MUST contain time bounds equal to or wider than the UCAN being delegated to. This is called "timely delegation".
+All witnesses MUST contain time bounds equal to or wider than the UCAN being delegated to. If the witness expires before the outer UCAN -- or starts after it -- the reader MUST treat the UCAN as invalid. This is called "timely delegation".
 
-## 8.x Pricipal Alignment
+A UCAN is valid inclusive from the `nbf` time, and until the `exp` field. If the current time is outside of these bounds, the UCAN MUST be considered invalid. A delegator or invoker SHOULD account for expected clock drift when setting these bounds. This is called "timely invocation".
 
-In delegation, the `aud` field of every witness MUST match the `iss` field of the outer UCAN (the one being delegated to). This forms a chain all the way back to the originating principal for each resource. 
+## 8.X.1 Pricipal Alignment
 
-## 8.X Proof Chaining
+In delegation, the `aud` field of every witness MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain all the way back to the originating principal for each resource.
 
+An agent discharging a capability MUST verify that the outermost `aud` field matches its own DID. If they do not match, the associated action MUST NOT be performed.
+
+## 8.X Witness Chaining
+
+Each capability MUST either be originated by the issuer (root capability, or "parenthood"), or have one-or-more witnesses in the `prf` field to attest that this issuer is authorized to use that capability ("introduction"). In the introduction case, this check must be recursively applied to its witnesses, until a root witness is found (i.e. issued by the resource owner).
+
+With the exception of rights amplification (below), each delegation of a capability MUST have equal or lesser power from its witness. The time bounds MUST also be equal to or contained inside the time bounds of the witnesses time bounds. This shrinkilowering of rights at each delegation is called "attenuation".
 
 ## 8.X Rights Amplification
 
-Some capabilities are more than the sum of their parts.
+Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating a particular capabilties MAY require more than one direct witness. The relevant witnesses MAY be of a different resource and action from the amplified capabaility. The delegated capability MUST have this behaviour in its semantics, even if the witnesses do not.
 
-## 8.X Attenuations
+## 8.X Content Identifiers
+
+UCANs MAY be referenced by content ID (CID), per the [multiformats/cid](https://github.com/multiformats/cid) specification. The resolution of these addresses is left to the implementation and end user, and MAY (non-exclusively) include the following: local store, distributed hash table (DHT), gossip network, or RESTful service.
+
+CIDs MAY be used to refer to any UCAN: a witness in a delegation chain, or an entire UCAN. This has many benefits, some of which are outlined in the implementation recommendations of this document.
+
+Due to the potential for unresolvable CIDs, this SHOULD NOT be the preferred method of transmission. "Inline witnesses" SHOULD be used whenever possible, and complete UCANs SHOULD be expanded. When a CID is used, it is RECOMMENDED that it be substituted as close to the top UCAN as possible (i.e. the invocation), and as few witnesses be referenced by CID, to keep the number of required CID resolutions to a minimum. As UCANs are signed, all further delegations would require CID resolution, and so SHOULD NOT be used when the intention is delegation rather than invocation. 
 
 ## 9. Implementation Recommendations
 
-### 9.X Generalized Store
+### 9.X UCAN Store
 
-### 9.X Content Addressing
+A validator MAY keep a local store of UCANs that it has received. UCANs are immutable, but also time bound, so this store MAY evict expired or revoked UCANs.
+
+This store MAY be indexed by CID (content addressing). Multiple indices built on top of this store MAY be used to improve capability search or selection performance.
 
 ### 9.X Memoized Validation
 
-# 10. Related Work
+Aside from revocation, UCAN validation is an idempotent action. Marking a CID as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a witness: if the witness was previously checked and is not revoked, it is RECOMMENDED to immedietly consider it valid.
 
-OCAP-LD, zCAP, CACAO, Local-First Auth, Macaroons
+Revocation is irreversible. If the validator learns of a revocation, the UCAN and all of its derivatives in such a cache MUST be marked as invalid, and all validations immedietly fail without needing to walk the entire structure.
+
+### 9.X Session Content ID
+
+If many invocations will be discharged during a session, the sender and receiver MAY agree to use the CID rather than creating new UCANs for every message. This saves bandwidth, and avoids needing to use another session token exchange mechanism, or bearer token with lower security, such as a shared secret.
+
+# 10. Related Work and Prior Art
+
+SPKI/SDSI, OCAP-LD, zCAP, CACAO, Local-First Auth, Macaroon, Biscuit
 
 [Verifiable credentials](https://www.w3.org/2017/vc/WG/) are a solution for this on data about people or organziations.
 
@@ -325,8 +348,8 @@ Thank you to [Brendan O'Brien](https://github.com/b5) for real-world feedback, t
 
 Many thanks to [Irakli Gozalishvili](https://github.com/Gozala) for feedback and recommendations, including suggesting renaming a field to `can`.
 
-Thank you to [Dan Finlay](https://github.com/danfinlay) for being sufficiently passionate about OCAP that we realized that such systems had an actual chance of adoption in an ACL-dominated world.
+Thank you [Dan Finlay](https://github.com/danfinlay) for being sufficiently passionate about OCAP that we realized that such systems had an actual chance of adoption in an ACL-dominated world.
 
-Thank you to the entire [SPKI WG](https://datatracker.ietf.org/wg/spki/about/) for their prioneering work on this style of authentication.
+Thanks to the entire [SPKI WG](https://datatracker.ietf.org/wg/spki/about/) for their closely related prioneering work.
 
-We are indebted to [Mark Miller](https://github.com/erights) for his numerous contributions to the field of distributed auth systems, programming langauges, and computer security.
+We want to especially recognize [Mark Miller](https://github.com/erights) for his numerous contributions to the field of distributed auth, programming langauges, and computer security.
