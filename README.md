@@ -217,13 +217,13 @@ The attenuation field MUST contain either a wildcard (`*`), or an array of JSON 
 ``` json
 {
   "with": $RESOURCE,
-  "can": $POTENCY
+  "can": $ABILITY
 }
 ```
 
 #### Resource Pointer
 
-A resource described the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI merely a unique identifier to describe the pointer to -- and within -- a resource.
+A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI merely a unique identifier to describe the pointer to -- and within -- a resource.
 
 The same resource MAY be validly addressed several forms. For instance a database may be addressed at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
@@ -231,18 +231,20 @@ Resource pointers MAY also include wildcards (`*`) to indicate "any resource of 
 
 | Value | Meaning |
 |-------|---------|
-| `"*"`      | Delegate all resources of any type that are in scope        |
 | `{"with": "wnfs://user.example.com/path", ...}`      | File paths in our file system        |
-| `{"with": "app:*", ...}` | All apps that the iss has access to, including future ones |
-| `{"with": "app://myapp.fission.app", ...}` | A URL for the app (ideally the auto-assigned one) |
-
-Capabilities MUST NOT be case sensitive.
+| `{"with": "my:*", ...}` | All apps that the iss has access to, including future ones |
+| `{"with": "dnslink:*", ...}` | All apps that the iss has access to, including future ones |
+| `{"with": "dnslink://myapp.fission.app", ...}` | A URL for the app (ideally the auto-assigned one) |
 
 #### Ability
 
-The `can` field describes the verb portion of the capability: an action, potency, or ability. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. Arbitrary ability semantics can be described, but nit G
+The `can` field describes the verb portion of the capability: an action, potency, or ability. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. Arbitrary semantics can be described, but must be a valid way to describe actions on the resource.
 
 Abilities MAY be organized in a heirarchy with enums. A common example is super user access ("anything") on a file system. Another would be read vs write access, such that in an HTTP context `READ` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiing the need to reissue UCANs with new resource semantics.
+
+Abilities MUST NOT be case sensitive, and MAY be namespaced by at least one path segment. For instance, `http/PUT` and `foo/PUT` MUST be trated as unique from each other. If not explicitely namespaced, the namespace MUST be inferred to be the same as the scheme. For example, `PUT` for `http://exmaple.com/` MUST be inferred to be `http/PUT`.
+
+The only reserved ability MUST be `"*"`. This MAY be used as part of the action for resources (such as `my`), but MAY NOT be available as part of others. 
 
 #### Examples
 
@@ -250,7 +252,7 @@ Abilities MAY be organized in a heirarchy with enums. A common example is super 
 "att": [
   {
     "with": "wnfs://boris.fission.name/public/photos/",
-    "can": "fs/OVERWRITE"
+    "can": "crud/DELETE"
   },
   {
     "with": "wnfs://boris.fission.name/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr",
@@ -274,6 +276,61 @@ Proofs referenced by content address MUST be resolvable by the recipient, for in
 ``` json
 "prf": ["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsInVhdiI6IjAuMS4wIn0.eyJhdWQiOiJkaWQ6a2V5OnpTdEVacHpTTXRUdDlrMnZzemd2Q3dGNGZMUVFTeUExNVc1QVE0ejNBUjZCeDRlRko1Y3JKRmJ1R3hLbWJtYTQiLCJpc3MiOiJkaWQ6a2V5Ono1QzRmdVAyRERKQ2hoTUJDd0FrcFlVTXVKWmROV1dINU5lWWpVeVk4YnRZZnpEaDNhSHdUNXBpY0hyOVR0anEiLCJuYmYiOjE1ODg3MTM2MjIsImV4cCI6MTU4OTAwMDAwMCwic2NwIjoiLyIsInB0YyI6IkFQUEVORCIsInByZiI6bnVsbH0.Ay8C5ajYWHxtD8y0msla5IJ8VFffTHgVq448Hlr818JtNaTUzNIwFiuutEMECGTy69hV9Xu9bxGxTe0TpC7AzV34p0wSFax075mC3w9JYB8yqck_MEBg_dZ1xlJCfDve60AHseKPtbr2emp6hZVfTpQGZzusstimAxyYPrQUWv9wqTFmin0Ls-loAWamleUZoE1Tarlp_0h9SeV614RfRTC0e3x_VP9Ra_84JhJHZ7kiLf44TnyPl_9AbzuMdDwCvu-zXjd_jMlDyYcuwamJ15XqrgykLOm0WTREgr_sNLVciXBXd6EQ-Zh2L7hd38noJm1P_MIr9_EDRWAhoRLXPQ"]
 ```
+
+# X. Reserved Capabilities
+
+The following capabilities are REQUIRED to be implemented.
+
+## X.Y All Owned Resources
+
+### `my` Scheme
+
+The `my` URI scheme represents ownership over a resource -- typically by parenthood -- at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme descibes delegating some or all ambient authorty to another DID.
+
+The use case of "pairing" two DIDs by delegating all current and future resources is not uncommon when a user would like to use multiple devices as "root", but does not have access to all of them directly at all times.
+
+The format for this scheme is as follows:
+
+```plaintext
+ownershipscheme = "my:" kind ["@" did]
+kind = "*" / <scheme> 
+```
+
+The wildcard `*` resource MUST be taken to mean "everything" (all resources of all types).
+
+A "subscheme" MAY be used to delegate some of that scheme controlled by parenthood. For example `my:dns` delegates access to all DNS records (`my:dns:*` works equally well since wildcards are also part of the DNS URI). `my:mailto` selects all owned email addresses controlled by this user.
+
+Redelegating these to further DIDs in a chain MUST address the specific parent DID that owns that resource separated by an `@`. For instance: `my:*@did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` selects all resources originating from the specified DID, and `my:mailto@did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` selects email addresses from the DID. 
+
+### Action
+
+The action for `my:*` MUST be `*`.
+
+``` json
+{"with": "my:*", "can": "*"}
+```
+
+For `my` capabilities scoped to some scheme, the action MUST be one normally associated with that resource. 
+
+``` json
+{"with": "my:dns", "can": "crud/UPDATE"}
+```
+
+## X.Z UCAN Meta-addressing
+
+### `ucan` Scheme
+
+The `ucan` URI scheme defines addressing for UCANs and their fields
+
+``` plaintext
+ucan_uri = "ucan:" selector
+selector = "*" / cid / field_path / cid field_path
+field_path = "/" <path>
+```
+
+For example, `ucan://bafkreihb5iw53yervbng7mncvk36exflyrbbdaioevcz5emlqho4tqju3a` selects the UCAN represented by the CID. `ucan:bafkreihb5iw53yervbng7mncvk36exflyrbbdaioevcz5emlqho4tqju3a/prf/*` selects all witnesses in the `prf` field of the present UCAN. `ucan:*` represents all of the UCANs in the current proof scope.
+
+
 
 # 8. Validation
 
@@ -343,7 +400,7 @@ If many invocations will be discharged during a session, the sender and receiver
 
 [Macaroon](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf) is a MAC-based capability and cookie system aimed at distirbuting authority across services in a trusted network (typically in the context of a Cloud). By not relying on asymmetric signatures, Macaroons achieve very good space savings and performance, given that the MAC can be checked against the relevant services during discharge. The authority is rooted in an originating server, rather than with an end user.
 
-[Biscuit](https://github.com/biscuit-auth/biscuit/) uses [Datalog](https://docs.racket-lang.org/datalog/) to describe capabilities. It has a specialized format, but is otherwise largely in line with UCAN.
+[Biscuit](https://github.com/biscuit-auth/biscuit/) uses Datalog to describe capabilities. It has a specialized format, but is otherwise largely in line with UCAN.
 
 [Verifiable credentials](https://www.w3.org/2017/vc/WG/) are a solution for this on data about people or organziations.
 
