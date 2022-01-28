@@ -300,7 +300,7 @@ The use case of "pairing" two DIDs by delegating all current and future resource
 
 The format for this scheme is as follows:
 
-```anbf
+``` abnf
 ownershipscheme = "my:" kind ["@" did]
 kind = "*" / <scheme> 
 ```
@@ -332,9 +332,9 @@ For `my` capabilities scoped to some scheme, the action MUST be one normally ass
 The `ucan` URI scheme defines addressing for UCANs and their fields
 
 ``` abnf
-ucan_uri = "ucan:" selector
-selector = "*" / cid / field_path / cid field_path
-field_path = "/" <path>
+ucanuri = "ucan:" selector
+selector = "*" / cid / fieldpath / cid fieldpath
+fieldpath = "/" <path>
 ```
 
 For example, `ucan://bafkreihb5iw53yervbng7mncvk36exflyrbbdaioevcz5emlqho4tqju3a` selects the UCAN represented by the CID. `ucan:bafkreihb5iw53yervbng7mncvk36exflyrbbdaioevcz5emlqho4tqju3a/prf/*` selects all witnesses in the `prf` field of the present UCAN. `ucan:*` represents all of the UCANs in the current proof scope.
