@@ -46,17 +46,17 @@ The above analogies illustrate several important tradeoffs between these systems
 
 ## 1.3 Security Considerations
 
-* attenuation & contextual confinment (macaroon paper)
+Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of rights. These are proven by providing a "witness" -- some cryptographically signed data showing that this is either owned by the UCAN issuer, or that it was delegated to them by the root owner.
 
-* Each UCAN includes a constructive assrtion of what it is allowed to do (note: not a predicate)
+This signature chain is the root of trust. Private keys themselves SHOULD NOT move from one context to another: this is what the delegation mechanism provides: "sharing authority without sharing keys".
 
+UCANs (and other forms of PKI) depend on the ambient authority of the owner of each resource. This means that the discharging agent must be able to verify the root ownership at decision time. The rest of the chain in-between is self-certifying.
 
-* ambient authority, confused deputy
+While certificate chains go a long way toward improving security, they do not provide confinement on their own. As such, the principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for, and reducing the authorty to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical, since they have the ability to further subdelegate their authorty to others without alerting their delegator. UCANs do not enforce have confinement (as that would require all processes to be online), and so its not possible to have certainty that you know of all of the subdelegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort. 
 
-User-controlled data is a 90° rotation of the above picture. Users are in control of their data: it's stored single tenant, with apps asking for stripes of data. Here, the user is in control, and apps ask for permission to see some portion of the user's data.
+## 1.4 Inversion of Control
 
-
-What if you're writing a collaborative application, and it needs access across user stores? Not a problem: users can grant access to their stores, and the caller can glue these rights together.
+Unlike many authorization systems where a service controls access to resouces in their care, location-indepenedent, offline, and leaderless resources require control to live with the user. This means that teh same data can be used across many applications, data stores, and users.
 
 ![](./overlapping_rights.jpg)
 
@@ -90,7 +90,7 @@ As a practical matter, since scopes form a group, you can be fairly loose: order
 
 ## 2.5 Delegation
 
-Delegation is the act of granting another principal (the delegatee) the capability to use a resource that another has (the delegator). This MUST be proven by a "witness", which is either the signature of the owning principal, or a UCAN that has access to that capability in its scope.
+Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). This MUST be proven by a "witness", which is either the signature of the owning principal, or a UCAN that has access to that capability in its scope.
 
 Each direct delegation leaves the potency of the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of a different types, if part of the resource's semantics. 
 
@@ -374,7 +374,16 @@ With the exception of rights amplification (below), each delegation of a capabil
 
 Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating a particular capabilties MAY require more than one direct witness. The relevant witnesses MAY be of a different resource and action from the amplified capabaility. The delegated capability MUST have this behaviour in its semantics, even if the witnesses do not.
 
-## 6.5 Content Identifiers
+## 6.6 Contextual Confinement
+
+For example,
+such caveats may attenuate a macaroon by limiting what
+objects and what actions it permits, or contextually confine it
+by requiring additional evidence, such as third-party signatures,
+or by restricting when, from where, or in what other observ-
+able context it may be used
+
+## 6.7 Content Identifiers
 
 UCANs MAY be referenced by content ID (CID), per the [multiformats/cid](https://github.com/multiformats/cid) specification. The resolution of these addresses is left to the implementation and end user, and MAY (non-exclusively) include the following: local store, distributed hash table (DHT), gossip network, or RESTful service.
 
@@ -414,16 +423,16 @@ If many invocations will be discharged during a session, the sender and receiver
 
 [Biscuit](https://github.com/biscuit-auth/biscuit/) uses Datalog to describe capabilities. It has a specialized format, but is otherwise largely in line with UCAN.
 
-[Verifiable credentials](https://www.w3.org/2017/vc/WG/) are a solution for this on data about people or organziations.
+[Verifiable credentials](https://www.w3.org/2017/vc/WG/) are a solution for this on data about people or organziations. They are aimed at a slightly different problem: asserting attriutes about the holder of a DID, including things like work history, age, and membership.
 
 # 9. Acknowledgements
 
-Thank you to [Brendan O'Brien](https://github.com/b5) for real-world feedback, technical collaboration, and implementing the first Golang library for UCAN.
+Thank you to [Brendan O'Brien](https://github.com/b5) for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
 
-Many thanks to [Irakli Gozalishvili](https://github.com/Gozala) for feedback and recommendations, including suggesting renaming a field to `can`.
+Many thanks to [Irakli Gozalishvili](https://github.com/Gozala) for feedback and recommendations, contributing significantly to the TypeScript iomplementation, and suggesting renaming the action field to `can`.
 
-Thank you [Dan Finlay](https://github.com/danfinlay) for being sufficiently passionate about OCAP that we realized that such systems had an actual chance of adoption in an ACL-dominated world.
+Thank you [Dan Finlay](https://github.com/danfinlay) for being sufficiently passionate about OCAP that we realized that capability systems had an actual chance of adoption in an ACL-dominated world.
 
 Thanks to the entire [SPKI WG](https://datatracker.ietf.org/wg/spki/about/) for their closely related prioneering work.
 
-We want to especially recognize [Mark Miller](https://github.com/erights) for his numerous contributions to the field of distributed auth, programming langauges, and computer security.
+We want to especially recognize [Mark Miller](https://github.com/erights) for his numerous contributions to the field of distributed auth, programming langauges, and computer security writ large.
