@@ -215,9 +215,9 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 
 ### 4.2.5 Attenuation Scope
 
-The attenuation scope (i.e. UCAN output, also known as a "caveat") MUST be an array of heterogeneous access scopes (defined below). This array MAY be empty.
+The attenuation scope (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous access scopes (defined below). This array MAY be empty.
 
-The union of this array MUST be a strict subset (attenuation) of the proofs, resources originated by the `iss` DID (i.e. by parenthood), or resources that compositions of others (see rights amplification). This scoping also includes time ranges, making the proofs that starts latest and end soonest the lower and upper time bounds.
+This array MUST contain some or none of the following: a strict subset (attenuation) of the proofs, resources originated by the `iss` DID (i.e. by parenthood), and resources that compositions of others (see rights amplification). This scoping also includes time ranges, making the proofs that starts latest and end soonest the lower and upper time bounds.
 
 Each capability has its own semantics, which need to be interpretable by the target resource handler. A particular validator SHOULD NOT reject UCANs with resources that it does not know how to interpret.
 
