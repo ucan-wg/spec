@@ -300,7 +300,7 @@ The use case of "pairing" two DIDs by delegating all current and future resource
 
 The format for this scheme is as follows:
 
-```plaintext
+```anbf
 ownershipscheme = "my:" kind ["@" did]
 kind = "*" / <scheme> 
 ```
@@ -325,13 +325,13 @@ For `my` capabilities scoped to some scheme, the action MUST be one normally ass
 {"with": "my:dns", "can": "crud/UPDATE"}
 ```
 
-## 5.2 UCAN Meta-addressing
+## 5.2 UCAN Addressing
 
 ### 5.2.1 `ucan` Scheme
 
 The `ucan` URI scheme defines addressing for UCANs and their fields
 
-``` plaintext
+``` abnf
 ucan_uri = "ucan:" selector
 selector = "*" / cid / field_path / cid field_path
 field_path = "/" <path>
