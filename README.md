@@ -12,7 +12,7 @@
 
 # 0. Abstract
 
-User Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifable, delegatable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability via chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifyable chain compression is specified via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). UCAN improves on the familiaity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html). UCAN inverts the [Macaroon](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf) model by allowing creation and discharge by any agent with a DID, including peer-to-peer beyond traditional cloud computing.
+User Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifable, delegatable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability via chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifyable chain compression is enabled via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). UCAN improves on the familiarity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html) for a web context and native application context, allowing creation and discharge by any agent with a DID, including peer-to-peer beyond traditional cloud computing.
 
 ## Language
 
@@ -22,9 +22,9 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## 1.1 Motivation
 
-Since at least the release of Unix, the most popular form of digital authorization has been access control lists (ACLs), where a list of what each user is allowed to do is maintained on the resource. This has been a successful model, and is well suited to architectures where persistent access to a single list is viable, such as in a centralized database.
+Since at least the release of Unix, the most popular form of digital authorization has been access control lists (ACLs), where a list of what each user is allowed to do is maintained on the resource. This has been a successful model, and is well suited to architectures where persistent access to a single list is viable, and rules are sufficently well specified, such as in a centralized database.
 
-With increasing interconnectivity between machines becomes commonplace, authorization need to scale to meet the demands of the high load, partition fault reality of distributed systems. It is not always practical to maintain a single list. Even if distirbuting the copies of a list to many authorization servers, latency and patitions introduce particularly troblesome challenges with conflicting updates, to say nothing of storage requirements.
+With increasing interconnectivity between machines becomes commonplace, authorization needs to scale to meet the demands of the high load, partition faulty reality of distributed systems. It is not always practical to maintain a single central source of authorizations. Even if distirbuting the copies of a list to many authorization servers, latency and patitions introduce particularly troblesome challenges with conflicting updates, to say nothing of storage requirements.
 
 An large portion of personal information now also moves through connected systems. Data privacy is a prominent theme when considering the design of modern applications, to the point of being legislated in parts of the world. 
 
