@@ -36,7 +36,7 @@ Two related models that work extremeley well in the above context are Simple Pub
 
 ## 1.2 Intuition
 
-By analogy, ACLs are like the bouncer at an exclusive event. This bouncer has a list names of who is allowed in, and which of those are VIPs that get extra access. The attendees show their government-issued ID, and are accepted or rejected. They may get a lanyard to identify that they have previously been allowed in. If someone is disruptive, they can simply be crossed off the list and denied further entry.
+By analogy, ACLs are like a bouncer at an exclusive event. This bouncer has a list names of who is allowed in, and which of those are VIPs that get extra access. The attendees show their government-issued ID, and are accepted or rejected. They may get a lanyard to identify that they have previously been allowed in. If someone is disruptive, they can simply be crossed off the list and denied further entry.
 
 If there are many such events at many venues, then the organizers need to coordinate ahead of time, denials need to be synchronized, and attendees need to show their ID cards to many bouncers. The likelihood of the bouncer letting in the wrong person due to synchronization lag or confusion by someone sharing a name is nonzero.
 
@@ -66,29 +66,39 @@ What if you're writing a collaborative application, and it needs access across u
 
 A resource is some data or process that has an address. It can be anything from a row in a database, a user account, storage quota, email address, and so on.
 
-## 2.2 Potency
+## 2.2 Action
 
-The potency represents rights to some resource. Each potency type has its own elements and semantics. They may by unary, support a semilattice, be monotone, and so on. Potencies may be considered on their own — separate from resources — and applied to different resources. Potencies are extensible, and definiable to match any resource. For example:
+An action possible on some resource. Each action MAY have its own semantics. They MAY be unary, support a heirarchy, be monotone, patrial orders, and so on. These MAY be general and applicable to many kinds of resource, or tied to a specific one.
 
-`APPEND` is a potency for WNFS paths. The potency `OVERWRITE` also implies the ability to APPEND. Email has no such tiered relationship. You may SEND email, but there is no ”super send”.
+For instance, `wnfs/APPEND` is an action for Webnative filesystem paths. The action `wnfs/OVERWRITE` also implies the ability to append. Email has no such tiered relationship. One can `email/SEND`, but there is no concept of a ”super send”.
 
-## 2.3 Scope
+## 2.3 Capability
 
-An authorization scope is the set of tuples `[resource x potency]`. Scopes compose, so a list of scopes can be considered the union of all of the inner scopes.
+A capability is the association of an action to a resource: `resource x action`
+
+## 2.4 Scope
+
+An authorization scope is a set of capabilities. Scopes MUST compose with set semantics, so multiple scopes in an array MAY be considered the (deduplicated) union of all of the inner scopes.
 
 ![](./assets/scope_union.jpg)
 
-The ”scope” is the total rights of the authorization space down to the relevant volume of authorizations. With the exception of rights amplification, every individual delegation MUST have equal or less scope from their delegator.
+The "scope" is the total rights of the authorization space down to the relevant volume of authorizations. With the exception of rights amplification, every individual delegation MUST have equal or less scope from their delegator.
 
-Inside this content space, can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities (potencies).
+Inside this content space, can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities.
 
 As a practical matter, since scopes form a group, you can be fairly loose: order doesn’t matter, and merging resources can be quite broad since the more powerful of any overlap will take precedence (i.e. you don’t need a clean separation).
 
-## 2.4 Delegation
+## 2.5 Delegation
 
-## 2.5 Attenuation
+Delegation is the act of granting another principal (the delegatee) the capability to use a resource that another has (the delegator). This MUST be proven by a "witness", which is either the signature of the owning principal, or a UCAN that has access to that capability in its scope.
 
-## 2.6 Revocation
+Each direct delegation leaves the potency of the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of a different types, if part of the resource's semantics. 
+
+## 2.6 Attenuation
+
+The process of diminishing rights in a delegation chain.
+
+## 2.7 Revocation
 
 * Subchain revocation
 * DID revocation
@@ -104,7 +114,6 @@ UCANs MUST be formatted as JWTs, with additional required and optional keys. The
 ## 4.1 Header
 
 The header MUST include all of the following fields:
-
 | Field | Type     | Description                    | Required |
 |-------|----------|--------------------------------|----------|
 | `alg` | `String` | Signature algorithm            | Yes      |
