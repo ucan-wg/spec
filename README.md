@@ -12,7 +12,7 @@
 
 # 0. Abstract
 
-User Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifable, delegatable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability via chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifyable chain compression is enabled via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). UCAN improves on the familiarity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html) for a web context and native application context, allowing creation and discharge by any agent with a DID, including peer-to-peer beyond traditional cloud computing.
+User Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifiable, delegable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability via chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifiable chain compression is enabled via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). UCAN improves on the familiarity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html) for a web context and native application context, allowing creation and discharge by any agent with a DID, including peer-to-peer beyond traditional cloud computing.
 
 ## Language
 
@@ -22,17 +22,17 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## 1.1 Motivation
 
-Since at least the release of Unix, the most popular form of digital authorization has been access control lists (ACLs), where a list of what each user is allowed to do is maintained on the resource. This has been a successful model, and is well suited to architectures where persistent access to a single list is viable, and rules are sufficently well specified, such as in a centralized database.
+Since at least the release of Unix, the most popular form of digital authorization has been access control lists (ACLs), where a list of what each user is allowed to do is maintained on the resource. This has been a successful model, and is well suited to architectures where persistent access to a single list is viable, and rules are sufficiently well specified, such as in a centralized database.
 
-With increasing interconnectivity between machines becomes commonplace, authorization needs to scale to meet the demands of the high load, partition faulty reality of distributed systems. It is not always practical to maintain a single central source of authorizations. Even if distirbuting the copies of a list to many authorization servers, latency and patitions introduce particularly troblesome challenges with conflicting updates, to say nothing of storage requirements.
+With increasing interconnectivity between machines becomes commonplace, authorization needs to scale to meet the demands of the high load, partition faulty reality of distributed systems. It is not always practical to maintain a single central source of authorizations. Even if distributing the copies of a list to many authorization servers, latency and partitions introduce particularly troublesome challenges with conflicting updates, to say nothing of storage requirements.
 
-An large portion of personal information now also moves through connected systems. Data privacy is a prominent theme when considering the design of modern applications, to the point of being legislated in parts of the world. 
+A large portion of personal information now also moves through connected systems. Data privacy is a prominent theme when considering the design of modern applications, to the point of being legislated in parts of the world. 
 
-Ahead-of-time coordination is often a barrier to development in many projects. Flexbilty to define specialized authorization sementics for a resources, and the ability to trustlessly integrate with external systems are important as the number of autonomous, specilialized, and coordinating applications increases.
+Ahead-of-time coordination is often a barrier to development in many projects. Flexibilty to define specialized authorization semantics for a resources, and the ability to trustlessly integrate with external systems are important as the number of autonomous, specialized, and coordinating applications increases.
 
-Many high-value applications run in hostile environments. In recognition of this, many vendors have started including public key functionality, such as [nonextractable keys in browsers](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey), [cerificate systems for external keys](https://fidoalliance.org/fido-authentication/), and [secure hardware enclaves](https://support.apple.com/en-ca/guide/security/sec59b0b31ff) in widespread consumer devices.
+Many high-value applications run in hostile environments. In recognition of this, many vendors now include public key functionality, such as [nonextractable keys in browsers](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey), [cerificate systems for external keys](https://fidoalliance.org/fido-authentication/), and [secure hardware enclaves](https://support.apple.com/en-ca/guide/security/sec59b0b31ff) in widespread consumer devices.
 
-Two related models that work extremeley well in the above context are Simple Public Key Infrastructure ([SPKI](https://www.rfc-editor.org/rfc/rfc2693.html)) and object capabilities ([OCAP](http://erights.org/elib/capability/index.html)). Since offline operation and self-verifiability are two requirements, UCAN adopts an approach closely related to SPKI. UCANs follow the "capabilties as certificates" model, with extensions for revocation and stateful capabilities.
+Two related models that work extremely well in the above context are Simple Public Key Infrastructure ([SPKI](https://www.rfc-editor.org/rfc/rfc2693.html)) and object capabilities ([OCAP](http://erights.org/elib/capability/index.html)). Since offline operation and self-verifiability are two requirements, UCAN adopts an approach closely related to SPKI. UCANs follow the "capabilities as certificates" model, with extensions for revocation and stateful capabilities.
 
 ## 1.2 Intuition
 
@@ -52,11 +52,11 @@ This signature chain is the root of trust. Private keys themselves SHOULD NOT mo
 
 UCANs (and other forms of PKI) depend on the ambient authority of the owner of each resource. This means that the discharging agent must be able to verify the root ownership at decision time. The rest of the chain in-between is self-certifying.
 
-While certificate chains go a long way toward improving security, they do not provide confinement on their own. As such, the principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for, and reducing the authorty to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical, since they have the ability to further subdelegate their authorty to others without alerting their delegator. UCANs do not enforce have confinement (as that would require all processes to be online), and so its not possible to have certainty that you know of all of the subdelegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort. 
+While certificate chains go a long way toward improving security, they do not provide confinement on their own. As such, the principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for, and reducing the authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical, since they have the ability to further sub-delegate their authority to others without alerting their delegator. UCANs do not enforce have confinement (as that would require all processes to be online), and so it is not possible to have certainty that you know of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort. 
 
 ## 1.4 Inversion of Control
 
-Unlike many authorization systems where a service controls access to resouces in their care, location-indepenedent, offline, and leaderless resources require control to live with the user. This means that teh same data can be used across many applications, data stores, and users.
+Unlike many authorization systems where a service controls access to resources in their care, location-independent, offline, and leaderless resources require control to live with the user. This means that the same data can be used across many applications, data stores, and users.
 
 ![](./overlapping_rights.jpg)
 
@@ -68,7 +68,7 @@ A resource is some data or process that has an address. It can be anything from 
 
 ## 2.2 Action
 
-An action possible on some resource. Each action MAY have its own semantics. They MAY be unary, support a heirarchy, be monotone, patrial orders, and so on. These MAY be general and applicable to many kinds of resource, or tied to a specific one.
+An action possible on some resource. Each action MAY have its own semantics. They MAY be unary, support a hierarchy, be monotone, partial orders, and so on. These MAY be general and applicable to many kinds of resource, or tied to a specific one.
 
 For instance, `wnfs/APPEND` is an action for Webnative filesystem paths. The action `wnfs/OVERWRITE` also implies the ability to append. Email has no such tiered relationship. One can `email/SEND`, but there is no concept of a ”super send”.
 
@@ -106,7 +106,7 @@ In the case of UCAN, this MUST be done by a witness issuer DID. For more on the 
 
 # 3. JWT Structure
 
-UCANs MUST be formatted as JWTs, with additional required and optional keys. The overall container of a header, claims, and siganture remain. Please refer to RFC 7519 for more omn this format
+UCANs MUST be formatted as JWTs, with additional required and optional keys. The overall container of a header, claims, and signature remain. Please refer to RFC 7519 for more on this format.
 
 ## 3.1 Header
 
@@ -166,7 +166,7 @@ The `iss` and `aud` fields describe the token's principals. This can be conceptu
 
 `nbf` and `exp` stand for "not before" and "expires at" respectively. These are standard fields from RFC 7519 (JWT). Taken together they represent the time bounds for a token.
 
-The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay use of a UCAN. For example, preprovisioning access to conference materials ahead of time, but not allowing access until the day of is achievable with judicious use of `nbf`.
+The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay use of a UCAN. For example, pre-provisioning access to conference materials ahead of time, but not allowing access until the day of is achievable with judicious use of `nbf`.
 
 The `exp` field MUST be set. If the time is in the past, the token MUST fail validation.
 
@@ -218,7 +218,7 @@ This array MUST contain some or none of the following: a strict subset (attenuat
 
 Each capability has its own semantics, which need to be interpretable by the target resource handler. A particular validator SHOULD NOT reject UCANs with resources that it does not know how to interpret.
 
-The attenuation field MUST contain either a wildcard (`*`), or an array of JSON objects. A JSON capability MUST contain the `with` and `can` field, and MAY contain additional field needed to describe the capability.
+The attenuation field MUST contain either a wildcard (`*`), or an array of JSON objects. A JSON capability MUST contain the `with` and `can` field, and MAY contain additional fields needed to describe the capability.
 
 ``` json
 {
@@ -246,9 +246,9 @@ Resource pointers MAY also include wildcards (`*`) to indicate "any resource of 
 
 The `can` field describes the verb portion of the capability: an action, potency, or ability. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. Arbitrary semantics can be described, but must be a valid way to describe actions on the resource.
 
-Abilities MAY be organized in a heirarchy with enums. A common example is super user access ("anything") on a file system. Another would be read vs write access, such that in an HTTP context `READ` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
+Abilities MAY be organized in a hierarchy with enums. A common example is super user access ("anything") on a file system. Another would be read vs write access, such that in an HTTP context `READ` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
-Abilities MUST NOT be case sensitive, and MUST be namespaced by at least one path segment. For instance, `http/PUT` and `foo/PUT` MUST be trated as unique from each other.
+Abilities MUST NOT be case sensitive, and MUST be namespaced by at least one path segment. For instance, `http/PUT` and `foo/PUT` MUST be treated as unique from each other.
 
 The only reserved ability MUST be `"*"`. This MAY be used as part of the action for resources (such as `my`), but MAY NOT be available as part of others. 
 
@@ -291,7 +291,7 @@ The following capabilities are REQUIRED to be implemented.
 
 ### 4.1.1. `my` Scheme
 
-The `my` URI scheme represents ownership over a resource -- typically by parenthood -- at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme descibes delegating some or all ambient authorty to another DID.
+The `my` URI scheme represents ownership over a resource -- typically by parenthood -- at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme describes delegating some or all ambient authority to another DID.
 
 The use case of "pairing" two DIDs by delegating all current and future resources is not uncommon when a user would like to use multiple devices as "root", but does not have access to all of them directly at all times.
 
@@ -343,7 +343,7 @@ The `prf` scheme MUST accpt the following action: `ucan/DELEGATE`. This redelega
 
 Each capability has its own semantics, which need to be interpretable by the target resource handler. A particular validator SHOULD NOT reject UCANs with resources that it does not know how to interpret.
 
-If any of the following criterea are not met, the UCAN MUST be considered invalid.
+If any of the following criteria are not met, the UCAN MUST be considered invalid.
 
 ## 5.1 Time
 
@@ -363,11 +363,11 @@ An agent discharging a capability MUST verify that the outermost `aud` field mat
 
 Each capability MUST either be originated by the issuer (root capability, or "parenthood"), or have one-or-more witnesses in the `prf` field to attest that this issuer is authorized to use that capability ("introduction"). In the introduction case, this check must be recursively applied to its witnesses, until a root witness is found (i.e. issued by the resource owner).
 
-With the exception of rights amplification (below), each delegation of a capability MUST have equal or lesser power from its witness. The time bounds MUST also be equal to or contained inside the time bounds of the witnesses time bounds. This shrinkilowering of rights at each delegation is called "attenuation".
+With the exception of rights amplification (below), each delegation of a capability MUST have equal or lesser power from its witness. The time bounds MUST also be equal to or contained inside the time bounds of the witnesses time bounds. This lowering of rights at each delegation is called "attenuation".
 
 ## 5.4 Rights Amplification
 
-Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating a particular capabilties MAY require more than one direct witness. The relevant witnesses MAY be of a different resource and action from the amplified capabaility. The delegated capability MUST have this behaviour in its semantics, even if the witnesses do not.
+Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating a particular capabilities MAY require more than one direct witness. The relevant witnesses MAY be of a different resource and action from the amplified capability. The delegated capability MUST have this behaviour in its semantics, even if the witnesses do not.
 
 ## 5.6 Content Identifiers
 
@@ -381,15 +381,15 @@ Due to the potential for unresolvable CIDs, this SHOULD NOT be the preferred met
 
 Any issuer of a UCAN MAY later revoke that UCAN, or the capabilities that have been derived from it further downstream in a UCAN chain.
 
-This mechanism is eventually consistent, and SHOULD be considered a last line of defense against abuse. Proactive expiry via time bounds or other constraints SHOULD be preferred, as they do not require learning more information than what would be available on an offline computer.
+This mechanism is eventually consistent, and SHOULD be considered a last line of defence against abuse. Proactive expiry via time bounds or other constraints SHOULD be preferred, as they do not require learning more information than what would be available on an offline computer.
 
-While some resources are centralized (e.g. access to a server), and others are unbound from specific locations (e.g. a CRDT), and will take longer for the revocation to propogate.
+While some resources are centralized (e.g. access to a server), and others are unbound from specific locations (e.g. a CRDT), and will take longer for the revocation to propagate.
 
 Every resource type SHOULD have a canonical location where its revocations are kept. This list is non-exclusive, and revocation messages MAY be gossiped between peers in a network to share this information more quickly.
 
 It is RECOMMENDED that the canonical revocation store be kept at as close to (or inside) the resource it is about as possible. For example, the Webnative File System maintains a Merkle tree of revoked CIDs at a well-known path. Another example is a centralized server could have an endpoint that lists the revoked UCANs by CID.
 
-Revocations MUST be irreversable. If the revocation was issued in error, a unique UCAN MAY be issued. This prevents confusion as the revocation moves through the network, and makes revocation stores append-only and highly amenable to caching.
+Revocations MUST be irreversible. If the revocation was issued in error, a unique UCAN MAY be issued. This prevents confusion as the revocation moves through the network, and makes revocation stores append-only and highly amenable to caching.
 
 A revocation message MUST conform to the following format:
 
@@ -405,6 +405,8 @@ This format makes it easy to select the relevant UCAN, confirm that the issuer i
 
 Any other witnesses in the selected UCAN not issued by the same DID as the revocation issuer MUST be treated as valid.
 
+Revocations MAY be deleted once the UCAN they reference expires or otherwise becomes invalid via its proactive mechanisms.
+
 # 6. Implementation Recommendations
 
 ## 6.1 UCAN Store
@@ -415,9 +417,9 @@ This store MAY be indexed by CID (content addressing). Multiple indices built on
 
 ## 6.2 Memoized Validation
 
-Aside from revocation, UCAN validation is an idempotent action. Marking a CID as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a witness: if the witness was previously checked and is not revoked, it is RECOMMENDED to immedietly consider it valid.
+Aside from revocation, UCAN validation is an idempotent action. Marking a CID as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a witness: if the witness was previously checked and is not revoked, it is RECOMMENDED to immediately consider it valid.
 
-Revocation is irreversible. If the validator learns of a revocation by UCAN CID or issuer DID, the UCAN and all of its derivatives in such a cache MUST be marked as invalid, and all validations immedietly fail without needing to walk the entire structure.
+Revocation is irreversible. If the validator learns of a revocation by UCAN CID or issuer DID, the UCAN and all of its derivatives in such a cache MUST be marked as invalid, and all validations immediately fail without needing to walk the entire structure.
 
 ## 6.3 Session Content ID
 
