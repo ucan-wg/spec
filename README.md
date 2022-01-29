@@ -201,7 +201,7 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 "fct": [
   {
     "challenge": "abcdef",
-    "from": "example.com
+    "from": "example.com"
   },
   {
     "sha3_256": "B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9",
