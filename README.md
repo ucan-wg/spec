@@ -427,25 +427,25 @@ If many invocations will be discharged during a session, the sender and receiver
 
 # 7. Related Work and Prior Art
 
-[SPKI/SDSI](https://datatracker.ietf.org/wg/spki/about/) is very closely related to UCAN. A different format is used, and some details vary (such as a deleation-locking bit), but the core idea and general usage pattern is very close. UCAN can be seen as a way of making these ideas more palletable to a modern audience, and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
+[SPKI/SDSI](https://datatracker.ietf.org/wg/spki/about/) is very closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern is very close. UCAN can be seen as a way of making these ideas more palletable to a modern audience, and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
 
-[ZCAP-LD](https://w3c-ccg.github.io/zcap-ld/) is closely related to UCAN, and the projects were started around the same time. The primary differences are in formatting, addressing by URL, and an emphasis on linked data rather than inlining for availabilty.
+[ZCAP-LD](https://w3c-ccg.github.io/zcap-ld/) is closely related to UCAN, and the projects were started around the same time. The primary differences are in formatting, addressing by URL, and an emphasis on linked data rather than inlining for availability.
 
 [CACAO](https://blog.ceramic.network/capability-based-data-security-on-ceramic/) is a translation of many of these ideas to a cross-blockchain invocation model. It contains the same basic ideas, but is aimed at small messages and identities that are rooted in mutable documents rooted on a blockchain.
 
-[Local-First Auth](https://github.com/local-first-web/auth) uses a CRDT-based ACLs and key lockboxes for role-based signatures. This is a non-certificate based approach, instead relying on the CRDT and signed data to build up a list of roles and members. It does have a very friendly invitiation certificate mechanism in [Seitan token exchange](https://book.keybase.io/docs/teams/seitan). It is also very easy to see which users have access to what, avoiding the confinement problem seen in so many decentralized auth systems.
+[Local-First Auth](https://github.com/local-first-web/auth) uses a CRDT-based ACLs and key lockboxes for role-based signatures. This is a non-certificate based approach, instead relying on the CRDT and signed data to build up a list of roles and members. It does have a very friendly invitation certificate mechanism in [Seitan token exchange](https://book.keybase.io/docs/teams/seitan). It is also very easy to see which users have access to what, avoiding the confinement problem seen in so many decentralized auth systems.
 
-[Macaroon](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf) is a MAC-based capability and cookie system aimed at distirbuting authority across services in a trusted network (typically in the context of a Cloud). By not relying on asymmetric signatures, Macaroons achieve very good space savings and performance, given that the MAC can be checked against the relevant services during discharge. The authority is rooted in an originating server, rather than with an end user.
+[Macaroon](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf) is a MAC-based capability and cookie system aimed at distributing authority across services in a trusted network (typically in the context of a Cloud). By not relying on asymmetric signatures, Macaroons achieve very good space savings and performance, given that the MAC can be checked against the relevant services during discharge. The authority is rooted in an originating server, rather than with an end user.
 
 [Biscuit](https://github.com/biscuit-auth/biscuit/) uses Datalog to describe capabilities. It has a specialized format, but is otherwise largely in line with UCAN.
 
-[Verifiable credentials](https://www.w3.org/2017/vc/WG/) are a solution for this on data about people or organziations. They are aimed at a slightly different problem: asserting attriutes about the holder of a DID, including things like work history, age, and membership.
+[Verifiable credentials](https://www.w3.org/2017/vc/WG/) are a solution for this on data about people or organizations. They are aimed at a slightly different problem: asserting attributes about the holder of a DID, including things like work history, age, and membership.
 
 # 8. Acknowledgements
 
 Thank you to [Brendan O'Brien](https://github.com/b5) for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
 
-Many thanks to [Irakli Gozalishvili](https://github.com/Gozala) for feedback and recommendations, contributing significantly to the TypeScript iomplementation, and suggesting renaming the action field to `can`.
+Many thanks to [Irakli Gozalishvili](https://github.com/Gozala) for feedback and recommendations, contributing significantly to the TypeScript implementation, and suggesting renaming the action field to `can`.
 
 Thank you [Dan Finlay](https://github.com/danfinlay) for being sufficiently passionate about OCAP that we realized that capability systems had an actual chance of adoption in an ACL-dominated world.
 
