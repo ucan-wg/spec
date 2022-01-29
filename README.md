@@ -369,21 +369,6 @@ With the exception of rights amplification (below), each delegation of a capabil
 
 Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating a particular capabilties MAY require more than one direct witness. The relevant witnesses MAY be of a different resource and action from the amplified capabaility. The delegated capability MUST have this behaviour in its semantics, even if the witnesses do not.
 
-## 5.5 Contextual Confinement
-
-For example,
-such caveats may attenuate a macaroon by limiting what
-objects and what actions it permits, or contextually confine it
-by requiring additional evidence, such as third-party signatures,
-or by restricting when, from where, or in what other observ-
-able context it may be used
-
-
-
-
-
-
-
 ## 5.6 Content Identifiers
 
 UCANs MAY be referenced by content ID (CID), per the [multiformats/cid](https://github.com/multiformats/cid) specification. The resolution of these addresses is left to the implementation and end user, and MAY (non-exclusively) include the following: local store, distributed hash table (DHT), gossip network, or RESTful service.
