@@ -324,22 +324,20 @@ For `my` capabilities scoped to some scheme, the action MUST be one normally ass
 
 ## 4.2 UCAN Addressing
 
-### 4.2.1 `ucan` Scheme
+### 4.2.1 `prf` Scheme
 
-The `ucan` URI scheme defines addressing for UCANs and their fields.
+The `prf` URI scheme defines addressing for UCANs and their fields.
 
 ``` abnf
-ucanuri = "ucan:" selector
-selector = "*" / cid / fieldpath / cid fieldpath
-fieldpath = "/" <path>
+prf = "prf" selector
+selector = "*" / 1*DIGIT
 ```
 
-For example, `ucan://bafkreihb5iw53yervbng7mncvk36exflyrbbdaioevcz5emlqho4tqju3a` selects the UCAN represented by the CID. `ucan:bafkreihb5iw53yervbng7mncvk36exflyrbbdaioevcz5emlqho4tqju3a/prf/*` selects all witnesses in the `prf` field of the present UCAN. `ucan:*` represents all of the UCANs in the current proof scope.
+`prf:*` represents all of the UCANs in the current proof scope. The witnesses in the `prf` field may be referenced by their index, starting at 0: `prf:0`
 
+### 4.2.2 `prf` Actions
 
-
-
-
+The `prf` scheme MUST accpt the following action: `ucan/DELEGATE`. This redelegates all of the capabilities in the selected witness(es).
 
 # 5. Validation
 
