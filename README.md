@@ -246,9 +246,9 @@ Resource pointers MAY also include wildcards (`*`) to indicate "any resource of 
 
 The `can` field describes the verb portion of the capability: an action, potency, or ability. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. Arbitrary semantics can be described, but must be a valid way to describe actions on the resource.
 
-Abilities MAY be organized in a heirarchy with enums. A common example is super user access ("anything") on a file system. Another would be read vs write access, such that in an HTTP context `READ` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiing the need to reissue UCANs with new resource semantics.
+Abilities MAY be organized in a heirarchy with enums. A common example is super user access ("anything") on a file system. Another would be read vs write access, such that in an HTTP context `READ` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
-Abilities MUST NOT be case sensitive, and MAY be namespaced by at least one path segment. For instance, `http/PUT` and `foo/PUT` MUST be trated as unique from each other. If not explicitely namespaced, the namespace MUST be inferred to be the same as the scheme. For example, `PUT` for `http://exmaple.com/` MUST be inferred to be `http/PUT`.
+Abilities MUST NOT be case sensitive, and MUST be namespaced by at least one path segment. For instance, `http/PUT` and `foo/PUT` MUST be trated as unique from each other.
 
 The only reserved ability MUST be `"*"`. This MAY be used as part of the action for resources (such as `my`), but MAY NOT be available as part of others. 
 
@@ -262,11 +262,11 @@ The only reserved ability MUST be `"*"`. This MAY be used as part of the action 
   },
   {
     "with": "wnfs://boris.fission.name/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr",
-    "can": "APPEND"
+    "can": "wnfs/APPEND"
   },
   {
     "with": "mailto:boris@fission.codes",
-    "can": "SEND"
+    "can": "msg/SEND"
   }
 ]
 ```
