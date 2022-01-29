@@ -28,9 +28,9 @@ With increasing interconnectivity between machines becomes commonplace, authoriz
 
 A large portion of personal information now also moves through connected systems. Data privacy is a prominent theme when considering the design of modern applications, to the point of being legislated in parts of the world. 
 
-Ahead-of-time coordination is often a barrier to development in many projects. Flexibilty to define specialized authorization semantics for a resources, and the ability to trustlessly integrate with external systems are important as the number of autonomous, specialized, and coordinating applications increases.
+Ahead-of-time coordination is often a barrier to development in many projects. Flexibility to define specialized authorization semantics for a resources, and the ability to trustlessly integrate with external systems are important as the number of autonomous, specialized, and coordinating applications increases.
 
-Many high-value applications run in hostile environments. In recognition of this, many vendors now include public key functionality, such as [nonextractable keys in browsers](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey), [cerificate systems for external keys](https://fidoalliance.org/fido-authentication/), and [secure hardware enclaves](https://support.apple.com/en-ca/guide/security/sec59b0b31ff) in widespread consumer devices.
+Many high-value applications run in hostile environments. In recognition of this, many vendors now include public key functionality, such as [non-extractable keys in browsers](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey), [certificate systems for external keys](https://fidoalliance.org/fido-authentication/), and [secure hardware enclaves](https://support.apple.com/en-ca/guide/security/sec59b0b31ff) in widespread consumer devices.
 
 Two related models that work extremely well in the above context are Simple Public Key Infrastructure ([SPKI](https://www.rfc-editor.org/rfc/rfc2693.html)) and object capabilities ([OCAP](http://erights.org/elib/capability/index.html)). Since offline operation and self-verifiability are two requirements, UCAN adopts an approach closely related to SPKI. UCANs follow the "capabilities as certificates" model, with extensions for revocation and stateful capabilities.
 
@@ -70,7 +70,7 @@ A resource is some data or process that has an address. It can be anything from 
 
 An action possible on some resource. Each action MAY have its own semantics. They MAY be unary, support a hierarchy, be monotone, partial orders, and so on. These MAY be general and applicable to many kinds of resource, or tied to a specific one.
 
-For instance, `wnfs/APPEND` is an action for Webnative filesystem paths. The action `wnfs/OVERWRITE` also implies the ability to append. Email has no such tiered relationship. One can `email/SEND`, but there is no concept of a ”super send”.
+For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The action `wnfs/OVERWRITE` also implies the ability to append. Email has no such tiered relationship. One can `email/SEND`, but there is no concept of a ”super send”.
 
 ## 2.3 Capability
 
@@ -337,7 +337,7 @@ selector = "*" / 1*DIGIT
 
 ### 4.2.2 `prf` Actions
 
-The `prf` scheme MUST accpt the following action: `ucan/DELEGATE`. This redelegates all of the capabilities in the selected witness(es).
+The `prf` scheme MUST accpt the following action: `ucan/DELEGATE`. This re-delegates all of the capabilities in the selected witness(es).
 
 # 5. Validation
 
@@ -353,7 +353,7 @@ All witnesses MUST contain time bounds equal to or wider than the UCAN being del
 
 A UCAN is valid inclusive from the `nbf` time, and until the `exp` field. If the current time is outside of these bounds, the UCAN MUST be considered invalid. A delegator or invoker SHOULD account for expected clock drift when setting these bounds. This is called "timely invocation".
 
-## 5.2 Pricipal Alignment
+## 5.2 Principal Alignment
 
 In delegation, the `aud` field of every witness MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain all the way back to the originating principal for each resource.
 
@@ -387,7 +387,7 @@ While some resources are centralized (e.g. access to a server), and others are u
 
 Every resource type SHOULD have a canonical location where its revocations are kept. This list is non-exclusive, and revocation messages MAY be gossiped between peers in a network to share this information more quickly.
 
-It is RECOMMENDED that the canonical revocation store be kept at as close to (or inside) the resource it is about as possible. For example, the Webnative File System maintains a Merkle tree of revoked CIDs at a well-known path. Another example is a centralized server could have an endpoint that lists the revoked UCANs by CID.
+It is RECOMMENDED that the canonical revocation store be kept at as close to (or inside) the resource it is about as possible. For example, the WebNative File System maintains a Merkle tree of revoked CIDs at a well-known path. Another example is a centralized server could have an endpoint that lists the revoked UCANs by CID.
 
 Revocations MUST be irreversible. If the revocation was issued in error, a unique UCAN MAY be issued. This prevents confusion as the revocation moves through the network, and makes revocation stores append-only and highly amenable to caching.
 
@@ -427,7 +427,7 @@ If many invocations will be discharged during a session, the sender and receiver
 
 # 7. Related Work and Prior Art
 
-[SPKI/SDSI](https://datatracker.ietf.org/wg/spki/about/) is very closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern is very close. UCAN can be seen as a way of making these ideas more palletable to a modern audience, and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
+[SPKI/SDSI](https://datatracker.ietf.org/wg/spki/about/) is very closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern is very close. UCAN can be seen as a way of making these ideas more palatable to a modern audience, and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
 
 [ZCAP-LD](https://w3c-ccg.github.io/zcap-ld/) is closely related to UCAN, and the projects were started around the same time. The primary differences are in formatting, addressing by URL, and an emphasis on linked data rather than inlining for availability.
 
@@ -449,6 +449,6 @@ Many thanks to [Irakli Gozalishvili](https://github.com/Gozala) for feedback and
 
 Thank you [Dan Finlay](https://github.com/danfinlay) for being sufficiently passionate about OCAP that we realized that capability systems had an actual chance of adoption in an ACL-dominated world.
 
-Thanks to the entire [SPKI WG](https://datatracker.ietf.org/wg/spki/about/) for their closely related prioneering work.
+Thanks to the entire [SPKI WG](https://datatracker.ietf.org/wg/spki/about/) for their closely related pioneering work.
 
-We want to especially recognize [Mark Miller](https://github.com/erights) for his numerous contributions to the field of distributed auth, programming langauges, and computer security writ large.
+We want to especially recognize [Mark Miller](https://github.com/erights) for his numerous contributions to the field of distributed auth, programming languages, and computer security writ large.
