@@ -304,9 +304,9 @@ kind = "*" / <scheme>
 
 The wildcard `*` resource MUST be taken to mean "everything" (all resources of all types).
 
-A "subscheme" MAY be used to delegate some of that scheme controlled by parenthood. For example `my:dns` delegates access to all DNS records (`my:dns:*` works equally well since wildcards are also part of the DNS URI). `my:mailto` selects all owned email addresses controlled by this user.
+A "sub-scheme" MAY be used to delegate some of that scheme controlled by parenthood. For example `my:dns` delegates access to all DNS records (`my:dns:*` works equally well since wildcards are also part of the DNS URI). `my:mailto` selects all owned email addresses controlled by this user.
 
-Redelegating these to further DIDs in a chain MUST address the specific parent DID that owns that resource separated by an `@`. For instance: `my:*@did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` selects all resources originating from the specified DID, and `my:mailto@did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` selects email addresses from the DID. 
+Re-delegating these to further DIDs in a chain MUST address the specific parent DID that owns that resource separated by an `@`. For instance: `my:*@did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` selects all resources originating from the specified DID, and `my:mailto@did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` selects email addresses from the DID. 
 
 ### 4.1.2 Action
 
@@ -337,7 +337,7 @@ selector = "*" / 1*DIGIT
 
 ### 4.2.2 `prf` Actions
 
-The `prf` scheme MUST accpt the following action: `ucan/DELEGATE`. This re-delegates all of the capabilities in the selected witness(es).
+The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This re-delegates all of the capabilities in the selected witness(es).
 
 # 5. Validation
 
