@@ -100,18 +100,15 @@ The process of diminishing rights in a delegation chain.
 
 ## 2.7 Revocation
 
-* Subchain revocation
-* DID revocation
+Revocation is the act of invalidating a UCAN after the fact, outside of the limitations placed on it by the UCAN's own fields (such as its expiry). 
 
-# 3. Invocation Security
+In the case of UCAN, this MUST be done by a witness issuer DID. For more on the exact mechanism, see the revocation validation section.
 
-
-
-# 4. JWT Structure
+# 3. JWT Structure
 
 UCANs MUST be formatted as JWTs, with additional required and optional keys. The overall container of a header, claims, and siganture remain. Please refer to RFC 7519 for more omn this format
 
-## 4.1 Header
+## 3.1 Header
 
 The header MUST include all of the following fields:
 | Field | Type     | Description                    | Required |
@@ -134,7 +131,7 @@ EdDSA as applied to JOSE (including JWT) is described in [RFC 8037](https://data
 }
 ```
 
-## 4.2 Payload
+## 3.2 Payload
 
 The payload MUST describe the authorization claims being made, who is involved, and its validity period.
 
@@ -149,7 +146,7 @@ The payload MUST describe the authorization claims being made, who is involved, 
 | `prf` | `String[]` | Proof of delegation (witnesses are nested UCANs) | Yes      |
 | `att` | `Json[]`   | Attenuations                                     | Yes      |
 
-### 4.2.1 Principals
+### 3.2.1 Principals
 
 The `iss` and `aud` fields describe the token's principals. This can be conceptualized as a "to" and "from" of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key` method](https://w3c-ccg.github.io/did-method-key/), and MAY be augmented with [additional DID methods](https://www.w3.org/TR/did-core/).
 
@@ -165,7 +162,7 @@ The `iss` and `aud` fields describe the token's principals. This can be conceptu
 "iss": "did:pkh:eth:0xb9c5714089478a327f09197987f16f9e5d936e8a",
 ```
 
-### 4.2.2 Time Bounds
+### 3.2.2 Time Bounds
 
 `nbf` and `exp` stand for "not before" and "expires at" respectively. These are standard fields from RFC 7519 (JWT). Taken together they represent the time bounds for a token.
 
@@ -182,7 +179,7 @@ It is RECOMMENDED to keep the window of validity be as short as possible. By lim
 "exp": 1575606941,
 ```
 
-### 4.2.3 Nonce
+### 3.2.3 Nonce
 
 The OPTIONAL nonce parameter `nnc` MAY be any value. A randomly generated string is RECOMMENDED to provide a unique UCAN, though it MAY also be a monotonically increasing count of hash link. This field helps prevent replay attacks, and ensures a unique CID per delegation. The `iss`, `aud`, and `exp` fields together will often ensure that UCANs are unique, but adding the nonce ensures this uniqueness.
 
@@ -194,7 +191,7 @@ This field SHOULD NOT be used to sign arbitrary data, such as signature challeng
 "nnc": "1701-D"
 ```
 
-### 4.2.4 Facts
+### 3.2.4 Facts
 
 The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The enclosed data MUST be self-evident and externally verifiable. It MAY include hash preimages, server challenges, a Merkle proof, dictionary data, and so on.
 
@@ -213,7 +210,7 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 ]
 ```
 
-### 4.2.5 Attenuation Scope
+### 3.2.5 Attenuation Scope
 
 The attenuation scope (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous access scopes (defined below). This array MAY be empty.
 
@@ -230,7 +227,7 @@ The attenuation field MUST contain either a wildcard (`*`), or an array of JSON 
 }
 ```
 
-#### 4.2.5.1 Resource Pointer
+#### 3.2.4.1 Resource Pointer
 
 A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI merely a unique identifier to describe the pointer to -- and within -- a resource.
 
@@ -245,7 +242,7 @@ Resource pointers MAY also include wildcards (`*`) to indicate "any resource of 
 | `{"with": "dnslink:*", ...}` | All apps that the iss has access to, including future ones |
 | `{"with": "dnslink://myapp.fission.app", ...}` | A URL for the app (ideally the auto-assigned one) |
 
-#### 4.2.5.2 Ability
+#### 3.2.4.2 Ability
 
 The `can` field describes the verb portion of the capability: an action, potency, or ability. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. Arbitrary semantics can be described, but must be a valid way to describe actions on the resource.
 
@@ -274,7 +271,7 @@ The only reserved ability MUST be `"*"`. This MAY be used as part of the action 
 ]
 ```
 
-### 4.2.6 Proof of Delegation
+### 3.2.5 Proof of Delegation
 
 The `prf` field MUST contain UCAN witnesses (the ”inputs” of a UCAN). As they need to be independently verifiable, proofs MUST either be the fully encoded version of a UCAN (including the signature), or the content address of the relevant proof. Attenuations not covered by a proof in the `prf` array MUST be treated as owned by the issuer DID.
 
@@ -286,13 +283,13 @@ Proofs referenced by content address MUST be resolvable by the recipient, for in
 "prf": ["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsInVhdiI6IjAuMS4wIn0.eyJhdWQiOiJkaWQ6a2V5OnpTdEVacHpTTXRUdDlrMnZzemd2Q3dGNGZMUVFTeUExNVc1QVE0ejNBUjZCeDRlRko1Y3JKRmJ1R3hLbWJtYTQiLCJpc3MiOiJkaWQ6a2V5Ono1QzRmdVAyRERKQ2hoTUJDd0FrcFlVTXVKWmROV1dINU5lWWpVeVk4YnRZZnpEaDNhSHdUNXBpY0hyOVR0anEiLCJuYmYiOjE1ODg3MTM2MjIsImV4cCI6MTU4OTAwMDAwMCwic2NwIjoiLyIsInB0YyI6IkFQUEVORCIsInByZiI6bnVsbH0.Ay8C5ajYWHxtD8y0msla5IJ8VFffTHgVq448Hlr818JtNaTUzNIwFiuutEMECGTy69hV9Xu9bxGxTe0TpC7AzV34p0wSFax075mC3w9JYB8yqck_MEBg_dZ1xlJCfDve60AHseKPtbr2emp6hZVfTpQGZzusstimAxyYPrQUWv9wqTFmin0Ls-loAWamleUZoE1Tarlp_0h9SeV614RfRTC0e3x_VP9Ra_84JhJHZ7kiLf44TnyPl_9AbzuMdDwCvu-zXjd_jMlDyYcuwamJ15XqrgykLOm0WTREgr_sNLVciXBXd6EQ-Zh2L7hd38noJm1P_MIr9_EDRWAhoRLXPQ"]
 ```
 
-# 5. Reserved Capabilities
+# 4. Reserved Capabilities
 
 The following capabilities are REQUIRED to be implemented.
 
-## 5.1 All Owned Resources
+## 4.1 All Owned Resources
 
-### 5.1.1. `my` Scheme
+### 4.1.1. `my` Scheme
 
 The `my` URI scheme represents ownership over a resource -- typically by parenthood -- at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme descibes delegating some or all ambient authorty to another DID.
 
@@ -311,7 +308,7 @@ A "subscheme" MAY be used to delegate some of that scheme controlled by parentho
 
 Redelegating these to further DIDs in a chain MUST address the specific parent DID that owns that resource separated by an `@`. For instance: `my:*@did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` selects all resources originating from the specified DID, and `my:mailto@did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` selects email addresses from the DID. 
 
-### 5.1.2 Action
+### 4.1.2 Action
 
 The action for `my:*` MUST be `*`.
 
@@ -325,11 +322,11 @@ For `my` capabilities scoped to some scheme, the action MUST be one normally ass
 {"with": "my:dns", "can": "crud/UPDATE"}
 ```
 
-## 5.2 UCAN Addressing
+## 4.2 UCAN Addressing
 
-### 5.2.1 `ucan` Scheme
+### 4.2.1 `ucan` Scheme
 
-The `ucan` URI scheme defines addressing for UCANs and their fields
+The `ucan` URI scheme defines addressing for UCANs and their fields.
 
 ``` abnf
 ucanuri = "ucan:" selector
@@ -344,13 +341,13 @@ For example, `ucan://bafkreihb5iw53yervbng7mncvk36exflyrbbdaioevcz5emlqho4tqju3a
 
 
 
-# 6. Validation
+# 5. Validation
 
 Each capability has its own semantics, which need to be interpretable by the target resource handler. A particular validator SHOULD NOT reject UCANs with resources that it does not know how to interpret.
 
 If any of the following criterea are not met, the UCAN MUST be considered invalid.
 
-## 6.1 Time
+## 5.1 Time
 
 A UCAN's time bounds MUST NOT be considered valid if the current system time is prior to the `nbf` field, or after the `exp` field. This is called "ambient time validity".
 
@@ -358,23 +355,23 @@ All witnesses MUST contain time bounds equal to or wider than the UCAN being del
 
 A UCAN is valid inclusive from the `nbf` time, and until the `exp` field. If the current time is outside of these bounds, the UCAN MUST be considered invalid. A delegator or invoker SHOULD account for expected clock drift when setting these bounds. This is called "timely invocation".
 
-## 6.2 Pricipal Alignment
+## 5.2 Pricipal Alignment
 
 In delegation, the `aud` field of every witness MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain all the way back to the originating principal for each resource.
 
 An agent discharging a capability MUST verify that the outermost `aud` field matches its own DID. If they do not match, the associated action MUST NOT be performed.
 
-## 6.3 Witness Chaining
+## 5.3 Witness Chaining
 
 Each capability MUST either be originated by the issuer (root capability, or "parenthood"), or have one-or-more witnesses in the `prf` field to attest that this issuer is authorized to use that capability ("introduction"). In the introduction case, this check must be recursively applied to its witnesses, until a root witness is found (i.e. issued by the resource owner).
 
 With the exception of rights amplification (below), each delegation of a capability MUST have equal or lesser power from its witness. The time bounds MUST also be equal to or contained inside the time bounds of the witnesses time bounds. This shrinkilowering of rights at each delegation is called "attenuation".
 
-## 6.4 Rights Amplification
+## 5.4 Rights Amplification
 
 Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating a particular capabilties MAY require more than one direct witness. The relevant witnesses MAY be of a different resource and action from the amplified capabaility. The delegated capability MUST have this behaviour in its semantics, even if the witnesses do not.
 
-## 6.6 Contextual Confinement
+## 5.5 Contextual Confinement
 
 For example,
 such caveats may attenuate a macaroon by limiting what
@@ -383,7 +380,13 @@ by requiring additional evidence, such as third-party signatures,
 or by restricting when, from where, or in what other observ-
 able context it may be used
 
-## 6.7 Content Identifiers
+
+
+
+
+
+
+## 5.6 Content Identifiers
 
 UCANs MAY be referenced by content ID (CID), per the [multiformats/cid](https://github.com/multiformats/cid) specification. The resolution of these addresses is left to the implementation and end user, and MAY (non-exclusively) include the following: local store, distributed hash table (DHT), gossip network, or RESTful service.
 
@@ -391,25 +394,53 @@ CIDs MAY be used to refer to any UCAN: a witness in a delegation chain, or an en
 
 Due to the potential for unresolvable CIDs, this SHOULD NOT be the preferred method of transmission. "Inline witnesses" SHOULD be used whenever possible, and complete UCANs SHOULD be expanded. When a CID is used, it is RECOMMENDED that it be substituted as close to the top UCAN as possible (i.e. the invocation), and as few witnesses be referenced by CID, to keep the number of required CID resolutions to a minimum. As UCANs are signed, all further delegations would require CID resolution, and so SHOULD NOT be used when the intention is delegation rather than invocation. 
 
-## 7. Implementation Recommendations
+## 5.7 Revocation
 
-## 7.1 UCAN Store
+Any issuer of a UCAN MAY later revoke that UCAN, or the capabilities that have been derived from it further downstream in a UCAN chain.
+
+This mechanism is eventually consistent, and SHOULD be considered a last line of defense against abuse. Proactive expiry via time bounds or other constraints SHOULD be preferred, as they do not require learning more information than what would be available on an offline computer.
+
+While some resources are centralized (e.g. access to a server), and others are unbound from specific locations (e.g. a CRDT), and will take longer for the revocation to propogate.
+
+Every resource type SHOULD have a canonical location where its revocations are kept. This list is non-exclusive, and revocation messages MAY be gossiped between peers in a network to share this information more quickly.
+
+It is RECOMMENDED that the canonical revocation store be kept at as close to (or inside) the resource it is about as possible. For example, the Webnative File System maintains a Merkle tree of revoked CIDs at a well-known path. Another example is a centralized server could have an endpoint that lists the revoked UCANs by CID.
+
+Revocations MUST be irreversable. If the revocation was issued in error, a unique UCAN MAY be issued. This prevents confusion as the revocation moves through the network, and makes revocation stores append-only and highly amenable to caching.
+
+A revocation message MUST conform to the following format:
+
+``` js
+{
+  "iss": did,
+  "revoke": ucanCid,
+  "challenge": sign(did.privateKey, `REVOKE:${ucanCid}`)
+}
+```
+
+This format makes it easy to select the relevant UCAN, confirm that the issuer is in the proof chain for some or all capabilities, and validate that the revocation itself was signed by the same issuer. 
+
+Any other witnesses in the selected UCAN not issued by the same DID as the revocation issuer MUST be treated as valid.
+
+# 6. Implementation Recommendations
+
+## 6.1 UCAN Store
 
 A validator MAY keep a local store of UCANs that it has received. UCANs are immutable, but also time bound, so this store MAY evict expired or revoked UCANs.
 
 This store MAY be indexed by CID (content addressing). Multiple indices built on top of this store MAY be used to improve capability search or selection performance.
 
-## 7.2 Memoized Validation
+## 6.2 Memoized Validation
 
 Aside from revocation, UCAN validation is an idempotent action. Marking a CID as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a witness: if the witness was previously checked and is not revoked, it is RECOMMENDED to immedietly consider it valid.
 
 Revocation is irreversible. If the validator learns of a revocation by UCAN CID or issuer DID, the UCAN and all of its derivatives in such a cache MUST be marked as invalid, and all validations immedietly fail without needing to walk the entire structure.
 
-## 7.3 Session Content ID
+## 6.3 Session Content ID
 
 If many invocations will be discharged during a session, the sender and receiver MAY agree to use the CID rather than creating new UCANs for every message. This saves bandwidth, and avoids needing to use another session token exchange mechanism, or bearer token with lower security, such as a shared secret.
 
-# 8. Related Work and Prior Art
+# 7. Related Work and Prior Art
 
 [SPKI/SDSI](https://datatracker.ietf.org/wg/spki/about/) is very closely related to UCAN. A different format is used, and some details vary (such as a deleation-locking bit), but the core idea and general usage pattern is very close. UCAN can be seen as a way of making these ideas more palletable to a modern audience, and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
 
@@ -425,7 +456,7 @@ If many invocations will be discharged during a session, the sender and receiver
 
 [Verifiable credentials](https://www.w3.org/2017/vc/WG/) are a solution for this on data about people or organziations. They are aimed at a slightly different problem: asserting attriutes about the holder of a DID, including things like work history, age, and membership.
 
-# 9. Acknowledgements
+# 8. Acknowledgements
 
 Thank you to [Brendan O'Brien](https://github.com/b5) for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
 
