@@ -239,8 +239,8 @@ Resource pointers MAY also include wildcards (`*`) to indicate "any resource of 
 |-------|---------|
 | `{"with": "wnfs://user.example.com/path", ...}`      | File paths in our file system        |
 | `{"with": "my:*", ...}` | All apps that the iss has access to, including future ones |
-| `{"with": "dnslink:*", ...}` | All apps that the iss has access to, including future ones |
-| `{"with": "dnslink://myapp.fission.app", ...}` | A URL for the app (ideally the auto-assigned one) |
+| `{"with": "my:dnslink", ...}` | All DNSLinks that the iss has access to, including future ones |
+| `{"with": "dnslink://myapp.fission.app", ...}` | A URL for an app (ideally the auto-assigned one) |
 
 #### 3.2.4.2 Ability
 
