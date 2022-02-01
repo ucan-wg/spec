@@ -82,9 +82,7 @@ An authorization scope is a set of capabilities. Scopes MUST compose with set se
 
 ![](./assets/scope_union.jpg)
 
-The "scope" is the total rights of the authorization space down to the relevant volume of authorizations. With the exception of rights amplification, every individual delegation MUST have equal or less scope from their delegator.
-
-Inside this content space, can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities.
+The "scope" is the total rights of the authorization space down to the relevant volume of authorizations. With the exception of rights amplification, every individual delegation MUST have equal or less scope from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities.
 
 As a practical matter, since scopes form a group, you can be fairly loose: order doesn’t matter, and merging resources can be quite broad since the more powerful of any overlap will take precedence (i.e. you don’t need a clean separation).
 
@@ -92,7 +90,7 @@ As a practical matter, since scopes form a group, you can be fairly loose: order
 
 Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). This MUST be proven by a "witness", which is either the signature of the owning principal, or a UCAN that has access to that capability in its scope.
 
-Each direct delegation leaves the potency of the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of a different types, if part of the resource's semantics. 
+Each direct delegation leaves the potency of the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of different types, if part of the resource's semantics. 
 
 ## 2.6 Attenuation
 
@@ -126,7 +124,7 @@ EdDSA as applied to JOSE (including JWT) is described in [RFC 8037](https://data
 ```json
 {
   "alg": "EdDSA",
-  "typ": "JWT"
+  "typ": "JWT",
   "ucv": "0.8.0"
 }
 ```
@@ -166,7 +164,7 @@ The `iss` and `aud` fields describe the token's principals. This can be conceptu
 
 `nbf` and `exp` stand for "not before" and "expires at" respectively. These are standard fields from RFC 7519 (JWT). Taken together they represent the time bounds for a token.
 
-The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay use of a UCAN. For example, pre-provisioning access to conference materials ahead of time, but not allowing access until the day of is achievable with judicious use of `nbf`.
+The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay use of a UCAN. For example, pre-provisioning access to conference materials ahead of time, but not allowing access until the day it starts is achievable with judicious use of `nbf`.
 
 The `exp` field MUST be set. If the time is in the past, the token MUST fail validation.
 
@@ -229,7 +227,7 @@ The attenuation field MUST contain either a wildcard (`*`), or an array of JSON 
 
 #### 3.2.4.1 Resource Pointer
 
-A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI merely a unique identifier to describe the pointer to -- and within -- a resource.
+A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI is merely a unique identifier to describe the pointer to -- and within -- a resource.
 
 The same resource MAY be validly addressed several forms. For instance a database may be addressed at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
