@@ -104,7 +104,7 @@ In the case of UCAN, this MUST be done by a witness issuer DID. For more on the 
 
 # 3. JWT Structure
 
-UCANs MUST be formatted as JWTs, with additional required and optional keys. The overall container of a header, claims, and signature remain. Please refer to RFC 7519 for more on this format.
+UCANs MUST be formatted as JWTs, with additional required and optional keys. The overall container of a header, claims, and signature remain. Please refer to [RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519) for more on this format.
 
 ## 3.1 Header
 
