@@ -22,9 +22,9 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 ## 1.1 Motivation
 
-Since at least the release of Unix, the most popular form of digital authorization has been access control lists (ACLs), where a list of what each user is allowed to do is maintained on the resource. This has been a successful model, and is well suited to architectures where persistent access to a single list is viable, and rules are sufficiently well specified, such as in a centralized database.
+Since at least the release of Unix, the most popular form of digital authorization has been access control lists (ACLs), where a list of what each user is allowed to do is maintained on the resource. ACLs have been a successful model and are suited to architectures where persistent access to a single list is viable. This requires that rules are sufficiently well specified, such as in a centralized database with rules covering all possible permutations of rights.
 
-With increasing interconnectivity between machines becomes commonplace, authorization needs to scale to meet the demands of the high load, partition faulty reality of distributed systems. It is not always practical to maintain a single central source of authorizations. Even if distributing the copies of a list to many authorization servers, latency and partitions introduce particularly troublesome challenges with conflicting updates, to say nothing of storage requirements.
+With increasing interconnectivity between machines becoming commonplace, authorization needs to scale to meet the demands of the high load and partition faulty reality of distributed systems. It is not always practical to maintain a single central source of authorizations. Even when copies of the authorization list is distributed to the relevant servers, latency and partitions introduce particularly troublesome challenges with conflicting updates, to say nothing of storage requirements.
 
 A large portion of personal information now also moves through connected systems. Data privacy is a prominent theme when considering the design of modern applications, to the point of being legislated in parts of the world. 
 
@@ -68,7 +68,7 @@ A resource is some data or process that has an address. It can be anything from 
 
 ## 2.2 Action
 
-An action possible on some resource. Each action MAY have its own semantics. They MAY be unary, support a hierarchy, be monotone, partial orders, and so on. These MAY be general and applicable to many kinds of resource, or tied to a specific one.
+An action possible on some resource. Each action MAY have its own semantics. They MAY be unary, support a hierarchy, be monotone, partial orders, and so on. Actions MAY be general and applicable to many kinds of resource, or tied to a specific one.
 
 For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The action `wnfs/OVERWRITE` also implies the ability to append. Email has no such tiered relationship. One can `email/SEND`, but there is no concept of a ”super send”.
 
@@ -82,7 +82,7 @@ An authorization scope is a set of capabilities. Scopes MUST compose with set se
 
 ![](./assets/scope_union.jpg)
 
-The "scope" is the total rights of the authorization space down to the relevant volume of authorizations. With the exception of rights amplification, every individual delegation MUST have equal or less scope from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities.
+The "scope" is the total rights of the authorization space down to the relevant volume of authorizations. With the exception of [rights amplification](#54-rights-amplification), every individual delegation MUST have equal or less scope from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities.
 
 As a practical matter, since scopes form a group, you can be fairly loose: order doesn’t matter, and merging resources can be quite broad since the more powerful of any overlap will take precedence (i.e. you don’t need a clean separation).
 
