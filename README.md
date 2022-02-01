@@ -214,7 +214,7 @@ The attenuation scope (i.e. UCAN output, or "caveats") MUST be an array of heter
 
 This array MUST contain some or none of the following: a strict subset (attenuation) of the proofs, resources originated by the `iss` DID (i.e. by parenthood), and resources that compositions of others (see rights amplification). This scoping also includes time ranges, making the witnesses that start latest and end soonest the lower and upper time bounds.
 
-The attenuation field MUST contain either a wildcard (`*`), or an array of JSON objects. A JSON capability MUST contain the `with` and `can` field, and MAY contain additional fields needed to describe the capability.
+The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST contain the `with` and `can` field, and MAY contain additional fields needed to describe the capability.
 
 ``` json
 {
