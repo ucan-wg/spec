@@ -52,7 +52,7 @@ This signature chain is the root of trust. Private keys themselves SHOULD NOT mo
 
 UCANs (and other forms of PKI) depend on the ambient authority of the owner of each resource. This means that the discharging agent must be able to verify the root ownership at decision time. The rest of the chain in-between is self-certifying.
 
-While certificate chains go a long way toward improving security, they do not provide confinement on their own. As such, the principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for, and reducing the authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical, since they have the ability to further sub-delegate their authority to others without alerting their delegator. UCANs do not enforce have confinement (as that would require all processes to be online), and so it is not possible to have certainty that you know of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort. 
+While certificate chains go a long way toward improving security, they do not provide confinement on their own. As such, the principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for, and reducing authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical, since they have the ability to further sub-delegate their authority to others without alerting their delegator. UCANs do not enforce have confinement (as that would require all processes to be online), and so it is not possible to have certainty that you know of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort. 
 
 ## 1.4 Inversion of Control
 
@@ -162,7 +162,7 @@ The `iss` and `aud` fields describe the token's principals. This can be conceptu
 
 ### 3.2.2 Time Bounds
 
-`nbf` and `exp` stand for "not before" and "expires at" respectively. These are standard fields from RFC 7519 (JWT). Taken together they represent the time bounds for a token.
+`nbf` and `exp` stand for "not before" and "expires at" respectively. These are standard fields from [RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519) (JWT). Taken together they represent the time bounds for a token.
 
 The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay use of a UCAN. For example, pre-provisioning access to conference materials ahead of time, but not allowing access until the day it starts is achievable with judicious use of `nbf`.
 
@@ -212,9 +212,7 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 
 The attenuation scope (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous access scopes (defined below). This array MAY be empty.
 
-This array MUST contain some or none of the following: a strict subset (attenuation) of the proofs, resources originated by the `iss` DID (i.e. by parenthood), and resources that compositions of others (see rights amplification). This scoping also includes time ranges, making the proofs that starts latest and end soonest the lower and upper time bounds.
-
-Each capability has its own semantics, which need to be interpretable by the target resource handler. A particular validator SHOULD NOT reject UCANs with resources that it does not know how to interpret.
+This array MUST contain some or none of the following: a strict subset (attenuation) of the proofs, resources originated by the `iss` DID (i.e. by parenthood), and resources that compositions of others (see rights amplification). This scoping also includes time ranges, making the witnesses that start latest and end soonest the lower and upper time bounds.
 
 The attenuation field MUST contain either a wildcard (`*`), or an array of JSON objects. A JSON capability MUST contain the `with` and `can` field, and MAY contain additional fields needed to describe the capability.
 
@@ -229,7 +227,7 @@ The attenuation field MUST contain either a wildcard (`*`), or an array of JSON 
 
 A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI is merely a unique identifier to describe the pointer to -- and within -- a resource.
 
-The same resource MAY be validly addressed several forms. For instance a database may be addressed at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
+The same resource MAY be addressed with several URI formats. For instance a database may be addressed at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
 Resource pointers MAY also include wildcards (`*`) to indicate "any resource of this type" -- even if not yet created -- bounded by attenuation witnesses. These are generally used for account linking. Wildcards are not required to delegate longer paths, as paths are generally taken as OR filters.
 
@@ -339,7 +337,7 @@ The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This re-dele
 
 # 5. Validation
 
-Each capability has its own semantics, which need to be interpretable by the target resource handler. A particular validator SHOULD NOT reject UCANs with resources that it does not know how to interpret.
+Each capability has its own semantics, which need to be interpretable by the target resource handler. A validator SHOULD NOT reject UCANs with resources that it does not know how to interpret.
 
 If any of the following criteria are not met, the UCAN MUST be considered invalid.
 
@@ -381,13 +379,13 @@ Any issuer of a UCAN MAY later revoke that UCAN, or the capabilities that have b
 
 This mechanism is eventually consistent, and SHOULD be considered a last line of defence against abuse. Proactive expiry via time bounds or other constraints SHOULD be preferred, as they do not require learning more information than what would be available on an offline computer.
 
-While some resources are centralized (e.g. access to a server), and others are unbound from specific locations (e.g. a CRDT), and will take longer for the revocation to propagate.
+While some resources are centralized (e.g. access to a server), others are unbound from specific locations (e.g. a CRDT), in which case it will take longer for the revocation to propagate.
 
 Every resource type SHOULD have a canonical location where its revocations are kept. This list is non-exclusive, and revocation messages MAY be gossiped between peers in a network to share this information more quickly.
 
 It is RECOMMENDED that the canonical revocation store be kept at as close to (or inside) the resource it is about as possible. For example, the WebNative File System maintains a Merkle tree of revoked CIDs at a well-known path. Another example is a centralized server could have an endpoint that lists the revoked UCANs by CID.
 
-Revocations MUST be irreversible. If the revocation was issued in error, a unique UCAN MAY be issued. This prevents confusion as the revocation moves through the network, and makes revocation stores append-only and highly amenable to caching.
+Revocations MUST be irreversible. If the revocation was issued in error, a unique UCAN MAY be issued (e.g. by updating the nonce, or changing the time bounds). This prevents confusion as the revocation moves through the network, and makes revocation stores append-only and highly amenable to caching.
 
 A revocation message MUST conform to the following format:
 
