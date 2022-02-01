@@ -12,7 +12,7 @@
 
 # 0. Abstract
 
-User Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifiable, delegable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability via chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifiable chain compression is enabled via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). UCAN improves on the familiarity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html) for a web context and native application context, allowing creation and discharge by any agent with a DID, including peer-to-peer beyond traditional cloud computing.
+User Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifiable, delegable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability with chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifiable chain compression is enabled via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). Beng encoded with the familiar JWT, UCAN improves on the familiarity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html) for web and native application contexts. UCANs allow for creation and discharge of authority by any agent with a DID, including traditional systems, and peer-to-peer architectures beyond traditional cloud computing.
 
 ## Language
 
@@ -231,12 +231,12 @@ The same resource MAY be addressed with several URI formats. For instance a data
 
 Resource pointers MAY also include wildcards (`*`) to indicate "any resource of this type" -- even if not yet created -- bounded by attenuation witnesses. These are generally used for account linking. Wildcards are not required to delegate longer paths, as paths are generally taken as OR filters.
 
-| Value | Meaning |
+| URI | Meaning |
 |-------|---------|
-| `{"with": "wnfs://user.example.com/path", ...}`      | File paths in our file system        |
-| `{"with": "my:*", ...}` | All apps that the iss has access to, including future ones |
+| `{"with": "mailto:boris@fission.codes", ...}`      | A single email address        |
+| `{"with": "my:*", ...}` | All resources that the iss has access to, including future ones |
 | `{"with": "my:dnslink", ...}` | All DNSLinks that the iss has access to, including future ones |
-| `{"with": "dnslink://myapp.fission.app", ...}` | A URL for an app (ideally the auto-assigned one) |
+| `{"with": "dnslink://myapp.fission.app", ...}` | A mutable pointer to some data |
 
 #### 3.2.4.2 Ability
 
