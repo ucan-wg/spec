@@ -46,7 +46,7 @@ The above analogies illustrate several important tradeoffs between these systems
 
 ## 1.3 Security Considerations
 
-Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of rights. These are proven by providing a "witness" -- some cryptographically signed data showing that this is either owned by the UCAN issuer, or that it was delegated to them by the root owner.
+Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of rights. These are proven by providing a "witness" — some cryptographically signed data showing that this is either owned by the UCAN issuer, or that it was delegated to them by the root owner.
 
 This signature chain is the root of trust. Private keys themselves SHOULD NOT move from one context to another: this is what the delegation mechanism provides: "sharing authority without sharing keys".
 
@@ -230,11 +230,11 @@ The attenuation field MUST contain an array of JSON objects, which MAY be empty.
 
 #### 3.2.4.1 Resource Pointer
 
-A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI is merely a unique identifier to describe the pointer to -- and within -- a resource.
+A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
 
 The same resource MAY be addressed with several URI formats. For instance a database may be addressed at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
-Resource pointers MAY also include wildcards (`*`) to indicate "any resource of this type" -- even if not yet created -- bounded by attenuation witnesses. These are generally used for account linking. Wildcards are not required to delegate longer paths, as paths are generally taken as OR filters.
+Resource pointers MAY also include wildcards (`*`) to indicate "any resource of this type" — even if not yet created — bounded by attenuation witnesses. These are generally used for account linking. Wildcards are not required to delegate longer paths, as paths are generally taken as OR filters.
 
 | URI                                            | Meaning                                                         |
 | ---------------------------------------------- | --------------------------------------------------------------- |
@@ -292,7 +292,7 @@ The following capabilities are REQUIRED to be implemented.
 
 ### 4.1.1. `my` Scheme
 
-The `my` URI scheme represents ownership over a resource -- typically by parenthood -- at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme describes delegating some or all ambient authority to another DID.
+The `my` URI scheme represents ownership over a resource — typically by parenthood — at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme describes delegating some or all ambient authority to another DID.
 
 The use case of "pairing" two DIDs by delegating all current and future resources is not uncommon when a user would like to use multiple devices as "root", but does not have access to all of them directly at all times.
 
@@ -350,7 +350,7 @@ If any of the following criteria are not met, the UCAN MUST be considered invali
 
 A UCAN's time bounds MUST NOT be considered valid if the current system time is prior to the `nbf` field, or after the `exp` field. This is called "ambient time validity".
 
-All witnesses MUST contain time bounds equal to or wider than the UCAN being delegated to. If the witness expires before the outer UCAN -- or starts after it -- the reader MUST treat the UCAN as invalid. This is called "timely delegation".
+All witnesses MUST contain time bounds equal to or wider than the UCAN being delegated to. If the witness expires before the outer UCAN — or starts after it — the reader MUST treat the UCAN as invalid. This is called "timely delegation".
 
 A UCAN is valid inclusive from the `nbf` time, and until the `exp` field. If the current time is outside of these bounds, the UCAN MUST be considered invalid. A delegator or invoker SHOULD account for expected clock drift when setting these bounds. This is called "timely invocation".
 
