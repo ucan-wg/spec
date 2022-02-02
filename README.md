@@ -110,7 +110,7 @@ UCANs MUST be formatted as JWTs, with additional required and optional keys. The
 
 The header MUST include all of the following fields:
 | Field | Type     | Description                    | Required |
-|-------|----------|--------------------------------|----------|
+| ----- | -------- | ------------------------------ | -------- |
 | `alg` | `String` | Signature algorithm            | Yes      |
 | `typ` | `String` | Type (MUST be `"JWT"`)         | Yes      |
 | `ucv` | `String` | UCAN Semantic Version (v2.0.0) | Yes      |
@@ -134,7 +134,7 @@ EdDSA as applied to JOSE (including JWT) is described in [RFC 8037](https://data
 The payload MUST describe the authorization claims being made, who is involved, and its validity period.
 
 | Field | Type       | Description                                      | Required |
-|-------|------------|--------------------------------------------------|----------|
+| ----- | ---------- | ------------------------------------------------ | -------- |
 | `iss` | `String`   | Issuer DID (sender)                              | Yes      |
 | `aud` | `String`   | Audience DID (receiver)                          | Yes      |
 | `nbf` | `Number`   | Not Before UTC Unix Timestamp (valid from)       | No       |
@@ -231,12 +231,12 @@ The same resource MAY be addressed with several URI formats. For instance a data
 
 Resource pointers MAY also include wildcards (`*`) to indicate "any resource of this type" -- even if not yet created -- bounded by attenuation witnesses. These are generally used for account linking. Wildcards are not required to delegate longer paths, as paths are generally taken as OR filters.
 
-| URI | Meaning |
-|-------|---------|
-| `{"with": "mailto:boris@fission.codes", ...}`      | A single email address        |
-| `{"with": "my:*", ...}` | All resources that the iss has access to, including future ones |
-| `{"with": "my:dnslink", ...}` | All DNSLinks that the iss has access to, including future ones |
-| `{"with": "dnslink://myapp.fission.app", ...}` | A mutable pointer to some data |
+| URI                                            | Meaning                                                         |
+| ---------------------------------------------- | --------------------------------------------------------------- |
+| `{"with": "mailto:boris@fission.codes", ...}`  | A single email address                                          |
+| `{"with": "my:*", ...}`                        | All resources that the iss has access to, including future ones |
+| `{"with": "my:dnslink", ...}`                  | All DNSLinks that the iss has access to, including future ones  |
+| `{"with": "dnslink://myapp.fission.app", ...}` | A mutable pointer to some data                                  |
 
 #### 3.2.4.2 Ability
 
