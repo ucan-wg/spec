@@ -247,7 +247,7 @@ Resource pointers MAY also include wildcards (`*`) to indicate "any resource of 
 
 The `can` field describes the verb portion of the capability: an action, potency, or ability. For instance, the standard HTTP methods `GET`, `PUT`, and `POST` are possible `can` values for an `http` resource. Arbitrary semantics can be described, but must be a valid way to describe actions on the resource.
 
-Abilities MAY be organized in a hierarchy with enums. A common example is super user access ("anything") on a file system. Another would be read vs write access, such that in an HTTP context `READ` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
+Abilities MAY be organized in a hierarchy with enums. A common example is superuser access ("anything") on a file system. Another is read vs write access, such that in an HTTP context `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
 Abilities MUST NOT be case sensitive, and MUST be namespaced by at least one path segment. For instance, `http/PUT` and `foo/PUT` MUST be treated as unique from each other.
 
