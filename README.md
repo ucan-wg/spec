@@ -168,7 +168,7 @@ The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid be
 
 The `exp` field MUST be set. If the time is in the past, the token MUST fail validation.
 
-It is RECOMMENDED to keep the window of validity be as short as possible. By limiting the time range, the risk of a malicious user abusing a UCAN. This is situationally dependent, as trusted devices may not want to  reauthorize it very often. Due to clock drift, time bounds SHOULD NOT be considered exact. A buffer of ±60 seconds is RECOMMENDED.
+It is RECOMMENDED to keep the window of validity as short as possible. By limiting the time range, the risk of a malicious user abusing a UCAN can be mitigated. This is situationally dependent, and it may be desirable to limit the frequency of forced reauthorizations for trusted devices. Due to clock drift, time bounds SHOULD NOT be considered exact. A buffer of ±60 seconds is RECOMMENDED.
 
 #### Examples
 
