@@ -380,7 +380,7 @@ Due to the potential for unresolvable CIDs, this SHOULD NOT be the preferred met
 
 ## 5.7 Revocation
 
-Any issuer of a UCAN MAY later revoke that UCAN, or the capabilities that have been derived from it further downstream in a UCAN chain.
+Any issuer of a UCAN MAY later revoke that UCAN, or the capabilities that have been derived from it further downstream in a proof chain.
 
 This mechanism is eventually consistent, and SHOULD be considered a last line of defence against abuse. Proactive expiry via time bounds or other constraints SHOULD be preferred, as they do not require learning more information than what would be available on an offline computer.
 
