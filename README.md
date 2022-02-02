@@ -28,7 +28,7 @@ With increasing interconnectivity between machines becoming commonplace, authori
 
 A large portion of personal information now also moves through connected systems. Data privacy is a prominent theme when considering the design of modern applications, to the point of being legislated in parts of the world. 
 
-Ahead-of-time coordination is often a barrier to development in many projects. Flexibility to define specialized authorization semantics for a resources, and the ability to trustlessly integrate with external systems are important as the number of autonomous, specialized, and coordinating applications increases.
+Ahead-of-time coordination is often a barrier to development in many projects. Flexibility to define specialized authorization semantics for resources, and the ability to trustlessly integrate with external systems are important as the number of autonomous, specialized, and coordinating applications increases.
 
 Many high-value applications run in hostile environments. In recognition of this, many vendors now include public key functionality, such as [non-extractable keys in browsers](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey), [certificate systems for external keys](https://fidoalliance.org/fido-authentication/), and [secure hardware enclaves](https://support.apple.com/en-ca/guide/security/sec59b0b31ff) in widespread consumer devices.
 
