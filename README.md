@@ -24,7 +24,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 Since at least the release of Unix, the most popular form of digital authorization has been access control lists (ACLs), where a list of what each user is allowed to do is maintained on the resource. ACLs have been a successful model and are suited to architectures where persistent access to a single list is viable. This requires that rules are sufficiently well specified, such as in a centralized database with rules covering all possible permutations of rights.
 
-With increasing interconnectivity between machines becoming commonplace, authorization needs to scale to meet the demands of the high load and partition faulty reality of distributed systems. It is not always practical to maintain a single central source of authorizations. Even when copies of the authorization list is distributed to the relevant servers, latency and partitions introduce particularly troublesome challenges with conflicting updates, to say nothing of storage requirements.
+With increasing interconnectivity between machines becoming commonplace, authorization needs to scale to meet the load demands of distributed systems, while providing partition tolerance. It is not always practical to maintain a single central source of authorizations. Even when copies of the authorization list is distributed to the relevant servers, latency and partitions introduce particularly troublesome challenges with conflicting updates, to say nothing of storage requirements.
 
 A large portion of personal information now also moves through connected systems. Data privacy is a prominent theme when considering the design of modern applications, to the point of being legislated in parts of the world. 
 
