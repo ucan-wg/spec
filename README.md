@@ -212,7 +212,12 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 
 The attenuation scope (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous access scopes (defined below). This array MAY be empty.
 
-This array MUST contain some or none of the following: a strict subset (attenuation) of the proofs, resources originated by the `iss` DID (i.e. by parenthood), and resources that compositions of others (see rights amplification). This scoping also includes time ranges, making the witnesses that start latest and end soonest the lower and upper time bounds.
+This array MUST contain some or none of the following:
+1. A strict subset (attenuation) of the witnesses
+2. Witnesses originated by the `iss` DID (i.e. by parenthood)
+3. Witnesses composed from other witnesses (see rights amplification)
+
+This scoping also includes time ranges, and the witnesses that start latest and end soonest form the lower and upper time bounds of the range.
 
 The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST contain the `with` and `can` field, and MAY contain additional fields needed to describe the capability.
 
