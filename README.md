@@ -102,6 +102,10 @@ Revocation is the act of invalidating a UCAN after the fact, outside of the limi
 
 In the case of UCAN, this MUST be done by a witness issuer DID. For more on the exact mechanism, see the revocation validation section.
 
+## 2.8 Invocation
+
+UCANs are used to delegate capabailities between DID-holding agents, eventually terminating in an "invocation" of those capability. This is when the capability is exercised to perform some task on the resource. Note that the only agent that is allowed to perform an action with a UCAN MUST be the one holding the DID private key associated with the `aud` field. For more on the validation, see [§5.2.1](#521-invocation-recipient-validation).
+
 # 3. JWT Structure
 
 UCANs MUST be formatted as JWTs, with additional required and optional keys. The overall container of a header, claims, and signature remain. Please refer to [RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519) for more on this format.
@@ -403,6 +407,8 @@ The following UCAN fragment would be be valid to dischange as `did:key:zH3C2AVvL
   // ...
 }
 ```
+
+A good litmus test for invocation validity by a discharging agent is to check if they would  be able to create a valid delegation for that capability.
 
 ## 5.3 Witness Chaining
 
