@@ -76,47 +76,44 @@ For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The act
 
 A capability is the association of an action to a resource: `resource x action`
 
-## 2.4  Scope
+## 2.4 Capability Pool
 
-An authorization scope is a set of capabilities. Scopes MUST compose with set semantics, so multiple scopes in an array MAY be considered the (deduplicated) union of all of the inner scopes.
+A capability pool is a set of capabilities. Pools MUST compose with set semantics, so multiple pools in an array MAY be considered the (deduplicated) union of all of the inner capabilities.
 
 ``` plaintext
-                 ┌───────────────────┐  ──┐
-                 │                   │    │
-                 │                   │    │
-┌────────────────┼───┐               │    │
-│                │   │ Resource B    │    │     BxZ
-│                │   │               │    │
-│                │   │     X         │    ├─── Capability
-│     Resource A │   │               │    │
-│                │   │ Ability Z     │    │
-│         X      │   │               │    │
-│                │   │               │    │
-│     Ability Y  │   │               │    │
-│                └───┼───────────────┘  ──┘
+                 ┌───────────────────┐  ─┐
+                 │                   │   │
+                 │                   │   │
+┌────────────────┼───┐               │   │
+│                │   │ Resource B    │   │     
+│                │   │               │   │       BxZ
+│                │   │     X         │   ├─── Capability
+│     Resource A │   │               │   │
+│                │   │ Ability Z     │   │
+│         X      │   │               │   │
+│                │   │               │   │
+│     Ability Y  │   │               │   │
+│                └───┼───────────────┘  ─┘
 │                    │
 │                    │
 └────────────────────┘
 
-│                                    │
 └──────────────────┬─────────────────┘
                    │
 
                AxY U BxZ
-                 Scope
+                  Pool
 ```
 
-![](./assets/scope_union.jpg)
+The "pool" is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the pool is the union. With the exception of [rights amplification](#54-rights-amplification), every individual delegation MUST have equal or narrower capabilties from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities.
 
-The "scope" is the total rights of the authorization space down to the relevant volume of authorizations. With the exception of [rights amplification](#54-rights-amplification), every individual delegation MUST have equal or less scope from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities.
-
-As a practical matter, since scopes form a group, you can be fairly loose: order doesn’t matter, and merging resources can be quite broad since the more capable of any overlap will take precedence (i.e. you don’t need a clean separation).
+As a practical matter, since pools form a group, you can be fairly loose: order doesn’t matter, and merging resources can be quite broad since the more capable of any overlap will take precedence (i.e. you don’t need a clean separation).
 
 ## 2.5 Delegation
 
-Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). This MUST be proven by a "witness", which is either the signature of the owning principal, or a UCAN that has access to that capability in its scope.
+Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). This MUST be proven by a "witness", which is either the signature of the owning principal, or a UCAN that has access to that capability in its capability pool.
 
-Each direct delegation leaves the scope of the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of different types, if part of the resource's semantics. 
+Each direct delegation leaves of the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of different types, if part of the resource's semantics. 
 
 ## 2.6 Attenuation
 
@@ -238,16 +235,16 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 ]
 ```
 
-### 3.2.5 Attenuation Scope
+### 3.2.5 Attenuations
 
-The attenuation scope (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous access scopes (defined below). This array MAY be empty.
+The attenuations (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous capabilities (defined below). This array MAY be empty.
 
 This array MUST contain some or none of the following:
 1. A strict subset (attenuation) of the witnesses
 2. Witnesses originated by the `iss` DID (i.e. by parenthood)
 3. Witnesses composed from other witnesses (see rights amplification)
 
-This scoping also includes time ranges, and the witnesses that start latest and end soonest form the lower and upper time bounds of the range.
+This array also includes time ranges, and the witnesses that start latest and end soonest form the lower and upper time bounds of the range.
 
 The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST contain the `with` and `can` field, and MAY contain additional fields needed to describe the capability.
 
@@ -365,7 +362,7 @@ The action for `my:*` or `as:*` MUST be the [superuser action `*`](#41-superuser
 {"with": "as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto", "can": "msg/SEND"}
 ```
 
-For `my` and `as` capabilities scoped to some scheme, the action MUST be one normally associated with that resource. As it belongs to every action heirarchy, this MAY be the [superuser action `*`](#41-superuser).
+For `my` and `as` capabilities limited to some scheme, the action MUST be one normally associated with that resource. As it belongs to every action heirarchy, this MAY be the [superuser action `*`](#41-superuser).
 
 ``` json
 {"with": "my:dns", "can": "crud/UPDATE"}
@@ -383,7 +380,7 @@ prf = "prf" selector
 selector = "*" / 1*DIGIT
 ```
 
-`prf:*` represents all of the UCANs in the current proof scope. The witnesses for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular witness (i.e. not the wildcard), then a zero-indexed MUST be used. The first UCAN would be selected by `prf:0`, the second by `prf:1`, and so on. By virtue of the indexing scheme, selections MUST be performed on the current UCAN only, and cannot recursively on nested witnesses.
+`prf:*` represents all of the UCANs in the current proofs array. The witnesses for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular witness (i.e. not the wildcard), then a zero-indexed MUST be used. The first UCAN would be selected by `prf:0`, the second by `prf:1`, and so on. By virtue of the indexing scheme, selections MUST be performed on the current UCAN only, and cannot recursively on nested witnesses.
 
 Further selection of capabilities inside fo specific witnesses MUST NOT be a valid parsing of this URI. For instance, `prf:0:mailto` MUST NOT be a valid `prf` URI.
 
@@ -440,7 +437,7 @@ A good litmus test for invocation validity by a discharging agent is to check if
 
 Each capability MUST either be originated by the issuer (root capability, or "parenthood"), or have one-or-more witnesses in the `prf` field to attest that this issuer is authorized to use that capability ("introduction"). In the introduction case, this check must be recursively applied to its witnesses, until a root witness is found (i.e. issued by the resource owner).
 
-With the exception of rights amplification (below), each delegation of a capability MUST have equal or lesser scope from its witness. The time bounds MUST also be equal to or contained inside the time bounds of the witnesses time bounds. This lowering of rights at each delegation is called "attenuation".
+With the exception of rights amplification (below), each delegation of a capability MUST have equal or narrower capabilties from its witnesses. The time bounds MUST also be equal to or contained inside the time bounds of the witnesses time bounds. This lowering of rights at each delegation is called "attenuation".
 
 ## 5.4 Rights Amplification
 
