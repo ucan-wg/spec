@@ -245,7 +245,7 @@ The same resource MAY be addressed with several URI formats. For instance a data
 
 The `can` field describes the verb portion of the capability: an action that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST be applicable to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
 
-Abilities MAY be organized in a hierarchy with enums. A common example is superuser access ("anything") on a file system. Another is read vs write access, such that in an HTTP context `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
+Abilities MAY be organized in a hierarchy with enums. A common example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
 Abilities MUST NOT be case sensitive. For example, `http/post`, `http/POST`, `HTTP/post`, `HTTP/POST`, and `hTtP/pOsT` MUST all mean the same ability.
 
@@ -359,7 +359,18 @@ Further selection of capabilities inside fo specific witnesses MUST NOT be a val
 
 ### 4.3.2 `prf` Actions
 
-The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This re-delegates all of the capabilities in the selected witness(es).
+The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This redelegates all of the capabilities in the selected witness(es).
+
+`ucan/delegate` is distinct from the superuser ability, and acts as a re-export of the ability. If an attenuated resource or capabilty is desired, then it MUST be explicitly listed without the `prf` URI scheme.
+
+``` js
+{ 
+  "with": "prf:7", // Contains: { "with": "mailto:boris@example.com", "can": "email/send" }
+  "can": "ucan/DELEGATE"
+} 
+
+{ "with": "prf:*", "can": "ucan/DELEGATE" }
+```
 
 # 5. Validation
 
