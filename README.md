@@ -409,7 +409,7 @@ If any of the following criteria are not met, the UCAN MUST be considered invali
 
 A UCAN's time bounds MUST NOT be considered valid if the current system time is prior to the `nbf` field, or after the `exp` field. This is called "ambient time validity".
 
-All witnesses MUST contain time bounds equal to or wider than the UCAN being delegated to. If the witness expires before the outer UCAN — or starts after it — the reader MUST treat the UCAN as invalid. This is called "timely delegation". This conditions MUST hold even if the current wall clock time is inside the misdelegated bounds. 
+All witnesses MUST contain time bounds equal to or wider than the UCAN being delegated to. If the witness expires before the outer UCAN — or starts after it — the reader MUST treat the UCAN as invalid. This is called "timely delegation". These conditions MUST hold even if the current wall clock time is inside the misdelegated bounds. 
 
 A UCAN is valid inclusive from the `nbf` time, and until the `exp` field. If the current time is outside of these bounds, the UCAN MUST be considered invalid. A delegator or invoker SHOULD account for expected clock drift when setting these bounds. This is called "timely invocation".
 
