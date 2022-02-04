@@ -80,6 +80,32 @@ A capability is the association of an action to a resource: `resource x action`
 
 An authorization scope is a set of capabilities. Scopes MUST compose with set semantics, so multiple scopes in an array MAY be considered the (deduplicated) union of all of the inner scopes.
 
+``` plaintext
+                 ┌───────────────────┐  ──┐
+                 │                   │    │
+                 │                   │    │
+┌────────────────┼───┐               │    │
+│                │   │ Resource B    │    │     BxZ
+│                │   │               │    │
+│                │   │     X         │    ├─── Capability
+│     Resource A │   │               │    │
+│                │   │ Ability Z     │    │
+│         X      │   │               │    │
+│                │   │               │    │
+│     Ability Y  │   │               │    │
+│                └───┼───────────────┘  ──┘
+│                    │
+│                    │
+└────────────────────┘
+
+│                                    │
+└──────────────────┬─────────────────┘
+                   │
+
+               AxY U BxZ
+                 Scope
+```
+
 ![](./assets/scope_union.jpg)
 
 The "scope" is the total rights of the authorization space down to the relevant volume of authorizations. With the exception of [rights amplification](#54-rights-amplification), every individual delegation MUST have equal or less scope from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities.
@@ -396,9 +422,9 @@ In delegation, the `aud` field of every witness MUST match the `iss` field of th
 
 ### 5.2.1 Invocation Recipient Validation
 
-An agent discharging a capability MUST verify that the outermost `aud` field _matches its own DID._ If they do not match, the associated action MUST NOT be performed. This is REQUIRED in order to prevent the misuse of UCANs in the unintended context.
+An agent discharging a capability MUST verify that the outermost `aud` field _matches its own DID._ If they do not match, the associated action MUST NOT be performed. This is REQUIRED in order to prevent the misuse of UCANs in an unintended context.
 
-The following UCAN fragment would be be valid to dischange as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. The agent with DID `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT accept this UCAN.
+The following UCAN fragment would be valid to dischange as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. The agent with DID `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT accept this UCAN.
 
 ``` js
 {
