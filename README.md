@@ -76,7 +76,7 @@ For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The act
 
 A capability is the association of an action to a resource: `resource x action`
 
-## 2.4 Scope
+## 2.4  Scope
 
 An authorization scope is a set of capabilities. Scopes MUST compose with set semantics, so multiple scopes in an array MAY be considered the (deduplicated) union of all of the inner scopes.
 
@@ -382,7 +382,7 @@ If any of the following criteria are not met, the UCAN MUST be considered invali
 
 A UCAN's time bounds MUST NOT be considered valid if the current system time is prior to the `nbf` field, or after the `exp` field. This is called "ambient time validity".
 
-All witnesses MUST contain time bounds equal to or wider than the UCAN being delegated to. If the witness expires before the outer UCAN — or starts after it — the reader MUST treat the UCAN as invalid. This is called "timely delegation".
+All witnesses MUST contain time bounds equal to or wider than the UCAN being delegated to. If the witness expires before the outer UCAN — or starts after it — the reader MUST treat the UCAN as invalid. This is called "timely delegation". This conditions MUST hold even if the current wall clock time is inside the misdelegated bounds. 
 
 A UCAN is valid inclusive from the `nbf` time, and until the `exp` field. If the current time is outside of these bounds, the UCAN MUST be considered invalid. A delegator or invoker SHOULD account for expected clock drift when setting these bounds. This is called "timely invocation".
 
@@ -390,7 +390,19 @@ A UCAN is valid inclusive from the `nbf` time, and until the `exp` field. If the
 
 In delegation, the `aud` field of every witness MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain all the way back to the originating principal for each resource.
 
-An agent discharging a capability MUST verify that the outermost `aud` field matches its own DID. If they do not match, the associated action MUST NOT be performed.
+### 5.2.1 Invocation Recipient Validation
+
+An agent discharging a capability MUST verify that the outermost `aud` field _matches its own DID._ If they do not match, the associated action MUST NOT be performed. This is REQUIRED in order to prevent the misuse of UCANs in the unintended context.
+
+The following UCAN fragment would be be valid to dischange as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. The agent with DID `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT accept this UCAN.
+
+``` js
+{
+  "aud": "did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV",
+  "iss": "did:key:zAKJP3f7BD6W4iWEQ9jwndVTCBq8ua2Utt8EEjJ6Vxsf",
+  // ...
+}
+```
 
 ## 5.3 Witness Chaining
 
