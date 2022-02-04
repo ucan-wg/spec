@@ -12,7 +12,7 @@
 
 # 0. Abstract
 
-User Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifiable, delegable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability with chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifiable chain compression is enabled via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). Beng encoded with the familiar JWT, UCAN improves on the familiarity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html) for web and native application contexts. UCANs allow for creation and discharge of authority by any agent with a DID, including traditional systems, and peer-to-peer architectures beyond traditional cloud computing.
+User Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifiable, delegable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability with chained certificates, and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifiable chain compression is enabled via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). Being encoded with the familiar JWT, UCAN improves on the familiarity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html) for web and native application contexts. UCANs allow for creation and discharge of authority by any agent with a DID, including traditional systems, and peer-to-peer architectures beyond traditional cloud computing.
 
 ## Language
 
@@ -24,11 +24,11 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 Since at least the release of Unix, the most popular form of digital authorization has been access control lists (ACLs), where a list of what each user is allowed to do is maintained on the resource. ACLs have been a successful model and are suited to architectures where persistent access to a single list is viable. This requires that rules are sufficiently well specified, such as in a centralized database with rules covering all possible permutations of rights.
 
-With increasing interconnectivity between machines becoming commonplace, authorization needs to scale to meet the demands of the high load and partition faulty reality of distributed systems. It is not always practical to maintain a single central source of authorizations. Even when copies of the authorization list is distributed to the relevant servers, latency and partitions introduce particularly troublesome challenges with conflicting updates, to say nothing of storage requirements.
+With increasing interconnectivity between machines becoming commonplace, authorization needs to scale to meet the load demands of distributed systems, while providing partition tolerance. It is not always practical to maintain a single central source of authorizations. Even when copies of the authorization list is distributed to the relevant servers, latency and partitions introduce particularly troublesome challenges with conflicting updates, to say nothing of storage requirements.
 
 A large portion of personal information now also moves through connected systems. Data privacy is a prominent theme when considering the design of modern applications, to the point of being legislated in parts of the world. 
 
-Ahead-of-time coordination is often a barrier to development in many projects. Flexibility to define specialized authorization semantics for a resources, and the ability to trustlessly integrate with external systems are important as the number of autonomous, specialized, and coordinating applications increases.
+Ahead-of-time coordination is often a barrier to development in many projects. Flexibility to define specialized authorization semantics for resources, and the ability to trustlessly integrate with external systems are important as the number of autonomous, specialized, and coordinating applications increases.
 
 Many high-value applications run in hostile environments. In recognition of this, many vendors now include public key functionality, such as [non-extractable keys in browsers](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey), [certificate systems for external keys](https://fidoalliance.org/fido-authentication/), and [secure hardware enclaves](https://support.apple.com/en-ca/guide/security/sec59b0b31ff) in widespread consumer devices.
 
@@ -46,13 +46,13 @@ The above analogies illustrate several important tradeoffs between these systems
 
 ## 1.3 Security Considerations
 
-Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of rights. These are proven by providing a "witness" -- some cryptographically signed data showing that this is either owned by the UCAN issuer, or that it was delegated to them by the root owner.
+Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of rights. These are proven by providing a "witness" — some cryptographically signed data showing that this is either owned by the UCAN issuer, or that it was delegated to them by the root owner.
 
 This signature chain is the root of trust. Private keys themselves SHOULD NOT move from one context to another: this is what the delegation mechanism provides: "sharing authority without sharing keys".
 
 UCANs (and other forms of PKI) depend on the ambient authority of the owner of each resource. This means that the discharging agent must be able to verify the root ownership at decision time. The rest of the chain in-between is self-certifying.
 
-While certificate chains go a long way toward improving security, they do not provide confinement on their own. As such, the principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for, and reducing authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical, since they have the ability to further sub-delegate their authority to others without alerting their delegator. UCANs do not enforce have confinement (as that would require all processes to be online), and so it is not possible to have certainty that you know of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort. 
+While certificate chains go a long way toward improving security, they do not provide [confinement](http://www.erights.org/elib/capability/dist-confine.html) on their own. As such, the principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for, and reducing authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical, since they have the ability to further sub-delegate their authority to others without alerting their delegator. UCANs do not offer confinement (as that would require all processes to be online), and so it is not possible to guarantee knowledge of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort.
 
 ## 1.4 Inversion of Control
 
@@ -68,7 +68,7 @@ A resource is some data or process that has an address. It can be anything from 
 
 ## 2.2 Action
 
-An action possible on some resource. Each action MAY have its own semantics. They MAY be unary, support a hierarchy, be monotone, partial orders, and so on. Actions MAY be general and applicable to many kinds of resource, or tied to a specific one.
+An action is performed against some resource. Each action MAY have its own semantics. They MAY be unary, support a hierarchy, be monotone, partial orders, and so on. Actions MAY be general and applicable to many kinds of resource, or tied to a specific one.
 
 For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The action `wnfs/OVERWRITE` also implies the ability to append. Email has no such tiered relationship. One can `email/SEND`, but there is no concept of a ”super send”.
 
@@ -110,7 +110,7 @@ UCANs MUST be formatted as JWTs, with additional required and optional keys. The
 
 The header MUST include all of the following fields:
 | Field | Type     | Description                    | Required |
-|-------|----------|--------------------------------|----------|
+| ----- | -------- | ------------------------------ | -------- |
 | `alg` | `String` | Signature algorithm            | Yes      |
 | `typ` | `String` | Type (MUST be `"JWT"`)         | Yes      |
 | `ucv` | `String` | UCAN Semantic Version (v2.0.0) | Yes      |
@@ -134,7 +134,7 @@ EdDSA as applied to JOSE (including JWT) is described in [RFC 8037](https://data
 The payload MUST describe the authorization claims being made, who is involved, and its validity period.
 
 | Field | Type       | Description                                      | Required |
-|-------|------------|--------------------------------------------------|----------|
+| ----- | ---------- | ------------------------------------------------ | -------- |
 | `iss` | `String`   | Issuer DID (sender)                              | Yes      |
 | `aud` | `String`   | Audience DID (receiver)                          | Yes      |
 | `nbf` | `Number`   | Not Before UTC Unix Timestamp (valid from)       | No       |
@@ -146,7 +146,7 @@ The payload MUST describe the authorization claims being made, who is involved, 
 
 ### 3.2.1 Principals
 
-The `iss` and `aud` fields describe the token's principals. This can be conceptualized as a "to" and "from" of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key` method](https://w3c-ccg.github.io/did-method-key/), and MAY be augmented with [additional DID methods](https://www.w3.org/TR/did-core/).
+The `iss` and `aud` fields describe the token's principals. These can be conceptualized as the sender and receiver of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key` method](https://w3c-ccg.github.io/did-method-key/), and MAY be augmented with [additional DID methods](https://www.w3.org/TR/did-core/).
 
 #### Examples
 
@@ -168,7 +168,7 @@ The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid be
 
 The `exp` field MUST be set. If the time is in the past, the token MUST fail validation.
 
-It is RECOMMENDED to keep the window of validity be as short as possible. By limiting the time range, the risk of a malicious user abusing a UCAN. This is situationally dependent, as trusted devices may not want to  reauthorize it very often. Due to clock drift, time bounds SHOULD NOT be considered exact. A buffer of ±60 seconds is RECOMMENDED.
+It is RECOMMENDED to keep the window of validity as short as possible. By limiting the time range, the risk of a malicious user abusing a UCAN can be mitigated. This is situationally dependent, and it may be desirable to limit the frequency of forced reauthorizations for trusted devices. Due to clock drift, time bounds SHOULD NOT be considered exact. A buffer of ±60 seconds is RECOMMENDED.
 
 #### Examples
 
@@ -179,7 +179,7 @@ It is RECOMMENDED to keep the window of validity be as short as possible. By lim
 
 ### 3.2.3 Nonce
 
-The OPTIONAL nonce parameter `nnc` MAY be any value. A randomly generated string is RECOMMENDED to provide a unique UCAN, though it MAY also be a monotonically increasing count of hash link. This field helps prevent replay attacks, and ensures a unique CID per delegation. The `iss`, `aud`, and `exp` fields together will often ensure that UCANs are unique, but adding the nonce ensures this uniqueness.
+The OPTIONAL nonce parameter `nnc` MAY be any value. A randomly generated string is RECOMMENDED to provide a unique UCAN, though it MAY also be a monotonically increasing count of the number of links in the hash chain. This field helps prevent replay attacks, and ensures a unique CID per delegation. The `iss`, `aud`, and `exp` fields together will often ensure that UCANs are unique, but adding the nonce ensures this uniqueness.
 
 This field SHOULD NOT be used to sign arbitrary data, such as signature challenges. See the `fct` field for more.
 
@@ -212,7 +212,12 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 
 The attenuation scope (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous access scopes (defined below). This array MAY be empty.
 
-This array MUST contain some or none of the following: a strict subset (attenuation) of the proofs, resources originated by the `iss` DID (i.e. by parenthood), and resources that compositions of others (see rights amplification). This scoping also includes time ranges, making the witnesses that start latest and end soonest the lower and upper time bounds.
+This array MUST contain some or none of the following:
+1. A strict subset (attenuation) of the witnesses
+2. Witnesses originated by the `iss` DID (i.e. by parenthood)
+3. Witnesses composed from other witnesses (see rights amplification)
+
+This scoping also includes time ranges, and the witnesses that start latest and end soonest form the lower and upper time bounds of the range.
 
 The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST contain the `with` and `can` field, and MAY contain additional fields needed to describe the capability.
 
@@ -225,24 +230,24 @@ The attenuation field MUST contain an array of JSON objects, which MAY be empty.
 
 #### 3.2.4.1 Resource Pointer
 
-A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI is merely a unique identifier to describe the pointer to -- and within -- a resource.
+A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient is able to decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
 
 The same resource MAY be addressed with several URI formats. For instance a database may be addressed at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
-Resource pointers MAY also include wildcards (`*`) to indicate "any resource of this type" -- even if not yet created -- bounded by attenuation witnesses. These are generally used for account linking. Wildcards are not required to delegate longer paths, as paths are generally taken as OR filters.
+Resource pointers MAY also include wildcards (`*`) to indicate "any resource of this type" — even if not yet created — bounded by attenuation witnesses. These are generally used for account linking. Wildcards are not required to delegate longer paths, as paths are generally taken as OR filters.
 
-| URI | Meaning |
-|-------|---------|
-| `{"with": "mailto:boris@fission.codes", ...}`      | A single email address        |
-| `{"with": "my:*", ...}` | All resources that the iss has access to, including future ones |
-| `{"with": "my:dnslink", ...}` | All DNSLinks that the iss has access to, including future ones |
-| `{"with": "dnslink://myapp.fission.app", ...}` | A mutable pointer to some data |
+| URI                                            | Meaning                                                         |
+| ---------------------------------------------- | --------------------------------------------------------------- |
+| `{"with": "mailto:boris@fission.codes", ...}`  | A single email address                                          |
+| `{"with": "my:*", ...}`                        | All resources that the iss has access to, including future ones |
+| `{"with": "my:dnslink", ...}`                  | All DNSLinks that the iss has access to, including future ones  |
+| `{"with": "dnslink://myapp.fission.app", ...}` | A mutable pointer to some data                                  |
 
 #### 3.2.4.2 Ability
 
-The `can` field describes the verb portion of the capability: an action, potency, or ability. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. Arbitrary semantics can be described, but must be a valid way to describe actions on the resource.
+The `can` field describes the verb portion of the capability: an action, potency, or ability. For instance, the standard HTTP methods `GET`, `PUT`, and `POST` are possible `can` values for an `http` resource. Arbitrary semantics can be described, but must be a valid way to describe actions on the resource.
 
-Abilities MAY be organized in a hierarchy with enums. A common example is super user access ("anything") on a file system. Another would be read vs write access, such that in an HTTP context `READ` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
+Abilities MAY be organized in a hierarchy with enums. A common example is superuser access ("anything") on a file system. Another is read vs write access, such that in an HTTP context `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
 Abilities MUST NOT be case sensitive, and MUST be namespaced by at least one path segment. For instance, `http/PUT` and `foo/PUT` MUST be treated as unique from each other.
 
@@ -287,7 +292,7 @@ The following capabilities are REQUIRED to be implemented.
 
 ### 4.1.1. `my` Scheme
 
-The `my` URI scheme represents ownership over a resource -- typically by parenthood -- at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme describes delegating some or all ambient authority to another DID.
+The `my` URI scheme represents ownership over a resource — typically by parenthood — at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme describes delegating some or all ambient authority to another DID.
 
 The use case of "pairing" two DIDs by delegating all current and future resources is not uncommon when a user would like to use multiple devices as "root", but does not have access to all of them directly at all times.
 
@@ -345,7 +350,7 @@ If any of the following criteria are not met, the UCAN MUST be considered invali
 
 A UCAN's time bounds MUST NOT be considered valid if the current system time is prior to the `nbf` field, or after the `exp` field. This is called "ambient time validity".
 
-All witnesses MUST contain time bounds equal to or wider than the UCAN being delegated to. If the witness expires before the outer UCAN -- or starts after it -- the reader MUST treat the UCAN as invalid. This is called "timely delegation".
+All witnesses MUST contain time bounds equal to or wider than the UCAN being delegated to. If the witness expires before the outer UCAN — or starts after it — the reader MUST treat the UCAN as invalid. This is called "timely delegation".
 
 A UCAN is valid inclusive from the `nbf` time, and until the `exp` field. If the current time is outside of these bounds, the UCAN MUST be considered invalid. A delegator or invoker SHOULD account for expected clock drift when setting these bounds. This is called "timely invocation".
 
@@ -375,7 +380,7 @@ Due to the potential for unresolvable CIDs, this SHOULD NOT be the preferred met
 
 ## 5.7 Revocation
 
-Any issuer of a UCAN MAY later revoke that UCAN, or the capabilities that have been derived from it further downstream in a UCAN chain.
+Any issuer of a UCAN MAY later revoke that UCAN, or the capabilities that have been derived from it further downstream in a proof chain.
 
 This mechanism is eventually consistent, and SHOULD be considered a last line of defence against abuse. Proactive expiry via time bounds or other constraints SHOULD be preferred, as they do not require learning more information than what would be available on an offline computer.
 
@@ -405,7 +410,7 @@ Revocations MAY be deleted once the UCAN they reference expires or otherwise bec
 
 ## 5.8 Backwards Compatibility
 
-A UCAN validator MAY implement backawrds compatibility with previous version of UCAN. Delegated UCANs MUST be of equal or higher version than their proofs. For example, a v0.8.0 UCAN that includes witnesses that are separately v0.8.0, v0.7.0, and v0.5.0 MAY be considered valid. A v0.5.0 that has a UCAN v0.8.0 witness MUST NOT be considered valid.
+A UCAN validator MAY implement backwards compatibility with previous version of UCAN. Delegated UCANs MUST be of equal or higher version than their proofs. For example, a v0.8.0 UCAN that includes witnesses that are separately v0.8.0, v0.7.0, and v0.5.0 MAY be considered valid. A v0.5.0 UCAN that has a UCAN v0.8.0 witness MUST NOT be considered valid.
 
 # 6. Implementation Recommendations
 
