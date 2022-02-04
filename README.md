@@ -70,7 +70,7 @@ A resource is some data or process that has an address. It can be anything from 
 
 An action is performed against some resource. Each action MAY have its own semantics. They MAY be unary, support a hierarchy, be monotone, partial orders, and so on. Actions MAY be general and applicable to many kinds of resource, or tied to a specific one.
 
-For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The action `wnfs/OVERWRITE` also implies the ability to append. Email has no such tiered relationship. One can `email/SEND`, but there is no concept of a ”super send”.
+For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The action `wnfs/OVERWRITE` also implies the capacity to append. Email has no such tiered relationship. One can `email/SEND`, but there is no concept of a ”super send”.
 
 ## 2.3 Capability
 
@@ -84,13 +84,13 @@ An authorization scope is a set of capabilities. Scopes MUST compose with set se
 
 The "scope" is the total rights of the authorization space down to the relevant volume of authorizations. With the exception of [rights amplification](#54-rights-amplification), every individual delegation MUST have equal or less scope from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities.
 
-As a practical matter, since scopes form a group, you can be fairly loose: order doesn’t matter, and merging resources can be quite broad since the more powerful of any overlap will take precedence (i.e. you don’t need a clean separation).
+As a practical matter, since scopes form a group, you can be fairly loose: order doesn’t matter, and merging resources can be quite broad since the more capable of any overlap will take precedence (i.e. you don’t need a clean separation).
 
 ## 2.5 Delegation
 
 Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). This MUST be proven by a "witness", which is either the signature of the owning principal, or a UCAN that has access to that capability in its scope.
 
-Each direct delegation leaves the potency of the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of different types, if part of the resource's semantics. 
+Each direct delegation leaves the scope of the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of different types, if part of the resource's semantics. 
 
 ## 2.6 Attenuation
 
@@ -234,8 +234,6 @@ A resource describes the noun of a capability. The resource pointer MUST be prov
 
 The same resource MAY be addressed with several URI formats. For instance a database may be addressed at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
-Resource pointers MAY also include wildcards (`*`) to indicate "any resource of this type" — even if not yet created — bounded by attenuation witnesses. These are generally used for account linking. Wildcards are not required to delegate longer paths, as paths are generally taken as OR filters.
-
 | URI                                            | Meaning                                                         |
 | ---------------------------------------------- | --------------------------------------------------------------- |
 | `{"with": "mailto:boris@fission.codes", ...}`  | A single email address                                          |
@@ -245,7 +243,7 @@ Resource pointers MAY also include wildcards (`*`) to indicate "any resource of 
 
 #### 3.2.4.2 Ability
 
-The `can` field describes the verb portion of the capability: an action, potency, or ability. For instance, the standard HTTP methods `GET`, `PUT`, and `POST` are possible `can` values for an `http` resource. Arbitrary semantics can be described, but must be a valid way to describe actions on the resource.
+The `can` field describes the verb portion of the capability: an action that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST be applicable to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
 
 Abilities MAY be organized in a hierarchy with enums. A common example is superuser access ("anything") on a file system. Another is read vs write access, such that in an HTTP context `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
@@ -364,7 +362,7 @@ An agent discharging a capability MUST verify that the outermost `aud` field mat
 
 Each capability MUST either be originated by the issuer (root capability, or "parenthood"), or have one-or-more witnesses in the `prf` field to attest that this issuer is authorized to use that capability ("introduction"). In the introduction case, this check must be recursively applied to its witnesses, until a root witness is found (i.e. issued by the resource owner).
 
-With the exception of rights amplification (below), each delegation of a capability MUST have equal or lesser power from its witness. The time bounds MUST also be equal to or contained inside the time bounds of the witnesses time bounds. This lowering of rights at each delegation is called "attenuation".
+With the exception of rights amplification (below), each delegation of a capability MUST have equal or lesser scope from its witness. The time bounds MUST also be equal to or contained inside the time bounds of the witnesses time bounds. This lowering of rights at each delegation is called "attenuation".
 
 ## 5.4 Rights Amplification
 
@@ -422,7 +420,7 @@ This store MAY be indexed by CID (content addressing). Multiple indices built on
 
 ## 6.2 Memoized Validation
 
-Aside from revocation, UCAN validation is an idempotent action. Marking a CID as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a witness: if the witness was previously checked and is not revoked, it is RECOMMENDED to immediately consider it valid.
+Aside from revocation, UCAN validation is idempotent. Marking a CID as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a witness: if the witness was previously checked and is not revoked, it is RECOMMENDED to immediately consider it valid.
 
 Revocation is irreversible. If the validator learns of a revocation by UCAN CID or issuer DID, the UCAN and all of its derivatives in such a cache MUST be marked as invalid, and all validations immediately fail without needing to walk the entire structure.
 
