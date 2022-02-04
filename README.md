@@ -1,4 +1,4 @@
-# User Controlled Authorization Network (UCAN) Specification v0.8.0
+# User Controlled Authorization Network (UCAN) Specification v0.8.1
 
 ## Editors
 
@@ -94,7 +94,7 @@ Each direct delegation leaves the scope of the action at the same level, or dimi
 
 ## 2.6 Attenuation
 
-The process of diminishing rights in a delegation chain.
+The process of constraining the capabilities in a delegation chain.
 
 ## 2.7 Revocation
 
@@ -247,9 +247,11 @@ The `can` field describes the verb portion of the capability: an action that can
 
 Abilities MAY be organized in a hierarchy with enums. A common example is superuser access ("anything") on a file system. Another is read vs write access, such that in an HTTP context `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backwards-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
-Abilities MUST NOT be case sensitive, and MUST be namespaced by at least one path segment. For instance, `http/PUT` and `foo/PUT` MUST be treated as unique from each other.
+Abilities MUST NOT be case sensitive. For example, `http/post`, `http/POST`, `HTTP/post`, `HTTP/POST`, and `hTtP/pOsT` MUST all mean the same ability.
 
-The only reserved ability MUST be `"*"`. This MAY be used as part of the action for resources (such as `my`), but MAY NOT be available as part of others. 
+There MUST be at least one path segment as a namespace. For example, `http/PUT` and `db/PUT` MUST be treated as unique from each other.
+
+The only reserved ability MUST be the unnamespaced [`"*"` or "superuser"](#41-superuser), which MUST be allowed on any resource.
 
 #### Examples
 
@@ -286,13 +288,22 @@ Proofs referenced by content address MUST be resolvable by the recipient, for in
 
 The following capabilities are REQUIRED to be implemented.
 
-## 4.1 All Owned Resources
+## 4.1 Superuser
 
-### 4.1.1. `my` Scheme
+The superuser action MUST be denoted `*`. This is the maximum ability, and may be applied to any resource (it is the "top" ability).
+
+This is useful in several cases, for example:
+
+1. When delegating all resources, like in a [`my` scheme](#4.2-all-owned-resources)
+2. To grant the maximum ability when the current ability semantics may be extended later
+
+## 4.2 All Owned Resources
+
+### 4.2.1. `my` and `as` Schemes
 
 The `my` URI scheme represents ownership over a resource — typically by parenthood — at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme describes delegating some or all ambient authority to another DID.
 
-The use case of "pairing" two DIDs by delegating all current and future resources is not uncommon when a user would like to use multiple devices as "root", but does not have access to all of them directly at all times.
+The use case of "pairing" two DIDs by delegating all current and future resources is not uncommon when a user would like to use multiple devices as "root", but does not have access to all of them directly at all times. A common use case for this is a user signing in to multiple devices, using them both with full rights.
 
 The format for this scheme is as follows:
 
@@ -301,29 +312,39 @@ ownershipscheme = "my:" kind ["@" did]
 kind = "*" / <scheme> 
 ```
 
-The wildcard `*` resource MUST be taken to mean "everything" (all resources of all types).
+The wildcard `my:*` resource MUST be taken to mean "everything" (all resources of all types) that are owned by the current DID.
 
-A "sub-scheme" MAY be used to delegate some of that scheme controlled by parenthood. For example `my:dns` delegates access to all DNS records (`my:dns:*` works equally well since wildcards are also part of the DNS URI). `my:mailto` selects all owned email addresses controlled by this user.
+A "sub-scheme" MAY be used to delegate some of that scheme controlled by parenthood. For example `my:dns` delegates access to all DNS records. `my:mailto` selects all owned email addresses controlled by this user.
 
-Re-delegating these to further DIDs in a chain MUST address the specific parent DID that owns that resource separated by an `@`. For instance: `my:*@did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` selects all resources originating from the specified DID, and `my:mailto@did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` selects email addresses from the DID. 
+Re-delegating these to further DIDs in a chain MUST use the URI `as:`, and address the specific parent DID that owns that resource, followed by the resource kind selector. For instance: `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*` selects all resources originating from the specified DID, and `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto` selects email addresses from the DID. 
 
-### 4.1.2 Action
+``` abnf
+delegatescheme = "as:" did ":" kind
+kind = "*" / <scheme>
+```
 
-The action for `my:*` MUST be `*`.
+### 4.2.2 Action
+
+The action for `my:*` or `as:*` MUST be the [superuser action `*`](#41-superuser). Another ability would not be possible, since any other ability cannot be guarinteed to work across all resource types (e.g. it's not possible to `crud/UPDATE` an email address). The superuser capability is special in that it selects the maximum possible action for any resource.
 
 ``` json
 {"with": "my:*", "can": "*"}
+{"with": "as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*", "can": "*"}
+
+{"with": "my:mailto", "can": "msg/SEND"}
+{"with": "as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto", "can": "msg/SEND"}
 ```
 
-For `my` capabilities scoped to some scheme, the action MUST be one normally associated with that resource. 
+For `my` and `as` capabilities scoped to some scheme, the action MUST be one normally associated with that resource. As it belongs to every action heirarchy, this MAY be the [superuser action](#41-superuser) `*`.
 
 ``` json
-{"with": "my:dns", "can": "crud/UPDATE"}
+{"with": "my:dns", "can" and `as`: "crud/UPDATE"}
+{"with": "my:dns", "can": "*"}
 ```
 
-## 4.2 UCAN Addressing
+## Proof Field Selection
 
-### 4.2.1 `prf` Scheme
+### `prf` Scheme
 
 The `prf` URI scheme defines addressing for UCANs and their fields.
 
@@ -332,9 +353,11 @@ prf = "prf" selector
 selector = "*" / 1*DIGIT
 ```
 
-`prf:*` represents all of the UCANs in the current proof scope. The witnesses in the `prf` field may be referenced by their index, starting at 0: `prf:0`
+`prf:*` represents all of the UCANs in the current proof scope. The witnesses for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular witness (i.e. not the wildcard), then a zero-indexed MUST be used. The first UCAN would be selected by `prf:0`, the second by `prf:1`, and so on. By virtue of the indexing scheme, selections MUST be performed on the current UCAN only, and cannot recursively on nested witnesses.
 
-### 4.2.2 `prf` Actions
+Further selection of capabilities inside fo specific witnesses MUST NOT be a valid parsing of this URI. For instance, `prf:0:mailto` MUST NOT be a valid `prf` URI.
+
+### 4.3.2 `prf` Actions
 
 The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This re-delegates all of the capabilities in the selected witness(es).
 
