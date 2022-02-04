@@ -316,7 +316,7 @@ The wildcard `my:*` resource MUST be taken to mean "everything" (all resources o
 
 A "sub-scheme" MAY be used to delegate some of that scheme controlled by parenthood. For example `my:dns` delegates access to all DNS records. `my:mailto` selects all owned email addresses controlled by this user.
 
-Re-delegating these to further DIDs in a chain MUST use the URI `as:`, and address the specific parent DID that owns that resource, followed by the resource kind selector. For instance: `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*` selects all resources originating from the specified DID, and `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto` selects email addresses from the DID. 
+Re-delegating these to further DIDs in a chain MUST use the `as` URI, and address the specific parent DID that owns that resource, followed by the resource kind selector. For instance: `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*` selects all resources originating from the specified DID, and `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto` selects email addresses from the DID. 
 
 ``` abnf
 delegatescheme = "as:" did ":" kind
@@ -338,11 +338,11 @@ The action for `my:*` or `as:*` MUST be the [superuser action `*`](#41-superuser
 For `my` and `as` capabilities scoped to some scheme, the action MUST be one normally associated with that resource. As it belongs to every action heirarchy, this MAY be the [superuser action](#41-superuser) `*`.
 
 ``` json
-{"with": "my:dns", "can" and `as`: "crud/UPDATE"}
+{"with": "my:dns", "can": "crud/UPDATE"}
 {"with": "my:dns", "can": "*"}
 ```
 
-## Proof Field Selection
+## Proof Field Redelegation
 
 ### `prf` Scheme
 
