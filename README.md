@@ -161,6 +161,8 @@ Delegation is the act of granting another principal (the delegate) the capabilit
 
 Each direct delegation leaves of the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of different types, if part of the resource's semantics. 
 
+Note that delegation is a seperate concept from invocation [§2.8](#28-invocation). Delegation is the act of granting a capability to another, not the act of using it (invocation) which has additional requirements.
+
 ## 2.6 Attenuation
 
 The process of constraining the capabilities in a delegation chain.
@@ -173,7 +175,7 @@ In the case of UCAN, this MUST be done by a witness issuer DID. For more on the 
 
 ## 2.8 Invocation
 
-UCANs are used to delegate capabailities between DID-holding agents, eventually terminating in an "invocation" of those capability. This is when the capability is exercised to perform some task on the resource. Note that the only agent that is allowed to perform an action with a UCAN MUST be the one holding the DID private key associated with the `aud` field. For more on the validation, see [§5.2.1](#521-invocation-recipient-validation).
+UCANs are used to delegate capabailities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. This is when the capability is exercised to perform some task on the resource. Note that **the only agent that is allowed to perform an action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§5.2.1](#521-invocation-recipient-validation).
 
 # 3. JWT Structure
 
@@ -467,7 +469,7 @@ In delegation, the `aud` field of every witness MUST match the `iss` field of th
 
 An agent discharging a capability MUST verify that the outermost `aud` field _matches its own DID._ If they do not match, the associated action MUST NOT be performed. This is REQUIRED in order to prevent the misuse of UCANs in an unintended context.
 
-The following UCAN fragment would be valid to dischange as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. The agent with DID `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT accept this UCAN.
+The following UCAN fragment would be valid to dischange as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. Any other agent  MUST NOT accept this UCAN. For example, `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT discharge it.
 
 ``` js
 {
@@ -478,6 +480,8 @@ The following UCAN fragment would be valid to dischange as `did:key:zH3C2AVvLMv6
 ```
 
 A good litmus test for invocation validity by a discharging agent is to check if they would  be able to create a valid delegation for that capability.
+
+Each remote invocation MUST be a unique UCAN, for instance using a nonce. This is easy to implement with a store of hashes of previously seen unexpired UCANs, and is REQUIRED in order to replay attack prevention.
 
 ## 5.3 Witness Chaining
 
