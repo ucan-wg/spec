@@ -555,9 +555,9 @@ If many invocations will be discharged during a session, the sender and receiver
 
 ```js
 { 
-  "cid": "QmTWrYLc6cjzpczKkryFpCiEqCP6sPig2DQ6jTsaymapG6", 
+  "cid": cid(ucan)
   "nnc": "ABC", 
-  "sig": sign(ucan.iss.privateKey, "QmTWrYLc6cjzpczKkryFpCiEqCP6sPig2DQ6jTsaymapG6" + "ABC") 
+  "sig": sign(ucan.iss.privateKey, cid(ucan) + "ABC") 
 }
 ```
 
