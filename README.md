@@ -76,9 +76,11 @@ For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The act
 
 A capability is the association of an action to a resource: `resource x action`
 
-## 2.4 Capability Pool
+## 2.4 Capability Scope
 
-A capability pool is a set of capabilities. Pools MUST compose with set semantics, so multiple pools in an array MAY be considered the (deduplicated) union of all of the inner capabilities.
+The set of capabilities delegated by a UCAN is called its "capability scope", often shortened to "scope". This functions as a declarative description of delegated abilities.
+
+Mergeing capability scopes MUST follow set semantics, where the result includes all capabilities from the input scopes. Since broader capabilities automatically include narrower ones, this process is always additive. Capability scopes can be combined in any order, with the result always being at least as broad as each of the original scopes.
 
 ``` plaintext
                  ┌───────────────────┐  ─┐
@@ -102,16 +104,36 @@ A capability pool is a set of capabilities. Pools MUST compose with set semantic
                    │
 
                AxY U BxZ
-                  Pool
+                 scope
 ```
 
-The "pool" is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the pool is the union. With the exception of [rights amplification](#54-rights-amplification), every individual delegation MUST have equal or narrower capabilties from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities.
+The capability scope is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the scope is the union. With the exception of [rights amplification](#54-rights-amplification), every individual delegation MUST have equal or narrower capabilties from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children), and their capabilities.
 
-As a practical matter, since pools form a group, you can be fairly loose: order doesn’t matter, and merging resources can be quite broad since the more capable of any overlap will take precedence (i.e. you don’t need a clean separation).
+For example, given the following scopes against a WebNative filesystem, they can be merged as follows:
+
+```js
+// "wnfs" abilities:
+// FETCH < APPEND < OVERWRITE < SUPERUSER
+
+ScopeA = [
+  { "with": "wnfs://alice.example.com/pictures/", "can": "wnfs/APPEND" }
+];
+
+ScopeB = [
+  { "with": "wnfs://alice.example.com/pictures/vacation/", "can": "wnfs/APPEND" };
+  { "with": "wnfs://alice.example.com/pictures/vacation/hawaii/", "can": "wnfs/OVERWRITE"}
+];
+
+merge(ScopeA, ScopeA) == [
+   {"with": "wnfs://alice.example.com/pictures/", "can": "wnfs/APPEND"},
+   {"with": "wnfs://alice.example.com/pictures/vacation/", "can": "wnfs/OVERWRITE"}
+   // Note that ("/pictures/vacation/" x APPEND) would be redundant, being contained in ("/pictures/" x APPEND)
+];
+```
 
 ## 2.5 Delegation
 
-Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). This MUST be proven by a "witness", which is either the signature of the owning principal, or a UCAN that has access to that capability in its capability pool.
+Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). This MUST be proven by a "witness", which is either the signature of the owning principal, or a UCAN that has access to that capability in its capability scope.
 
 Each direct delegation leaves of the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of different types, if part of the resource's semantics. 
 
