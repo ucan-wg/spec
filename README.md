@@ -582,3 +582,21 @@ Thank you [Dan Finlay](https://github.com/danfinlay) for being sufficiently pass
 Thanks to the entire [SPKI WG](https://datatracker.ietf.org/wg/spki/about/) for their closely related pioneering work.
 
 We want to especially recognize [Mark Miller](https://github.com/erights) for his numerous contributions to the field of distributed auth, programming languages, and computer security writ large.
+
+# 9. FAQ
+
+## 9.1 What prevents an unauthorized party from using an intercepted UCAN?
+
+UCANs always contain the information about the sender and receiver. It is signed by the sender (the `iss` field DID), and so can only be created by an agent in posession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks taken together secures against use by an unauthorized party.
+
+## 9.2 What prevents replay attacks on the invocation use case?
+
+A UCAN delegated for purposes of immediate invocation MUST be unique. If many requests are to be made in quick succession, a nonce can be used. The receiving agent (the one to perform the invocation) checks the hash of the UCAN against a local store of unexpired UCAN hashes.
+
+This is not a concern when simply delegating, since presumably the recipient agent already has that UCAN.
+
+## 9.3 Is UCAN secure against person-in-the-middle attacks?
+
+_UCAN does not have any special protection against person-in-the-middle (PITM) attacks._
+
+Were a PITM attack to be successfully performed on a UCAN delegation, the proof chain would contain the attacker's DID(s). It is possible to detect this scenario and revoke the relevant UCAN, but does require special inspection of the topmost `iss` field to check if it is the expected DID. It is strongly advised to only delegate UCANs to trusted agents over secure channels
