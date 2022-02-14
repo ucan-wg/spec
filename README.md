@@ -551,7 +551,15 @@ Revocation is irreversible. If the validator learns of a revocation by UCAN CID 
 
 ## 6.3 Session Content ID
 
-If many invocations will be discharged during a session, the sender and receiver MAY agree to use the CID rather than creating new UCANs for every message. This saves bandwidth, and avoids needing to use another session token exchange mechanism, or bearer token with lower security, such as a shared secret.
+If many invocations will be discharged during a session, the sender and receiver MAY agree to use the triple of CID, nonce, and signature rather than reissuing the complete UCAN chain for every message. This saves bandwidth, and avoids needing to use another session token exchange mechanism, or bearer token with lower security, such as a shared secret.
+
+```js
+{ 
+  "cid": "QmTWrYLc6cjzpczKkryFpCiEqCP6sPig2DQ6jTsaymapG6", 
+  "nnc": "ABC", 
+  "sig": sign(ucan.iss.privateKey, "QmTWrYLc6cjzpczKkryFpCiEqCP6sPig2DQ6jTsaymapG6" + "ABC") 
+}
+```
 
 # 7. Related Work and Prior Art
 
