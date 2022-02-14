@@ -58,7 +58,31 @@ While certificate chains go a long way toward improving security, they do not pr
 
 Unlike many authorization systems where a service controls access to resources in their care, location-independent, offline, and leaderless resources require control to live with the user. This means that the same data can be used across many applications, data stores, and users.
 
-![](./assets/overlapping_rights.png)
+```
+┌─────────────┐   ┌─────────────┐   ┌─────────────┐
+│             │   │             │   │             │
+│             │   │ ┌─────────┐ │   │             │
+│             │   │ │  Bob's  │ │   │             │
+│             │   │ │  Photo  │ │   │             │
+│             │   │ │ Gallery │ │   │             │
+│             │   │ └─────────┘ │   │             │
+│             │   │             │   │             │
+│   Alice's   │   │    Bob's    │   │   Carol's   │
+│    Stuff    │   │    Stuff    │   │    Stuff    │
+│             │   │             │   │             │
+│     ┌───────┼───┼─────────────┼───┼──┐          │
+│     │       │   │             │   │  │          │
+│     │       │   │         ┌───┼───┼──┼────────┐ │
+│     │       │   │ Alice's │   │   │  │        │ │
+│     │       │   │  Music  │   │   │  │Carol's │ │
+│     │       │   │ Player  │   │   │  │  Game  │ │
+│     │       │   │         │   │   │  │        │ │
+│     │       │   │         └───┼───┼──┼────────┘ │
+│     │       │   │             │   │  │          │
+│     └───────┼───┼─────────────┼───┼──┘          │
+│             │   │             │   │             │
+└─────────────┘   └─────────────┘   └─────────────┘
+```
 
 # 2. Terminology
 
