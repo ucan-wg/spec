@@ -288,9 +288,9 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 The attenuations (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous capabilities (defined below). This array MAY be empty.
 
 This array MUST contain some or none of the following:
-1. A strict subset (attenuation) of the witnesses
-2. Witnesses originated by the `iss` DID (i.e. by parenthood)
-3. Witnesses composed from other witnesses (see rights amplification)
+1. A strict subset (attenuation) of the capability scope from the `prf` field
+2. Capabilities composed from multiple witnesses (see rights amplification)
+3. Capabilities originated by the `iss` DID (i.e. by parenthood)
 
 This array also includes time ranges, and the witnesses that start latest and end soonest form the lower and upper time bounds of the range.
 
@@ -424,7 +424,7 @@ For `my` and `as` capabilities limited to some scheme, the action MUST be one no
 The `prf` URI scheme defines addressing for UCANs and their fields.
 
 ``` abnf
-prf = "prf" selector
+prf = "prf:" selector
 selector = "*" / 1*DIGIT
 ```
 
