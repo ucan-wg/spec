@@ -469,7 +469,7 @@ In delegation, the `aud` field of every witness MUST match the `iss` field of th
 
 An agent discharging a capability MUST verify that the outermost `aud` field _matches its own DID._ If they do not match, the associated action MUST NOT be performed. This is REQUIRED in order to prevent the misuse of UCANs in an unintended context.
 
-The following UCAN fragment would be valid to dischange as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. Any other agent  MUST NOT accept this UCAN. For example, `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT discharge it.
+The following UCAN fragment would be valid to invoke as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. Any other agent  MUST NOT accept this UCAN. For example, `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT run the action associated to that capability.
 
 ``` js
 {
