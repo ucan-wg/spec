@@ -159,7 +159,7 @@ merge(ScopeA, ScopeA) == [
 
 Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). This MUST be proven by a "witness", which is either the signature of the owning principal, or a UCAN that has access to that capability in its capability scope.
 
-Each direct delegation leaves of the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of different types, if part of the resource's semantics. 
+Each direct delegation leaves the action at the same level, or diminishes it. The only exception is in "rights amplification", where a delegation MAY be proven by one-or-more witnesses of different types, if part of the resource's semantics. 
 
 Note that delegation is a seperate concept from invocation [§2.8](#28-invocation). Delegation is the act of granting a capability to another, not the act of using it (invocation) which has additional requirements.
 
