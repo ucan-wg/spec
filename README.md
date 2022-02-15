@@ -104,7 +104,7 @@ A capability is the association of an action to a resource: `resource x action`
 
 The set of capabilities delegated by a UCAN is called its "capability scope", often shortened to "scope". This functions as a declarative description of delegated abilities.
 
-Mergeing capability scopes MUST follow set semantics, where the result includes all capabilities from the input scopes. Since broader capabilities automatically include narrower ones, this process is always additive. Capability scopes can be combined in any order, with the result always being at least as broad as each of the original scopes.
+Merging capability scopes MUST follow set semantics, where the result includes all capabilities from the input scopes. Since broader capabilities automatically include narrower ones, this process is always additive. Capability scopes can be combined in any order, with the result always being at least as broad as each of the original scopes.
 
 ``` plaintext
                  ┌───────────────────┐  ─┐
