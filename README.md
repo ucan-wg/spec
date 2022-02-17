@@ -175,7 +175,7 @@ In the case of UCAN, this MUST be done by a witness issuer DID. For more on the 
 
 ## 2.8 Invocation
 
-UCANs are used to delegate capabailities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. This is when the capability is exercised to perform some task on the resource. Note that **the only agent that is allowed to perform an action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§5.2.1](#521-invocation-recipient-validation).
+UCANs are used to delegate capabailities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent that is allowed to perform an action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§5.2.1](#521-invocation-recipient-validation).
 
 # 3. JWT Structure
 
@@ -410,7 +410,7 @@ The action for `my:*` or `as:*` MUST be the [superuser action `*`](#41-superuser
 {"with": "as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto", "can": "msg/SEND"}
 ```
 
-For `my` and `as` capabilities limited to some scheme, the action MUST be one normally associated with that resource. As it belongs to every action heirarchy, this MAY be the [superuser action `*`](#41-superuser).
+For `my` and `as` capabilities limited to some scheme, the action MUST be one normally associated with that resource. As it belongs to every action hierarchy, this MAY be the [superuser action `*`](#41-superuser).
 
 ``` json
 {"with": "my:dns", "can": "crud/UPDATE"}
@@ -428,13 +428,13 @@ prf = "prf:" selector
 selector = "*" / 1*DIGIT
 ```
 
-`prf:*` represents all of the UCANs in the current proofs array. The witnesses for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular witness (i.e. not the wildcard), then a zero-indexed MUST be used. The first UCAN would be selected by `prf:0`, the second by `prf:1`, and so on. By virtue of the indexing scheme, selections MUST be performed on the current UCAN only, and cannot recursively on nested witnesses.
+  * [ ] `prf:*` represents all of the UCANs in the current proofs array. The witnesses for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular witness (i.e. not the wildcard), then zero-based indexing MUST be used. The first UCAN would be selected by `prf:0`, the second by `prf:1`, and so on. By virtue of the indexing scheme, selections MUST be performed on the current UCAN only, and cannot recurse on nested witnesses.
 
-Further selection of capabilities inside fo specific witnesses MUST NOT be a valid parsing of this URI. For instance, `prf:0:mailto` MUST NOT be a valid `prf` URI.
+Further selection of capabilities inside of specific witnesses MUST NOT be a valid parsing of this URI. For instance, `prf:0:mailto` MUST NOT be a valid `prf` URI.
 
 ### 4.3.2 `prf` Actions
 
-The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This redelegates all of the capabilities in the selected witness(es).
+The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This action redelegates all of the capabilities in the selected witness(es).
 
 `ucan/delegate` is distinct from the superuser ability, and acts as a re-export of the ability. If an attenuated resource or capabilty is desired, then it MUST be explicitly listed without the `prf` URI scheme.
 
@@ -469,7 +469,7 @@ In delegation, the `aud` field of every witness MUST match the `iss` field of th
 
 An agent discharging a capability MUST verify that the outermost `aud` field _matches its own DID._ If they do not match, the associated action MUST NOT be performed. This is REQUIRED in order to prevent the misuse of UCANs in an unintended context.
 
-The following UCAN fragment would be valid to invoke as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. Any other agent  MUST NOT accept this UCAN. For example, `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT run the action associated to that capability.
+The following UCAN fragment would be valid to invoke as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. Any other agent MUST NOT accept this UCAN. For example, `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT run the action associated to that capability.
 
 ``` js
 {
@@ -479,7 +479,7 @@ The following UCAN fragment would be valid to invoke as `did:key:zH3C2AVvLMv6gmM
 }
 ```
 
-A good litmus test for invocation validity by a discharging agent is to check if they would  be able to create a valid delegation for that capability.
+A good litmus test for invocation validity by a discharging agent is to check if they would be able to create a valid delegation for that capability.
 
 Each remote invocation MUST be a unique UCAN, for instance using a nonce. This is easy to implement with a store of hashes of previously seen unexpired UCANs, and is REQUIRED in order to replay attack prevention.
 
@@ -595,7 +595,7 @@ We want to especially recognize [Mark Miller](https://github.com/erights) for hi
 
 ## 9.1 What prevents an unauthorized party from using an intercepted UCAN?
 
-UCANs always contain the information about the sender and receiver. It is signed by the sender (the `iss` field DID), and so can only be created by an agent in posession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks taken together secures against use by an unauthorized party.
+UCANs always contain the information about the sender and receiver. A UCAN is signed by the sender (the `iss` field DID), and so can only be created by an agent in posession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks taken together secure against use by an unauthorized party.
 
 ## 9.2 What prevents replay attacks on the invocation use case?
 
