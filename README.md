@@ -400,7 +400,7 @@ kind = "*" / <scheme>
 
 ### 4.2.2 Action
 
-The action for `my:*` or `as:*` MUST be the [superuser action `*`](#41-superuser). Another ability would not be possible, since any other ability cannot be guarinteed to work across all resource types (e.g. it's not possible to `crud/UPDATE` an email address). Recall that the superuser action is special in that it selects the maximum possible action for any resource.
+The action for `my:*` or `as:*` MUST be the [superuser action `*`](#41-superuser). Another ability would not be possible, since any other ability cannot be guaranteed to work across all resource types (e.g. it's not possible to `crud/UPDATE` an email address). Recall that the superuser action is special in that it selects the maximum possible action for any resource.
 
 ``` json
 {"with": "my:*", "can": "*"}
