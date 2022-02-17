@@ -150,7 +150,7 @@ ScopeB = [
 
 merge(ScopeA, ScopeA) == [
    {"with": "wnfs://alice.example.com/pictures/", "can": "wnfs/APPEND"},
-   {"with": "wnfs://alice.example.com/pictures/vacation/", "can": "wnfs/OVERWRITE"}
+   {"with": "wnfs://alice.example.com/pictures/vacation/hawaii", "can": "wnfs/OVERWRITE"}
    // Note that ("/pictures/vacation/" x APPEND) has become redundant, being contained in ("/pictures/" x APPEND)
 ];
 ```
