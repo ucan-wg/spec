@@ -148,7 +148,7 @@ ScopeB = [
   { "with": "wnfs://alice.example.com/pictures/vacation/hawaii/", "can": "wnfs/OVERWRITE"}
 ];
 
-merge(ScopeA, ScopeA) == [
+merge(ScopeA, ScopeB) == [
    {"with": "wnfs://alice.example.com/pictures/", "can": "wnfs/APPEND"},
    {"with": "wnfs://alice.example.com/pictures/vacation/hawaii", "can": "wnfs/OVERWRITE"}
    // Note that ("/pictures/vacation/" x APPEND) has become redundant, being contained in ("/pictures/" x APPEND)
