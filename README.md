@@ -36,7 +36,7 @@ Two related models that work extremely well in the above context are Simple Publ
 
 ## 1.2 Intuition
 
-By analogy, ACLs are like a bouncer at an exclusive event. This bouncer has a list names of who is allowed in, and which of those are VIPs that get extra access. The attendees show their government-issued ID, and are accepted or rejected. They may get a lanyard to identify that they have previously been allowed in. If someone is disruptive, they can simply be crossed off the list and denied further entry.
+By analogy, ACLs are like a bouncer at an exclusive event. This bouncer has a list of names of who is allowed in, and which of those are VIPs that get extra access. The attendees show their government-issued ID, and are accepted or rejected. They may get a lanyard to identify that they have previously been allowed in. If someone is disruptive, they can simply be crossed off the list and denied further entry.
 
 If there are many such events at many venues, then the organizers need to coordinate ahead of time, denials need to be synchronized, and attendees need to show their ID cards to many bouncers. The likelihood of the bouncer letting in the wrong person due to synchronization lag or confusion by someone sharing a name is nonzero.
 
@@ -148,7 +148,7 @@ ScopeB = [
   { "with": "wnfs://alice.example.com/pictures/vacation/hawaii/", "can": "wnfs/OVERWRITE"}
 ];
 
-merge(ScopeA, ScopeA) == [
+merge(ScopeA, ScopeB) == [
    {"with": "wnfs://alice.example.com/pictures/", "can": "wnfs/APPEND"},
    {"with": "wnfs://alice.example.com/pictures/vacation/hawaii", "can": "wnfs/OVERWRITE"}
    // Note that ("/pictures/vacation/" x APPEND) has become redundant, being contained in ("/pictures/" x APPEND)
