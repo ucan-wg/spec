@@ -201,7 +201,7 @@ EdDSA as applied to JOSE (including JWT) is described in [RFC 8037](https://data
 {
   "alg": "EdDSA",
   "typ": "JWT",
-  "ucv": "0.8.0"
+  "ucv": "0.8.1"
 }
 ```
 
@@ -534,7 +534,7 @@ Revocations MAY be deleted once the UCAN they reference expires or otherwise bec
 
 ## 5.8 Backwards Compatibility
 
-A UCAN validator MAY implement backwards compatibility with previous version of UCAN. Delegated UCANs MUST be of equal or higher version than their proofs. For example, a v0.8.0 UCAN that includes witnesses that are separately v0.8.0, v0.7.0, and v0.5.0 MAY be considered valid. A v0.5.0 UCAN that has a UCAN v0.8.0 witness MUST NOT be considered valid.
+A UCAN validator MAY implement backwards compatibility with previous version of UCAN. Delegated UCANs MUST be of equal or higher version than their proofs. For example, a v0.8.1 UCAN that includes witnesses that are separately v0.8.1, v0.8.0, v0.7.0, and v0.5.0 MAY be considered valid. A v0.5.0 UCAN that has a UCAN v0.7.0 witness MUST NOT be considered valid.
 
 # 6. Implementation Recommendations
 
