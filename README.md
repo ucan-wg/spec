@@ -9,6 +9,7 @@
 * [Brooklyn Zelenka](https://github.com/expede), [Fission](https://fission.codes)
 * [Philipp Krüger](https://github.com/matheus23), [Fission](https://fission.codes)
 * [Daniel Holmgren](https://github.com/dholms), `<REDACTED>`
+* [Irakli Gozalishvili](https://github.com/Gozala), [Protocol Labs](https://protocol.ai/)
 
 # 0. Abstract
 
@@ -580,8 +581,6 @@ If many invocations will be discharged during a session, the sender and receiver
 # 8. Acknowledgements
 
 Thank you to [Brendan O'Brien](https://github.com/b5) for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
-
-Many thanks to [Irakli Gozalishvili](https://github.com/Gozala) for feedback and recommendations, contributing significantly to the TypeScript implementation, and suggesting renaming the action field to `can`.
 
 Thank you [Blaine Cook](https://github.com/blaine) for the real-world feedback, ideas on future features, and lessons from other auth standards.
 
