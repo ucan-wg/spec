@@ -429,7 +429,7 @@ prf = "prf:" selector
 selector = "*" / 1*DIGIT
 ```
 
-  * [ ] `prf:*` represents all of the UCANs in the current proofs array. The witnesses for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular witness (i.e. not the wildcard), then zero-based indexing MUST be used. The first UCAN would be selected by `prf:0`, the second by `prf:1`, and so on. By virtue of the indexing scheme, selections MUST be performed on the current UCAN only, and cannot recurse on nested witnesses.
+`prf:*` represents all of the UCANs in the current proofs array. The witnesses for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular witness (i.e. not the wildcard), then zero-based indexing MUST be used. The first UCAN would be selected by `prf:0`, the second by `prf:1`, and so on. By virtue of the indexing scheme, selections MUST be performed on the current UCAN only, and cannot recurse on nested witnesses.
 
 Further selection of capabilities inside of specific witnesses MUST NOT be a valid parsing of this URI. For instance, `prf:0:mailto` MUST NOT be a valid `prf` URI.
 
