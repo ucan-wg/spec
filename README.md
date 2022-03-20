@@ -468,9 +468,9 @@ In delegation, the `aud` field of every witness MUST match the `iss` field of th
 
 ```
 (Resource)                                                        ─┐
-Storage         Root iss == Owner?                                 ├─ Agents
-Owner: Alice ◄─────────────────────── Discharger: StorageService  ─┘
-         │                                            │
+Storage         Root iss == Owner?                                 │
+Owner: Alice ◄─────────────────────── Discharger: StorageService   ├─ Agents
+         │                                            │           ─┘
 ┌────────┼────┐                                       │           ─┐
 │        │    │                                       │            │
 │        ▼    │  ┌────────────────┐                   │            │
