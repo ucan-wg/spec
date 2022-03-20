@@ -468,15 +468,15 @@ In delegation, the `aud` field of every witness MUST match the `iss` field of th
 
 ```
 (Resource)                                                        ─┐
-Storage         Root iss == Owner?                                 │
-Owner: Alice ◄─────────────────────── Discharger: StorageService   ├─ Agents
-         │                                            │           ─┘
-┌────────┼────┐                                       │           ─┐
-│        │    │                                       │            │
-│        ▼    │  ┌────────────────┐                   │            │
+Storage         Root Iss == Owner?                                 ├─ Agents
+Owner: Alice ◄─────────────────────── Discharger: StorageService  ─┘
+         ▲                                            ▲
+         │                                            │           ─┐
+┌────────┼────┐                                       │            │
+│        │    │  ┌────────────────┐                   │            │
 │ iss: Alice  │  │                │  ┌────────────────┼────────┐   │
 │ aud: Bob ◄──┼──┼── iss: Bob     │  │                │        │   │
-│             │  │   aud: Carol ◄─┼──┼─── iss: Carol  ▼        │   ├─ UCANs
+│             │  │   aud: Carol ◄─┼──┼─── iss: Carol  │        │   ├─ UCANs
 └─────────────┘  │                │  │    aud: StorageService  │   │
   Root UCAN      └────────────────┘  │                         │   │
                    Delegate UCAN     └─────────────────────────┘   │
