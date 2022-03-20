@@ -466,6 +466,23 @@ A UCAN is valid inclusive from the `nbf` time, and until the `exp` field. If the
 
 In delegation, the `aud` field of every witness MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain all the way back to the originating principal for each resource.
 
+```
+(Resource)
+Storage         Root Iss == Owner?
+Owner: Alice ◄─────────────────────── Discharger: StorageService
+         │                                            │
+┌────────┼────┐                                       │
+│        │    │                                       │
+│        ▼    │  ┌────────────────┐                   │
+│ iss: Alice  │  │                │  ┌────────────────┼────────┐
+│ aud: Bob ◄──┼──┼── iss: Bob     │  │                │        │
+│             │  │   aud: Carol ◄─┼──┼─── iss: Carol  ▼        │
+└─────────────┘  │                │  │    aud: StorageService  │
+   Root UCAN     └────────────────┘  │                         │
+                   Delegate UCAN     └─────────────────────────┘
+                                           Invocation UCAN
+```
+
 ### 5.2.1 Invocation Recipient Validation
 
 An agent discharging a capability MUST verify that the outermost `aud` field _matches its own DID._ If they do not match, the associated action MUST NOT be performed. This is REQUIRED in order to prevent the misuse of UCANs in an unintended context.
