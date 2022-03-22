@@ -13,7 +13,7 @@
 
 # 0. Abstract
 
-User-Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifiable, delegable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability with chained certificates and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifiable chain compression is enabled via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). Being encoded with the familiar JWT, UCAN improves the familiarity and adaptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html) for web and native application contexts. UCAN allows for the creation and discharge of authority by any agent with a DID, including traditional systems and peer-to-peer architectures beyond traditional cloud computing.
+User-Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifiable, delegable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability with chained certificates and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifiable chain compression is enabled via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). Being encoded with the familiar JWT, UCAN improves the familiarity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html) for web and native application contexts. UCAN allows for the creation and discharge of authority by any agent with a DID, including traditional systems and peer-to-peer architectures beyond traditional cloud computing.
 
 ## Language
 
@@ -95,7 +95,7 @@ A resource is some data or process that has an address. It can be anything from 
 
 An action MUST be performed against some resource. Each action MAY have its own semantics. For example, actions MAY be unary, support a hierarchy, be monotone, form partial orders, etc. In addition, actions MAY be general and applicable to many kinds of resources or tied to a specific one.
 
-For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The action `wnfs/OVERWRITE` also implies the capacity to append. An email has no such tiered relationship. One can `email/SEND`, but there is no concept of a" super send."
+For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The action `wnfs/OVERWRITE` also implies the capacity to append. An email has no such tiered relationship. One can `email/SEND`, but there is no concept of a "super send."
 
 ## 2.3 Capability
 
@@ -136,7 +136,7 @@ The capability scope is the total rights of the authorization space down to the 
 
 For example, given the following scopes against a WebNative filesystem, they can be merged as follows:
 
-"`js
+```js
 // "wnfs" abilities:
 // FETCH < APPEND < OVERWRITE < SUPERUSER
 
@@ -197,7 +197,7 @@ EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037](https://da
 
 ### Examples
 
-"`json
+```json
 {
   "alg": "EdDSA",
   "typ": "JWT",
@@ -327,7 +327,7 @@ Abilities MUST NOT be case sensitive. For example, `http/post`, `http/POST`, `HT
 
 There MUST be at least one path segment as a namespace. For example, `http/PUT` and `db/PUT` MUST be treated as unique from each other.
 
-The only reserved ability MUST be the un-namespaced [`"*" ` or "superuser"](#41-superuser), which MUST be allowed on any resource.
+The only reserved ability MUST be the un-namespaced [`"*"` or "superuser"](#41-superuser), which MUST be allowed on any resource.
 
 #### Examples
 
@@ -350,7 +350,7 @@ The only reserved ability MUST be the un-namespaced [`"*" ` or "superuser"](#41-
 
 ### 3.2.5 Proof of Delegation
 
-The `prf` field MUST contain UCAN witnesses (the" inputs" of a UCAN). As they need to be independently verifiable, proofs MUST either be the fully encoded version of a UCAN (including the signature) or the content address of the relevant proof. Attenuations not covered by a proof in the `prf` array MUST be treated as owned by the issuer DID.
+The `prf` field MUST contain UCAN witnesses (the "inputs" of a UCAN). As they need to be independently verifiable, proofs MUST either be the fully encoded version of a UCAN (including the signature) or the content address of the relevant proof. Attenuations not covered by a proof in the `prf` array MUST be treated as owned by the issuer DID.
 
 Proofs referenced by content address MUST be resolvable by the recipient, for instance, over a DHT or database. Since they have no availability concern, inlined proofs SHOULD be preferred unless the proof chain has become too large for a request.
 
@@ -530,7 +530,7 @@ This format makes it easy to select the relevant UCAN, confirm that the issuer i
 
 Any other witnesses in the selected UCAN not issued by the same DID as the revocation issuer MUST be treated as valid.
 
-Revocations MAY be deleted once the UCAN the reference expires or otherwise becomes invalid via its proactive mechanisms.
+Revocations MAY be deleted once the UCAN that they reference expires or otherwise becomes invalid via its proactive mechanisms.
 
 ## 5.8 Backwards Compatibility
 
@@ -554,7 +554,7 @@ Revocation is irreversible. Suppose the validator learns of revocation by UCAN C
 
 If many invocations are discharged during a session, the sender and receiver MAY agree to use the triple of CID, nonce, and signature rather than reissuing the complete UCAN chain for every message. This saves bandwidth and avoids needing to use another session token exchange mechanism or bearer token with lower security, such as a shared secret.
 
-"`js
+```js
 { 
   "cid": cid(ucan)
   "nnc": "ABC", 
