@@ -466,6 +466,27 @@ A UCAN is valid inclusive from the `nbf` time, and until the `exp` field. If the
 
 In delegation, the `aud` field of every witness MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain all the way back to the originating principal for each resource.
 
+```
+(Resource)                                                        ─┐
+Storage         Root Iss == Owner?                                 ├─ Agents
+Owner: Alice ◄─────────────────────── Discharger: StorageService  ─┘
+         ▲                                            ▲
+         │                                            │           ─┐
+┌────────┼────┐                                       │            │
+│        │    │  ┌────────────────┐                   │            │
+│ iss: Alice  │  │                │  ┌────────────────┼────────┐   │
+│ aud: Bob ◄──┼──┼── iss: Bob     │  │                │        │   │
+│             │  │   aud: Carol ◄─┼──┼─── iss: Carol  │        │   ├─ UCANs
+└─────────────┘  │                │  │    aud: StorageService  │   │
+  Root UCAN      └────────────────┘  │                         │   │
+                   Delegate UCAN     └─────────────────────────┘   │
+                                           Invocation UCAN        ─┘
+```
+
+In the above diagram, Alice has some storage. This storage may exist in one location with a single source of truth, but to help build intuition this example is location independent: local versions and remote stored copied are eventually consistent, and there is no one "correct" copy. As such, we list the owner (Alice) directly on the resource.
+
+Alice delegates access to Bob. Bob then redelegates to Carol. Carol invokes the UCAN as part of a REST request to a storage service. To do this, she MUST both provide proof that she has access (the UCAN chain), and MUST delegate access to the discharging storage service. The discharging service MUST then check that the root issuer (Alice) is in fact the owner (typically the creator) of the resource. This MAY be listed directly on the resource, as it is here. Once the UCAN chain and root ownership are validated, the storage service performs the write.
+
 ### 5.2.1 Invocation Recipient Validation
 
 An agent discharging a capability MUST verify that the outermost `aud` field _matches its own DID._ If they do not match, the associated action MUST NOT be performed. This is REQUIRED in order to prevent the misuse of UCANs in an unintended context.
