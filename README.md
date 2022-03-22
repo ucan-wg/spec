@@ -158,7 +158,7 @@ merge(ScopeA, ScopeB) == [
 
 ## 2.5 Delegation
 
-Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructuve "witness" acts as the authorizaton proof for a delegation. Witnesses are either the onwing principal's signature or a UCAN with access to that capability in its scope.
+Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructuve "witness" acts as the authorizaton proof for a delegation. Witnesses are either the owning principal's signature or a UCAN with access to that capability in its scope.
 
 Each direct delegation leaves the action at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more witnesses of different types if part of the resource's semantics. 
 
