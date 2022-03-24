@@ -1,0 +1,842 @@
+[
+  {
+    "comment": "UCAN sections contain invalid base64 characters",
+    "token": "@@JhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtySnpWZVk3RXd2cVdNc3ROeDJ4SDdiZGVnYWREZGFjOHVGams2NTlnemJkeCIsImF1ZCI6ImRpZDprZXk6ek0wMG04RHhXU3dRaGhaWWJnUGprQ05qbUx2dmEzRDdxQnNHUHZ3ejJneW5TaWFKIiwiZXhwIjoxNjQ4MDc2MDQ0LCJhdHQiOltdLCJwcmYiOltdfQ.vLgf-O3Xrc94toabVJKoI15EmAO-d9SqHGFbxTkw3wyEZb-Q7YXA-6mWJv6b-b7kFQHiilMcdIl5s5IuXxsSAw",
+    "assertions": {
+      "validationErrors": [
+        "base64Invalid"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN header section is missing or invalid",
+    "token": "eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.VumxgdMxz-HYnOSckBE-qw-1UixjPHUKhrueSlRAt6z0Tz8GV2W8ZU9f151LrQZ_rl-P-URPkmeooPNsUG7OAQ",
+    "assertions": {
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "validationErrors": [
+        "headerMissingOrInvalid"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN payload section is missing or invalid",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.VumxgdMxz-HYnOSckBE-qw-1UixjPHUKhrueSlRAt6z0Tz8GV2W8ZU9f151LrQZ_rl-P-URPkmeooPNsUG7OAQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "validationErrors": [
+        "payloadMissingOrInvalid"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN signature is missing or invalid",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "validationErrors": [
+        "signatureMissingOrInvalid"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN has expired",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjoxNjQ3NzA0MDE3LCJhdHQiOltdLCJwcmYiOltdfQ.-HkT_dufOvT4fhKk7YEJ2ZrjogQ1zwhAJG3bq1KYG0gqFuen6KqYA5sXLnSz7wwfYQCWUfosBTOYHEhCQDc8AQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 1647704017,
+        "att": [],
+        "prf": []
+      },
+      "validationErrors": [
+        "expExpired"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN is not ready to be used",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwibmJmIjo0ODAzODA5NjE3LCJleHAiOjQ4MzUzNDU2MTcsImF0dCI6W10sInByZiI6W119.je5ncWcGAT7k5oJaqWOrchDck_e1s3B_nc3aA9bl_F6l5NC6n9q_xhooapDr4mTeshBS5nL0GnOCbBzaV5sOCQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "nbf": 4803809617,
+        "exp": 4835345617,
+        "att": [],
+        "prf": []
+      },
+      "validationErrors": [
+        "nbfNotReady"
+      ]
+    }
+  },
+  {
+    "comment": "Witnesses expire before the delegated UCAN",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo1NDM0OTYxNjE3LCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1T0NKOS5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3RvVUVKcVpVUlRkR2h2ZW5BNFEzTkNZVUpRZVVKRmVXVnlZbHBpV0hKMVZVNXdNelZXTVZwS1MwcGlOeUlzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTNGUVRqUnJPVkJhUVVFeFoybDVTMFZEV1dkRWVqSm1SV05EZW5GMlJFeHdNVE5wZW1oaVJUTnRWbHBISWl3aVpYaHdJam8xTkRNME9UWXhOakUzTENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEuMVNqS19POFlINlM3c1ZNbGoyckVUWXp6dXFlOTQyUGpuc3R4WFZQVjBES2dETEVQVmpVZzkxWGN5VGtuTFNCekpZMnBZTHhnczdRS2lNbHU4bDA2QlEiXX0.rVbbHFaaNfjyosVixCWnrrcLMG6_HOjnewJ_UcPkhmh9OOnIgDCP267msmXMg-DywRSahvRDyWVSYkX9RoiiBA",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 5434961617,
+        "att": [],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoUEJqZURTdGhvenA4Q3NCYUJQeUJFeWVyYlpiWHJ1VU5wMzVWMVpKS0piNyIsImF1ZCI6ImRpZDprZXk6ejZNa3FQTjRrOVBaQUExZ2l5S0VDWWdEejJmRWNDenF2RExwMTNpemhiRTNtVlpHIiwiZXhwIjo1NDM0OTYxNjE3LCJhdHQiOltdLCJwcmYiOltdfQ.1SjK_O8YH6S7sVMlj2rETYzzuqe942PjnstxXVPV0DKgDLEPVjUg91XcyTknLSBzJY2pYLxgs7QKiMlu8l06BQ"
+        ]
+      },
+      "validationErrors": [
+        "expWitnessTimeBoundExceeded"
+      ]
+    }
+  },
+  {
+    "comment": "Witnesses are not ready to be used before the delegated UCAN",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwibmJmIjoxNjQ4MTM2MDE3LCJleHAiOjU0MzQ5NjE2MTcsImF0dCI6W10sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQ0o5LmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdHhaR3Q1WVhkbU9YcDFNV1kyY2pGdFNtNDRZMDFUUzFkVlJrVnFia3Q0VW5OSGQweHZSVXR1VXpKeWFDSXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hM0ZRVGpSck9WQmFRVUV4WjJsNVMwVkRXV2RFZWpKbVJXTkRlbkYyUkV4d01UTnBlbWhpUlROdFZscEhJaXdpYm1KbUlqbzBPREF6T0RBNU5qRTNMQ0psZUhBaU9qVTBNelE1TmpFMk1UY3NJbUYwZENJNlcxMHNJbkJ5WmlJNlcxMTkuVWhaQ1lCRmx2V2Z3Z043bmRJQzFkZWNlTXE3XzFnWTZKQTlQMVd0NmFtWEVLTVJTVEJ3d3hUTm91bTdHYnFocHJRdWJ2MXlZa1NUdm92TVkzbHVYQ3ciXX0.xAUfIB0IHQjlmY9OQWKdo7TxpsBtZl2FeYL0kjkS61-l9cMSEnFrdnjDd4TnqSfaegJglfcxS1fNmBGYNL4QBg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "nbf": 1648136017,
+        "exp": 5434961617,
+        "att": [],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxZGt5YXdmOXp1MWY2cjFtSm44Y01TS1dVRkVqbkt4UnNHd0xvRUtuUzJyaCIsImF1ZCI6ImRpZDprZXk6ejZNa3FQTjRrOVBaQUExZ2l5S0VDWWdEejJmRWNDenF2RExwMTNpemhiRTNtVlpHIiwibmJmIjo0ODAzODA5NjE3LCJleHAiOjU0MzQ5NjE2MTcsImF0dCI6W10sInByZiI6W119.UhZCYBFlvWfwgN7ndIC1deceMq7_1gY6JA9P1Wt6amXEKMRSTBwwxTNoum7GbqhprQubv1yYkSTvovMY3luXCw"
+        ]
+      },
+      "validationErrors": [
+        "expWitnessTimeBoundExceeded"
+      ]
+    }
+  },
+  {
+    "comment": "Witness issuer audience did does not align with delegated issuer did",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1T0NKOS5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3QwYm1sa2IyNDRSblZGZHpaV1VucEhiV3MxT0c0M1dVWXpVbVpGTlVwQldHaHJWbXN5VFhkRmVEVm5jeUlzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTIxRFYyZzFhRUZaYlhNMVptNVZNVk5vUWtoQ1RtRlZNMDB4UW1WdmVWbG5jWEpSY0dab2IyNTVORkJuSWl3aVpYaHdJam8wT0RBek9EQTVOakUzTENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEuOC1hZUNmWUFtc2V4Q2lwYkVzVjFyWHRaRGxVM0ZyMFhEVlVIT3RsRjI3T3BHRXZZMmkwUHhvZFJoRl9IYjVudmdfX29NV2FkNlljT3lxVFNkWjJWRGciXX0.vefw4er1gzHHf5dgh6i3S1Fl72-2Uzbxqq-NVFY0xzGMmlvuBN00-_PspzEd0xGNjj9g2gdxNScYQdOShpwoBg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWt0bmlkb244RnVFdzZWUnpHbWs1OG43WUYzUmZFNUpBWGhrVmsyTXdFeDVncyIsImF1ZCI6ImRpZDprZXk6ejZNa21DV2g1aEFZbXM1Zm5VMVNoQkhCTmFVM00xQmVveVlncXJRcGZob255NFBnIiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.8-aeCfYAmsexCipbEsV1rXtZDlU3Fr0XDVUHOtlF27OpGEvY2i0PxodRhF_Hb5nvg__oMWad6YcOyqTSdZ2VDg"
+        ]
+      },
+      "validationErrors": [
+        "prfWitnessNotAligned"
+      ]
+    }
+  },
+  {
+    "comment": "Witness UCAN version does not match delegated UCAN version",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1TnlKOS5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3QyU2pkVE5GZ3pjbEJJTWxkaFRUSlRZMFZ2YWpWTFpFMXBRbm96VEdnM1UwTnpTbXRMVjJsbU1qVkdjaUlzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTNGUVRqUnJPVkJhUVVFeFoybDVTMFZEV1dkRWVqSm1SV05EZW5GMlJFeHdNVE5wZW1oaVJUTnRWbHBISWl3aVpYaHdJam8wT0RBek9EQTVOakUzTENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEuWlNXZmI4S3JSOVhKUGdRLTMxNXVQb1E0Z2tiWm1WOFF3M0ZjMUUtbS1BZVp4Y1lsTXVvRG1LdVlXUDhfdlVCVDZTQ0c3MU45Z2dkVzJ4Z1hEalIwRHciXX0.pSq6MuSnj1kXV-5hVRYvvWYaHwIWgBESTK6OUvgDgNhB8Cd0uFwT5ezjF1wX3cVYJKTArniJKcsXB3AP6jEeAA",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuNyJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWt2SjdTNFgzclBIMldhTTJTY0VvajVLZE1pQnozTGg3U0NzSmtLV2lmMjVGciIsImF1ZCI6ImRpZDprZXk6ejZNa3FQTjRrOVBaQUExZ2l5S0VDWWdEejJmRWNDenF2RExwMTNpemhiRTNtVlpHIiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.ZSWfb8KrR9XJPgQ-315uPoQ4gkbZmV8Qw3Fc1E-m-AeZxcYlMuoDmKuYWP8_vUBT6SCG71N9ggdW2xgXDjR0Dw"
+        ]
+      },
+      "validationErrors": [
+        "prfWitnessVersionMismatch"
+      ]
+    }
+  },
+  {
+    "comment": "Witness does not exist",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOlt7IndpdGgiOiJwcmYvMiIsImNhbiI6InVjYW4vREVMRUdBVEUifV0sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQ0o5LmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdG1lV015U2xkU1JqVkdSVVJaTW5odWFYbEZjWEZMYmtkUVZqTmtUSEZNYTFSd2VucDJTbWR1Tm5CWVVDSXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hM0ZRVGpSck9WQmFRVUV4WjJsNVMwVkRXV2RFZWpKbVJXTkRlbkYyUkV4d01UTnBlbWhpUlROdFZscEhJaXdpWlhod0lqbzBPREF6T0RBNU5qRTNMQ0poZEhRaU9sdGRMQ0p3Y21ZaU9sdGRmUS5TTG52YTRYZ3RCdGZ1aHl3NExhMUZQMXh0SGtqWVFNSFpOaS1tbUM2VWxDWDBYR0NLblFNYVhWZzlpRXZNUk1VY1VROVg3RmpzVWd0N2F5TXFEbzJDZyJdfQ.jBFQRModEsyazzmjtDGCe3xCX0WAVzJm3_QuKDOSiwTN-o0LWuOjhwZE58Ol3Gib-zLN9UrWFw-WB63NTh1ZDw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [
+          {
+            "with": "prf/2",
+            "can": "ucan/DELEGATE"
+          }
+        ],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmeWMySldSRjVGRURZMnhuaXlFcXFLbkdQVjNkTHFMa1Rwenp2SmduNnBYUCIsImF1ZCI6ImRpZDprZXk6ejZNa3FQTjRrOVBaQUExZ2l5S0VDWWdEejJmRWNDenF2RExwMTNpemhiRTNtVlpHIiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.SLnva4XgtBtfuhyw4La1FP1xtHkjYQMHZNi-mmC6UlCX0XGCKnQMaXVg9iEvMRMUcUQ9X7FjsUgt7ayMqDo2Cg"
+        ]
+      },
+      "validationErrors": [
+        "prfWitnessDoesNotExist"
+      ]
+    }
+  },
+  {
+    "comment": "Header `alg` field should be a string",
+    "token": "eyJhbGciOjEsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.NqDQY7cT5alzCLQyQnfZXW1D804rIJyfG9_Y_SfdmV5YjpVzAAxtP0jeBht49ZY_LD9Lr9P23WDv75DP2Al7AA",
+    "assertions": {
+      "header": {
+        "alg": 1,
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "algWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Header is missing an `alg` field",
+    "token": "eyJ0eXAiOiJKV1QiLCJ1Y3YiOiIwLjgifQ.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.GzXRRIJFdlkNdNOUEIiCKHpVUYZ7MDnY1CB-vV402xwWAx-Fud_e1vnnlGLBlViK_2qhRe0DaqZ0JUYES6OHBw",
+    "assertions": {
+      "header": {
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "algMissing"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN algorithm is not valid",
+    "token": "eyJhbGciOiIiLCJ0eXAiOiJKV1QiLCJ1Y3YiOiIwLjgifQ.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.nTlwNRX03EBbPSQJbd4-lygwCRGa63FrA2jypRnRJoDmJudFavGUHc0vrPURErx0dxyRrwILNZVMm4Gf4xSTBg",
+    "assertions": {
+      "header": {
+        "alg": "",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "validationErrors": [
+        "algInvalidAlgorithm"
+      ]
+    }
+  },
+  {
+    "comment": "Header `typ` field should be a string",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6MSwidWN2IjoiMC44In0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.UzdWNT1wTKYazoOEk5CNAfU94mZnif1MTojIS_KrL2dNV5C99-QSOgQSISy0tOkCHpaCsB_ZA2P9nvOQmDfNDg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": 1,
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "typWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Header is missing a `typ` field",
+    "token": "eyJhbGciOiJFZERTQSIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.AOdOhJUmti9M_T3cQccbQui1trXIv5QqMfruDK7_AE-0GbRRAlbMdDFrRy09ay0bj4rL4AUr1L8DrHdSylQbBw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "typMissing"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN type is not valid",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IiIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.yig1KdjccbPMCXAMoUWbwDqy4KIV29fTJa7le1nK-pbPF35gsooPDpArS-nOc6Ff-dbyQi5x9LeBjgSgdHEiCw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "validationErrors": [
+        "typInvalidType"
+      ]
+    }
+  },
+  {
+    "comment": "Header `ucv` field should be a string",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6MX0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.Jq_UzZD3x6W9eGHDPYMlPnE0HmEgfQ8V2laK6dzWw1UWxtFDQoRR-uKq00VUZjuyS9WclwIfudsHBBRFBeKkCw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": 1
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "ucvWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Header is missing a `ucv` field",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.CKz9O1bayYPXuU0QvEu3zQJvRdLnSBRmynx9cJZ5NZZf3_Qc3kLRrI9RtRWWvZpaa4iLVWHM8O4T_OpWII_JBw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "ucvMissing"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN version is not valid",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuNyJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.pgKRndx2q0LZTOpXUPTcZhU57c9ULQ2Q7JuTbgNjBXdOrhgEN9-0rceBsvqtCzCC5bXCLchjJhtgsea9brcHBg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.7"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "validationErrors": [
+        "ucvInvalidVersion"
+      ]
+    }
+  },
+  {
+    "comment": "Payload `iss` field should be a did:key string",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOjEsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.UskpoDdI5blB37Ffu8v9qNuGMf_qXb65L6Tjwv99wd4F-o5U3bWO4EfgtBLzfDxLxq352KNtCXY5iqXTak5yCQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": 1,
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "issWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Payload is missing an `iss` field",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJhdWQiOiJkaWQ6a2V5Ono2TWt1TWF5b1lWeEhtVWt0V3V6WEpQVDY0VVZEdVFnRmRpSDhRMWh4Z1VObU5neCIsImV4cCI6NDgwMzgwOTYxNywiYXR0IjpbXSwicHJmIjpbXX0.jbAsjNFlSID3p5OdIms3u0tzKKIp30rYpzLY1vm0NiUEniAmVzfMAyDHBmG6D1qQVhOPOz1h0fZQ1GKLdSHNCw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "issMissing"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN issuer did:key is not valid",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiIiLCJhdWQiOiJkaWQ6a2V5Ono2TWt1TWF5b1lWeEhtVWt0V3V6WEpQVDY0VVZEdVFnRmRpSDhRMWh4Z1VObU5neCIsImV4cCI6NDgwMzgwOTYxNywiYXR0IjpbXSwicHJmIjpbXX0.Lsg2FyMmcjqfaJZDESIPA6N7xv9yW40PWh0EMepzXTSKCwpf-BuWYtALGw90PUNDezaSCAC_ahUKzl7EwYVUBQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "validationErrors": [
+        "issInvalidDidKey"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN issuer did:key is not valid",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5OnpNKyttOER4V1N3UWhoWlliZ1Bqa0NOam1MdnZhM0Q3cUJzR1B2d3oyZ3luU2lhSiIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.e_oYuKQpkXiVQZkInYFGTWNXmtdGSd47RdD-X_ZjtLYwzNRhM88bwPJgXC25f6J8wLmukFpWFX12GB6reqaMBw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:zM++m8DxWSwQhhZYbgPjkCNjmLvva3D7qBsGPvwz2gynSiaJ",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "validationErrors": [
+        "issInvalidDidKey"
+      ]
+    }
+  },
+  {
+    "comment": "Payload `aud` field should be a did:key string",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6MSwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.fl_RCmIfFOgzHABVrKc83JPb-Vkj7L56-Ek0j-q4hKHuP6czqje4RRTA9enNV9fadjrtXJWcGv22zvwwSi5JBg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": 1,
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "audWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Payload is missing an `aud` field",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImV4cCI6NDgwMzgwOTYxNywiYXR0IjpbXSwicHJmIjpbXX0.Ls_hmCyohQaSDlPhVCBFHw9ML5umMl71suOVMxXND1BYT7sZ8kVTvCTWC60IDydJwqZwhUDVJTltFGbeMMzlDA",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "audMissing"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN audience did:key is not valid",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ek0rK204RHhXU3dRaGhaWWJnUGprQ05qbUx2dmEzRDdxQnNHUHZ3ejJneW5TaWFKIiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.rH9Wa0J47Y-D_Pw-pePlcHXOYiKGFdSRW42uITIDzq_AnJeCCWS72ST8Drmo9_WnAFPsrEkwk7Jxgv9pjAy7Cw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:zM++m8DxWSwQhhZYbgPjkCNjmLvva3D7qBsGPvwz2gynSiaJ",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "validationErrors": [
+        "audInvalidDidKey"
+      ]
+    }
+  },
+  {
+    "comment": "UCAN audience did:key is not valid",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6IiIsImV4cCI6NDgwMzgwOTYxNywiYXR0IjpbXSwicHJmIjpbXX0.4VNHAfl0nqSqxlJz70jrM-oMNwfppKtxhYDPzt2TOK5P7GVrOSgjvxvsIIBMZR6D6KMtd0FM4tX7cEE011-qCg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "validationErrors": [
+        "audInvalidDidKey"
+      ]
+    }
+  },
+  {
+    "comment": "Payload `nbf` field should be a number",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwibmJmIjoic3RyaW5nIiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOltdfQ.MOSOPM5EFHd8u0dsXxhq6kZhUe9yGHOj02cR_dZc4tpau83P_CKmvODuxA2_ivSQSOmgc-0FYBJ4mgr0PwR1Cw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "nbf": "string",
+        "exp": 4803809617,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "nbfWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Payload `exp` field should be a did:key string",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjoic3RyaW5nIiwiYXR0IjpbXSwicHJmIjpbXX0.Ufqm26m_KMKBNl4td3CM_BWX6eqQmEqhA3tbmLVZ2DZjuRNyLQcx_7I7J3zboxhESHR1cmERo5z-QtqlHmKZAw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": "string",
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "expWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Payload is missing an `exp` field",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiYXR0IjpbXSwicHJmIjpbXX0.w1YacKX57MMCiA2b-YiNcJIQWeVfv0iyJPocVDKcZiQKCayKs36BC_uEVpS7ZgFIAsmAK9NMY1XTTtpJVH1FCw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "expMissing"
+      ]
+    }
+  },
+  {
+    "comment": "Payload `ncc` field should be a string",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJubmMiOjEsImF0dCI6W10sInByZiI6W119.bM0T_u23-yjKy02GydX6Kq8X2J2xjnY3q3BH2mTUrXV1GE0PNBcr7qJKl3NnkurIc_L3sOb-YP-og1ji-yDPAg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "nnc": 1,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "nncWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Payload `fct` field should be an array of json",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJmY3QiOjEsImF0dCI6W10sInByZiI6W119.34H7i7h3N15r1ovVfwCeG9d18vi2yrCloCr0szxLeZ2yNOu4icGuIENbDYCSGg5RhVN3lNBvLSFPCh050CU6BQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "fct": 1,
+        "att": [],
+        "prf": []
+      },
+      "typeErrors": [
+        "fctWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Payload `prf` field should be an array of string",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOjF9.NxfHAZf-4ql1b_po6jg-UaNHRBmz_RbX_yW6CshBuYqGvdXtMsQhfHIau2GXw5srLbOtktdo7p1Jl5c3XloFAw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": 1
+      },
+      "typeErrors": [
+        "prfWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Payload `prf` field should be an array of string",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdLCJwcmYiOlsxXX0.NLZUXF0QHypeOc2q0PTkEEms9Uy3Rib5S1oP6AuxJUuejirpg3pTejjdBMJgCncpcDwcizkVkD1Tpdr-1RBhDA",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [],
+        "prf": [
+          1
+        ]
+      },
+      "typeErrors": [
+        "prfWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Payload is missing an `prf` field",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOltdfQ.0t1Ps5G03hkfYpgsTqHoXGgcoi_hAWWfjhzD6G3KMy1n4Xu5iJ-rG1o4_UTUJvoG5P5T96N8jI-4X1A8kAVJCg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": []
+      },
+      "typeErrors": [
+        "prfMissing"
+      ]
+    }
+  },
+  {
+    "comment": "Payload `att` field should be an array of json",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOjEsInByZiI6W119.jtp7X9N5-nO3ZNjvJ3kd19vCAyi208bNzdN4QAOZbB8MvTgE1lz_n3ev4ZH2_tYsVXh07PAN_DjbGi811Sz3Aw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": 1,
+        "prf": []
+      },
+      "typeErrors": [
+        "attWrongType"
+      ]
+    }
+  },
+  {
+    "comment": "Payload is missing an `att` field",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJwcmYiOltdfQ.5ZqSC1q9zlLsBJmfgwvrSEHUKk2SxkhAve7Yu0hSBFS-GBmJmZwhFtWrKBMefWTegZFwhLliVrikrm043ePOCg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "prf": []
+      },
+      "typeErrors": [
+        "attMissing"
+      ]
+    }
+  },
+  {
+    "comment": "Attenuation resource is not a URI",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOlt7IndpdGgiOiJ0YW1lZHVuLmZpc3Npb24uYXBwL3B1YmxpYy9waG90b3MvIiwiY2FuIjoid25mcy9BUFBFTkQifV0sInByZiI6W119.nWuqz7vJCeuvE-NaBZz5XWKCG3CFkue6SbXd1YWUvZsBw4WH8jh8mD_ogQsJTIJBk14g_x3NlW1N7YjO63iNCw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [
+          {
+            "with": "tamedun.fission.app/public/photos/",
+            "can": "wnfs/APPEND"
+          }
+        ],
+        "prf": []
+      },
+      "validationErrors": [
+        "attInvalidResource"
+      ]
+    }
+  },
+  {
+    "comment": "Attenuation ability is not namespaced",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxUE40azlQWkFBMWdpeUtFQ1lnRHoyZkVjQ3pxdkRMcDEzaXpoYkUzbVZaRyIsImF1ZCI6ImRpZDprZXk6ejZNa3VNYXlvWVZ4SG1Va3RXdXpYSlBUNjRVVkR1UWdGZGlIOFExaHhnVU5tTmd4IiwiZXhwIjo0ODAzODA5NjE3LCJhdHQiOlt7IndpdGgiOiJ3bmZzOi8vdGFtZWR1bi5maXNzaW9uLmFwcC9wdWJsaWMvcGhvdG9zLyIsImNhbiI6IkFQUEVORCJ9XSwicHJmIjpbXX0.aieLggf7RXZxArBjaFb8vXN_ASFHCgdfuhSVPp8rlqzfSze_e1C_Fh7qcVixRWZfkxkJwAaLs3goPoJpzY7jBg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8"
+      },
+      "payload": {
+        "iss": "did:key:z6MkqPN4k9PZAA1giyKECYgDz2fEcCzqvDLp13izhbE3mVZG",
+        "aud": "did:key:z6MkuMayoYVxHmUktWuzXJPT64UVDuQgFdiH8Q1hxgUNmNgx",
+        "exp": 4803809617,
+        "att": [
+          {
+            "with": "wnfs://tamedun.fission.app/public/photos/",
+            "can": "APPEND"
+          }
+        ],
+        "prf": []
+      },
+      "validationErrors": [
+        "attInvalidAbility"
+      ]
+    }
+  }
+]
