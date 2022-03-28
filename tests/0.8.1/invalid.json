@@ -9,24 +9,24 @@
     }
   },
   {
-    "comment": "UCAN header section is missing or invalid",
-    "token": "eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.z6Pa7gNK3TXBoGsCv3HjjaTmvutjvYJ_dDKoWF0-fQ9ulQOLQUQfLOBad20liGZHEU2t-vhtMVD06oylfti9AA",
+    "comment": "UCAN header section is malformed",
+    "token": "eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ.FgKew6C7oUMxZzjE_ER-rRaOObtXqMlvfdKZVus1krDYIbcn5PBSFpInBJ7izUYauuKDVkonfGOojq7afstUCg",
     "assertions": {
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [],
         "prf": []
       },
       "validationErrors": [
-        "headerMissingOrInvalid"
+        "headerMalformed"
       ]
     }
   },
   {
-    "comment": "UCAN payload section is missing or invalid",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.z6Pa7gNK3TXBoGsCv3HjjaTmvutjvYJ_dDKoWF0-fQ9ulQOLQUQfLOBad20liGZHEU2t-vhtMVD06oylfti9AA",
+    "comment": "UCAN payload section is malformed",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.FgKew6C7oUMxZzjE_ER-rRaOObtXqMlvfdKZVus1krDYIbcn5PBSFpInBJ7izUYauuKDVkonfGOojq7afstUCg",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -34,13 +34,13 @@
         "ucv": "0.8.1"
       },
       "validationErrors": [
-        "payloadMissingOrInvalid"
+        "payloadMalformed"
       ]
     }
   },
   {
-    "comment": "UCAN signature is missing or invalid",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ",
+    "comment": "UCAN signature is malformed",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -48,20 +48,20 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [],
         "prf": []
       },
       "validationErrors": [
-        "signatureMissingOrInvalid"
+        "signatureMalformed"
       ]
     }
   },
   {
     "comment": "UCAN has expired",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjoxNjQ3Nzg0OTUyLCJhdHQiOltdLCJwcmYiOltdfQ.EvUWrIbS0_3QKiL5JJT2N6TejC8h6u-weydGRozCfcsbCEiAGEYa1RC1Yx06pekdrxqveAkQMNbvcb4s6PhAAA",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjoxNjQ4MDM3ODA1LCJhdHQiOltdLCJwcmYiOltdfQ.5yRVSF4q1JbBT2ARnvgvkqPP16Mlt-D0BYt_IxTNkRZnuuCTCMCP2Xakl2lMswUhICHOz3BgRsGHrQuO-VVdDQ",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -69,9 +69,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 1647784952,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 1648037805,
         "att": [],
         "prf": []
       },
@@ -82,7 +82,7 @@
   },
   {
     "comment": "UCAN is not ready to be used",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwibmJmIjo0ODAzODkwNTUyLCJleHAiOjQ4MzU0MjY1NTIsImF0dCI6W10sInByZiI6W119.Yoa2Dslj8HaVjhzDNfhpQ5Qp2V6mydb0I48RcfLrEmjUQj9rO2sKYOUmkQUg6pCODLfo6SjT3aEW6GiK2yccDQ",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwibmJmIjo0ODA0MTQzNDA1LCJleHAiOjQ4MzU2Nzk0MDUsImF0dCI6W10sInByZiI6W119.9CrzdFvYmfKoCLbqBV5jENhjenxXHad5UD_A1-A_ghHg_StfkTXXzhi0tY68UR_9a-zMpHiH9q52WSjuVQARAA",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -90,10 +90,10 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "nbf": 4803890552,
-        "exp": 4835426552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "nbf": 4804143405,
+        "exp": 4835679405,
         "att": [],
         "prf": []
       },
@@ -104,7 +104,7 @@
   },
   {
     "comment": "Witnesses expire before the delegated UCAN",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo1NDM1MDQyNTUyLCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1T0M0eEluMC5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3R1ZUZaaFdGTjRWblJqWldSNldtNDVhRlZVVGt4bVlrNU1VSGh5YVVWeVdHUlhPRFoyY201bVZWTjRReUlzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTJkaFFXRldVM3BGT1ZoeFlXNXlZa1pFTVVvNVVrZFVSbU5YVlRkT09VSlFaMnBUVjIweE4zQnJNVzFDSWl3aVpYaHdJam8xTkRNMU1EUXlOVFV5TENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEuNUs0bmFyVkgxV0VvU194M2VQX3NiWUlsamxHT2RzVGctZE0tX3gzVy1RMDlOUU9YNzVaZEpUaDRrWjRmZjRHeDgxbmI5WmpZT3hydGI2d0NTNEFCREEiXX0.4sS_1rpx-_u2mMqPfsw50oLrJeGix6FnCXeAVifQmep7IqTnU3QE8rD3moxu38e7ZJWHhP3yn_JwxiNC31YlDQ",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo3OTU5ODE3MDA1LCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1T0M0eEluMC5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3RuY3pSeFYwVlJSMjl0TmxKcmNtMU5RbGRNVFZCMWExWk5hVUZ2U0hKS1MyWndSR1F4VlROMFlWbHJTQ0lzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTJ0U1NqazJjSFJRTVZOaU1UUTVaSGwyVkVOWFowNXRPVlJoTVZwMGRXSmxURVI0T1ZwNVVYUm9iMjlZSWl3aVpYaHdJam8xTkRNMU1qazFOREExTENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEuMUVha3N3aF9FYVVDaVBTdGgxbFFqVHNPaEptOGdiTmxEN196VlVqTkdWd3ZNTzhNaGRERzJuODh0N3BjNUZPbE5fX00xUlJCaGota25iMWNyMkppRGciXX0.evaRA0em05EXUwbboF4aAQhz4Ic1Bx3GJOC6MbW-rS8eP_9VUhHJ2ApzG9-fjbZHiwdgV_Y3bzYORLsH16g3Cg",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -112,12 +112,12 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 5435042552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 7959817005,
         "att": [],
         "prf": [
-          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtueFZhWFN4VnRjZWR6Wm45aFVUTkxmYk5MUHhyaUVyWGRXODZ2cm5mVVN4QyIsImF1ZCI6ImRpZDprZXk6ejZNa2dhQWFWU3pFOVhxYW5yYkZEMUo5UkdURmNXVTdOOUJQZ2pTV20xN3BrMW1CIiwiZXhwIjo1NDM1MDQyNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.5K4narVH1WEoS_x3eP_sbYIljlGOdsTg-dM-_x3W-Q09NQOX75ZdJTh4kZ4ff4Gx81nb9ZjYOxrtb6wCS4ABDA"
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnczRxV0VRR29tNlJrcm1NQldMTVB1a1ZNaUFvSHJKS2ZwRGQxVTN0YVlrSCIsImF1ZCI6ImRpZDprZXk6ejZNa2tSSjk2cHRQMVNiMTQ5ZHl2VENXZ05tOVRhMVp0dWJlTER4OVp5UXRob29YIiwiZXhwIjo1NDM1Mjk1NDA1LCJhdHQiOltdLCJwcmYiOltdfQ.1Eakswh_EaUCiPSth1lQjTsOhJm8gbNlD7_zVUjNGVwvMO8MhdDG2n88t7pc5FOlN__M1RRBhj-knb1cr2JiDg"
         ]
       },
       "validationErrors": [
@@ -127,7 +127,7 @@
   },
   {
     "comment": "Witnesses are not ready to be used before the delegated UCAN",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwibmJmIjoxNjQ4MjE2OTUyLCJleHAiOjU0MzUwNDI1NTIsImF0dCI6W10sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdHlhSGMyY1V0RFJsQkVWbFV4ZW1kMU1VNXlOSEkyV2t4VGNESmtTamhUVWxGa1pUWk1hVmROUzBOa1JDSXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMmRoUVdGV1UzcEZPVmh4WVc1eVlrWkVNVW81VWtkVVJtTlhWVGRPT1VKUVoycFRWMjB4TjNCck1XMUNJaXdpYm1KbUlqbzBPREF6T0Rrd05UVXlMQ0psZUhBaU9qVTBNelV3TkRJMU5USXNJbUYwZENJNlcxMHNJbkJ5WmlJNlcxMTkuLXMtbEMwbkpNWmswemxualNhbG80SWtRX2ZzbHpoeXU0NjRHcVFPaEl5bzduMEI1dXZaVGFGT0laOFpzYWxlZDh5REFLZTkzYnRYd2xqWEppRWdpQUEiXX0.VDG8KaYCDp5FQ_QyrR1bMndqHATXNnykDa0tDGXRyCQZGy7tthazQMnt1Vnj98v3iT7xlbv8G8MN4kXKEs3qAQ",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwibmJmIjoxNjQ4NDY5ODA1LCJleHAiOjU0MzUyOTU0MDUsImF0dCI6W10sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdHBaRTVPWkdWVU4yUkhjM281V0hjeE5YVkRaWGh4YXpVelJqUjVRV0puWWpOdFFuUllSV04xUlVoT2RDSXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMnRTU2prMmNIUlFNVk5pTVRRNVpIbDJWRU5YWjA1dE9WUmhNVnAwZFdKbFRFUjRPVnA1VVhSb2IyOVlJaXdpYm1KbUlqbzBPREEwTVRRek5EQTFMQ0psZUhBaU9qVTBNelV5T1RVME1EVXNJbUYwZENJNlcxMHNJbkJ5WmlJNlcxMTkuenFfQjk1UUZNQ2NFeFd1OUI5NDhJc0k5M0x3RW15WDhyNGJGMC1nWVlSLTJrZWtBWFFNdjYxOXNVMDFvdnlLdHU4Y2RjcTkwcUNZY3VkVVFyT1FrRGciXX0.TeXkfcjEYgODnCO55iMRYxoLUy7kaKhWF7N0Cz32uDd-Ea_c7Wmq4WC-3wCQc9eKI1lqpDe7tfBWGHl_a14hAA",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -135,13 +135,13 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "nbf": 1648216952,
-        "exp": 5435042552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "nbf": 1648469805,
+        "exp": 5435295405,
         "att": [],
         "prf": [
-          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtyaHc2cUtDRlBEVlUxemd1MU5yNHI2WkxTcDJkSjhTUlFkZTZMaVdNS0NkRCIsImF1ZCI6ImRpZDprZXk6ejZNa2dhQWFWU3pFOVhxYW5yYkZEMUo5UkdURmNXVTdOOUJQZ2pTV20xN3BrMW1CIiwibmJmIjo0ODAzODkwNTUyLCJleHAiOjU0MzUwNDI1NTIsImF0dCI6W10sInByZiI6W119.-s-lC0nJMZk0zlnjSalo4IkQ_fslzhyu464GqQOhIyo7n0B5uvZTaFOIZ8Zsaled8yDAKe93btXwljXJiEgiAA"
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtpZE5OZGVUN2RHc3o5WHcxNXVDZXhxazUzRjR5QWJnYjNtQnRYRWN1RUhOdCIsImF1ZCI6ImRpZDprZXk6ejZNa2tSSjk2cHRQMVNiMTQ5ZHl2VENXZ05tOVRhMVp0dWJlTER4OVp5UXRob29YIiwibmJmIjo0ODA0MTQzNDA1LCJleHAiOjU0MzUyOTU0MDUsImF0dCI6W10sInByZiI6W119.zq_B95QFMCcExWu9B948IsI93LwEmyX8r4bF0-gYYR-2kekAXQMv619sU01ovyKtu8cdcq90qCYcudUQrOQkDg"
         ]
       },
       "validationErrors": [
@@ -150,8 +150,8 @@
     }
   },
   {
-    "comment": "Witness issuer audience did does not align with delegated issuer did",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1T0M0eEluMC5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3RvTlV0blUwaFhWblZZU2xKTWFGRmhOak5yU0ZCU1ZUVnBabGxGUkVjMGFrdzBXakpxY21KbFNFaFpjQ0lzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTIxRFYyZzFhRUZaYlhNMVptNVZNVk5vUWtoQ1RtRlZNMDB4UW1WdmVWbG5jWEpSY0dab2IyNTVORkJuSWl3aVpYaHdJam8wT0RBek9Ea3dOVFV5TENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEuZENZMlNJQlRhWE9US1ZIQWJ2UTlQbDFyTjNUUkhxUzlqdUpYR3VYeTJ1QUxxUndveUxkY1FTMUJkVWxxRUZmTE94QkE0YW9uMXBKbXc5b1RFNEhaRFEiXX0.iknlY2oKHWmtc-ax-JLvIIOVdhsHRt1_Q2uN5aH4vpg59vCMqjv02Aafiub6ie88if0oI_pOT5720IJLJmvRDQ",
+    "comment": "Witness issuer audience DID does not align with delegated issuer DID",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1T0M0eEluMC5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3RvZVhscGFGcFRNM0JyWTNaSGMzWnFaalZ3UjJJNVUyUkJZMHRyT0VaRWRGbHBlRmsyUWpkTWFIbHRRaUlzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTIxRFYyZzFhRUZaYlhNMVptNVZNVk5vUWtoQ1RtRlZNMDB4UW1WdmVWbG5jWEpSY0dab2IyNTVORkJuSWl3aVpYaHdJam8wT0RBME1UUXpOREExTENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEuNzl3MUxKc2k3S3dKX3lGOG1QVG40OVNfWTJqRW9tdEpHaGdSTm5YR0tSdkxtLVIyQWhLVnhsRjkxS0ZQZEpEcTBKcEx6OXljOWs1ZWt4eG9WWE1sRGciXX0.irc9bzJDgplnO3nsy_NebfgU51_TmvucXGMjw78I0a7fM0i4ZsJOMqJT83DzAn8usJrpBDeKHtJw6b8FnkYXDw",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -159,12 +159,12 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [],
         "prf": [
-          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoNUtnU0hXVnVYSlJMaFFhNjNrSFBSVTVpZllFREc0akw0WjJqcmJlSEhZcCIsImF1ZCI6ImRpZDprZXk6ejZNa21DV2g1aEFZbXM1Zm5VMVNoQkhCTmFVM00xQmVveVlncXJRcGZob255NFBnIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.dCY2SIBTaXOTKVHAbvQ9Pl1rN3TRHqS9juJXGuXy2uALqRwoyLdcQS1BdUlqEFfLOxBA4aon1pJmw9oTE4HZDQ"
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoeXlpaFpTM3BrY3ZHc3ZqZjVwR2I5U2RBY0trOEZEdFlpeFk2QjdMaHltQiIsImF1ZCI6ImRpZDprZXk6ejZNa21DV2g1aEFZbXM1Zm5VMVNoQkhCTmFVM00xQmVveVlncXJRcGZob255NFBnIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ.79w1LJsi7KwJ_yF8mPTn49S_Y2jEomtJGhgRNnXGKRvLm-R2AhKVxlF91KFPdJDq0JpLz9yc9k5ekxxoVXMlDg"
         ]
       },
       "validationErrors": [
@@ -174,7 +174,7 @@
   },
   {
     "comment": "Witness UCAN version does not match delegated UCAN version",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1TnlKOS5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3R3ZW1SRVlrMVVRelJYY1V0TU1UZEVkMUJxWWpReVUySkxXbEprWVZwT2FVZFNXRWR0VFRoR2JtdGtUU0lzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTJkaFFXRldVM3BGT1ZoeFlXNXlZa1pFTVVvNVVrZFVSbU5YVlRkT09VSlFaMnBUVjIweE4zQnJNVzFDSWl3aVpYaHdJam8wT0RBek9Ea3dOVFV5TENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEuUGxQbWllRjdxMEUtTnJkdUhTRkluRHVXQVhwbXR1UzBwdXpwLWpuV1ZkQ1J4Rnphc2l6SlRPMlo4LWxtV0I3R0M5bXYxMV90dHNKVURadVpHYUpZQUEiXX0.NY3FNqTvBl-4uiQcAKzPpDIvBBw5QBrdin_YvYvBAs7ocAHLWfhEWgR8K4aOYw17uKJclzoRbYeNT-i1lgamDg",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1TnlKOS5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3QyTmxsa2EzbGxhR1JpUjFZNVVIUnFjbkl5VTB0Wk9IRm1OVTV3YjIxak5GUnVRM2xCVTNwMWRYWktWQ0lzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTJ0U1NqazJjSFJRTVZOaU1UUTVaSGwyVkVOWFowNXRPVlJoTVZwMGRXSmxURVI0T1ZwNVVYUm9iMjlZSWl3aVpYaHdJam8wT0RBME1UUXpOREExTENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEubE8zVXp5ZEFXY21qaVNOUXlYUUNIemdyZjgzZU9CSGN1VkcxdS15dVVLaFl2ZFg4c2pIcTUtUU9OYmNGTmZKSW1tNTRKVXp1M3AwV0ZVUS00UkpQQnciXX0._dh16zftCRCx-Lsp8NbG1mtuRVPtsJ7uxcibQ6ZvCgXZrKnVsdkHd9YlYb2LDjd1mD2p2Auq97GBKInJDhx1BQ",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -182,12 +182,12 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [],
         "prf": [
-          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuNyJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtwemREYk1UQzRXcUtMMTdEd1BqYjQyU2JLWlJkYVpOaUdSWEdtTThGbmtkTSIsImF1ZCI6ImRpZDprZXk6ejZNa2dhQWFWU3pFOVhxYW5yYkZEMUo5UkdURmNXVTdOOUJQZ2pTV20xN3BrMW1CIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.PlPmieF7q0E-NrduHSFInDuWAXpmtuS0puzp-jnWVdCRxFzasizJTO2Z8-lmWB7GC9mv11_ttsJUDZuZGaJYAA"
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuNyJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWt2Nllka3llaGRiR1Y5UHRqcnIyU0tZOHFmNU5wb21jNFRuQ3lBU3p1dXZKVCIsImF1ZCI6ImRpZDprZXk6ejZNa2tSSjk2cHRQMVNiMTQ5ZHl2VENXZ05tOVRhMVp0dWJlTER4OVp5UXRob29YIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ.lO3UzydAWcmjiSNQyXQCHzgrf83eOBHcuVG1u-yuUKhYvdX8sjHq5-QONbcFNfJImm54JUzu3p0WFUQ-4RJPBw"
         ]
       },
       "validationErrors": [
@@ -196,8 +196,8 @@
     }
   },
   {
-    "comment": "Witness does not exist",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOlt7IndpdGgiOiJwcmYvMiIsImNhbiI6InVjYW4vREVMRUdBVEUifV0sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdHBkbFpXVkRSblRrNXFaRlpMUTFWdE0yUTBVVXMwUkROWFRsbzRNM0puVTFwSU9FdzJhbnBtUkUxR2R5SXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMmRoUVdGV1UzcEZPVmh4WVc1eVlrWkVNVW81VWtkVVJtTlhWVGRPT1VKUVoycFRWMjB4TjNCck1XMUNJaXdpWlhod0lqbzBPREF6T0Rrd05UVXlMQ0poZEhRaU9sdGRMQ0p3Y21ZaU9sdGRmUS5XMGcwWmdueG9tQVJLMzFObHE0ZlN1bTJ2M1phd2dfTHF5UjQwTU5FNlZBZjUwOGd3dnVyS29Fd0lBeEVLeUNkYWh2X3g1eFgxMjdUN002bUtfWG1EZyJdfQ.0G0BCGxLsTHMr9Ev9o-m3vWGzKaikfWfIo7LzhLFv25QXBWGplhWLpKsPPQTfktgcyZHFdQqHQKvzEMTBhZ6CQ",
+    "comment": "Witness referenced in prf scheme does not exist",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOlt7IndpdGgiOiJwcmYvMiIsImNhbiI6InVjYW4vREVMRUdBVEUifV0sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdHBVRFpIYmpSVlZuZHVTM0ZDV2pOalowVnhjMUkxTm5SVFJUZGFkR1IzTjNwMmFHOTRlbGx3Um01WFlTSXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMnRTU2prMmNIUlFNVk5pTVRRNVpIbDJWRU5YWjA1dE9WUmhNVnAwZFdKbFRFUjRPVnA1VVhSb2IyOVlJaXdpWlhod0lqbzBPREEwTVRRek5EQTFMQ0poZEhRaU9sdGRMQ0p3Y21ZaU9sdGRmUS5Fb0FJVHBSQThNcHA4MnlFVEN5S25CLWh6eURkQ21GR2tZMFdtaFZITFd5VHpFX2dob2hueEYwMC0ycjNRVHItNFJ3bWV0R1RLMnNmZV80OG5EbFZDdyJdfQ.Pym6NodLcZe7elBnnwDlxf5SP3VlEHluxvgTsNplwaKJ32KxBdVP9J9kY1T3ZA_d6XlvAOz8Ve8RQ0DPYpCxDA",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -205,9 +205,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [
           {
             "with": "prf/2",
@@ -215,7 +215,7 @@
           }
         ],
         "prf": [
-          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtpdlZWVDRnTk5qZFZLQ1VtM2Q0UUs0RDNXTlo4M3JnU1pIOEw2anpmRE1GdyIsImF1ZCI6ImRpZDprZXk6ejZNa2dhQWFWU3pFOVhxYW5yYkZEMUo5UkdURmNXVTdOOUJQZ2pTV20xN3BrMW1CIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.W0g0ZgnxomARK31Nlq4fSum2v3Zawg_LqyR40MNE6VAf508gwvurKoEwIAxEKyCdahv_x5xX127T7M6mK_XmDg"
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtpUDZHbjRVVnduS3FCWjNjZ0Vxc1I1NnRTRTdadGR3N3p2aG94ellwRm5XYSIsImF1ZCI6ImRpZDprZXk6ejZNa2tSSjk2cHRQMVNiMTQ5ZHl2VENXZ05tOVRhMVp0dWJlTER4OVp5UXRob29YIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ.EoAITpRA8Mpp82yETCyKnB-hzyDdCmFGkY0WmhVHLWyTzE_ghohnxF00-2r3QTr-4RwmetGTK2sfe_48nDlVCw"
         ]
       },
       "validationErrors": [
@@ -225,7 +225,7 @@
   },
   {
     "comment": "Header `alg` field should be a string",
-    "token": "eyJhbGciOjEsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.c-Y__ALJ8H9YAdCwAt8fIRBeIBQzRMrq-VJi96sAui6I0GpM7UgkosyGWfUCnbdKxbLnk9VkbWj00ujRSuNjBA",
+    "token": "eyJhbGciOjEsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ.mIofiorxV3wY3gJciycO6vv2RfqG3pjykkhhtVH463jB0H_1v2qBwRA8c9LZH6gcMzfxRGriCunly6CwWP8rCA",
     "assertions": {
       "header": {
         "alg": 1,
@@ -233,9 +233,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [],
         "prf": []
       },
@@ -246,16 +246,16 @@
   },
   {
     "comment": "Header is missing an `alg` field",
-    "token": "eyJ0eXAiOiJKV1QiLCJ1Y3YiOiIwLjguMSJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.O8NSZf_gw8bU-2EpCP8sRSyqP7QLbBXGALez9khz4qtTrgL5HoGm0-UyXhZv7NSR-PCfMwdHX77VRV8UhbfpDg",
+    "token": "eyJ0eXAiOiJKV1QiLCJ1Y3YiOiIwLjguMSJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ.7-Ta8h0oc10104OsgyK3OcTzm9pjTBFAHbKNogH0A6LOk3_su1fF50SFjt3ynqigdw5iO8dBwkavBL_BxqRwBQ",
     "assertions": {
       "header": {
         "typ": "JWT",
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [],
         "prf": []
       },
@@ -266,7 +266,7 @@
   },
   {
     "comment": "UCAN algorithm is not valid",
-    "token": "eyJhbGciOiIiLCJ0eXAiOiJKV1QiLCJ1Y3YiOiIwLjguMSJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.BOr8uCn18jECd4JbFBQL9Z6CqxDA1EpSIM0spnUwt6V-6J9JY6CWKb7ndg5MzoHUu0EgrMlHUfrxCPd5ASI9BA",
+    "token": "eyJhbGciOiIiLCJ0eXAiOiJKV1QiLCJ1Y3YiOiIwLjguMSJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ.iIS8VeAQwb_jyTzVKpVxeYRauOcUBcUw4sB9y4J5r6vI__8ShuUxb7-D6vcfmncWyuTm5iq_tbqm5AEbhMG-Bg",
     "assertions": {
       "header": {
         "alg": "",
@@ -274,9 +274,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [],
         "prf": []
       },
@@ -287,7 +287,7 @@
   },
   {
     "comment": "Header `typ` field should be a string",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6MSwidWN2IjoiMC44LjEifQ.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.zpX8fKkyaxBjH-Df6aFtM7Yf0axpBwcbSEmvwZM-a19VJhMvIh1OQxzem0S5uQurFnLDtgKNmmX6QHde4S5DBA",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6MSwidWN2IjoiMC44LjEifQ.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ.mMBMtK54tDYH2Vn6ym1yUu9COCidKj2LYqd1sSxeuDl8fslMRnguD55wSsb7gK7zxtg4E6Hm37Gso6DxuQsGAQ",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -295,9 +295,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [],
         "prf": []
       },
@@ -308,16 +308,16 @@
   },
   {
     "comment": "Header is missing a `typ` field",
-    "token": "eyJhbGciOiJFZERTQSIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.s47rfWDcz-KnjD_kOUT0XVv812lk5ZFUjMuxiW-cXkHqoZdb5a3hWlqscbvOObLe6D5cDKH1NTMKNlk1-uJfBQ",
+    "token": "eyJhbGciOiJFZERTQSIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ.JA1JpfG6N2aGkISzM-DTKxqdCkUCm2MCFCUeqivOSE_mF0cQFb1RcTzL5Mj82W58g6IvvaY8K9cd-DUznrBMBg",
     "assertions": {
       "header": {
         "alg": "EdDSA",
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [],
         "prf": []
       },
@@ -328,7 +328,7 @@
   },
   {
     "comment": "UCAN type is not valid",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IiIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.avd86hsse3Mu_-Ed1GX9-nlh5r9aT-O14iQYSMY4bx5PtqzyjJmlveinUkjUD21lbBSOMUnjt6ISg_w3w-N5Cg",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IiIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ.KWMTSNcsvNXX1phXsS948P0Pk_P-60iJViexlmmTsUeV0YFefzf425SW6u60MIZNytUKGM4ttUODYofEd_AQCA",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -336,9 +336,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [],
         "prf": []
       },
@@ -349,7 +349,7 @@
   },
   {
     "comment": "Header `ucv` field should be a string",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6MX0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.62mUG-QqZnzhWwc9449jDlqeXPRNVkDxYg4oWshYpFC3vPFGLS0vsSMe0l2AcEbTd6K0dHB54_Id8k2l542XAw",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6MX0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA1LCJhdHQiOltdLCJwcmYiOltdfQ.BeJGYQHJzLWTOgW43hHN50KbZnGwOdXO6_SjxRsvEG6_VXKqJgM-Twzhg8hZ5sP9rI3Z_aN1p_78sBC34S8HBg",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -357,9 +357,9 @@
         "ucv": 1
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143405,
         "att": [],
         "prf": []
       },
@@ -370,16 +370,16 @@
   },
   {
     "comment": "Header is missing a `ucv` field",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.e11UvIPQXpB7YJnTGjpJCrnPGoimcL9hrOpb8md0C_ubBlfYbM9kg-UsgNh7-CM3hNYtydIyQUTsdEFNFGuYDA",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOltdLCJwcmYiOltdfQ.3_mFfAQPuD0hCT9CwshexBzFWGvJG_fYsReGDEDocHrLUwPGUnlepJGQ0d7wXYybpthfTDcE7Q_K_NsRKnvADw",
     "assertions": {
       "header": {
         "alg": "EdDSA",
         "typ": "JWT"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": [],
         "prf": []
       },
@@ -390,7 +390,7 @@
   },
   {
     "comment": "UCAN version is not valid",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuNyJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.spzK9Lw5aXM9W583t7elz524fRQgubGmyJNPwctY2i2Vaodaxv_BhzmtlA0MImMYV_ijFy0FucpwZTKRmEO7CQ",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuNyJ9.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOltdLCJwcmYiOltdfQ.w-9sCI_QqcUwV0onCYChk6ZUvpm6M59V9EX-95LAKjUDzaaExyXuI3TQ56VYiadj1w4CR4stxEFuRVRoC2QCCQ",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -398,9 +398,9 @@
         "ucv": "0.7"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": [],
         "prf": []
       },
@@ -411,7 +411,7 @@
   },
   {
     "comment": "Payload `iss` field should be a did:key string",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOjEsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.ruXm2_NCh_Oi6lkOLu1dTIXuRlcH8jDkH-uwTFJmqJVzi5QattqQNiL8tnGxLrkMpMim5aWToGNH49IjAO_2Bg",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOjEsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOltdLCJwcmYiOltdfQ.7NMS0rGRKgUSsK4VcN7zT1nU53UkpYtIegx4kE9bM5jdYSdBTbANUjq3JIvGaSeEWQy2nnUeAxmeFhEqJrmZAQ",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -420,8 +420,8 @@
       },
       "payload": {
         "iss": 1,
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": [],
         "prf": []
       },
@@ -432,7 +432,7 @@
   },
   {
     "comment": "Payload is missing an `iss` field",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJhdWQiOiJkaWQ6a2V5Ono2TWtyanpBeU5RVjJIbUZSaUxoTm9pVFc3Ulo3NkpVVG51SHRmc1ROMVJLNlpQVCIsImV4cCI6NDgwMzg5MDU1MiwiYXR0IjpbXSwicHJmIjpbXX0.hqeQpatrcIghGx6XzAHwTi4n12Z3UUbnTT9shcg723GrDlfIEBCVs9PuA0dJVo4RGCshBJOIqo4iMV3EEvPkCA",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJhdWQiOiJkaWQ6a2V5Ono2TWtvd1dhS3VNYnFGY2Q3dlhyb0dzRDk4d1hid1B3U3Y2RnZXR2pkaHRQNE56ZSIsImV4cCI6NDgwNDE0MzQwNiwiYXR0IjpbXSwicHJmIjpbXX0.p1Csgk2_Gpc_bNUECJjRNQCM2OJGed39zlSEiZaPZMHpyRK3DxoMhpQPlxgxPjF6_-48W5aUX7iU76TfxBq6DA",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -440,8 +440,8 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": [],
         "prf": []
       },
@@ -452,7 +452,7 @@
   },
   {
     "comment": "UCAN issuer did:key is not valid",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiIiLCJhdWQiOiJkaWQ6a2V5Ono2TWtyanpBeU5RVjJIbUZSaUxoTm9pVFc3Ulo3NkpVVG51SHRmc1ROMVJLNlpQVCIsImV4cCI6NDgwMzg5MDU1MiwiYXR0IjpbXSwicHJmIjpbXX0._z-CMld9pdeULWATTJD4k_RxFHmkgGK_xorUVWvZjwAMdoPP7OipP5qO7_21Hp9EwLrIAcqsVerxDFK1S-z_Bw",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiIiLCJhdWQiOiJkaWQ6a2V5Ono2TWtvd1dhS3VNYnFGY2Q3dlhyb0dzRDk4d1hid1B3U3Y2RnZXR2pkaHRQNE56ZSIsImV4cCI6NDgwNDE0MzQwNiwiYXR0IjpbXSwicHJmIjpbXX0.6dLlKFCQaeM27_LNIDndbkkVnd2hvicJEjBwcIxaRvkBlsdgQg02Ct_g4XEAeIpX74gj79J9UKkuKnPY-ToZBg",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -461,8 +461,8 @@
       },
       "payload": {
         "iss": "",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": [],
         "prf": []
       },
@@ -473,7 +473,7 @@
   },
   {
     "comment": "UCAN issuer did:key is not valid",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5OnpNKyttOER4V1N3UWhoWlliZ1Bqa0NOam1MdnZhM0Q3cUJzR1B2d3oyZ3luU2lhSiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.LJhX5oBcdvfshZZii4aikF1JA8r_RtVqTtpQdHLqc_NrfwH5ul5lsgBrNsbMS3HaOBs6JIuOccCWuf93q7J6Dg",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5OnpNKyttOER4V1N3UWhoWlliZ1Bqa0NOam1MdnZhM0Q3cUJzR1B2d3oyZ3luU2lhSiIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOltdLCJwcmYiOltdfQ.kO73jhpzsyhMNUtV7LlcGBKi66gTbSVp6DD4K6k9ugA_a0ijbq_i9ga_LQWYrQAAeWxe52NN7rNHm0uTX07SBA",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -482,8 +482,8 @@
       },
       "payload": {
         "iss": "did:key:zM++m8DxWSwQhhZYbgPjkCNjmLvva3D7qBsGPvwz2gynSiaJ",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": [],
         "prf": []
       },
@@ -494,7 +494,7 @@
   },
   {
     "comment": "Payload `aud` field should be a did:key string",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6MSwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.fFtvTaBbX_hnT7fMZr32d8Nbj02h7_M-ebVuizjw4PHEe5p1S8Bgc7OtFWlc5b1EjFjWYacflw02tW7juMqgCw",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6MSwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOltdLCJwcmYiOltdfQ.fjpb0dviYqmjryGTayTdeMWu0MrF0ozSKWDbsgW6DKJ53wn6Ai9YttOnASEcgwkK_fXALtU7vifhC5DCGbGpDw",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -502,9 +502,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
         "aud": 1,
-        "exp": 4803890552,
+        "exp": 4804143406,
         "att": [],
         "prf": []
       },
@@ -515,7 +515,7 @@
   },
   {
     "comment": "Payload is missing an `aud` field",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImV4cCI6NDgwMzg5MDU1MiwiYXR0IjpbXSwicHJmIjpbXX0.7PTVLCUr1r52p5MfmxS8zQh6f04ypFs79KX7lNt-eR0X4u2RPduExCtzSBPRZnCmUjDiQVFpdjHcBqst1h7bDQ",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImV4cCI6NDgwNDE0MzQwNiwiYXR0IjpbXSwicHJmIjpbXX0.Yuv80MkYlalcFrMNfJfnPHXBtvWdadnvt6CTBJJem8iaklmbTvCxJoTpWL2vtl5BnKapdlJvF73BvYIJLErvDA",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -523,8 +523,8 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "exp": 4804143406,
         "att": [],
         "prf": []
       },
@@ -535,7 +535,7 @@
   },
   {
     "comment": "UCAN audience did:key is not valid",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ek0rK204RHhXU3dRaGhaWWJnUGprQ05qbUx2dmEzRDdxQnNHUHZ3ejJneW5TaWFKIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.RdJkIbiXjxkehP2KG1Fo53HSBWUalvMbqPEXW-9PODzSOKWAB7UdZ6qiuW27ayk25LWe6O_O8IrGk-LP4nD7BQ",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ek0rK204RHhXU3dRaGhaWWJnUGprQ05qbUx2dmEzRDdxQnNHUHZ3ejJneW5TaWFKIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOltdLCJwcmYiOltdfQ.YB9ltNMczA9GM1CnXXCy_WdquMWjFVlUg-uC53O9Axe1Zy0nNbDQym-vc5SpsRna0PayYQso6JBRr27PGYyQBw",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -543,9 +543,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
         "aud": "did:key:zM++m8DxWSwQhhZYbgPjkCNjmLvva3D7qBsGPvwz2gynSiaJ",
-        "exp": 4803890552,
+        "exp": 4804143406,
         "att": [],
         "prf": []
       },
@@ -556,7 +556,7 @@
   },
   {
     "comment": "UCAN audience did:key is not valid",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6IiIsImV4cCI6NDgwMzg5MDU1MiwiYXR0IjpbXSwicHJmIjpbXX0.Q7HlOvFa3HGhRYF38u2dnZOLH4_8v9KJoEBiIE1Q1S0MHUAIEOewDl3AZgENMaRSFlgwxuLY4o7J-S6O_CuAAw",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6IiIsImV4cCI6NDgwNDE0MzQwNiwiYXR0IjpbXSwicHJmIjpbXX0.kcKCzMYP0LLlKlGn66baSaDF0C1v8FM_M7yRtb8r2VIOhXaNX8xhGKLE49LQB9xOc9QZNajlgF3X8dGCWvc1DA",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -564,9 +564,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
         "aud": "",
-        "exp": 4803890552,
+        "exp": 4804143406,
         "att": [],
         "prf": []
       },
@@ -577,7 +577,7 @@
   },
   {
     "comment": "Payload `nbf` field should be a number",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwibmJmIjoic3RyaW5nIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOltdfQ.YlVtCiWjX90d0PmmBfwpO342rxkgIZufodL3qaOP2dFX1TKRveQYPykBgWu1c5dhc-hzyNBFAa6unFAz9nS6CQ",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwibmJmIjoic3RyaW5nIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOltdLCJwcmYiOltdfQ.HNLRPWSnwzNF7XxSg_ua1hydQYWekXZZxkC-axf3_V3SXosU2iGsBJ0OhxO8DshqXJj2DvW44wKvdGxegtxVBw",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -585,10 +585,10 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
         "nbf": "string",
-        "exp": 4803890552,
+        "exp": 4804143406,
         "att": [],
         "prf": []
       },
@@ -598,8 +598,8 @@
     }
   },
   {
-    "comment": "Payload `exp` field should be a did:key string",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjoic3RyaW5nIiwiYXR0IjpbXSwicHJmIjpbXX0.NoYKG6c-oyUlo7voyaXJRvbMWM_RW3ov6Be__yoo-v4djpFGLfwcBxOvUdM0cL8yrSBC9Ih79HorGqDeflJaAg",
+    "comment": "Payload `exp` field should be a string",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjoic3RyaW5nIiwiYXR0IjpbXSwicHJmIjpbXX0.n-3o1pAo11o9dMQTlsu-FjxozJTFnw_TcogtERyFv08T09bsdw8ASzjQcS_aIiw-C_VYFxBTuYAAqREbSOAOBQ",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -607,8 +607,8 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
         "exp": "string",
         "att": [],
         "prf": []
@@ -620,7 +620,7 @@
   },
   {
     "comment": "Payload is missing an `exp` field",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiYXR0IjpbXSwicHJmIjpbXX0.W5z8zr-AJHSPIfjnGdJqyex_zvJEEP0B2EWgUaaLf8wVRt3fRJ-Xv_DHPJem21XQrA9yhHDAngTmjTXmvbNdAA",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiYXR0IjpbXSwicHJmIjpbXX0.q-ic-mRrH8ycagOZKUEal3HlP5l2LNPEd9w_doS8yHlXyxhF9_L6IfzfcyTCnfQSj11pDF0ckc50fN62Xi4dAw",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -628,8 +628,8 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
         "att": [],
         "prf": []
       },
@@ -640,7 +640,7 @@
   },
   {
     "comment": "Payload `ncc` field should be a string",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJubmMiOjEsImF0dCI6W10sInByZiI6W119.FCRiB1m211f6mPazOj2O1KJ1Rlgra_HSayqy6BmVxs0wGoTYy2Y1RYPvuJmcTHF2AahnzPZNtGerokylvD7IAw",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJubmMiOjEsImF0dCI6W10sInByZiI6W119.9e_eP6WXGEZ9I1P0qH4XTB2Wnweull2N75CBkovWAAANDUZkhUujXIw0UcnEmDdpGzky4NVBoj-dlEjVrtdABQ",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -648,9 +648,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "nnc": 1,
         "att": [],
         "prf": []
@@ -662,7 +662,7 @@
   },
   {
     "comment": "Payload `fct` field should be an array of json",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJmY3QiOjEsImF0dCI6W10sInByZiI6W119.nq15QmtjWllrhJrb2siEg4B9ZXEcKZCEkChXeoo003DP3UOxWr97c1un_05NgqqNzwCKAJ_Hd1TRpXSVBjFeDw",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJmY3QiOjEsImF0dCI6W10sInByZiI6W119.ZflRtjq1OnLS9jLM30ElokOKkrjFqNDR5fn50z9YTdzjgl7HTp4SSHomPLvTVuV7Dm42GE9_IqZzkftNZA9dAQ",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -670,9 +670,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "fct": 1,
         "att": [],
         "prf": []
@@ -683,8 +683,8 @@
     }
   },
   {
-    "comment": "Payload `prf` field should be an array of string",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOjF9.3_JSHO4UTuebqlqH4dj3ZtfeAx3aVOj76p_nKT3Vxx_LjTtJ81uxe5kLptMUCkReM7bvY91XJP2fP5xegv1zCA",
+    "comment": "Payload `prf` field should be an array of strings",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOltdLCJwcmYiOjF9.59ZbiOUjVpriTAMfdG8zBAxEv9-gAeBxM9dsjhHXhqpLyCEsLiG8p4m0UpV1ndqHhlzOq2UYvwFHA7RF29hACg",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -692,9 +692,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": [],
         "prf": 1
       },
@@ -704,8 +704,8 @@
     }
   },
   {
-    "comment": "Payload `prf` field should be an array of string",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdLCJwcmYiOlsxXX0.lr0sBtlEigPpQkh3K6oGncH1EHK0SAL_8BvOcYhR9nB5hwSM7mITOPbvinpG4IP-IBYFtOQmOsco3ZVdCHwjAw",
+    "comment": "Payload `prf` field should be an array of strings",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOltdLCJwcmYiOlsxXX0.i7zJZKCmY5LJRoT4cPfaL-_2LVH-OfVKqBlHQeWGuxVZAMGCLh_UEo_XGz4OffsTGuliUy-9oK7IgdwwY2NVCw",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -713,9 +713,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": [],
         "prf": [
           1
@@ -728,7 +728,7 @@
   },
   {
     "comment": "Payload is missing an `prf` field",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOltdfQ.Vbn2iEBi4Kz8jypqS3IcqmhRdb_yCjQ9jIfO8xHc6mUKAs_K9UATltT4PLsfWnbD7jtzfgrp1WYlxt9OOrlwBQ",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOltdfQ.8Z9f9C-Bx0c2o6AIv7ap28bz0ZIKYihNXv1c5GEct_ub7_HNO_Yp9C1JjXDEitIp62tg7m1fOnrw6YZkIKG8Dw",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -736,9 +736,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": []
       },
       "typeErrors": [
@@ -748,7 +748,7 @@
   },
   {
     "comment": "Payload `att` field should be an array of json",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOjEsInByZiI6W119.hvPuAyvzoGqizKtv1nmJsS2H04mI2BfCd8SnqvobVhBg55WEYUnplknEcnQlpWvfZsGJG1TAZIzeDi6haWQXDA",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOjEsInByZiI6W119.PPJv9sDl-1kAULjslUx6kyXgb5uRDAxWyOvjiMk545nPMu6MFAtR_dmeQBWykIrKsQdmhdiGtyySaqyhAywgDA",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -756,9 +756,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": 1,
         "prf": []
       },
@@ -769,7 +769,7 @@
   },
   {
     "comment": "Payload is missing an `att` field",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJwcmYiOltdfQ.mjvsmNbKXvt4svZ4e3afSBuvLcX7xHrl-7K2Ko0hnkOtR8_XiSWAoDnKao_515xkLr5WW8bUL1LdQJeSQe3lAg",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJwcmYiOltdfQ.GjLODnc4DFVycTq_lM7UFBArE31AYBBFfhwJGA2pGqf9vdD-M7JzWYCOI9RWKXXdrJroVvSfp7-MG_fSoGZHCw",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -777,9 +777,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "prf": []
       },
       "typeErrors": [
@@ -789,7 +789,7 @@
   },
   {
     "comment": "Attenuation resource is not a URI",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOlt7IndpdGgiOiJ0YW1lZHVuLmZpc3Npb24uYXBwL3B1YmxpYy9waG90b3MvIiwiY2FuIjoid25mcy9BUFBFTkQifV0sInByZiI6W119.kyWHQgCZa4j7rUc-_eCfGKL25WhqC4ZI5zLMOTPK5pReobCCjqcSQGkiq2uy9fhavzmzU8aI9eBfCh4aWAB4DQ",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOlt7IndpdGgiOiJ0YW1lZHVuLmZpc3Npb24uYXBwL3B1YmxpYy9waG90b3MvIiwiY2FuIjoid25mcy9BUFBFTkQifV0sInByZiI6W119.iEs4qr18c73cIKfTIigLTJAsTdpYdUihWmymNp3Ahw3_9lHdOOlIhl3o3PP0iS6OWKEIBN7k_w8o_j4UD1dwCA",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -797,9 +797,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": [
           {
             "with": "tamedun.fission.app/public/photos/",
@@ -815,7 +815,7 @@
   },
   {
     "comment": "Attenuation ability is not namespaced",
-    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtnYUFhVlN6RTlYcWFucmJGRDFKOVJHVEZjV1U3TjlCUGdqU1dtMTdwazFtQiIsImF1ZCI6ImRpZDprZXk6ejZNa3JqekF5TlFWMkhtRlJpTGhOb2lUVzdSWjc2SlVUbnVIdGZzVE4xUks2WlBUIiwiZXhwIjo0ODAzODkwNTUyLCJhdHQiOlt7IndpdGgiOiJ3bmZzOi8vdGFtZWR1bi5maXNzaW9uLmFwcC9wdWJsaWMvcGhvdG9zLyIsImNhbiI6IkFQUEVORCJ9XSwicHJmIjpbXX0.vbjAZBXQkm5BVuicYb6QnwPhgDLCOX_t1UUd5oCDURFDwU5hZ7D-9ElfsuFKlqFOXzg_WbVCaD6B_gyeOF-SCw",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrUko5NnB0UDFTYjE0OWR5dlRDV2dObTlUYTFadHViZUxEeDlaeVF0aG9vWCIsImF1ZCI6ImRpZDprZXk6ejZNa293V2FLdU1icUZjZDd2WHJvR3NEOTh3WGJ3UHdTdjZGdldHamRodFA0TnplIiwiZXhwIjo0ODA0MTQzNDA2LCJhdHQiOlt7IndpdGgiOiJ3bmZzOi8vdGFtZWR1bi5maXNzaW9uLmFwcC9wdWJsaWMvcGhvdG9zLyIsImNhbiI6IkFQUEVORCJ9XSwicHJmIjpbXX0.7pdDA5Uz73Unl7_Tu-jtKFv_3GjVEQ8vhknK0UeF09KcjLGr7rdduNamqD0XUsb-BBtfXb62HhfTDENf88URCw",
     "assertions": {
       "header": {
         "alg": "EdDSA",
@@ -823,9 +823,9 @@
         "ucv": "0.8.1"
       },
       "payload": {
-        "iss": "did:key:z6MkgaAaVSzE9XqanrbFD1J9RGTFcWU7N9BPgjSWm17pk1mB",
-        "aud": "did:key:z6MkrjzAyNQV2HmFRiLhNoiTW7RZ76JUTnuHtfsTN1RK6ZPT",
-        "exp": 4803890552,
+        "iss": "did:key:z6MkkRJ96ptP1Sb149dyvTCWgNm9Ta1ZtubeLDx9ZyQthooX",
+        "aud": "did:key:z6MkowWaKuMbqFcd7vXroGsD98wXbwPwSv6FvWGjdhtP4Nze",
+        "exp": 4804143406,
         "att": [
           {
             "with": "wnfs://tamedun.fission.app/public/photos/",
