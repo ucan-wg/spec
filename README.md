@@ -1,4 +1,4 @@
-# User Controlled Authorization Network (UCAN) Specification v0.8.1
+# User Controlled Authorization Network (UCAN) Specification v0.8.2
 
 ## Editors
 
