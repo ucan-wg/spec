@@ -2,10 +2,9 @@
 
 ## Code of Conduct
 
-Contact for Code of Conduct issues or inquires:  hello@brooklynzelenka.com, hello@fission.codes
+The Code of Conduct is available in the repository in [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
 
-[Ideally list two different individuals above (not a generic mailing list) as someone submitting a Code of Conduct complaint will want to know exactly who is receiving the complaint. We recommend two individuals in the case one of the individuals is the subject of or directly involved in the subject of a complaint.]
-
+Contact for Code of Conduct issues or inquires: hello@brooklynzelenka.com, hello@fission.codes
 
 ## License Acceptance
 
