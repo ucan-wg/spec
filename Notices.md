@@ -2,7 +2,7 @@
 
 ## Code of Conduct
 
-Contact for Code of Conduct issues or inquires:  _________________
+Contact for Code of Conduct issues or inquires:  hello@brooklynzelenka.com, hello@fission.codes
 
 [Ideally list two different individuals above (not a generic mailing list) as someone submitting a Code of Conduct complaint will want to know exactly who is receiving the complaint. We recommend two individuals in the case one of the individuals is the subject of or directly involved in the subject of a complaint.]
 
@@ -15,11 +15,11 @@ A Licensee may consent to accepting the current Community Specification License 
 
 ---------------------------------------------------------------------------------
 
-Licensee’s name:
+Licensee’s name: Brooklyn Zelenka
 
-Authorized individual and system identifier:
+Authorized individual and system identifier: expede
 
-Specification version:
+Specification version: 0.8.0
 
 ---------------------------------------------------------------------------------
 
