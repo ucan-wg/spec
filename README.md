@@ -8,7 +8,7 @@
 
 * [Brooklyn Zelenka](https://github.com/expede), [Fission](https://fission.codes)
 * [Philipp Krüger](https://github.com/matheus23), [Fission](https://fission.codes)
-* [Daniel Holmgren](https://github.com/dholms), `<REDACTED>`
+* [Daniel Holmgren](https://github.com/dholms), [Bluesky](https://blueskyweb.xyz/)
 * [Irakli Gozalishvili](https://github.com/Gozala), [Protocol Labs](https://protocol.ai/)
 
 # 0. Abstract
