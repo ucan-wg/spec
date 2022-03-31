@@ -22,6 +22,14 @@ Specification version: 0.8.0
 
 ---------------------------------------------------------------------------------
 
+Licensee’s name: Brian Ginsburg
+
+Authorized individual and system identifier: bgins
+
+Specification version: 0.8.0 or later
+
+---------------------------------------------------------------------------------
+
 ## Withdrawals
 
 Name of party withdrawing:
