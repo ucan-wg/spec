@@ -30,11 +30,19 @@ Specification version: 0.8.0 or later
 
 ---------------------------------------------------------------------------------
 
+Licensee’s name: Stephen Akinyemi
+
+Authorized individual and system identifier: appcypher
+
+Specification version: 0.8.0 or later
+
+---------------------------------------------------------------------------------
+
 ## Withdrawals
 
 Name of party withdrawing:
 
-Date of withdrawal:  
+Date of withdrawal:
 
 ---------------------------------------------------------------------------------
 
@@ -59,7 +67,7 @@ This section includes any Exclusion Notices made against a Draft Deliverable or 
 **For unpublished patent applications must provide either:**
 
 	(i) the text of the filed application; or
-    
+
 	(ii) identification of the specific part(s) of the Specification whose implementation makes the excluded claim a Necessary Claim.
 
 -----------------------------------------------------------------------------------------
