@@ -1,0 +1,339 @@
+[
+  {
+    "comment": "Delegated UCAN has rights amplification from combining witness capabilities",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOlt7IndpdGgiOiJkYjovL3RhbWVkdW4uZmlzc2lvbi5hcHAvdXNlcnMiLCJjYW4iOiJkYi9XUklURSJ9LHsid2l0aCI6ImRiOi8vdGFtZWR1bi5maXNzaW9uLmFwcC91c2VycyIsImNhbiI6ImRiL1JFQUQifV0sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdG9TRWRXZEZkTmJUVTVkMUJCVWxFNFZHaHRRalJ4ZG5SdFdHNXhlWFZIUzA1SVNtMUZWbk5IZVdsWmRDSXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMlpuZEZoclEyNWlPVXhZYmpoQ2JubHFlRkpOYmt0MFJtZGFZemMwVFRZNE56TjJOakZ4UTJOTFNHcHJJaXdpWlhod0lqbzBPREEwTVRRek5ERXlMQ0poZEhRaU9sdDdJbmRwZEdnaU9pSmtZam92TDNSaGJXVmtkVzR1Wm1semMybHZiaTVoY0hBdmRYTmxjbk1pTENKallXNGlPaUprWWk5U1JVRkVJbjFkTENKd2NtWWlPbHRkZlEueGVSck9FdmlEbWQ1elVXVVR2MWV4ZEpfUDN5YnlPSVhNSFdfcFFWUGoyZGFfTFU5YmI3N1ZZcHNxWV9KUkJUZVlyTzFzLThOQlZGU0xuNktBcERQRGciLCJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdHVSRnBtWkRaRk1tTTRXVVZFWkhNMVIxaE1VakZpVVhwR1JsUldSVzU2Y0dGSWNWZzFTRlY0WnpWWmJpSXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMlpuZEZoclEyNWlPVXhZYmpoQ2JubHFlRkpOYmt0MFJtZGFZemMwVFRZNE56TjJOakZ4UTJOTFNHcHJJaXdpWlhod0lqbzBPREEwTVRRek5ERXlMQ0poZEhRaU9sdDdJbmRwZEdnaU9pSmtZam92TDNSaGJXVmtkVzR1Wm1semMybHZiaTVoY0hBdmRYTmxjbk1pTENKallXNGlPaUprWWk5WFVrbFVSU0o5WFN3aWNISm1JanBiWFgwLllkN2V6eXg5bnN0UkNvaW93dXRYeU5IRDJJOHdfOWdzUm5DT00tTEZPMTJVSEtCSW1BVUNuLUVINTg5STduTy1VOEl6MWtxV0NWd05VbzE2NmEyckJnIl19.8sLGP84wv_RM5t5aWm6cdHH3TNKuDO3oTgMNBN8499VqYK2w6khl2u-2S3V3tbOXeKkYFDn5b_HYZs_Fa9zdCQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "exp": 4804143412,
+        "att": [
+          {
+            "with": "db://tamedun.fission.app/users",
+            "can": "db/WRITE"
+          },
+          {
+            "with": "db://tamedun.fission.app/users",
+            "can": "db/READ"
+          }
+        ],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoSEdWdFdNbTU5d1BBUlE4VGhtQjRxdnRtWG5xeXVHS05ISm1FVnNHeWlZdCIsImF1ZCI6ImRpZDprZXk6ejZNa2ZndFhrQ25iOUxYbjhCbnlqeFJNbkt0RmdaYzc0TTY4NzN2NjFxQ2NLSGprIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOlt7IndpdGgiOiJkYjovL3RhbWVkdW4uZmlzc2lvbi5hcHAvdXNlcnMiLCJjYW4iOiJkYi9SRUFEIn1dLCJwcmYiOltdfQ.xeRrOEviDmd5zUWUTv1exdJ_P3ybyOIXMHW_pQVPj2da_LU9bb77VYpsqY_JRBTeYrO1s-8NBVFSLn6KApDPDg",
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtuRFpmZDZFMmM4WUVEZHM1R1hMUjFiUXpGRlRWRW56cGFIcVg1SFV4ZzVZbiIsImF1ZCI6ImRpZDprZXk6ejZNa2ZndFhrQ25iOUxYbjhCbnlqeFJNbkt0RmdaYzc0TTY4NzN2NjFxQ2NLSGprIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOlt7IndpdGgiOiJkYjovL3RhbWVkdW4uZmlzc2lvbi5hcHAvdXNlcnMiLCJjYW4iOiJkYi9XUklURSJ9XSwicHJmIjpbXX0.Yd7ezyx9nstRCoiowutXyNHD2I8w_9gsRnCOM-LFO12UHKBImAUCn-EH589I7nO-U8Iz1kqWCVwNUo166a2rBg"
+        ]
+      }
+    }
+  },
+  {
+    "comment": "Witness issuer audience did aligns with delegated issuer did",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1T0M0eEluMC5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3R4Ym1KT2FUbDJaSFJFTkVSTFVXaHlTREpaUjFkMFFtZDNRak51TkRFeVFWRlVPRXhuVWpkQk5qZEZSeUlzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTJabmRGaHJRMjVpT1V4WWJqaENibmxxZUZKTmJrdDBSbWRhWXpjMFRUWTROek4yTmpGeFEyTkxTR3BySWl3aVpYaHdJam8wT0RBME1UUXpOREV5TENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEuTUFudEhWZFVxZVc5N3Y0RVByU0pqWjBQOUdjTExGaEZJZEVZRUhBZG12NHgyQ0RmbnRVYXFEekFnTUN4d0tDTkJDQVhCRnZ5MUFUMTVaRkhzMDIyQVEiXX0.TA5ugLsiu7jrK3y9fzrLFNuaqnzFSA8ogjvwUS84_pEi8xYk2fGC7LhOQCo0DuMqvlT9ubYp3ywGizHlZ0waAA",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "exp": 4804143412,
+        "att": [],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtxbmJOaTl2ZHRENERLUWhySDJZR1d0Qmd3QjNuNDEyQVFUOExnUjdBNjdFRyIsImF1ZCI6ImRpZDprZXk6ejZNa2ZndFhrQ25iOUxYbjhCbnlqeFJNbkt0RmdaYzc0TTY4NzN2NjFxQ2NLSGprIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOltdLCJwcmYiOltdfQ.MAntHVdUqeW97v4EPrSJjZ0P9GcLLFhFIdEYEHAdmv4x2CDfntUaqDzAgMCxwKCNBCAXBFvy1AT15ZFHs022AQ"
+        ]
+      }
+    }
+  },
+  {
+    "comment": "Witness UCAN version matches delegated UCAN version",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1T0M0eEluMC5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3RtYm0xa1NEaHpUbTFEYUZWemEyaFJia3REVGpKTmNHaE5RMHhtUVcxU1FVYzBhVzlOZGtKV2RGRjFWaUlzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTJabmRGaHJRMjVpT1V4WWJqaENibmxxZUZKTmJrdDBSbWRhWXpjMFRUWTROek4yTmpGeFEyTkxTR3BySWl3aVpYaHdJam8wT0RBME1UUXpOREV5TENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEub2NURHU5emlkMW11NG9qOVJkVDRwMzdudlRPbEh1aWZkLW9EamZUTjF1ZHJaWnhpRjJiNUJKYmNzNGtEU0tKaU91enExT1hEVUctay1JOXNGdlMwQmciXX0.ok2xB1mr04nShwF76rgdBgv5dnUrbpAacMHXkOJCP-0kqvO4GYOwhLDwW6j43mnD2XCvy4U20LTTh_mkumxYAQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "exp": 4804143412,
+        "att": [],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmbm1kSDhzTm1DaFVza2hRbktDTjJNcGhNQ0xmQW1SQUc0aW9NdkJWdFF1ViIsImF1ZCI6ImRpZDprZXk6ejZNa2ZndFhrQ25iOUxYbjhCbnlqeFJNbkt0RmdaYzc0TTY4NzN2NjFxQ2NLSGprIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOltdLCJwcmYiOltdfQ.ocTDu9zid1mu4oj9RdT4p37nvTOlHuifd-oDjfTN1udrZZxiF2b5BJbcs4kDSKJiOuzq1OXDUG-k-I9sFvS0Bg"
+        ]
+      }
+    }
+  },
+  {
+    "comment": "UCAN has not expired",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOltdLCJwcmYiOltdfQ.NaguDFWi8SkedAZ5eplUvQgMkeIQyZLzvl6084mH4vxqTazMxyDbT8RdHGumGug2NmKSvHn0_t2ae0KJK5U-BQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "exp": 4804143412,
+        "att": [],
+        "prf": []
+      }
+    }
+  },
+  {
+    "comment": "UCAN is ready to be used",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwibmJmIjoxNjQ4MzgzNDEyLCJleHAiOjQ4MzU2Nzk0MTIsImF0dCI6W10sInByZiI6W119.oo9Jr-bTtfavOIR0xNt4jkm8KLcBwTkdvFGIlnBz4-CLYRIIkW8qMNTMI1c5JIl1gvvsdrOEwvIQyPiv_qZdAA",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "nbf": 1648383412,
+        "exp": 4835679412,
+        "att": [],
+        "prf": []
+      }
+    }
+  },
+  {
+    "comment": "Witnesses expire after the delegated UCAN",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOltdLCJwcmYiOlsiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1T0M0eEluMC5leUpwYzNNaU9pSmthV1E2YTJWNU9ubzJUV3RtTVZweVdtVm5TMXBrVVRoeWFITkhUa05xYVdkS1EycExZVXBWVkVONGJVRTBRakZHV0hwdlJXdHJjQ0lzSW1GMVpDSTZJbVJwWkRwclpYazZlalpOYTJabmRGaHJRMjVpT1V4WWJqaENibmxxZUZKTmJrdDBSbWRhWXpjMFRUWTROek4yTmpGeFEyTkxTR3BySWl3aVpYaHdJam8xTkRNMU1qazFOREV5TENKaGRIUWlPbHRkTENKd2NtWWlPbHRkZlEuSUxqM1RIYnYydy1jR3d4Z0lOcVMtU2NzQlYybjR3aHBNTWh5MW5hNHpUU0JQSGJQUWZiX3laTGFMRklLbm9KVlNxSHUyUFU5NVU2dHBlN2R6ckh4RFEiXX0.QiwjoOvTi2GSEy7lIBaZ0I5sjNmRsp4BDSvxkbV23jEHjiVMyYbgDmgfke5Bnzbt7GD0s6UcwRcQoB_LyAazDw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "exp": 4804143412,
+        "att": [],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmMVpyWmVnS1pkUThyaHNHTkNqaWdKQ2pLYUpVVEN4bUE0QjFGWHpvRWtrcCIsImF1ZCI6ImRpZDprZXk6ejZNa2ZndFhrQ25iOUxYbjhCbnlqeFJNbkt0RmdaYzc0TTY4NzN2NjFxQ2NLSGprIiwiZXhwIjo1NDM1Mjk1NDEyLCJhdHQiOltdLCJwcmYiOltdfQ.ILj3THbv2w-cGwxgINqS-ScsBV2n4whpMMhy1na4zTSBPHbPQfb_yZLaLFIKnoJVSqHu2PU95U6tpe7dzrHxDQ"
+        ]
+      }
+    }
+  },
+  {
+    "comment": "Witnesses expire at the same time as delegated UCAN",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwibmJmIjoxNjQ4NDY5ODEyLCJleHAiOjQ4MDQxNDM0MTIsImF0dCI6W10sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdHJWMVZXU21GMk5rWktaRzl3ZEROS1oyaEtXV1ZoUW10UlVtdExUVFkyWTJWek1YY3pPR2hhTVRaUmVpSXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMlpuZEZoclEyNWlPVXhZYmpoQ2JubHFlRkpOYmt0MFJtZGFZemMwVFRZNE56TjJOakZ4UTJOTFNHcHJJaXdpWlhod0lqbzBPREEwTVRRek5ERXlMQ0poZEhRaU9sdGRMQ0p3Y21ZaU9sdGRmUS5ySTFXa0pzTmNvVkx0Q3FDWDFBd1J2QmJjX3hZQ3lXMjNOTzloU3F2ZzZqSlV2Z0pwMkV3MGFnb3c4cGxMcnhmeV9WMEZMMVJxQ0M0VlhPemRHcDhDUSJdfQ.pfm2mtq3nhkJ27tTcc9hac9NXvOQeGgluNFhjGrFQpysWwr1fTxAJKzQbqMQIenMqOQnLT7wfGw3PRvSFTxgBw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "nbf": 1648469812,
+        "exp": 4804143412,
+        "att": [],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtrV1VWSmF2NkZKZG9wdDNKZ2hKWWVhQmtRUmtLTTY2Y2VzMXczOGhaMTZReiIsImF1ZCI6ImRpZDprZXk6ejZNa2ZndFhrQ25iOUxYbjhCbnlqeFJNbkt0RmdaYzc0TTY4NzN2NjFxQ2NLSGprIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOltdLCJwcmYiOltdfQ.rI1WkJsNcoVLtCqCX1AwRvBbc_xYCyW23NO9hSqvg6jJUvgJp2Ew0agow8plLrxfy_V0FL1RqCC4VXOzdGp8CQ"
+        ]
+      }
+    }
+  },
+  {
+    "comment": "Witnesses are ready to be used before the delegated UCAN",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwibmJmIjo0ODM1Njc5NDEyLCJleHAiOjU0MzUyOTU0MTIsImF0dCI6W10sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdG9TMHBhT1ZkdlYxZG5aVmRxU25kM1FVMTRWRGg0YzJ0TWVsSnpiVVJZU3paMU5rdHVWamxuUjBwQ1ZpSXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMlpuZEZoclEyNWlPVXhZYmpoQ2JubHFlRkpOYmt0MFJtZGFZemMwVFRZNE56TjJOakZ4UTJOTFNHcHJJaXdpYm1KbUlqbzBPREEwTVRRek5ERXlMQ0psZUhBaU9qVTBNelV5T1RVME1USXNJbUYwZENJNlcxMHNJbkJ5WmlJNlcxMTkudTIxY2Focjl3RV8tS1ZfV0habURSVWxVR3NNb21jOGppRE53TFlhLUVUeUp3Q2g4VnRmUFJTRHd4TkMzZzJzdjBobXFFOV80NjdpZHFfVDR3bkxkQkEiXX0.LivwBVQG_6nMs0CdnMrifHDl9L6dryc4Jz76f2E5Z8NikY1fha6ofeOIDhxKcRKcVbHhwbyAElnPq0mLmM2dBA",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "nbf": 4835679412,
+        "exp": 5435295412,
+        "att": [],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoS0paOVdvV1dnZVdqSnd3QU14VDh4c2tMelJzbURYSzZ1NktuVjlnR0pCViIsImF1ZCI6ImRpZDprZXk6ejZNa2ZndFhrQ25iOUxYbjhCbnlqeFJNbkt0RmdaYzc0TTY4NzN2NjFxQ2NLSGprIiwibmJmIjo0ODA0MTQzNDEyLCJleHAiOjU0MzUyOTU0MTIsImF0dCI6W10sInByZiI6W119.u21cahr9wE_-KV_WHZmDRUlUGsMomc8jiDNwLYa-ETyJwCh8VtfPRSDwxNC3g2sv0hmqE9_467idq_T4wnLdBA"
+        ]
+      }
+    }
+  },
+  {
+    "comment": "Witness is ready to be used at the same time as the delegated UCAN",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwibmJmIjo0ODA0MTQzNDEyLCJleHAiOjU0MzUyOTU0MTIsImF0dCI6W10sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdG9OVkIxTlU1M1ZXWlFUa1JwVnpaYVIxaE5PREZFYlVkTE1rUTVRMDF3TVc0MGJYbGhUbWgwTVZoQ1Z5SXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMlpuZEZoclEyNWlPVXhZYmpoQ2JubHFlRkpOYmt0MFJtZGFZemMwVFRZNE56TjJOakZ4UTJOTFNHcHJJaXdpYm1KbUlqbzBPREEwTVRRek5ERXlMQ0psZUhBaU9qVTBNelV5T1RVME1USXNJbUYwZENJNlcxMHNJbkJ5WmlJNlcxMTkubDM4MDFOQnJDdjdjY25WQWRRS1l3aDQ5S0xtanZXM3dLV3VyaXRWUTlNMG1ZOXhhcEhkZzI4Vk1zSlFVcDJHMHROdWRkbEJOb0NMcDNzU1JyYnh4RGciXX0.CF-EvquRHZb_STrnWb8lAIUqBG2xo-TtpHByDGF3RC2SgKmHfh5MgzqlbxHQzQU0WWFepZVmkBIq4ChkY3HiDQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "nbf": 4804143412,
+        "exp": 5435295412,
+        "att": [],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtoNVB1NU53VWZQTkRpVzZaR1hNODFEbUdLMkQ5Q01wMW40bXlhTmh0MVhCVyIsImF1ZCI6ImRpZDprZXk6ejZNa2ZndFhrQ25iOUxYbjhCbnlqeFJNbkt0RmdaYzc0TTY4NzN2NjFxQ2NLSGprIiwibmJmIjo0ODA0MTQzNDEyLCJleHAiOjU0MzUyOTU0MTIsImF0dCI6W10sInByZiI6W119.l3801NBrCv7ccnVAdQKYwh49KLmjvW3wKWuritVQ9M0mY9xapHdg28VMsJQUp2G0tNuddlBNoCLp3sSRrbxxDg"
+        ]
+      }
+    }
+  },
+  {
+    "comment": "Delegated UCAN can delegate",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOlt7IndpdGgiOiJwcmYvMCIsImNhbiI6InVjYW4vREVMRUdBVEUifV0sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdHRUREphYzNaR1YxUmhZbFZsUlZWVFpUWm5UVmxDV0hCb1FsaDJlRWMxWkdScmRVNXlOVVJMWVRGWmJ5SXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMlpuZEZoclEyNWlPVXhZYmpoQ2JubHFlRkpOYmt0MFJtZGFZemMwVFRZNE56TjJOakZ4UTJOTFNHcHJJaXdpWlhod0lqbzBPREEwTVRRek5ERXlMQ0poZEhRaU9sdGRMQ0p3Y21ZaU9sdGRmUS5QY0ZSS3YzTkFKbFlTN1VPTFNmZnN5alprVTZnVUVJMHJndllXSFZJUDhaUGcwSlR1cmdBZnlaeHAzWXhqMHlxbEdZZGpuNzI4Sl9vV2h2ZUlVdkJEQSJdfQ._QuS_Opa40kuLuy-TuyKax6GXji6E0VXghGl04j5nq1ezNguRfu1_KT3Qs6RYQFIPssQhUEibc2yCCMxakV-AA",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "exp": 4804143412,
+        "att": [
+          {
+            "with": "prf/0",
+            "can": "ucan/DELEGATE"
+          }
+        ],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWttTDJac3ZGV1RhYlVlRVVTZTZnTVlCWHBoQlh2eEc1ZGRrdU5yNURLYTFZbyIsImF1ZCI6ImRpZDprZXk6ejZNa2ZndFhrQ25iOUxYbjhCbnlqeFJNbkt0RmdaYzc0TTY4NzN2NjFxQ2NLSGprIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOltdLCJwcmYiOltdfQ.PcFRKv3NAJlYS7UOLSffsyjZkU6gUEI0rgvYWHVIP8ZPg0JTurgAfyZxp3Yxj0yqlGYdjn728J_oWhveIUvBDA"
+        ]
+      }
+    }
+  },
+  {
+    "comment": "UCAN is valid",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOltdLCJwcmYiOltdfQ.NaguDFWi8SkedAZ5eplUvQgMkeIQyZLzvl6084mH4vxqTazMxyDbT8RdHGumGug2NmKSvHn0_t2ae0KJK5U-BQ",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "exp": 4804143412,
+        "att": [],
+        "prf": []
+      }
+    }
+  },
+  {
+    "comment": "Payload `fct` is valid",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwiZXhwIjo0ODA0MTQzNDEyLCJmY3QiOlt7ImNoYWxsZW5nZSI6ImFiY2RlZiIsImZyb20iOiJleGFtcGxlLmNvbSJ9XSwiYXR0IjpbXSwicHJmIjpbXX0.PMKMCepWeHYk4KAqBeHlJM25go5zgN9fucA2aD6JErA3tTImEmUV_EIhxmgUHkKnEM9iske61NjeWmtOqTKzAg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "exp": 4804143412,
+        "fct": [
+          {
+            "challenge": "abcdef",
+            "from": "example.com"
+          }
+        ],
+        "att": [],
+        "prf": []
+      }
+    }
+  },
+  {
+    "comment": "Delegated UCAN is valid with multiple valid proofs",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOlt7IndpdGgiOiJkYjovL3RhbWVkdW4uZmlzc2lvbi5hcHAvdXNlcnMiLCJjYW4iOiJkYi9XUklURSJ9LHsid2l0aCI6ImRiOi8vdGFtZWR1bi5maXNzaW9uLmFwcC91c2VycyIsImNhbiI6ImRiL1JFQUQifV0sInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdDFOVVJyYUhaaVVUTkdlVXRPU0hsb09GbENWREZLZEdWWVdXWklaSGxXZVZBMWFWWkNOV2hUWmpsblNDSXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMlpuZEZoclEyNWlPVXhZYmpoQ2JubHFlRkpOYmt0MFJtZGFZemMwVFRZNE56TjJOakZ4UTJOTFNHcHJJaXdpWlhod0lqbzBPREEwTVRRek5ERXlMQ0poZEhRaU9sdDdJbmRwZEdnaU9pSmtZam92TDNSaGJXVmtkVzR1Wm1semMybHZiaTVoY0hBdmRYTmxjbk1pTENKallXNGlPaUprWWk5U1JVRkVJbjFkTENKd2NtWWlPbHRkZlEuem5DRDVjaVlOUTVPdklrYTJFM3dOZW51ZElyUE5pUGM0RXMzdTBHT3lYX3FMY0dOSXo5Mk5kSDVrcFF5OUU1OE85eFNDMFBpbmRRQmpZcG5SNVN4Q2ciLCJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SnBjM01pT2lKa2FXUTZhMlY1T25vMlRXdHVXRVZyWkZCS1FrTm9ORFJvZGtabWNWVmFUVGRqYjNGME9UaGlOMlZwUzBOcGFXTjVTa05sUzI1d2FTSXNJbUYxWkNJNkltUnBaRHByWlhrNmVqWk5hMlpuZEZoclEyNWlPVXhZYmpoQ2JubHFlRkpOYmt0MFJtZGFZemMwVFRZNE56TjJOakZ4UTJOTFNHcHJJaXdpWlhod0lqbzBPREEwTVRRek5ERXlMQ0poZEhRaU9sdDdJbmRwZEdnaU9pSmtZam92TDNSaGJXVmtkVzR1Wm1semMybHZiaTVoY0hBdmRYTmxjbk1pTENKallXNGlPaUprWWk5WFVrbFVSU0o5WFN3aWNISm1JanBiWFgwLmkyVzN1VGFTOFFZUkVucWpSVDlBRVBFRW5pejBuOXNjWU1QSzRQdlV5WF9JTjMwVEc2aWczNWI2LWlBSk95UVFfLXR4c05IRlZ6TWhaUjAzaUg2TENRIl19.9suTMcVmUfkeejbjyxOZqp0cA_fZ_ncLLKu7teULXhm1uypOJNLpgHj8Xm_YqK-ChZmNBqFyNM9k2Yc4H6TXAw",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "exp": 4804143412,
+        "att": [
+          {
+            "with": "db://tamedun.fission.app/users",
+            "can": "db/WRITE"
+          },
+          {
+            "with": "db://tamedun.fission.app/users",
+            "can": "db/READ"
+          }
+        ],
+        "prf": [
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWt1NURraHZiUTNGeUtOSHloOFlCVDFKdGVYWWZIZHlWeVA1aVZCNWhTZjlnSCIsImF1ZCI6ImRpZDprZXk6ejZNa2ZndFhrQ25iOUxYbjhCbnlqeFJNbkt0RmdaYzc0TTY4NzN2NjFxQ2NLSGprIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOlt7IndpdGgiOiJkYjovL3RhbWVkdW4uZmlzc2lvbi5hcHAvdXNlcnMiLCJjYW4iOiJkYi9SRUFEIn1dLCJwcmYiOltdfQ.znCD5ciYNQ5OvIka2E3wNenudIrPNiPc4Es3u0GOyX_qLcGNIz92NdH5kpQy9E58O9xSC0PindQBjYpnR5SxCg",
+          "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtuWEVrZFBKQkNoNDRodkZmcVVaTTdjb3F0OThiN2VpS0NpaWN5SkNlS25waSIsImF1ZCI6ImRpZDprZXk6ejZNa2ZndFhrQ25iOUxYbjhCbnlqeFJNbkt0RmdaYzc0TTY4NzN2NjFxQ2NLSGprIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOlt7IndpdGgiOiJkYjovL3RhbWVkdW4uZmlzc2lvbi5hcHAvdXNlcnMiLCJjYW4iOiJkYi9XUklURSJ9XSwicHJmIjpbXX0.i2W3uTaS8QYREnqjRT9AEPEEniz0n9scYMPK4PvUyX_IN30TG6ig35b6-iAJOyQQ_-txsNHFVzMhZR03iH6LCQ"
+        ]
+      }
+    }
+  },
+  {
+    "comment": "UCAN attenuation has valid syntax",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOlt7IndpdGgiOiJ3bmZzOi8vdGFtZWR1bi5maXNzaW9uLmFwcC9wdWJsaWMvcGhvdG9zLyIsImNhbiI6InduZnMvQVBQRU5EIn1dLCJwcmYiOltdfQ.47qMwu5lRjJV0MPMiYamJkE_0Fzou6134QeRHo75rwCDdx0e_GiqQ7aFqeMD85i3t9VG7mBcxweAlG9lDe32DA",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "exp": 4804143412,
+        "att": [
+          {
+            "with": "wnfs://tamedun.fission.app/public/photos/",
+            "can": "wnfs/APPEND"
+          }
+        ],
+        "prf": []
+      }
+    }
+  },
+  {
+    "comment": "UCAN attenuation is valid with multiple capabilities",
+    "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJpc3MiOiJkaWQ6a2V5Ono2TWtmZ3RYa0NuYjlMWG44Qm55anhSTW5LdEZnWmM3NE02ODczdjYxcUNjS0hqayIsImF1ZCI6ImRpZDprZXk6ejZNa2dYNWpqUlVidHlzZ2dFNHJhQ2FxQ1g4OEF6U3ZZcTgxV0prQm9BMW90OGFlIiwiZXhwIjo0ODA0MTQzNDEyLCJhdHQiOlt7IndpdGgiOiJkYjovL3RhbWVkdW4uZmlzc2lvbi5hcHAvdXNlcnMiLCJjYW4iOiJkYi9XUklURSJ9LHsid2l0aCI6ImRiOi8vdGFtZWR1bi5maXNzaW9uLmFwcC91c2VycyIsImNhbiI6ImRiL1JFQUQifV0sInByZiI6W119.tIvrONe1rpVOW1ttHOp-U-zG_l6ggdd-YLHfip2CzbiwT0Ri5mkZMboGmg-y2Syt_JjKQ6EA2zskOtXVCi4JCg",
+    "assertions": {
+      "header": {
+        "alg": "EdDSA",
+        "typ": "JWT",
+        "ucv": "0.8.1"
+      },
+      "payload": {
+        "iss": "did:key:z6MkfgtXkCnb9LXn8BnyjxRMnKtFgZc74M6873v61qCcKHjk",
+        "aud": "did:key:z6MkgX5jjRUbtysggE4raCaqCX88AzSvYq81WJkBoA1ot8ae",
+        "exp": 4804143412,
+        "att": [
+          {
+            "with": "db://tamedun.fission.app/users",
+            "can": "db/WRITE"
+          },
+          {
+            "with": "db://tamedun.fission.app/users",
+            "can": "db/READ"
+          }
+        ],
+        "prf": []
+      }
+    }
+  }
+]

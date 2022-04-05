@@ -38,6 +38,14 @@ Specification version: 0.8.0 or later
 
 ---------------------------------------------------------------------------------
 
+Licensee’s name: Quinn Wilton
+
+Authorized individual and system identifier: QuinnWilton
+
+Specification version: 0.8.0 or later
+
+---------------------------------------------------------------------------------
+
 Licensee’s name: Philipp Krüger
 
 Authorized individual and system identifier: matheus23
@@ -45,6 +53,7 @@ Authorized individual and system identifier: matheus23
 Specification version: 0.8.0 or later
 
 ---------------------------------------------------------------------------------
+
 
 ## Withdrawals
 
