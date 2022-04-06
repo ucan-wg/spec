@@ -46,6 +46,15 @@ Specification version: 0.8.0 or later
 
 ---------------------------------------------------------------------------------
 
+Licensee’s name: Philipp Krüger
+
+Authorized individual and system identifier: matheus23
+
+Specification version: 0.8.0 or later
+
+---------------------------------------------------------------------------------
+
+
 ## Withdrawals
 
 Name of party withdrawing:
