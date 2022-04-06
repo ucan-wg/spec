@@ -63,6 +63,13 @@ Specification version: 0.8.0 or later
 
 ---------------------------------------------------------------------------------
 
+Licensee’s name: Daniel Holmgren
+
+Authorized individual and system identifier: dholms
+
+Specification version: 0.8.0 or later
+
+---------------------------------------------------------------------------------
 
 ## Withdrawals
 
