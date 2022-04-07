@@ -530,17 +530,6 @@ UCAN proofs MUST be referenced by content ID (CID), per the [multiformats/cid](h
 
 CIDs MAY be used to refer to any UCAN: a witness in a delegation chain or an entire UCAN. This has many benefits, some of which are outlined in the implementation recommendations of this document.
 
-### 5.6.1 Resolution
-
-
-
-
-
-
-
-
-Due to the potential for unresolvable CIDs, this SHOULD NOT be the preferred method of transmission. "Inline witnesses" SHOULD be used whenever possible, and complete UCANs SHOULD be expanded. When a CID is used, it is RECOMMENDED that it be substituted as close to the top UCAN as possible (i.e. the invocation), and as few witnesses are referenced by CID, to keep the number of required CID resolutions to a minimum. As UCANs are signed, all further delegations would require CID resolution and so SHOULD NOT be used when the intention is delegation rather than invocation. 
-
 ## 5.7 Revocation
 
 Any issuer of a UCAN MAY later revoke that UCAN or the capabilities that have been derived from it further downstream in a proof chain.
@@ -620,21 +609,39 @@ In this example, Alice MAY revoke any of the UCANs in the chain, Carol MAY revok
 
 A UCAN validator MAY implement backward compatibility with previous versions of UCAN. Delegated UCANs MUST be of an equal or higher version than their proofs. For example, a v0.9.0 UCAN that includes witnesses that are separately v0.9.0, v0.8.0, v0.7.0, and v0.5.0 MAY be considered valid. A v0.5.0 UCAN that has a UCAN v0.7.0 witness MUST NOT be considered valid.
 
-# 6. Implementation Recommendations
+# 6. Token Resolution
 
-## 6.1 UCAN Store
+UCANs are indexed by their hash — often called their "content address".
+
+This has multiple advantages over inlining tokens: it is very easy to 
+
+## Canonical Representation
+
+## Collections
+
+Multiple UCANs sent in a single request are collected in a CARv2 file.
+
+<!-- FIXME -->
+
+
+Due to the potential for unresolvable CIDs, this SHOULD NOT be the preferred method of transmission. "Inline witnesses" SHOULD be used whenever possible, and complete UCANs SHOULD be expanded. When a CID is used, it is RECOMMENDED that it be substituted as close to the top UCAN as possible (i.e. the invocation), and as few witnesses are referenced by CID, to keep the number of required CID resolutions to a minimum. As UCANs are signed, all further delegations would require CID resolution and so SHOULD NOT be used when the intention is delegation rather than invocation. 
+
+
+# 7. Implementation Recommendations
+
+## 7.1 UCAN Store
 
 A validator MAY keep a local store of UCANs that it has received. UCANs are immutable but also time-bound so that this store MAY evict expired or revoked UCANs.
 
 This store MAY be indexed by CID (content addressing). Multiple indices built on top of this store MAY be used to improve capability search or selection performance.
 
-## 6.2 Memoized Validation
+## 7.2 Memoized Validation
 
 Aside from revocation, UCAN validation is idempotent. Marking a CID as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a witness: if the witness was previously reviewed and is not revoked, it is RECOMMENDED to consider it valid immediately.
 
 Revocation is irreversible. Suppose the validator learns of revocation by UCAN CID or issuer DID. In that case, the UCAN and all of its derivatives in such a cache MUST be marked as invalid, and all validations immediately fail without needing to walk the entire structure.
 
-## 6.3 Session Content ID
+## 7.3 Session Content ID
 
 If many invocations are discharged during a session, the sender and receiver MAY agree to use the triple of CID, nonce, and signature rather than reissuing the complete UCAN chain for every message. This saves bandwidth and avoids needing to use another session token exchange mechanism or bearer token with lower security, such as a shared secret.
 
@@ -646,7 +653,7 @@ If many invocations are discharged during a session, the sender and receiver MAY
 }
 ```
 
-# 7. Related Work and Prior Art
+# 8. Related Work and Prior Art
 
 [SPKI/SDSI](https://datatracker.ietf.org/wg/spki/about/) is closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
 
@@ -662,7 +669,7 @@ If many invocations are discharged during a session, the sender and receiver MAY
 
 [Verifiable credentials](https://www.w3.org/2017/vc/WG/) are a solution for data about people or organizations. However, they are aimed at a slightly different problem: asserting attributes about the holder of a DID, including things like work history, age, and membership.
 
-# 8. Acknowledgments
+# 9. Acknowledgments
 
 Thank you to [Brendan O'Brien](https://github.com/b5) for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
 
@@ -674,19 +681,19 @@ Thanks to the entire [SPKI WG](https://datatracker.ietf.org/wg/spki/about/) for 
 
 We want to especially recognize [Mark Miller](https://github.com/erights) for his numerous contributions to the field of distributed auth, programming languages, and computer security writ large.
 
-# 9. FAQ
+# 10. FAQ
 
-## 9.1 What prevents an unauthorized party from using an intercepted UCAN?
+## 10.1 What prevents an unauthorized party from using an intercepted UCAN?
 
 UCANs always contain information about the sender and receiver. A UCAN is signed by the sender (the `iss` field DID) and can only be created by an agent in possession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks together secure the certificate against use by an unauthorized party.
 
-## 9.2 What prevents replay attacks on the invocation use case?
+## 10.2 What prevents replay attacks on the invocation use case?
 
 A UCAN delegated for purposes of immediate invocation MUST be unique. If many requests are to be made in quick succession, a nonce can be used. The receiving agent (the one to perform the invocation) checks the hash of the UCAN against a local store of unexpired UCAN hashes.
 
 This is not a concern when simply delegating since presumably the recipient agent already has that UCAN.
 
-## 9.3 Is UCAN secure against person-in-the-middle attacks?
+## 10.3 Is UCAN secure against person-in-the-middle attacks?
 
 _UCAN does not have any special protection against person-in-the-middle (PITM) attacks._
 
