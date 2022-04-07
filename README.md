@@ -295,7 +295,7 @@ This array MUST contain some or none of the following:
 
 This array also includes time ranges and the proofs that start latest and end soonest from the lower and upper time bounds of the range.
 
-The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST include the `with` and `can` fields and MAY have additional fields needed to describe the capability.
+The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST include the `with` and `can` fields. A capability MAY inlcude a `dlp` field. It MAY additionally have additional normative fields needed to describe the capability.
 
 ``` json
 {
@@ -319,7 +319,7 @@ The same resource MAY be addressed with several URI formats. For instance, a dat
 
 #### 3.2.4.2 Ability
 
-The `can` field describes the verb portion of the capability: an action that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
+The `can` field is REQUIRED. It describes the verb portion of the capability: an action that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
 
 Abilities MAY be organized in a hierarchy with enums. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
@@ -329,7 +329,24 @@ There MUST be at least one path segment as a namespace. For example, `http/PUT` 
 
 The only reserved ability MUST be the un-namespaced [`"*"` or "superuser"](#41-superuser), which MUST be allowed on any resource.
 
-#### Examples
+
+#### 3.2.4.3 Delegation Limiting Preimage
+
+The `dlp` field is OPTIONAL, but MAY be included on any capability. When present, this field MUST contain the hash preimage for the value in the `dlp` field of its proof, implementing a kind of [Lamport OTP](https://en.wikipedia.org/wiki/One-time_password#Hash_chains) scheme.
+
+requiring a hash preimage for every delegate in the chain. This chain is validated by hashing as each proof is explored.
+
+The number of preimages ahead 
+
+
+
+As such, this scheme is always limited by the number of hashes in the chain. It is strongly recommended to create very long hash chains. A chain can always be extended by requesting a 
+
+This method cannot prevent multiples delegations of the same capabilty into different credentials. It does limit who is allowed to 
+
+Historically, a boolean "can_redelegate" field has been used. It is not enforcable in practice.
+
+#### 3.2.4.4 Examples
 
 ``` json
 "att": [
