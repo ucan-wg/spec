@@ -555,8 +555,6 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
 
 ### 5.7.1 Example
 
-Below is a simplified diagram of a UCAN chain:
-
 ```
                Root
         ┌────────────────┐          ─┐
