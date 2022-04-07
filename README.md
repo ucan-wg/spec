@@ -447,6 +447,8 @@ The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This action 
 
 `ucan/delegate` is distinct from the superuser ability and acts as a re-export of the ability. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `prf` URI scheme.
 
+<!-- TODO consider switching to CIDs. UPSIDE OF CURRENT VERSION: smaller, less repetitive, and more likely to actally be in the proofs. DOWNSIDE of current is it's one more layer of indirection -->
+
 ``` js
 { 
   "with": "prf:7", // Contains: { "with": "mailto:boris@example.com", "can": "email/send" }
@@ -619,6 +621,11 @@ Content addressing the proofs has multiple advantages over inlining tokens, incl
 * Canonical signature
 * Enables only transmitting the relevant proofs 
 
+
+
+Same:
+> It is unresolved whether an implementation must verify that a CID present in the roots array of the Header also appears as a block in the archive. While it is expected that this would be the case, it is unresolved whether encoders and decoders must validate the existence of root blocks in the archive.
+
 <!-- Canonical Signature on CIDs .... move up nearer top -->
 
 # 7. Token Resolution
@@ -628,7 +635,7 @@ Content addressing the proofs has multiple advantages over inlining tokens, incl
 
 ## NUM.NUM Collections
 
-Multiple UCANs sent in a single request are collected in a [CARv2](https://github.com/ipld/ipld/blob/master/specs/transport/car/carv2/index.md) file. In practice, this involves [prefixing an 11-byte magic-number](https://github.com/ipld/ipld/blob/master/specs/transport/car/carv2/index.md#pragma) to the front of the collection: `0x0aa16776657273696f6e02`
+Multiple UCANs sent in a single request MAY be collected in a [CARv2](https://github.com/ipld/ipld/blob/master/specs/transport/car/carv2/index.md) file. In practice, this involves [prefixing an 11-byte magic-number](https://github.com/ipld/ipld/blob/master/specs/transport/car/carv2/index.md#pragma) to the front of the collection: `0x0aa16776657273696f6e02`
 
 <!-- FIXME -->
 
