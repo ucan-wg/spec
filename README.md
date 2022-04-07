@@ -295,7 +295,7 @@ This array MUST contain some or none of the following:
 
 This array also includes time ranges and the proofs that start latest and end soonest from the lower and upper time bounds of the range.
 
-The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST include the `with` and `can` fields. A capability MAY inlcude a `dlp` field. It MAY additionally have additional normative fields needed to describe the capability.
+The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST include the `with` and `can` fields. A capability MAY inlcude a `dlp` field, when included, MUST follow semantics described in [§3.2.4.3](#3.2.4.3-Delegation-Limiting-Preimage). It MAY additionally have additional normative fields needed to describe the capability.
 
 ``` json
 {
