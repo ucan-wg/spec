@@ -47,7 +47,7 @@ The above analogies illustrate several significant tradeoffs between these syste
 
 ## 1.3 Security Considerations
 
-Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of rights. "Witnesses" prove the possession of rights. They are cryptographically signed data showing that the UCAN issuer either owns this or that it was delegated to them by the root owner.
+Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of rights. "Proofs" are positive evidence (elsewhere called "witnesses") of the possession of rights. They are cryptographically signed data showing that the UCAN issuer either owns this or that it was delegated to them by the root owner.
 
 This signature chain is the root of trust. Private keys themselves SHOULD NOT move from one context to another: this is what the delegation mechanism provides: "sharing authority without sharing keys."
 
@@ -158,9 +158,9 @@ merge(ScopeA, ScopeB) == [
 
 ## 2.5 Delegation
 
-Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructuve "witness" acts as the authorizaton proof for a delegation. Witnesses are either the owning principal's signature or a UCAN with access to that capability in its scope.
+Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructuve "proof" acts as the authorizaton proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its scope.
 
-Each direct delegation leaves the action at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more witnesses of different types if part of the resource's semantics. 
+Each direct delegation leaves the action at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more proofs of different types if part of the resource's semantics. 
 
 Note that delegation is a separate concept from invocation [§2.8](#28-invocation). Delegation is the act of granting a capability to another, not the act of using it (invocation), which has additional requirements.
 
@@ -172,7 +172,7 @@ Attenuation is the process of constraining the capabilities in a delegation chai
 
 Revocation is the act of invalidating a UCAN after the fact, outside of the limitations placed on it by the UCAN's fields (such as its expiry). 
 
-In the case of UCAN, this MUST be done by a witness issuer DID. For more on the exact mechanism, see the revocation validation section.
+In the case of UCAN, this MUST be done by a proof's issuer DID. For more on the exact mechanism, see the revocation validation section.
 
 ## 2.8 Invocation
 
@@ -290,10 +290,10 @@ The attenuations (i.e. UCAN output, or "caveats") MUST be an array of heterogene
 
 This array MUST contain some or none of the following:
 1. A strict subset (attenuation) of the capability scope from the `prf` field
-2. Capabilities composed from multiple witnesses (see rights amplification)
+2. Capabilities composed from multiple proofs (see rights amplification)
 3. Capabilities originated by the `iss` DID (i.e. by parenthood)
 
-This array also includes time ranges and the witnesses that start latest and end soonest from the lower and upper time bounds of the range.
+This array also includes time ranges and the proofs that start latest and end soonest from the lower and upper time bounds of the range.
 
 The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST include the `with` and `can` fields and MAY have additional fields needed to describe the capability.
 
@@ -350,7 +350,7 @@ The only reserved ability MUST be the un-namespaced [`"*"` or "superuser"](#41-s
 
 ### 3.2.5 Proof of Delegation
 
-The `prf` field MUST contain the content address <!-- FIXME add link to CID discussion later in doc? --> of UCAN witnesses (the "inputs" of a UCAN). Attenuations not covered by a proof in the `prf` array MUST be treated as <!-- FIXME as invalid, because we now have my: and as: --> owned by the issuer DID.
+The `prf` field MUST contain the content address <!-- FIXME add link to CID discussion later in doc? --> of UCAN proofs (the "inputs" of a UCAN). Attenuations not covered by a proof in the `prf` array MUST be treated as <!-- FIXME as invalid, because we now have my: and as: --> owned by the issuer DID.
 
 Proofs referenced by content address MUST be resolvable by the recipient, for instance, over a DHT or database. <!-- FIXME reference (or move to) lookup section -->
 
@@ -437,13 +437,13 @@ prf = "prf:" selector
 selector = "*" / 1*DIGIT
 ```
 
-`prf:*` represents all of the UCANs in the current proofs array. The witnesses for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular witness (i.e. not the wildcard), then zero-based indexing MUST be used. For example, the first UCAN would be selected by `prf:0`, the second by `prf:1`, etc. Under the indexing scheme, selections MUST be performed on the current UCAN only and cannot recurse on nested witnesses.
+`prf:*` represents all of the UCANs in the current proofs array. The proofs for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular proof (i.e. not the wildcard), then zero-based indexing MUST be used. For example, the first UCAN would be selected by `prf:0`, the second by `prf:1`, etc. Under the indexing scheme, selections MUST be performed on the current UCAN only and cannot recurse on nested proof.
 
-A further selection of capabilities inside specific witnesses MUST NOT be a valid parsing of this URI. For instance, `prf:0:mailto` MUST NOT be a valid `prf` URI.
+A further selection of capabilities inside specific proofs MUST NOT be a valid parsing of this URI. For instance, `prf:0:mailto` MUST NOT be a valid `prf` URI.
 
 ### 4.3.2 `prf` Actions
 
-The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This action redelegates all of the capabilities in the selected witness(es).
+The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This action redelegates all of the capabilities in the selected proof(s).
 
 `ucan/delegate` is distinct from the superuser ability and acts as a re-export of the ability. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `prf` URI scheme.
 
@@ -466,13 +466,13 @@ If any of the following criteria are not met, the UCAN MUST be considered invali
 
 A UCAN's time bounds MUST NOT be considered valid if the current system time is before the `nbf` field or after the `exp` field. This is called "ambient time validity."
 
-All witnesses MUST contain time bounds equal to or broader than the UCAN being delegated. If the witness expires before the outer UCAN — or starts after it — the reader MUST treat the UCAN as invalid. Delegation inside of the time bound is called "timely delegation." These conditions MUST hold even if the current wall clock time is inside of incorrectly delegated bounds. 
+All proofs MUST contain time bounds equal to or broader than the UCAN being delegated. If the proof expires before the outer UCAN — or starts after it — the reader MUST treat the UCAN as invalid. Delegation inside of the time bound is called "timely delegation." These conditions MUST hold even if the current wall clock time is inside of incorrectly delegated bounds. 
 
 A UCAN is valid inclusive from the `nbf` time and until the `exp` field. If the current time is outside of these bounds, the UCAN MUST be considered invalid. When setting these bounds, a delegator or invoker SHOULD account for expected clock drift. Use of time bounds this way is called "timely invocation."
 
 ## 5.2 Principal Alignment
 
-In delegation, the `aud` field of every witness MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain back to the originating principal for each resource.
+In delegation, the `aud` field of every proof MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain back to the originating principal for each resource.
 
 ```
 (Resource)                                                        ─┐
@@ -513,22 +513,22 @@ A good litmus test for invocation validity by a discharging agent is to check if
 
 Each remote invocation MUST be a unique UCAN: using a nonce, for instance. This is easy to implement with a store of hashes of previously seen unexpired UCANs and is REQUIRED to replay attack prevention.
 
-## 5.3 Witness Chaining
+## 5.3 Proof Chaining
 
-Each capability MUST either be originated by the issuer (root capability, or "parenthood") or have one-or-more witnesses in the `prf` field to attest that this issuer is authorized to use that capability ("introduction"). In the introduction case, this check MUST be recursively applied to its witnesses until a root witness is found (i.e. issued by the resource owner).
+Each capability MUST either be originated by the issuer (root capability, or "parenthood") or have one-or-more proofs in the `prf` field to attest that this issuer is authorized to use that capability ("introduction"). In the introduction case, this check MUST be recursively applied to its proofs until a root proof is found (i.e. issued by the resource owner).
 
-Except for rights amplification (below), each capability delegation MUST have equal or narrower capabilities from its witnesses. The time bounds MUST also be equal to or contained inside the time bounds of the witnesses' time bounds. This lowering of rights at each delegation is called "attenuation."
+Except for rights amplification (below), each capability delegation MUST have equal or narrower capabilities from its proofs. The time bounds MUST also be equal to or contained inside the time bounds of the proof's time bounds. This lowering of rights at each delegation is called "attenuation."
 
 ## 5.4 Rights Amplification
 
-Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating particular capabilities MAY require more than one direct witness. The relevant witnesses MAY be of a different resource and action from the amplified capability. The delegated capability MUST have this behaviour in its semantics, even if the witnesses do not.
+Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating particular capabilities MAY require more than one direct proof. The relevant proofs MAY be of a different resource and action from the amplified capability. The delegated capability MUST have this behaviour in its semantics, even if the proofs do not.
 
 ## 5.6 Content Identifiers
 
 <!-- FIXME: resolution left up to implementer --> 
 UCAN proofs MUST be referenced by content ID (CID), per the [multiformats/cid](https://github.com/multiformats/cid) specification. The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) includes the following: local store, a distributed hash table (DHT), gossip network, or RESTful service.
 
-CIDs MAY be used to refer to any UCAN: a witness in a delegation chain or an entire UCAN. This has many benefits, some of which are outlined in the implementation recommendations of this document.
+CIDs MAY be used to refer to any UCAN: a proof in a delegation chain or an entire UCAN. This has many benefits, some of which are outlined in the implementation recommendations of this document.
 
 ## 5.7 Revocation
 
@@ -556,7 +556,7 @@ A revocation message MUST conform to the following format:
 
 This format makes it easy to select the relevant UCAN, confirm that the issuer is in the proof chain for some or all capabilities, and validate that the revocation was signed by the same issuer.
 
-Any other witnesses in the selected UCAN not issued by the same DID as the revocation issuer MUST be treated as valid.
+Any other proofs in the selected UCAN not issued by the same DID as the revocation issuer MUST be treated as valid.
 
 Revocations MAY be deleted once the UCAN that they reference expires or otherwise becomes invalid via its proactive mechanisms.
 
@@ -607,7 +607,7 @@ In this example, Alice MAY revoke any of the UCANs in the chain, Carol MAY revok
 
 ## 5.8 Backwards Compatibility
 
-A UCAN validator MAY implement backward compatibility with previous versions of UCAN. Delegated UCANs MUST be of an equal or higher version than their proofs. For example, a v0.9.0 UCAN that includes witnesses that are separately v0.9.0, v0.8.1, v0.7.0, and v0.5.0 MAY be considered valid. A v0.5.0 UCAN that has a UCAN v0.9.0 proof MUST NOT be considered valid.
+A UCAN validator MAY implement backward compatibility with previous versions of UCAN. Delegated UCANs MUST be of an equal or higher version than their proofs. For example, a v0.9.0 UCAN that includes proofs that are separately v0.9.0, v0.8.1, v0.7.0, and v0.5.0 MAY be considered valid. A v0.5.0 UCAN that has a UCAN v0.9.0 proof MUST NOT be considered valid.
 
 # 6. Collections
 
@@ -633,7 +633,7 @@ Multiple UCANs sent in a single request are collected in a [CARv2](https://githu
 <!-- FIXME -->
 
 
-Due to the potential for unresolvable CIDs, this SHOULD NOT be the preferred method of transmission. "Inline proofs" SHOULD be used whenever possible, and complete UCANs SHOULD be expanded. When a CID is used, it is RECOMMENDED that it be substituted as close to the top UCAN as possible (i.e. the invocation), and as few witnesses are referenced by CID, to keep the number of required CID resolutions to a minimum. As UCANs are signed, all further delegations would require CID resolution and so SHOULD NOT be used when the intention is delegation rather than invocation. 
+Due to the potential for unresolvable CIDs, this SHOULD NOT be the preferred method of transmission. "Inline proofs" SHOULD be used whenever possible, and complete UCANs SHOULD be expanded. When a CID is used, it is RECOMMENDED that it be substituted as close to the top UCAN as possible (i.e. the invocation), and as few proofs are referenced by CID, to keep the number of required CID resolutions to a minimum. As UCANs are signed, all further delegations would require CID resolution and so SHOULD NOT be used when the intention is delegation rather than invocation. 
 
 ## NUM.NUM HTTP
 
@@ -651,7 +651,7 @@ This store MAY be indexed by CID (content addressing). Multiple indices built on
 
 ## 8.2 Memoized Validation
 
-Aside from revocation, UCAN validation is idempotent. Marking a CID as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a witness: if the witness was previously reviewed and is not revoked, it is RECOMMENDED to consider it valid immediately.
+Aside from revocation, UCAN validation is idempotent. Marking a CID as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a proof: if the proof was previously reviewed and is not revoked, it is RECOMMENDED to consider it valid immediately.
 
 Revocation is irreversible. Suppose the validator learns of revocation by UCAN CID or issuer DID. In that case, the UCAN and all of its derivatives in such a cache MUST be marked as invalid, and all validations immediately fail without needing to walk the entire structure.
 
