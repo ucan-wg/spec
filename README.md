@@ -329,10 +329,9 @@ There MUST be at least one path segment as a namespace. For example, `http/PUT` 
 
 The only reserved ability MUST be the un-namespaced [`"*"` or "superuser"](#41-superuser), which MUST be allowed on any resource.
 
-
 #### 3.2.4.3 Delegation Limiting Preimage
 
-The `dlp` field is OPTIONAL, but MAY be included on any capability. When present, this field MUST contain the hash preimage for the value in the `dlp` field of its proof, implementing a kind of [Lamport OTP](https://en.wikipedia.org/wiki/One-time_password#Hash_chains) scheme.
+The `dlp` field is OPTIONAL, and MAY be included on any capability. This field provides the ability to limit the ability to redelegate to a certain depth on a temporary or ongoing basis. When present, this field MUST contain the hash preimage for the value in the `dlp` field of its proof, implementing a kind of [Lamport OTP](https://en.wikipedia.org/wiki/One-time_password#Hash_chains) scheme.
 
 requiring a hash preimage for every delegate in the chain. This chain is validated by hashing as each proof is explored.
 
@@ -340,7 +339,9 @@ The number of preimages ahead
 
 
 
-As such, this scheme is always limited by the number of hashes in the chain. It is strongly recommended to create very long hash chains. A chain can always be extended by requesting a 
+As such, this scheme is always limited by the number of hashes in the chain. As finding the hash preimage for the genesis hash is impratical, it is strongly RECOMMENDED to create very long hash chains of several hundred up front. One or more preimages MAY be requested from the 
+
+This can force the delegation thruogh an authprized person out of band.
 
 This method cannot prevent multiples delegations of the same capabilty into different credentials. It does limit who is allowed to 
 
@@ -652,7 +653,7 @@ Same:
 
 ## NUM.NUM Collections
 
-Multiple UCANs sent in a single request MAY be collected in a [CARv2](https://github.com/ipld/ipld/blob/master/specs/transport/car/carv2/index.md) file. In practice, this involves [prefixing an 11-byte magic-number](https://github.com/ipld/ipld/blob/master/specs/transport/car/carv2/index.md#pragma) to the front of the collection: `0x0aa16776657273696f6e02`
+Multiple UCANs in a single request MAY be collected into one a hash table. It is RECOMMENDED that these be indexed by 
 
 <!-- FIXME -->
 
