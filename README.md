@@ -553,6 +553,51 @@ Any other witnesses in the selected UCAN not issued by the same DID as the revoc
 
 Revocations MAY be deleted once the UCAN that they reference expires or otherwise becomes invalid via its proactive mechanisms.
 
+### 5.7.1 Example
+
+```
+               Root
+        ┌────────────────┐          ─┐
+        │                │           │
+        │  iss: Alice    │           │
+        │  aud: Bob      │           ├─ Alice can revoke
+        │  att: [X,Y,Z]  │           │
+        │                │           │
+        └───┬────────┬───┘           │
+            │        │               │
+            │        │               │
+            ▼        ▼               │
+┌──────────────┐  ┌──────────────┐   │  ─┐
+│              │  │              │   │   │
+│  iss: Bob    │  │  iss: Bob    │   │   │
+│  aud: Carol  │  │  aud: Erin   │   │   ├─ Bob can revoke
+│  att: [X,Y]  │  │  att: [Y,Z]  │   │   │
+│              │  │              │   │   │
+└───────┬──────┘  └──┬───────────┘   │   │
+        │            │               │   │
+        │            │               │   │
+        ▼            │               │   │
+┌──────────────┐     │               │   │  ─┐
+│              │     │               │   │   │
+│  iss: Carol  │     │               │   │   │
+│  aud: Erin   │     │               │   │   ├─ Carol can revoke
+│  att: [X,Y]  │     │               │   │   │
+│              │     │               │   │   │
+└───────────┬──┘     │               │   │   │
+            │        │               │   │   │
+            │        │               │   │   │
+            ▼        ▼               │   │   │
+        ┌────────────────┐           │   │   │  ─┐
+        │                │           │   │   │   │
+        │  iss: Erin     │           │   │   │   │
+        │  aud: Frank    │           │   │   │   ├─ Erin can revoke
+        │  att: [X,Y,Z]  │           │   │   │   │
+        │                │           │   │   │   │
+        └────────────────┘          ─┘  ─┘  ─┘  ─┘
+```
+
+In this example, Alice MAY revoke any of the UCANs in the chain, Carol MAY revoke the bottom two, and so on. If the UCAN `Carol->Erin` is revoked by Alice, Bob, or Carol, then Frank will not have a valid chain for `X` since its proof is invalid. However, Frank can still prove the valid capability for `Y` and `Z` since the still-valid ("unbroken") chain `Alice->Bob->Erin->Frank` includes them. Note that despite `Y` being in the revoked `Carol->Erin` UCAN, it does not invalidate `Y` for Frank, since the unbroken chain also included a proof for `Y`. 
+
 ## 5.8 Backwards Compatibility
 
 A UCAN validator MAY implement backward compatibility with previous versions of UCAN. Delegated UCANs MUST be of an equal or higher version than their proofs. For example, a v0.8.1 UCAN that includes witnesses that are separately v0.8.1, v0.8.0, v0.7.0, and v0.5.0 MAY be considered valid. A v0.5.0 UCAN that has a UCAN v0.7.0 witness MUST NOT be considered valid.
