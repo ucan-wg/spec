@@ -596,7 +596,7 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
         └────────────────┘          ─┘  ─┘  ─┘  ─┘
 ```
 
-In this graph, Alice MAY revoke any of the UCANs in the chain, Carol MAY revoke the bottom two, and so on. If the UCAN `Carol->Erin` is revoked by Alice, Bob, or Carol, then Frank will not have a valid chain for `X` since its proof is invalid. However, Frank can still prove the valid capability for `Y` and `Z`, since the still-valid ("unbroken") chain `Alice->Bob->Erin->Frank` includes them. Note that despite `Y` being in the revoked `Carol->Erin` UCAN, it does not invlidate `Y` for Frank, since the unbroken chain also included a proof for `Y`. 
+In this example, Alice MAY revoke any of the UCANs in the chain, Carol MAY revoke the bottom two, and so on. If the UCAN `Carol->Erin` is revoked by Alice, Bob, or Carol, then Frank will not have a valid chain for `X` since its proof is invalid. However, Frank can still prove the valid capability for `Y` and `Z` since the still-valid ("unbroken") chain `Alice->Bob->Erin->Frank` includes them. Note that despite `Y` being in the revoked `Carol->Erin` UCAN, it does not invalidate `Y` for Frank, since the unbroken chain also included a proof for `Y`. 
 
 ## 5.8 Backwards Compatibility
 
