@@ -295,7 +295,7 @@ This array MUST contain some or none of the following:
 
 This array also includes time ranges and the proofs that start latest and end soonest from the lower and upper time bounds of the range.
 
-The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST include the `with` and `can` fields. A capability MAY inlcude a `dlp` field, when included, MUST follow semantics described in [§3.2.4.3](#3.2.4.3-Delegation-Limiting-Preimage). It MAY additionally have additional normative fields needed to describe the capability.
+The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST include the `with` and `can` fields, and MAY additionally have additional fields needed to describe the capability.
 
 ``` json
 {
@@ -329,25 +329,7 @@ There MUST be at least one path segment as a namespace. For example, `http/PUT` 
 
 The only reserved ability MUST be the un-namespaced [`"*"` or "superuser"](#41-superuser), which MUST be allowed on any resource.
 
-#### 3.2.4.3 Delegation Confinement
-
-The `dlp` field is OPTIONAL, and MAY be included on any capability. This field provides the ability to limit the ability to redelegate to a certain depth on a temporary or ongoing basis. When present, this field MUST contain the hash preimage for the value in the `dlp` field of its proof, implementing a kind of [Lamport OTP](https://en.wikipedia.org/wiki/One-time_password#Hash_chains) scheme.
-
-SHA3? Or use a multiformat? Just SHA3 for now but represent it as multiformat!
-Shouod be an array! May need to be more than one to handle tree chain topology.
-
-requiring a hash preimage for every delegate in the chain. This chain is validated by hashing as each proof is explored.
-
-As such, this scheme is always limited by the number of hashes in the chain. As finding the hash preimage for the genesis hash is impratical, the  and thus RECOMMENDED that the initial setup hash chain be significantly longer than the expected number of uses. One or more preimages MAY be requested from the 
-
-
-This can force the delegation thruogh an authprized person out of band.
-
-This method cannot prevent multiples delegations of the same capabilty into different credentials. It does limit who is allowed to 
-
-Historically, a boolean "can_redelegate" field has been used. It is not enforcable in practice.
-
-#### 3.2.4.4 Examples
+#### 3.2.4.3 Examples
 
 ``` json
 "att": [
