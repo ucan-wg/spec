@@ -354,6 +354,8 @@ The `prf` field MUST contain the content address in [CIDv1 format](https://githu
 
 <!-- TODO: should we specify the entire CID format, so that the implementer doesn't have to support arbitrary CID bases etc? -->
 
+A UCAN token MUST be referenced via the raw data codec (`0x55`) or the deterministically-encoded [`dag-ucan`](https://github.com/multiformats/multicodec/pull/264) (`0x78C0`). <!-- FIXME update to point main if and when this gets merged, assuming that it returns JSON... which I currently don't think it does, but Gozala will clarify -->
+
 Proofs referenced by content address MUST be resolvable by the recipient, for instance at a federated HTTP endpoint, over a DHT, shared database. The exact format MUST be defined in the transport specification.
 
 #### Examples
@@ -363,7 +365,6 @@ Proofs referenced by content address MUST be resolvable by the recipient, for in
   "bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze",
   "bafkreiemaanh3kxqchhcdx3yckeb3xvmboztptlgtmnu5jp63bvymxtlva"
 ]
-
 ```
 
 Which in a JSON representation would resolve to the following table:
