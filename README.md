@@ -176,7 +176,7 @@ In the case of UCAN, this MUST be done by a proof's issuer DID. For more on the 
 
 ## 2.8 Invocation
 
-UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent allowed to perform an action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§5.2.1](#521-invocation-recipient-validation).
+UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent allowed to perform an action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§5.2.1](#521-recipient-validation).
 
 # 3. JWT Structure
 
@@ -505,7 +505,7 @@ In the above diagram, Alice has some storage. This storage may exist in one loca
 
 Alice delegates access to Bob. Bob then redelegates to Carol. Carol invokes the UCAN as part of a REST request to a storage service. To do this, she MUST both provide proof that she has access (the UCAN chain), and MUST delegate access to the discharging storage service. The discharging service MUST then check that the root issuer (Alice) is in fact the owner (typically the creator) of the resource. This MAY be listed directly on the resource, as it is here. Once the UCAN chain and root ownership are validated, the storage service performs the write.
 
-### 5.2.1 Invocation Recipient Validation
+### 5.2.1 Recipient Validation
 
 An agent discharging a capability MUST verify that the outermost `aud` field _matches its own DID._ The associated action MUST NOT be performed if they do not match. Recipient validtion is REQUIRED to prevent the misuse of UCANs in an unintended context.
 
@@ -521,7 +521,9 @@ The following UCAN fragment would be valid to invoke as `did:key:zH3C2AVvLMv6gmM
 
 A good litmus test for invocation validity by a discharging agent is to check if they would be able to create a valid delegation for that capability.
 
-Each remote invocation MUST be a unique UCAN: using a nonce, for instance. This is easy to implement with a store of hashes of previously seen unexpired UCANs and is REQUIRED to replay attack prevention.
+### 5.2.2 Token Uniqueness
+
+Each remote invocation MUST be a unique UCAN: for instance using a nonce (`nnc`) or simply a unique expiry. The recipient MUST validate that they have not received the top-level UCAN before. For implementation recommentations, please refer to [§8.3](#83-replay-attack-prevention).
 
 ## 5.3 Proof Chaining
 
@@ -670,7 +672,13 @@ Aside from revocation, UCAN validation is idempotent. Marking a CID as valid act
 
 Revocation is irreversible. Suppose the validator learns of revocation by UCAN CID or issuer DID. In that case, the UCAN and all of its derivatives in such a cache MUST be marked as invalid, and all validations immediately fail without needing to walk the entire structure.
 
-## 8.3 Session Content ID
+## 8.3 Replay Attack Prevention
+
+Replay attack prevention is REQUIRED (per [§522-invocation-token-uniquness](#84-replay-attack-prevention)). The exact strategy is left to the implementer. One simple strategy is maintaining a set of previously seen CIDs. This MAY be the same structure as a validated UCAN memoization table (if one exists in the implementation).
+
+It is RECOMMENDED that the structure have a secondary index referencing the token expiry field. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
+
+## 8.4 Session Content ID
 
 If many invocations are discharged during a session, the sender and receiver MAY agree to use the triple of CID, nonce, and signature rather than reissuing the complete UCAN chain for every message. This saves bandwidth and avoids needing to use another session token exchange mechanism or bearer token with lower security, such as a shared secret.
 
