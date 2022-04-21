@@ -79,6 +79,14 @@ Specification version: 0.8.0 or later
 
 ---------------------------------------------------------------------------------
 
+Licensee’s name: Brendan O'Brien
+
+Authorized individual and system identifier: b5
+
+Specification version: 0.8.0 or later
+
+---------------------------------------------------------------------------------
+
 ## Withdrawals
 
 Name of party withdrawing:
