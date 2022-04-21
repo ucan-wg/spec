@@ -300,11 +300,12 @@ The attenuation field MUST contain an array of JSON objects, which MAY be empty.
 ``` json
 {
   "with": $RESOURCE,
-  "can": $ABILITY
+  "can": $ABILITY,
+  "ext": $EXTENSION
 }
 ```
 
-#### 3.2.4.1 Resource Pointer
+#### 3.2.5.1 Resource Pointer
 
 A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
 
@@ -312,12 +313,12 @@ The same resource MAY be addressed with several URI formats. For instance, a dat
 
 | URI                                            | Meaning                                                         |
 | ---------------------------------------------- | --------------------------------------------------------------- |
-| `{"with": "mailto:boris@fission.codes", ...}`  | A single email address                                          |
+| `{"with": "mailto:username@example.com", ...}` | A single email address                                          |
 | `{"with": "my:*", ...}`                        | All resources that the iss has access to, including future ones |
 | `{"with": "my:dnslink", ...}`                  | All DNSLinks that the iss has access to, including future ones  |
-| `{"with": "dnslink://myapp.fission.app", ...}` | A mutable pointer to some data                                  |
+| `{"with": "dnslink://myapp.example.com", ...}` | A mutable pointer to some data                                  |
 
-#### 3.2.4.2 Ability
+#### 3.2.5.2 Ability
 
 The `can` field is REQUIRED. It describes the verb portion of the capability: an action that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
 
@@ -329,26 +330,50 @@ There MUST be at least one path segment as a namespace. For example, `http/PUT` 
 
 The only reserved ability MUST be the un-namespaced [`"*"` or "superuser"](#41-superuser), which MUST be allowed on any resource.
 
-#### 3.2.4.3 Examples
+### 3.2.5.3 Non-Normative Fields
+
+Capabilities MAY define additional optional or required fields specific to their use case in the `ext` (field extensions) field. This field is OPTIONAL.
+
+``` json
+"att": [
+]
+```
+
+#### 3.2.5.4 Examples
 
 ``` json
 "att": [
   {
-    "with": "wnfs://boris.fission.name/public/photos/",
+    "with": "exampleuri://example.com/public/photos/",
     "can": "crud/DELETE"
   },
   {
-    "with": "wnfs://boris.fission.name/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr",
+    "with": "exampleuri://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr",
     "can": "wnfs/APPEND"
   },
   {
-    "with": "mailto:boris@fission.codes",
+    "with": "exampleuri://example.com/public/photos/",
+    "can": "crud/DELETE",
+    "ext": {
+      "matching": "/(?i)(\W|^)(baloney|darn|drat|fooey|gosh\sdarnit|heck)(\W|$)/"
+    }
+  },
+  {
+    "with": "mailto:username@example.com",
     "can": "msg/SEND"
+  },
+  {
+    "with": "mailto:username@example.com",
+    "can": "msg/READ",
+    "ext": {
+      "max_count": 5,
+      "templates": ["newsletter", "marketing"]
+    }
   }
 ]
 ```
 
-### 3.2.5 Proof of Delegation
+### 3.2.6 Proof of Delegation
 
 The `prf` field MUST contain the content address in [CIDv1 format](https://github.com/multiformats/cid#cidv1) of UCAN proofs (the "inputs" of a UCAN). Attenuations not covered by a proof in the `prf` array MUST be treated as owned by the issuer DID.
 
@@ -401,12 +426,28 @@ The format for this scheme is as follows:
 
 ``` abnf
 ownershipscheme = "my:" kind
-kind = "*" / <scheme> 
+kind = "*" / <scheme> / <uri>
 ```
+
+#### 4.2.1.x Capability Roots
+
+FIXME note to self: To disambiguate ownership, prevent the mallicious edge case
+
+
+
+
+
+
+
+#### 4.2.1.x my Wildcard
 
 The wildcard `my:*` resource MUST be taken to mean "everything" (all resources of all types) that are owned by the current DID.
 
+#### 4.2.1.x Subschemes
+
 A "sub-scheme" MAY be used to delegate some of that scheme controlled by parenthood. For example, `my:dns` delegates access to all DNS records. `my:mailto` selects all owned email addresses controlled by this user.
+
+#### 4.2.1.x Redelagtion
 
 Redelegating these to further DIDs in a chain MUST use the `as` URI and address the specific parent DID that owns that resource, followed by the resource kind selector. For instance: `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*` selects all resources originating from the specified DID, and `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto` selects email addresses from the DID. 
 
