@@ -224,7 +224,7 @@ The payload MUST describe the authorization claims, who is involved, and its val
 
 The `iss` and `aud` fields describe the token's principals. These can be conceptualized as the sender and receiver of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key` method](https://w3c-ccg.github.io/did-method-key/), and MAY be augmented with [additional DID methods](https://www.w3.org/TR/did-core/).
 
-The underlying key types MUST conform to RSA, ECDSA, and EdDSA. Non-normative key types are possible, but MUST NOT be expected to work with other implementations of this specification. Use of ECDSA is support but [NOT RECOMMENDED](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security).
+The underlying key types MUST conform to RSA, ECDSA, and EdDSA. Non-normative key types are possible, but MUST NOT be expected to work with other implementations of this specification. Use of ECDSA is supported but [RECOMMENDED that another key type be preferred](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security).
 
 #### Examples
 
