@@ -375,15 +375,25 @@ Capabilities MAY define additional optional or required fields specific to their
 
 ### 3.2.6 Proof of Delegation
 
-The `prf` field MUST contain the content address in [CIDv1 format](https://github.com/multiformats/cid#cidv1) of UCAN proofs (the "inputs" of a UCAN). Attenuations not covered by a proof in the `prf` array MUST be treated as owned by the issuer DID.
+Attenuations MUST satisfy any of the following conditions to be considered valid:
 
-<!-- TODO: should we specify the entire CID format, so that the implementer doesn't have to support arbitrary CID bases etc? -->
+1. Match to a proof in the `prf` array ([§3.2.6.2](#3262-prf-field))
+2. Use the `my:` prefix to indicate parenthood ([§4.2.1.1](#4211-capability-roots))
 
-A UCAN token MUST be referenced via the raw data codec (`0x55`) or the deterministically-encoded [`dag-ucan`](https://github.com/multiformats/multicodec/pull/264) (`0x78C0`). <!-- FIXME update to point main if and when this gets merged, assuming that it returns JSON... which I currently don't think it does, but Gozala will clarify -->
+Checked proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, at a federated HTTP endpoint, a DHT, or shared database.
 
-Proofs referenced by content address MUST be resolvable by the recipient, for instance at a federated HTTP endpoint, over a DHT, shared database. The exact format MUST be defined in the transport specification.
+#### 3.2.6.1 Content Addressing
 
-#### Examples
+A UCAN token MUST be referenced as [CIDv1](https://docs.ipfs.io/concepts/content-addressing/#identifier-formats) with the following configuration:
+* CID Version: 1
+* Multibase: [`b` base32](https://github.com/multiformats/multibase/blob/master/multibase.csv#L12)
+* Multicodec: [`0x55` raw data](https://github.com/multiformats/multicodec/blob/master/table.csv#L39)
+
+#### 3.2.6.2 `prf` Field
+
+The `prf` field MUST contain the content address ([§3.2.6.1](#3621-content-addressing)) of UCAN proofs (the "inputs" of a UCAN). 
+
+#### 3.2.6.3 Examples
 
 ``` json
 "prf": [
@@ -416,7 +426,7 @@ This is useful in several cases, for example:
 
 ## 4.2 All Owned Resources
 
-### 4.2.1. `my` and `as` Schemes
+### 4.2.1 `my` and `as` Schemes
 
 The `my` URI scheme represents ownership over a resource — typically by parenthood — at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme describes delegating some or all ambient authority to another DID.
 
@@ -429,7 +439,7 @@ ownershipscheme = "my:" kind
 kind = "*" / <scheme> / <uri>
 ```
 
-#### 4.2.1.x Capability Roots
+#### 4.2.1.1 Capability Roots
 
 FIXME note to self: To disambiguate ownership, prevent the mallicious edge case
 
@@ -477,7 +487,7 @@ For `my` and `as` capabilities limited to some scheme, the action MUST be one no
 
 ## 4.3 Proof Field Redelegation
 
-### `prf` Scheme
+### 4.3.1 `prf` Scheme
 
 The `prf` URI scheme defines addressing for UCANs and their fields.
 
@@ -630,7 +640,7 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
 ┌──────────────┐  ┌──────────────┐   │  ─┐
 │              │  │              │   │   │
 │  iss: Bob    │  │  iss: Bob    │   │   │
-│  aud: Carol  │  │  aud: Erin   │   │   ├─ Bob can revoke
+│  aud: Carol  │  │  aud: Dan    │   │   ├─ Bob can revoke
 │  att: [X,Y]  │  │  att: [Y,Z]  │   │   │
 │              │  │              │   │   │
 └───────┬──────┘  └──┬───────────┘   │   │
@@ -640,7 +650,7 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
 ┌──────────────┐     │               │   │  ─┐
 │              │     │               │   │   │
 │  iss: Carol  │     │               │   │   │
-│  aud: Erin   │     │               │   │   ├─ Carol can revoke
+│  aud: Dan    │     │               │   │   ├─ Carol can revoke
 │  att: [X,Y]  │     │               │   │   │
 │              │     │               │   │   │
 └───────────┬──┘     │               │   │   │
@@ -649,14 +659,14 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
             ▼        ▼               │   │   │
         ┌────────────────┐           │   │   │  ─┐
         │                │           │   │   │   │
-        │  iss: Erin     │           │   │   │   │
-        │  aud: Frank    │           │   │   │   ├─ Erin can revoke
+        │  iss: Dan      │           │   │   │   │
+        │  aud: Erin     │           │   │   │   ├─ Dan can revoke
         │  att: [X,Y,Z]  │           │   │   │   │
         │                │           │   │   │   │
         └────────────────┘          ─┘  ─┘  ─┘  ─┘
 ```
 
-In this example, Alice MAY revoke any of the UCANs in the chain, Carol MAY revoke the bottom two, and so on. If the UCAN `Carol->Erin` is revoked by Alice, Bob, or Carol, then Frank will not have a valid chain for `X` since its proof is invalid. However, Frank can still prove the valid capability for `Y` and `Z` since the still-valid ("unbroken") chain `Alice->Bob->Erin->Frank` includes them. Note that despite `Y` being in the revoked `Carol->Erin` UCAN, it does not invalidate `Y` for Frank, since the unbroken chain also included a proof for `Y`. 
+In this example, Alice MAY revoke any of the UCANs in the chain, Carol MAY revoke the bottom two, and so on. If the UCAN `Carol->Dan` is revoked by Alice, Bob, or Carol, then Erin will not have a valid chain for `X` since its proof is invalid. However, Erin can still prove the valid capability for `Y` and `Z` since the still-valid ("unbroken") chain `Alice->Bob->Dan->Erin` includes them. Note that despite `Y` being in the revoked `Carol->Dan` UCAN, it does not invalidate `Y` for Erin, since the unbroken chain also included a proof for `Y`. 
 
 ## 5.8 Backwards Compatibility
 
@@ -715,7 +725,7 @@ Revocation is irreversible. Suppose the validator learns of revocation by UCAN C
 
 ## 8.3 Replay Attack Prevention
 
-Replay attack prevention is REQUIRED (per [§522-invocation-token-uniquness](#84-replay-attack-prevention)). The exact strategy is left to the implementer. One simple strategy is maintaining a set of previously seen CIDs. This MAY be the same structure as a validated UCAN memoization table (if one exists in the implementation).
+Replay attack prevention is REQUIRED (per [§522-invocation-token-uniquness](#84-replay-attack-prevention)<!-- FIXME link seems broken? -->). The exact strategy is left to the implementer. One simple strategy is maintaining a set of previously seen CIDs. This MAY be the same structure as a validated UCAN memoization table (if one exists in the implementation).
 
 It is RECOMMENDED that the structure have a secondary index referencing the token expiry field. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
 
