@@ -493,12 +493,10 @@ The `prf` URI scheme defines addressing for UCANs and their fields.
 
 ``` abnf
 prf = "prf:" selector
-selector = "*" / 1*DIGIT
+selector = "*" / cid
 ```
 
-`prf:*` represents all of the UCANs in the current proofs array. The proofs for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular proof (i.e. not the wildcard), then zero-based indexing MUST be used. For example, the first UCAN would be selected by `prf:0`, the second by `prf:1`, etc. Under the indexing scheme, selections MUST be performed on the current UCAN only and cannot recurse on nested proof.
-
-A further selection of capabilities inside specific proofs MUST NOT be a valid parsing of this URI. For instance, `prf:0:mailto` MUST NOT be a valid `prf` URI.
+`prf:*` represents all of the UCANs in the current proofs array. The proofs for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular proof (i.e. not the wildcard), then the [content address](#3261-content-addressing) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs.
 
 ### 4.3.2 `prf` Actions
 
@@ -506,15 +504,17 @@ The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This action 
 
 `ucan/delegate` is distinct from the superuser ability and acts as a re-export of the ability. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `prf` URI scheme.
 
-<!-- TODO consider switching to CIDs. UPSIDE OF CURRENT VERSION: smaller, less repetitive, and more likely to actally be in the proofs. DOWNSIDE of current is it's one more layer of indirection -->
-
 ``` js
-{ 
-  "with": "prf:7", // Contains: { "with": "mailto:boris@example.com", "can": "email/send" }
-  "can": "ucan/DELEGATE"
-} 
-
-{ "with": "prf:*", "can": "ucan/DELEGATE" }
+[
+  { 
+    "with": "prf:bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze",
+    "can": "ucan/DELEGATE"
+  }, 
+  { 
+    "with": "prf:*", 
+    "can": "ucan/DELEGATE" 
+  }
+]
 ```
 
 # 5. Validation
