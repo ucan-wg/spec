@@ -332,12 +332,7 @@ The only reserved ability MUST be the un-namespaced [`"*"` or "superuser"](#41-s
 
 ### 3.2.5.3 Non-Normative Fields
 
-Capabilities MAY define additional optional or required fields specific to their use case in the `ext` (field extensions) field. This field is OPTIONAL.
-
-``` json
-"att": [
-]
-```
+Capabilities MAY define additional optional or required fields specific to their use case in the `ext` (field extensions) field. This field is OPTIONAL in the general case, but MAY be set as REQUIRED by particular capability types that require this information to validate.
 
 #### 3.2.5.4 Examples
 
@@ -382,18 +377,11 @@ Attenuations MUST satisfy any of the following conditions to be considered valid
 
 Checked proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, at a federated HTTP endpoint, a DHT, or shared database.
 
-#### 3.2.6.1 Content Addressing
+#### 3.2.6.1 `prf` Field
 
-A UCAN token MUST be referenced as [CIDv1](https://docs.ipfs.io/concepts/content-addressing/#identifier-formats) with the following configuration:
-* CID Version: 1
-* Multibase: [`b` base32](https://github.com/multiformats/multibase/blob/master/multibase.csv#L12)
-* Multicodec: [`0x55` raw data](https://github.com/multiformats/multicodec/blob/master/table.csv#L39)
+The `prf` field MUST contain the content address ([§5.6](#56-content-identifier)) of UCAN proofs (the "inputs" of a UCAN). 
 
-#### 3.2.6.2 `prf` Field
-
-The `prf` field MUST contain the content address ([§3.2.6.1](#3621-content-addressing)) of UCAN proofs (the "inputs" of a UCAN). 
-
-#### 3.2.6.3 Examples
+#### 3.2.6.2 Examples
 
 ``` json
 "prf": [
@@ -588,10 +576,12 @@ Some capabilities are more than the sum of their parts. The canonical example is
 
 ## 5.6 Content Identifiers
 
-<!-- FIXME: resolution left up to implementer --> 
-UCAN proofs MUST be referenced by content ID (CID), per the [multiformats/cid](https://github.com/multiformats/cid) specification. The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) includes the following: local store, a distributed hash table (DHT), gossip network, or RESTful service.
+A UCAN token MUST be referenced as [CIDv1](https://docs.ipfs.io/concepts/content-addressing/#identifier-formats) with the following configuration:
+* CID Version: `1`
+* Multibase: [`b` base32](https://github.com/multiformats/multibase/blob/master/multibase.csv#L12)
+* Multicodec: [`0x55` raw data](https://github.com/multiformats/multicodec/blob/master/table.csv#L39)
 
-CIDs MAY be used to refer to any UCAN: a proof in a delegation chain or an entire UCAN. This has many benefits, some of which are outlined in the implementation recommendations of this document.
+The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) includes the following: local store, a distributed hash table (DHT), gossip network, or RESTful service.
 
 ## 5.7 Revocation
 
