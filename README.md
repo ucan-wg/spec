@@ -319,7 +319,7 @@ The attenuation field MUST contain an array of JSON objects, which MAY be empty.
 {
   "with": $RESOURCE,
   "can": $ABILITY,
-  "ext": $EXTENSION
+  "nb": $EXTENSION
 }
 ```
 
@@ -348,9 +348,11 @@ There MUST be at least one path segment as a namespace. For example, `http/PUT` 
 
 The only reserved ability MUST be the un-namespaced [`"*"` or "superuser"](#41-superuser), which MUST be allowed on any resource.
 
-### 3.2.5.3 Non-Normative Fields
+### 3.2.5.3 `nb` Non-Normative Fields
 
-Capabilities MAY define additional optional or required fields specific to their use case in the `ext` (field extensions) field. This field is OPTIONAL in the general case, but MAY be set as REQUIRED by particular capability types that require this information to validate.
+Capabilities MAY define additional optional or required fields specific to their use case in the `nb` ([nota bene](https://en.wikipedia.org/wiki/Nota_bene)) field. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. The `nb` field MAY contain additional caveats or other inmportant information related to specifying the capability, and MAY function as an "escape hatch" for when a use case is not fully captured by the `with` and `can` fields.
+
+If a validator is not able to interpret the `nb` field, it MUST reject the capability.
 
 #### 3.2.5.4 Examples
 
@@ -367,7 +369,7 @@ Capabilities MAY define additional optional or required fields specific to their
   {
     "with": "exampleuri://example.com/public/photos/",
     "can": "crud/DELETE",
-    "ext": {
+    "nb": {
       "matching": "/(?i)(\W|^)(baloney|darn|drat|fooey|gosh\sdarnit|heck)(\W|$)/"
     }
   },
@@ -378,7 +380,7 @@ Capabilities MAY define additional optional or required fields specific to their
   {
     "with": "mailto:username@example.com",
     "can": "msg/READ",
-    "ext": {
+    "nb": {
       "max_count": 5,
       "templates": ["newsletter", "marketing"]
     }
