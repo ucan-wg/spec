@@ -178,6 +178,22 @@ In the case of UCAN, this MUST be done by a proof's issuer DID. For more on the 
 
 UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent allowed to perform an action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§5.2.1](#521-recipient-validation).
 
+## 2.9 Time
+
+Time takes on [multiple meanings](https://en.wikipedia.org/wiki/Temporal_database) in systems representing facts or knowledge. The senses of the word "time" are given below.
+
+## 2.9.1 Valid Time Range
+
+The period of time that a capability is valid from and until.
+
+## 2.9.2 Assertion Time
+
+The moment at which a delegation was asserted. This MAY be captured via an `iat` field, but is generally superflous to capture in the token. "Assertion time" is useful when discussing the lifecycle of a token.
+
+## 2.9.3 Decision (or Validation) Time
+
+Decision time is the part of the lifecycle when "a decision" about the token is made. This is typically during validation, but also includes resolving external state (e.g. storage quotas).
+
 # 3. JWT Structure
 
 UCANs MUST be formatted as JWTs, with additional required and optional keys. The overall container of a header, claims, and signature remains. Please refer to [RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519) for more on this format.
@@ -375,7 +391,7 @@ Capabilities MAY define additional optional or required fields specific to their
 Attenuations MUST satisfy any of the following conditions to be considered valid:
 
 1. Match to a proof in the `prf` array ([§3.2.6.2](#3262-prf-field))
-2. Use the `my:` prefix to indicate parenthood ([§4.2.1.1](#4211-capability-roots))
+2. Use the `my:` prefix to indicate parenthood ([§4.2.1](#421-capability-roots))
 
 Checked proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, at a federated HTTP endpoint, a DHT, or shared database.
 
@@ -416,9 +432,7 @@ This is useful in several cases, for example:
 1. When delegating all resources, like in a [`my` scheme](#4.2-all-owned-resources)
 2. To grant the maximum ability when the current ability semantics may be extended later
 
-## 4.2 All Owned Resources
-
-### 4.2.1 `my` and `as` Schemes
+## 4.2 Owned Resources
 
 The `my` URI scheme represents ownership over a resource — typically by parenthood — at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme describes delegating some or all ambient authority to another DID.
 
@@ -427,29 +441,41 @@ The use case of "pairing" two DIDs by delegating all current and future resource
 The format for this scheme is as follows:
 
 ``` abnf
-ownershipscheme = "my:" kind
-kind = "*" / <scheme> / <uri>
+ownershipscheme = "my:" target
+target = "*" / <scheme> / <uri>
 ```
 
-#### 4.2.1.1 Capability Roots
+### 4.2.1 `my` Delegation By Parenthood
 
-FIXME note to self: To disambiguate ownership, prevent the mallicious edge case
+Capabilities being delegated by parenthood (the "apex" delegation) MUST be prefixed with `my:`. Including this prefix disambiguates that the source of this capability is the current issuer's owned resources.
 
+Without this prefix, the ambiguity in provenance can be exploited to by a malicious user in an unrelated proof, forcing the validly delegated capability to appear as though it has an invalid ownership claim. The `my:` prefix resolved this issue by making introduction of a capability by parenthood explicit.
 
+#### 4.2.1.1 Example
 
+```js
+// By parenthood
+{
+  "with": "my:email:alice@example.com",
+  "can": "msg/send"
+}
 
+// The same resource, further delagated
+{
+  "with": "email:alice@example.com",
+  "can": "msg/send"
+}
+```
 
-
-
-#### 4.2.1.x my Wildcard
+### 4.2.2 `my` Wildcard
 
 The wildcard `my:*` resource MUST be taken to mean "everything" (all resources of all types) that are owned by the current DID.
 
-#### 4.2.1.x Subschemes
+### 4.2.3 Subschemes
 
 A "sub-scheme" MAY be used to delegate some of that scheme controlled by parenthood. For example, `my:dns` delegates access to all DNS records. `my:mailto` selects all owned email addresses controlled by this user.
 
-#### 4.2.1.x Redelagtion
+### 4.2.4 `as:` Redelagtion
 
 Redelegating these to further DIDs in a chain MUST use the `as` URI and address the specific parent DID that owns that resource, followed by the resource kind selector. For instance: `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*` selects all resources originating from the specified DID, and `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto` selects email addresses from the DID. 
 
@@ -458,7 +484,7 @@ delegatescheme = "as:" did ":" kind
 kind = "*" / <scheme>
 ```
 
-### 4.2.2 Action
+### 4.2.5 Action
 
 The action for `my:*` or `as:<did>:*` MUST be the [superuser action `*`](#41-superuser). Another ability would not be possible since any other ability cannot be guaranteed to work across all resource types (e.g. it's not possible to `crud/UPDATE` an email address). Recall that the superuser action is special in that it selects the maximum possible action for any resource.
 
@@ -714,7 +740,7 @@ Revocation is irreversible. Suppose the validator learns of revocation by UCAN C
 
 ## 8.3 Replay Attack Prevention
 
-Replay attack prevention is REQUIRED (per [§522-invocation-token-uniquness](#84-replay-attack-prevention)<!-- FIXME link seems broken? -->). The exact strategy is left to the implementer. One simple strategy is maintaining a set of previously seen CIDs. This MAY be the same structure as a validated UCAN memoization table (if one exists in the implementation).
+Replay attack prevention is REQUIRED (per [§5.2.2 Token Uniquness](#522-token-uniqueness)). The exact strategy is left to the implementer. One simple strategy is maintaining a set of previously seen CIDs. This MAY be the same structure as a validated UCAN memoization table (if one exists in the implementation).
 
 It is RECOMMENDED that the structure have a secondary index referencing the token expiry field. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
 
