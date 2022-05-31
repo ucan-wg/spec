@@ -158,7 +158,7 @@ merge(ScopeA, ScopeB) == [
 
 ## 2.5 Delegation
 
-Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructuve "proof" acts as the authorizaton proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its scope.
+Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructive "proof" acts as the authorizaton proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its scope.
 
 Each direct delegation leaves the action at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more proofs of different types if part of the resource's semantics. 
 
@@ -313,7 +313,7 @@ This array MUST contain some or none of the following:
 
 This array also includes time ranges and the proofs that start latest and end soonest from the lower and upper time bounds of the range.
 
-The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST include the `with` and `can` fields, and MAY additionally have additional fields needed to describe the capability.
+The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST include the `with` and `can` fields, and MAY have additional fields needed to describe the capability.
 
 ``` json
 {
