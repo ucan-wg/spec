@@ -393,7 +393,7 @@ If a validator is not able to interpret the `nb` field, it MUST reject the capab
 Attenuations MUST satisfy any of the following conditions to be considered valid:
 
 1. Match to a proof in the `prf` array ([§3.2.6.1](#3261-prf-field))
-2. Use the `my:` prefix to indicate parenthood ([§4.2.1](#421-capability-roots))
+2. Use the `my:` prefix to indicate parenthood ([§4.2.1](#421-my-delegation-by-parenthood))
 
 Checked proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, a federated HTTP endpoint, a DHT, or shared database.
 
