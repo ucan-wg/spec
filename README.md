@@ -431,7 +431,7 @@ The superuser action MUST be denoted `*`. This is the maximum ability and may be
 
 This is useful in several cases, for example:
 
-1. When delegating all resources, like in a [`my` scheme](#4.2-all-owned-resources)
+1. When delegating all resources, like in a [`my` scheme](#42-owned-resources)
 2. To grant the maximum ability when the current ability semantics may be extended later
 
 ## 4.2 Owned Resources
