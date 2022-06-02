@@ -522,7 +522,7 @@ selector = "*" / cid
 
 The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This action redelegates all of the capabilities in the selected proof(s).
 
-`ucan/delegate` is distinct from the superuser ability and acts as a re-export of the ability. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `prf` URI scheme.
+`ucan/delegate` is distinct from the superuser ability and acts as a re-export of the selected abilities. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `prf` URI scheme.
 
 ``` js
 [
