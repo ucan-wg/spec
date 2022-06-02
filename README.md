@@ -578,7 +578,7 @@ Alice delegates access to Bob. Bob then redelegates to Carol. Carol invokes the 
 
 ### 5.2.1 Recipient Validation
 
-An agent discharging a capability MUST verify that the outermost `aud` field _matches its own DID._ The associated action MUST NOT be performed if they do not match. Recipient validation is REQUIRED to prevent the misuse of UCANs in an unintended context.
+An agent executing a capability MUST verify that the outermost `aud` field _matches its own DID._ The associated action MUST NOT be performed if they do not match. Recipient validation is REQUIRED to prevent the misuse of UCANs in an unintended context.
 
 The following UCAN fragment would be valid to invoke as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. Any other agent MUST NOT accept this UCAN. For example, `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT run the action associated with that capability.
 
