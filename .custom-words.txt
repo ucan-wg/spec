@@ -14,6 +14,7 @@ DIDs
 DNS
 DNSLinks
 Datalog
+ECDSA
 EdDSA
 GLVVQR
 Golang
@@ -23,6 +24,7 @@ Holmgren
 Irakli
 JSON
 JWT
+JWTs
 Krüger
 LD
 Memoized
@@ -46,6 +48,7 @@ UCAN
 UCAN's
 UCANs
 URI
+URIs
 Uniquness
 WG
 WebNative
@@ -53,6 +56,7 @@ ZCAP
 Zelenka
 adoptability
 alice
+attenuations
 auth
 bene
 blockchain
@@ -72,6 +76,7 @@ interpretable
 invoker
 iss
 js
+json
 lifecycle
 lockboxes
 mDooWp
@@ -79,11 +84,13 @@ mailto
 memoization
 msg
 multicodec
+namespace
 namespaced
 nota
 plaintext
 potencies
 pre
+preimages
 quG
 reauthorizations
 recommentations
@@ -96,6 +103,7 @@ tradeoffs
 trustless
 trustlessly
 un
+unary
 unresolvable
 url
 validator
