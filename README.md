@@ -233,7 +233,7 @@ The payload MUST describe the authorization claims, who is involved, and its val
 | `exp` | `Number`   | Expiration UTC Unix Timestamp (valid until)      | Yes      |
 | `nnc` | `String`   | Nonce                                            | No       |
 | `fct` | `Json[]`   | Facts (asserted, signed data)                    | No       |
-| `prf` | `String[]` | Proof of delegation (nested UCANs)               | Yes      |
+| `prf` | `String[]` | Proof of delegation (hash-linked UCANs)               | Yes      |
 | `att` | `Json[]`   | Attenuations                                     | Yes      |
 
 ### 3.2.1 Principals
