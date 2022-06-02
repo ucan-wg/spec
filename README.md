@@ -703,7 +703,7 @@ Content addressing the proofs has multiple advantages over inlining tokens, incl
 * Canonical signature
 * Enables only transmitting the relevant proofs 
 
-Multiple UCANs in a single request MAY be collected into one table. It is RECOMMENDED that these be indexed by CID. The canonical JSON representation is presented in [S7.1.1]() MUST be supported. Implementations MAY include more formats, for example to optimize for a particular transport. Transports MAY map their collection to this collection format.
+Multiple UCANs in a single request MAY be collected into one table. It is RECOMMENDED that these be indexed by CID. The canonical JSON representation is presented in [§6.1.1](#611-example) MUST be supported. Implementations MAY include more formats, for example to optimize for a particular transport. Transports MAY map their collection to this collection format.
 
 ### 6.1 Canonical JSON Collection
 
