@@ -516,7 +516,7 @@ prf = "prf:" selector
 selector = "*" / cid
 ```
 
-`prf:*` represents all of the UCANs in the current proofs array. The proofs for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular proof (i.e. not the wildcard), then the [content address](#3261-content-addressing) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs.
+`prf:*` represents all of the UCANs in the current proofs array. The proofs for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular proof (i.e. not the wildcard), then the [content address](#56-content-identifiers) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs.
 
 ### 4.3.2 `prf` Actions
 
