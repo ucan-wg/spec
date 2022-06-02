@@ -41,7 +41,7 @@ By analogy, ACLs are like a bouncer at an exclusive event. This bouncer has a li
 
 If there are many such events at many venues, the organizers need to coordinate ahead of time, denials need to be synchronized, and attendees need to show their ID cards to many bouncers. The likelihood of the bouncer letting in the wrong person due to synchronization lag or confusion by someone sharing a name is nonzero.
 
-UCANs work more like [movie tickets](http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys) or a festival pass between multiple venues. No one needs to check your ID; who you are is irrelevant. For example, if you have a ticket to see Citizen Kane, you are admitted to Theatre 3. If you cannot attend an event, you can hand this ticket to a friend who wants to see the film instead, and there is no coordination required with the theatre ahead of time. However, if the theatre needs to cancel tickets for some reason, they need a way of uniquely identifying them and sharing this information between them.
+UCANs work more like [movie tickets](http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys) or a festival pass between multiple venues. No one needs to check your ID; who you are is irrelevant. For example, if you have a ticket to see Citizen Kane, you are admitted to Theater 3. If you cannot attend an event, you can hand this ticket to a friend who wants to see the film instead, and there is no coordination required with the theater ahead of time. However, if the theater needs to cancel tickets for some reason, they need a way of uniquely identifying them and sharing this information between them.
 
 The above analogies illustrate several significant tradeoffs between these systems but are only accurate enough to build intuition. A good resource for a more thorough presentation of these tradeoffs is [Capability Myths Demolished](https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf). In this framework, UCAN approximates SPKI with some dynamic features.
 
@@ -158,7 +158,7 @@ merge(ScopeA, ScopeB) == [
 
 ## 2.5 Delegation
 
-Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructive "proof" acts as the authorizaton proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its scope.
+Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructive "proof" acts as the authorization proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its scope.
 
 Each direct delegation leaves the action at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more proofs of different types if part of the resource's semantics. 
 
@@ -604,7 +604,7 @@ Except for rights amplification (below), each capability delegation MUST have eq
 
 ## 5.4 Rights Amplification
 
-Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating particular capabilities MAY require more than one direct proof. The relevant proofs MAY be of a different resource and action from the amplified capability. The delegated capability MUST have this behaviour in its semantics, even if the proofs do not.
+Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating particular capabilities MAY require more than one direct proof. The relevant proofs MAY be of a different resource and action from the amplified capability. The delegated capability MUST have this behavior in its semantics, even if the proofs do not.
 
 ## 5.6 Content Identifiers
 
