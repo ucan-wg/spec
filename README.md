@@ -188,7 +188,7 @@ The period of time that a capability is valid from and until.
 
 ## 2.9.2 Assertion Time
 
-The moment at which a delegation was asserted. This MAY be captured via an `iat` field, but is generally superflous to capture in the token. "Assertion time" is useful when discussing the lifecycle of a token.
+The moment at which a delegation was asserted. This MAY be captured via an `iat` field, but is generally superfluous to capture in the token. "Assertion time" is useful when discussing the lifecycle of a token.
 
 ## 2.9.3 Decision (or Validation) Time
 
