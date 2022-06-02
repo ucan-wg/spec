@@ -49,7 +49,6 @@ UCAN's
 UCANs
 URI
 URIs
-Uniquness
 WG
 WebNative
 ZCAP
@@ -65,7 +64,6 @@ delegable
 delegator
 disambiguates
 djdX
-entrypoint
 enums
 extractable
 filesystem
@@ -98,7 +96,6 @@ redelegates
 situationally
 stateful
 subdelegate
-superflous
 tradeoffs
 trustless
 trustlessly
