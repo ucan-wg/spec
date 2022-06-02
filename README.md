@@ -419,7 +419,7 @@ Which in a JSON representation would resolve to the following table:
 }
 ```
 
-For more on this representation, please refer to [§6.1](#6.1-canonical-json-collection).
+For more on this representation, please refer to [§6.1](#61-canonical-json-collection).
 
 # 4. Reserved Capabilities
 
