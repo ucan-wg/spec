@@ -462,7 +462,7 @@ Without this prefix, the ambiguity in provenance can be exploited by a malicious
   "can": "msg/send"
 }
 
-// The same resource, further delagated
+// The same resource, further delegated
 {
   "with": "email:alice@example.com",
   "can": "msg/send"
