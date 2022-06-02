@@ -5,7 +5,7 @@ matrix:
   dictionary:
     encoding: utf-8
     wordlists:
-    - .custom-words.txt
+    - ".custom-words.txt"
   pipeline:
   - pyspelling.filters.markdown:
       delimiters:
