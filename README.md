@@ -451,7 +451,7 @@ target = "*" / <scheme> / <uri>
 
 Capabilities being delegated by parenthood (the "apex" delegation) MUST be prefixed with `my:`. Including this prefix disambiguates that the source of this capability is the current issuer's owned resources.
 
-Without this prefix, the ambiguity in provenance can be exploited to by a malicious user in an unrelated proof, forcing the validly delegated capability to appear as though it has an invalid ownership claim. The `my:` prefix resolved this issue by making introduction of a capability by parenthood explicit.
+Without this prefix, the ambiguity in provenance can be exploited by a malicious user in an unrelated proof, forcing the validly delegated capability to appear as though it has an invalid ownership claim. The `my:` prefix resolved this issue by making introduction of a capability by parenthood explicit.
 
 #### 4.2.1.1 Example
 
