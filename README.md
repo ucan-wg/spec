@@ -704,7 +704,7 @@ Multiple UCANs in a single request MAY be collected into one table. It is RECOMM
 
 ### 6.1 Canonical JSON Collection
 
-The canonical JSON representation is an key-value object, mapping UCAN content identifiers to their fully-encoded base64url strings. A root "entrypoint" (if one exists) MUST be indexed by the slash `/` character.
+The canonical JSON representation is an key-value object, mapping UCAN content identifiers to their fully-encoded base64url strings. A root "entry point" (if one exists) MUST be indexed by the slash `/` character.
 
 #### 6.1.1 Example
 
@@ -739,7 +739,7 @@ Revocation is irreversible. Suppose the validator learns of revocation by UCAN C
 
 ## 8.3 Replay Attack Prevention
 
-Replay attack prevention is REQUIRED (per [§5.2.2 Token Uniquness](#522-token-uniqueness)). The exact strategy is left to the implementer. One simple strategy is maintaining a set of previously seen CIDs. This MAY be the same structure as a validated UCAN memoization table (if one exists in the implementation).
+Replay attack prevention is REQUIRED (per [§5.2.2 Token Uniqueness](#522-token-uniqueness)). The exact strategy is left to the implementer. One simple strategy is maintaining a set of previously seen CIDs. This MAY be the same structure as a validated UCAN memoization table (if one exists in the implementation).
 
 It is RECOMMENDED that the structure have a secondary index referencing the token expiry field. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
 
