@@ -23,7 +23,8 @@ type UCAN struct {
 type Capability struct {
   with Resource
   can Ability
-  -- can have arbitrary other fields
+  -- Any additional domain specific details and/or restrictions of the capability
+  caveats { String: Any }
 }
 
 type Fact { String: Any }
