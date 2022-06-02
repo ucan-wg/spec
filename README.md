@@ -399,7 +399,7 @@ Checked proofs MUST be resolvable by the recipient. A proof MAY be left unresolv
 
 #### 3.2.6.1 `prf` Field
 
-The `prf` field MUST contain the content address ([§5.6](#56-content-identifier)) of UCAN proofs (the "inputs" of a UCAN). 
+The `prf` field MUST contain the content address ([§5.6](#56-content-identifiers)) of UCAN proofs (the "inputs" of a UCAN). 
 
 #### 3.2.6.2 Examples
 
