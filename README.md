@@ -608,10 +608,7 @@ Some capabilities are more than the sum of their parts. The canonical example is
 
 ## 5.6 Content Identifiers
 
-A UCAN token MUST be referenced as [CIDv1](https://docs.ipfs.io/concepts/content-addressing/#identifier-formats) with the following configuration:
-* CID Version: `1`
-* Multibase: [`b` base32](https://github.com/multiformats/multibase/blob/master/multibase.csv#L12)
-* Multicodec: [`0x55` raw data](https://github.com/multiformats/multicodec/blob/master/table.csv#L39)
+A UCAN token MUST be referenced as a [base32](https://github.com/multiformats/multibase/blob/master/multibase.csv#L12) [CIDv1](https://docs.ipfs.io/concepts/content-addressing/#identifier-formats), using either the [`0x55` raw data](https://github.com/multiformats/multicodec/blob/master/table.csv#L39) or [`0x0129` `dag-json`](https://github.com/multiformats/multicodec/blob/master/table.csv#L104) multicodec. Note that if using `dag-json`, the UCAN MUST be formatted as `dag-json` prior to signing.
 
 The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) includes the following: local store, a distributed hash table (DHT), gossip network, or RESTful service. Please refer to [§7](#7-token-resolution) for more.
 
