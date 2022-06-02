@@ -8,6 +8,14 @@ matrix:
     wordlists: [".custom-words.txt"]
   pipeline:
   - pyspelling.filters.markdown:
+  - pyspelling.filters.html:
+      comments: false
+      ignores:
+      - code
+      - pre
+  - pyspelling.filters.context:
+      context_visible_first: true
+      escapes: \\[\\`~]
       delimiters:
       # Ignore multiline content between fences (fences can have 3 or more back ticks)
       # ```
@@ -18,11 +26,6 @@ matrix:
       # Ignore text between inline back ticks
       - open: '(?P<open>`+)'
         close: '(?P=open)'
-  - pyspelling.filters.html:
-      comments: false
-      ignores:
-      - code
-      - pre
   sources:
   - 'README.md'
   default_encoding: utf-8
