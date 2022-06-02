@@ -1,0 +1,26 @@
+matrix:
+- name: Markdown
+  aspell:
+    lang: en
+    d: en_US
+  dictionary:
+    encoding: utf-8
+    wordlists: [".custom-words.txt"]
+  pipeline:
+  - pyspelling.filters.markdown:
+  - pyspelling.filters.html:
+      comments: false
+      ignores:
+      - code
+      - pre
+  - pyspelling.filters.context:
+      context_visible_first: true
+      escapes: \\[\\`~]
+      delimiters:
+      - open: '(?s)^(?P<open> *`{3,})$'
+        close: '^(?P=open)$'
+      - open: '(?P<open>`+)'
+        close: '(?P=open)'
+  sources:
+  - 'README.md'
+  default_encoding: utf-8
