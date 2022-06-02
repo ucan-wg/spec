@@ -505,33 +505,33 @@ For `my` and `as` capabilities limited to some scheme, the action MUST be one no
 {"with": "my:dns", "can": "*"}
 ```
 
-## 4.3 Proof Field Redelegation
+## 4.3 UCAN Redelegation
 
-### 4.3.1 `prf` Scheme
+### 4.3.1 `ucan` Scheme
 
-The `prf` URI scheme defines addressing for UCANs and their fields.
+The `ucan` URI scheme defines addressing for UCANs.
 
 ``` abnf
-prf = "prf:" selector
+ucan = "ucan:" selector
 selector = "*" / cid
 ```
 
-`prf:*` represents all of the UCANs in the current proofs array. The proofs for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular proof (i.e. not the wildcard), then the [content address](#56-content-identifiers) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs.
+`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the [CID](#56-content-identifiers) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
 
-### 4.3.2 `prf` Actions
+### 4.3.2 `ucan` Actions
 
-The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This action redelegates all of the capabilities in the selected proof(s).
+The `ucan` scheme MUST accept the following action: `ucan/DELEGATE`. This action redelegates all of the capabilities in the selected proof(s).
 
-`ucan/delegate` is distinct from the superuser ability and acts as a re-export of the selected abilities. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `prf` URI scheme.
+`ucan/delegate` is distinct from the superuser ability and acts as a re-export of the selected abilities. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `ucan` URI scheme.
 
 ``` js
 [
   { 
-    "with": "prf:bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze",
+    "with": "ucan:bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze",
     "can": "ucan/DELEGATE"
   }, 
   { 
-    "with": "prf:*", 
+    "with": "ucan:*", 
     "can": "ucan/DELEGATE" 
   }
 ]
