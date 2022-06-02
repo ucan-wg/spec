@@ -1,8 +1,8 @@
 type UCAN struct {
   version String
 
-  issuer PublicKey
-  audience PublicKey
+  issuer DID
+  audience DID
   signature Signature
 
   capabilities [Capability]
@@ -41,7 +41,8 @@ type Ability = String
 -- 3. Signing via issuers private key
 type Signature = Bytes
 
--- multicodec tagged public key
+-- did:key encoded as multicodec tagged public key
 -- 0xed       Ed25519
 -- 0x1205     RSA
-type PublicKey = Bytes
+-- other DIDs could also be used by encoding it in UTF8 string
+type DID = Bytes
