@@ -240,6 +240,8 @@ The payload MUST describe the authorization claims, who is involved, and its val
 
 The `iss` and `aud` fields describe the token's principals. These can be conceptualized as the sender and receiver of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key` method](https://w3c-ccg.github.io/did-method-key/), and MAY be augmented with [additional DID methods](https://www.w3.org/TR/did-core/).
 
+If an issuer's DID has more than one key (e.g. [`did:ion`](https://github.com/decentralized-identity/ion), [`did:3`](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md)), the key used to sign the UCAN MUST be explicitely, using the [DID fragment](https://www.w3.org/TR/did-core/#fragment) (the hash index).
+
 The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA is supported but [RECOMMENDED that another key type be preferred](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security).
 
 #### Examples
@@ -252,6 +254,16 @@ The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA i
 ```json
 "aud": "did:ion:EiCrsG_DLDmSKic1eaeJGDtUoC1dj8tj19nTRD9ODzAjaQ",
 "iss": "did:pkh:eth:0xb9c5714089478a327f09197987f16f9e5d936e8a",
+```
+
+```json
+"aud": "did:ion:EiCrsG_DLDmSKic1eaeJGDtUoC1dj8tj19nTRD9ODzAjaQ",
+"iss": "did:ion:test:EiANCLg1uCmxUR4IUkpW8Y5_nuuXLbAEwonQd4q8pflTnw#key-1",
+```
+
+```json
+"aud": "did:ion:EiCrsG_DLDmSKic1eaeJGDtUoC1dj8tj19nTRD9ODzAjaQ",
+"iss": "did:3:bafyreiffkeeq4wq2htejqla2is5ognligi4lvjhwrpqpl2kazjdoecmugi#yh27jTt7Ny2Pwdy",
 ```
 
 ### 3.2.2 Time Bounds
