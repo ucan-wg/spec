@@ -23,7 +23,7 @@ We propose developing a transport agnostic CAR-based synchronization mechanism, 
 
 ## Motivation & High-Level Description
 
-This proposal resolves multiple major, persistent challenges that operators (including Fission) have experienced as a production IPFS operator for the past several years. From discussion with others in the IPFS Operators Group, we believe the scope of this work to be an important stepping stone in the maturation of IPFS and Filecoin in production settings.
+This proposal resolves multiple major, persistent challenges that Fission has experienced as a production IPFS operator for the past several years. From discussion with others in the IPFS Operators Group, we believe the scope of this work to be an important stepping stone in the maturation of IPFS and Filecoin in production settings.
 
 We propose extending the existing efforts to move specifically CAR files over HTTP (e.g. Filecoin point-to-point CAR, Qri’s DSync), and enable other transports such as WSS, HLS, and WebRTC. We know of several other projects in the broader ecosystem that would like to make use of this protocol, from storage providers and CDNs to decentralized social media protocols.
 
@@ -59,8 +59,8 @@ Streaming data in true parallel from multiple sources is a very attractive featu
 
 Our strategy is to build as much on top of existing libp2p technologies as possible, extended with three things:
 
-* A CAR-based HTTP API for arbitrary DAGs in go-ipfs
+* A CAR-based HTTP API for arbitrary DAGs in Kubo (go-ipfs)
 * Store reconciliation (remote differential graph selection)
 * Parallel streaming from multiple cooperative peers
 
-Note that this does not include general DHT discovery or connection. Further work may involve peer discovery with ad hoc inclusion to the CAR Pool cluster, but would require additional protocols. Our strategy is to ship an immediately impactful protocol into go-ipfs, which the scope here manages the 90th percentile use case that we have seen in practice. We are happy to scope out the broader DHT provider upon request.
+Note that this does not include general DHT discovery or connection. Further work may involve peer discovery with ad hoc inclusion to the CAR Pool cluster, but would require additional protocols. Our strategy is to ship an immediately impactful protocol into Kubo, which the scope here manages the 90th percentile use case that we have seen in practice. We are happy to scope out the broader DHT provider upon request.
