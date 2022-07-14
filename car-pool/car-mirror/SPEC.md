@@ -402,7 +402,7 @@ There are many variants on Bloom filters that are used for similar problems in t
 
 ## 5.2 Privacy
 
-There exist protocols for zero-knowledge set intersection (PSI) and union (PSU). In fact, some of these even use Bloom filters! Typically these protocols have a tradeoff on number of rounds, or at very least amount of system complexity. Since CAR Mirror is focused on transfer of data and not in the intersection of two sets, this is of less value than in use cases such as contacts matching, privacy-preserving routing, and so on. In fact, we expect to explore this as part of CAR Pool to extend the federated model to an open protocol.
+There exist protocols for zero-knowledge set intersection (PSI) and union (PSU). In fact, some of these even use Bloom filters! Typically these protocols have a tradeoff on number of rounds, or at very least amount of system complexity. Since CAR Mirror is focused on transfer of data not in the intersection of two sets, this is of less value than in use cases such as contacts matching, privacy-preserving routing, and so on. In fact, we expect to explore this as part of CAR Pool to extend the federated model to an open protocol.
 
 # 6. Acknowledgments
 
