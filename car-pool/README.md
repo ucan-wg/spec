@@ -23,7 +23,7 @@ We propose developing a transport agnostic CAR-based synchronization mechanism, 
 
 ## Motivation & High-Level Description
 
-This proposal resolves multiple major, persistent challenges that Fission has experienced as a production IPFS operator for the past several years. From discussion with others in the IPFS Operators Group, we believe the scope of this work to be an important stepping stone in the maturation of IPFS and Filecoin in production settings.
+This proposal resolves multiple major, persistent challenges that numerous production IPFS operators have experienced. We believe the scope of this work to be an important stepping stone in the maturation of IPFS and Filecoin in production settings.
 
 We propose extending the existing efforts to move specifically CAR files over HTTP (e.g. Filecoin point-to-point CAR, Qri’s DSync), and enable other transports such as WSS, HLS, and WebRTC. We know of several other projects in the broader ecosystem that would like to make use of this protocol, from storage providers and CDNs to decentralized social media protocols.
 
