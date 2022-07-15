@@ -197,7 +197,7 @@ If the Provider begins returning only the requested roots but no other blocks, t
 
 The Requestor MAY garbage collect its session state as soon as it has all of the blocks for the structure, minus the subgraphs marked as unavailable. It is RECOMMENDED that it keep this data indexed by the `peerId` of the Provider and root CID from the request, so that it can use this information in future requests.
 
-The Provider MAY garbage collect its session state when it has exhausted its graph, since false positives in the Bloom filter MAY lead to the Provider having an incorrect picture of the Requestor's store, and further requests MAY come in for that session. Session state is an optimization, so treating this as a totally new session is acceptable. However, due to this fact, it is RECOMMENDED that the Provider maintain a session state TTL of at least 30 seconds since the last block is sent. Maintaining this cache for long periods can speed up future requests, so the Provider MAY keep this information around to aid future requests.
+The Provider MAY garbage collect its session state when it has exhausted its graph, since false positives in the Bloom filter MAY lead to the Provider having an incorrect picture of the Requestor's store.  In addition, further requests MAY come in for that session. Session state is an optimization, so treating this as a totally new session is acceptable. However, due to this fact, it is RECOMMENDED that the Provider maintain a session state TTL of at least 30 seconds since the last block is sent. Maintaining this cache for long periods can speed up future requests, so the Provider MAY keep this information around to aid future requests.
 
 ## 3.2.2 Individual Round Sequence Diagram
 
