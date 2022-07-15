@@ -27,6 +27,7 @@ IPLD
 IPNS
 Invertible
 Krüger
+Kubo
 Merkle
 Namespaces
 OOM

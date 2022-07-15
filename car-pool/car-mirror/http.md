@@ -42,7 +42,7 @@ payload = {
 
 ## 1.3 Provider Payload
 
-The response MUST be given as a [CIDv1](https://ipld.io/specs/transport/car/carv1/). If the streaming flag was set in the URL, then the CAR MUST be a [streaming CARv1](https://ipld.io/specs/transport/car/carv1/#performance).
+The response MUST be given as a [CARv1](https://ipld.io/specs/transport/car/carv1/). If the streaming flag was set in the URL, then the CAR MUST be a [streaming CARv1](https://ipld.io/specs/transport/car/carv1/#performance).
 
 ## 1.4 Status Codes
 
@@ -85,7 +85,7 @@ payload = {
 }
 ```
 
-The data payload MUST be given as a [CIDv1](https://ipld.io/specs/transport/car/carv1/). If the streaming flag was set in the URL, then the CAR MUST be a [streaming CARv1](https://ipld.io/specs/transport/car/carv1/#performance).
+The data payload MUST be given as a [CARv1](https://ipld.io/specs/transport/car/carv1/). If the streaming flag was set in the URL, then the CAR MUST be a [streaming CARv1](https://ipld.io/specs/transport/car/carv1/#performance).
 
 ## 2.3 Provider Payload
 
