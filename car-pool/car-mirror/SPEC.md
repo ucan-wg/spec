@@ -367,7 +367,7 @@ Legend
 
 Some [optimality equations](https://en.wikipedia.org/wiki/Bloom_filter#Optimal_number_of_hash_functions):
 * $k = {m \over n} \ln{2}$
-* $m = {n \ln{\epsilon} \over {(\ln{2})^{2}}}$
+* $m=-\frac{n \ln \epsilon}{(\ln 2)^2}$
 
 A typical example looks like this:
 
