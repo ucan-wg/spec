@@ -344,8 +344,8 @@ The same resource MAY be addressed with several URI formats. For instance, a dat
 | URI                                            | Meaning                                                         |
 | ---------------------------------------------- | --------------------------------------------------------------- |
 | `{"with": "mailto:username@example.com", ...}` | A single email address                                          |
-| `{"with": "my:*", ...}`                        | All resources that the iss has access to, including future ones |
-| `{"with": "my:dnslink", ...}`                  | All DNSLinks that the iss has access to, including future ones  |
+| `{"with": "ucan:my:*", ...}`                   | All resources that the iss has access to, including future ones |
+| `{"with": "ucan:my:dnslink", ...}`             | All DNSLinks that the iss has access to, including future ones  |
 | `{"with": "dnslink://myapp.example.com", ...}` | A mutable pointer to some data                                  |
 
 #### 3.2.5.2 Ability
@@ -455,7 +455,7 @@ The use case of "pairing" two DIDs by delegating all current and future resource
 The format for this scheme is as follows:
 
 ``` abnf
-ownershipscheme = "my:" target
+ownershipscheme = "ucan:my:" target
 target = "*" / <scheme> / <uri>
 ```
 
@@ -470,7 +470,7 @@ Without this prefix, the ambiguity in provenance can be exploited by a malicious
 ```js
 // By parenthood
 {
-  "with": "my:email:alice@example.com",
+  "with": "ucan:my:email:alice@example.com",
   "can": "msg/send"
 }
 
@@ -481,69 +481,69 @@ Without this prefix, the ambiguity in provenance can be exploited by a malicious
 }
 ```
 
-### 4.2.2 `my` Wildcard
+### 4.2.2 `ucan:my` Wildcard
 
-The wildcard `my:*` resource MUST be taken to mean "everything" (all resources of all types) that are owned by the current DID.
+The wildcard `ucan:my:*` resource MUST be taken to mean "everything" (all resources of all types) that are owned by the current DID.
 
 ### 4.2.3 Subschemes
 
 A "sub-scheme" MAY be used to delegate some of that scheme controlled by parenthood. For example, `my:dns` delegates access to all DNS records. `my:mailto` selects all owned email addresses controlled by this user.
 
-### 4.2.4 `as:` Redelegation
+### 4.2.4 `ucan:as:` Redelegation
 
-Redelegating these to further DIDs in a chain MUST use the `as` URI and address the specific parent DID that owns that resource, followed by the resource kind selector. For instance: `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*` selects all resources originating from the specified DID, and `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto` selects email addresses from the DID. 
+Redelegating these to further DIDs in a chain MUST use the `as` URI and address the specific parent DID that owns that resource, followed by the resource kind selector. For instance: `ucan:as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*` selects all resources originating from the specified DID, and `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto` selects email addresses from the DID. 
 
 ``` abnf
-delegatescheme = "as:" did ":" kind
+delegatescheme = "ucan:as:" did ":" kind
 kind = "*" / <scheme>
 ```
 
 ### 4.2.5 Ability
 
-The ability for `my:*` or `as:<did>:*` MUST be the [superuser ability `*`](#41-superuser). Another ability would not be possible since any other ability cannot be guaranteed to work across all resource types (e.g. it's not possible to `crud/UPDATE` an email address). Recall that the superuser ability is special in that it selects the maximum possible ability for any resource.
+The ability for `ucan:my:*` or `ucan:as:<did>:*` MUST be the [superuser ability `*`](#41-superuser). Another ability would not be possible since any other ability cannot be guaranteed to work across all resource types (e.g. it's not possible to `crud/UPDATE` an email address). Recall that the superuser ability is special in that it selects the maximum possible ability for any resource.
 
 ``` json
-{"with": "my:*", "can": "*"}
-{"with": "as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*", "can": "*"}
+{"with": "ucan:my:*", "can": "*"}
+{"with": "ucan:as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*", "can": "*"}
 
-{"with": "my:mailto", "can": "msg/SEND"}
-{"with": "as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto", "can": "msg/SEND"}
+{"with": "ucan:my:mailto", "can": "msg/SEND"}
+{"with": "ucan:as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto", "can": "msg/SEND"}
 ```
 
-For `my` and `as` capabilities limited to some scheme, the ability MUST be one normally associated with that resource. As it belongs to every ability hierarchy, this MAY be the [superuser ability `*`](#41-superuser).
+For `ucan:my` and `ucan:as` capabilities limited to some scheme, the ability MUST be one normally associated with that resource. As it belongs to every ability hierarchy, this MAY be the [superuser ability `*`](#41-superuser).
 
 ``` json
-{"with": "my:dns", "can": "crud/UPDATE"}
-{"with": "my:dns", "can": "*"}
+{"with": "ucan:my:dns", "can": "crud/UPDATE"}
+{"with": "ucan:my:dns", "can": "*"}
 ```
 
-## 4.3 UCAN Redelegation
+## 4.3 UCAN Selection
 
-### 4.3.1 `ucan` Scheme
+### 4.3.1 `ucan:token` Scheme
 
-The `ucan` URI scheme defines addressing for UCANs.
+The `ucan:token` URI scheme defines addressing for UCANs.
 
 ``` abnf
-ucan = "ucan:" selector
+ucan = "ucan:token" selector
 selector = "*" / cid
 ```
 
-`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the [CID](#56-content-identifiers) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
+`ucan:token:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the [CID](#56-content-identifiers) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
 
-### 4.3.2 `ucan` Abilities
+### 4.3.2 `ucan:token` Abilities
 
-The `ucan` scheme MUST accept the following ability: `ucan/DELEGATE`. This ability redelegates all of the capabilities in the selected proof(s).
+The `ucan:token` scheme MUST accept the following ability: `ucan/DELEGATE`. This ability redelegates all of the capabilities in the selected proof(s).
 
 `ucan/delegate` is distinct from the superuser ability and acts as a re-export of the selected abilities. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `ucan` URI scheme.
 
 ``` js
 [
   { 
-    "with": "ucan:bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze",
+    "with": "ucan:token:bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze",
     "can": "ucan/DELEGATE"
   }, 
   { 
-    "with": "ucan:*", 
+    "with": "ucan:token:*", 
     "can": "ucan/DELEGATE" 
   }
 ]
