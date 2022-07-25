@@ -443,12 +443,12 @@ The superuser ability MUST be denoted `*`. This is the maximum ability and may b
 
 This is useful in several cases, for example:
 
-1. When delegating all resources, like in a [`my` scheme](#42-owned-resources)
+1. When delegating all resources, like in a [`ucan:my` scheme](#42-owned-resources)
 2. To grant the maximum ability when the current ability semantics may be extended later
 
 ## 4.2 Owned Resources
 
-The `my` URI scheme represents ownership over a resource — typically by parenthood — at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme describes delegating some or all ambient authority to another DID.
+The `ucan:my` URI scheme represents ownership over a resource — typically by parenthood — at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme describes delegating some or all ambient authority to another DID.
 
 The use case of "pairing" two DIDs by delegating all current and future resources is not uncommon when a user would like to use multiple devices as "root" but does not have access to all of them directly at all times. An everyday use case for this is a user signing into multiple devices, using them both with full rights.
 
@@ -459,11 +459,11 @@ ownershipscheme = "ucan:my:" target
 target = "*" / <scheme> / <uri>
 ```
 
-### 4.2.1 `my` Delegation By Parenthood
+### 4.2.1 `ucan:my` Delegation By Parenthood
 
 Capabilities being delegated by parenthood (the "apex" delegation) MUST be prefixed with `my:`. Including this prefix disambiguates that the source of this capability is the current issuer's owned resources.
 
-Without this prefix, the ambiguity in provenance can be exploited by a malicious user in an unrelated proof, forcing the validly delegated capability to appear as though it has an invalid ownership claim. The `my:` prefix resolved this issue by making introduction of a capability by parenthood explicit.
+Without this prefix, the ambiguity in provenance can be exploited by a malicious user in an unrelated proof, forcing the validly delegated capability to appear as though it has an invalid ownership claim. The `ucan:my:` prefix resolved this issue by making introduction of a capability by parenthood explicit.
 
 #### 4.2.1.1 Example
 
