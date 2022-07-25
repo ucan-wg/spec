@@ -99,6 +99,7 @@ subdelegate
 tradeoffs
 trustless
 trustlessly
+ucan
 un
 unary
 unresolvable
