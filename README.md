@@ -91,15 +91,15 @@ Unlike many authorization systems where a service controls access to resources i
 
 A resource is some data or process that has an address. It can be anything from a row in a database, a user account, storage quota, email address, etc.
 
-## 2.2 Action
+## 2.2 Ability
 
-An action MUST be performed against some resource. Each action MAY have its own semantics. For example, actions MAY be unary, support a hierarchy, be monotone, form partial orders, etc. In addition, actions MAY be general and applicable to many kinds of resources or tied to a specific one.
+An ability MUST be performed against some resource. Each ability MAY have its own semantics. For example, abilities MAY be unary, support a hierarchy, be monotone, form partial orders, etc. In addition, abilities MAY be general and applicable to many kinds of resources or tied to a specific one.
 
-For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The action `wnfs/OVERWRITE` also implies the capacity to append. An email has no such tiered relationship. One can `email/SEND`, but there is no concept of a "super send."
+For instance, `wnfs/APPEND` is an ability for [WebNative filesystem](https://github.com/WebNativeFileSystem/spec) paths. The ability `wnfs/OVERWRITE` also implies the capacity to append. An email has no such tiered relationship. One can `email/SEND`, but there is no concept of a "super send."
 
 ## 2.3 Capability
 
-A capability is the association of an "action" to a "resource": `resource x action`
+A capability is the association of an "ability" to a "resource": `resource x ability`
 
 ## 2.4 Capability Scope
 
@@ -160,7 +160,7 @@ merge(ScopeA, ScopeB) == [
 
 Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructive "proof" acts as the authorization proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its scope.
 
-Each direct delegation leaves the action at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more proofs of different types if part of the resource's semantics. 
+Each direct delegation leaves the ability at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more proofs of different types if part of the resource's semantics. 
 
 Note that delegation is a separate concept from invocation [§2.8](#28-invocation). Delegation is the act of granting a capability to another, not the act of using it (invocation), which has additional requirements.
 
@@ -176,7 +176,7 @@ In the case of UCAN, this MUST be done by a proof's issuer DID. For more on the 
 
 ## 2.8 Invocation
 
-UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent allowed to perform an action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§5.2.1](#521-recipient-validation).
+UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent allowed to perform some action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§5.2.1](#521-recipient-validation).
 
 ## 2.9 Time
 
@@ -350,7 +350,7 @@ The same resource MAY be addressed with several URI formats. For instance, a dat
 
 #### 3.2.5.2 Ability
 
-The `can` field is REQUIRED. It describes the verb portion of the capability: an action that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
+The `can` field is REQUIRED. It describes the verb portion of the capability: an ability that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
 
 Abilities MAY be organized in a hierarchy with enums. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
@@ -439,7 +439,7 @@ The following capabilities are REQUIRED to be implemented.
 
 ## 4.1 Superuser
 
-The superuser action MUST be denoted `*`. This is the maximum ability and may be applied to any resource (it is the "top" ability).
+The superuser ability MUST be denoted `*`. This is the maximum ability and may be applied to any resource (it is the "top" ability).
 
 This is useful in several cases, for example:
 
@@ -498,9 +498,9 @@ delegatescheme = "as:" did ":" kind
 kind = "*" / <scheme>
 ```
 
-### 4.2.5 Action
+### 4.2.5 Ability
 
-The action for `my:*` or `as:<did>:*` MUST be the [superuser action `*`](#41-superuser). Another ability would not be possible since any other ability cannot be guaranteed to work across all resource types (e.g. it's not possible to `crud/UPDATE` an email address). Recall that the superuser action is special in that it selects the maximum possible action for any resource.
+The ability for `my:*` or `as:<did>:*` MUST be the [superuser ability `*`](#41-superuser). Another ability would not be possible since any other ability cannot be guaranteed to work across all resource types (e.g. it's not possible to `crud/UPDATE` an email address). Recall that the superuser ability is special in that it selects the maximum possible ability for any resource.
 
 ``` json
 {"with": "my:*", "can": "*"}
@@ -510,7 +510,7 @@ The action for `my:*` or `as:<did>:*` MUST be the [superuser action `*`](#41-sup
 {"with": "as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto", "can": "msg/SEND"}
 ```
 
-For `my` and `as` capabilities limited to some scheme, the action MUST be one normally associated with that resource. As it belongs to every action hierarchy, this MAY be the [superuser action `*`](#41-superuser).
+For `my` and `as` capabilities limited to some scheme, the ability MUST be one normally associated with that resource. As it belongs to every ability hierarchy, this MAY be the [superuser ability `*`](#41-superuser).
 
 ``` json
 {"with": "my:dns", "can": "crud/UPDATE"}
@@ -530,9 +530,9 @@ selector = "*" / cid
 
 `ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the [CID](#56-content-identifiers) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
 
-### 4.3.2 `ucan` Actions
+### 4.3.2 `ucan` Abilities
 
-The `ucan` scheme MUST accept the following action: `ucan/DELEGATE`. This action redelegates all of the capabilities in the selected proof(s).
+The `ucan` scheme MUST accept the following ability: `ucan/DELEGATE`. This ability redelegates all of the capabilities in the selected proof(s).
 
 `ucan/delegate` is distinct from the superuser ability and acts as a re-export of the selected abilities. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `ucan` URI scheme.
 
@@ -590,9 +590,9 @@ Alice delegates access to Bob. Bob then redelegates to Carol. Carol invokes the 
 
 ### 5.2.1 Recipient Validation
 
-An agent executing a capability MUST verify that the outermost `aud` field _matches its own DID._ The associated action MUST NOT be performed if they do not match. Recipient validation is REQUIRED to prevent the misuse of UCANs in an unintended context.
+An agent executing a capability MUST verify that the outermost `aud` field _matches its own DID._ The associated ability MUST NOT be performed if they do not match. Recipient validation is REQUIRED to prevent the misuse of UCANs in an unintended context.
 
-The following UCAN fragment would be valid to invoke as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. Any other agent MUST NOT accept this UCAN. For example, `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT run the action associated with that capability.
+The following UCAN fragment would be valid to invoke as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. Any other agent MUST NOT accept this UCAN. For example, `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT run the ability associated with that capability.
 
 ``` js
 {
@@ -616,7 +616,7 @@ Except for rights amplification (below), each capability delegation MUST have eq
 
 ## 5.4 Rights Amplification
 
-Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating particular capabilities MAY require more than one direct proof. The relevant proofs MAY be of a different resource and action from the amplified capability. The delegated capability MUST have this behavior in its semantics, even if the proofs do not.
+Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating particular capabilities MAY require more than one direct proof. The relevant proofs MAY be of a different resource and ability from the amplified capability. The delegated capability MUST have this behavior in its semantics, even if the proofs do not.
 
 ## 5.6 Content Identifiers
 
