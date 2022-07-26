@@ -787,6 +787,8 @@ If many invocations are discharged during a session, the sender and receiver MAY
 
 Thank you to [Brendan O'Brien](https://github.com/b5) for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
 
+Many thanks to [Hugo Dias](https://github.com/hugomrdias), [Mikael Rogers](https://github.com/mikeal/), and the entire DAG Haus team for the real world feedback, and finding inventive new use cases.
+
 Thank you [Blaine Cook](https://github.com/blaine) for the real-world feedback, ideas on future features, and lessons from other auth standards.
 
 Thank you [Dan Finlay](https://github.com/danfinlay) for being sufficiently passionate about OCAP that we realized that capability systems had a real chance of adoption in an ACL-dominated world.
