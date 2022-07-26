@@ -1,0 +1,48 @@
+type UCAN struct {
+  version String
+
+  issuer DID
+  audience DID
+  signature Signature
+
+  capabilities [Capability]
+  -- All proofs are links, however you could still inline proof
+  -- by using CID with identity hashing algorithm
+  proofs [&UCAN]
+  expiration Int
+
+  facts [Fact]
+  nonce optional String
+  notBefore optional Int
+} representation map {
+  field facts default []
+  field proofs default []
+}
+
+
+type Capability struct {
+  with Resource
+  can Ability
+  -- Any additional domain specific details and/or restrictions of the capability
+  caveats { String: Any }
+}
+
+type Fact { String: Any }
+
+-- The resource pointer in URI format
+type Resource = String
+
+-- Must be all lower-case `/` delimeted with at least one path segment
+type Ability = String
+
+-- Signature is computed by
+-- 1. deriving JWT header & payload using DAG-JSON (to achieve for hash consitency)
+-- 2. formating it into base64 string
+-- 3. Signing via issuers private key
+type Signature = Bytes
+
+-- did:key encoded as multicodec tagged public key
+-- 0xed       Ed25519
+-- 0x1205     RSA
+-- other DIDs could also be used by encoding it in UTF8 string
+type DID = Bytes
