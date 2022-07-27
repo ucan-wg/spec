@@ -61,6 +61,8 @@ attenuations
 auth
 bene
 blockchain
+codec
+codecs
 cryptographically
 delegable
 delegator
