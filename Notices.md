@@ -87,6 +87,14 @@ Specification version: 0.8.0 or later
 
 ---------------------------------------------------------------------------------
 
+Licensee’s name: Benjamin Goering
+
+Authorized individual and system identifier: gobengo
+
+Specification version: 0.8.0 or later
+
+---------------------------------------------------------------------------------
+
 ## Withdrawals
 
 Name of party withdrawing:
