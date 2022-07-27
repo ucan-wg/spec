@@ -20,6 +20,7 @@ GLVVQR
 Golang
 Gozalishvili
 HEHYSF
+Haus
 Holmgren
 Irakli
 JSON
@@ -29,6 +30,7 @@ Krüger
 LD
 Memoized
 Merkle
+Mikael
 MkiTBz
 OCAP
 PITM
@@ -96,6 +98,7 @@ redelegates
 situationally
 stateful
 subdelegate
+subscheme
 tradeoffs
 trustless
 trustlessly
