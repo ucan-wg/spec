@@ -547,9 +547,11 @@ Some capabilities are more than the sum of their parts. The canonical example is
 
 ## 6.5 Content Identifiers
 
-A UCAN token MUST be referenced as a [base32](https://github.com/multiformats/multibase/blob/master/multibase.csv#L12) [CIDv1](https://docs.ipfs.io/concepts/content-addressing/#identifier-formats), using either the [`0x55` raw data](https://github.com/multiformats/multicodec/blob/master/table.csv#L39) or [`0x0129` `dag-json`](https://github.com/multiformats/multicodec/blob/master/table.csv#L104) multicodec. Note that if using `dag-json`, the UCAN MUST be formatted as `dag-json` prior to signing.
+A UCAN token MUST be referenced as a [base32](https://github.com/multiformats/multibase/blob/master/multibase.csv#L12) [CIDv1](https://docs.ipfs.io/concepts/content-addressing/#identifier-formats).
 
-The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) includes the following: local store, a distributed hash table (DHT), gossip network, or RESTful service. Please refer to [§8](#8-token-resolution) for more.
+The [`0x55` raw data](https://github.com/multiformats/multicodec/blob/master/table.csv#L39) codec MUST be supported. If other codecs are used (such as [`0x0129` `dag-json`](https://github.com/multiformats/multicodec/blob/master/table.csv#L104) multicodec), the UCAN MUST be able to be interpreted as a valid JWT (including the signature).
+
+The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service. Please refer to [§8](#8-token-resolution) for more.
 
 ## 6.6 Revocation
 
