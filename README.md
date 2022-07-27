@@ -102,9 +102,7 @@ The same resource MAY be addressed with several URI formats. For instance, a dat
 
 ## 2.2 Ability
 
-An ability MUST be performed against some resource. Each ability MAY have its own semantics. For example, abilities MAY be unary, support a hierarchy, be monotone, form partial orders, etc. In addition, abilities MAY be general and applicable to many kinds of resources or tied to a specific one.
-
-It describes the verb portion of the capability: an ability that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
+Abilities describe the verb portion of the capability: an ability that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
 
 Abilities MAY be organized in a hierarchy with enums. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
@@ -243,7 +241,7 @@ In the case of UCAN, this MUST be done by a proof's issuer DID. For more on the 
 
 ## 2.8 Invocation
 
-UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent allowed to perform some action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§5.2.1](#521-recipient-validation).
+UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent allowed to perform some action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§6.2.1](#621-recipient-validation).
 
 ## 2.9 Time
 
