@@ -396,7 +396,7 @@ The attenuations (i.e. UCAN output, or "caveats") MUST be an array of heterogene
 
 This array MUST contain some or none of the following:
 1. A strict subset (attenuation) of the capability scope from the `prf` field
-2. Capabilities composed from multiple proofs (see [§6.4](#64-rights-amplification))
+2. Capabilities composed from multiple proofs (see rights amplification [§6.4](#64-rights-amplification))
 3. Capabilities originated by the `iss` DID (i.e. by parenthood)
 
 This array also includes time ranges and the proofs that start latest and end soonest from the lower and upper time bounds of the range.
