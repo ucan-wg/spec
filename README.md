@@ -384,13 +384,13 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 
 ### 3.2.5 Introduction by Parenthood
 
-The parenthood array (`my`) MUST be used to introduce new resources prior to them being attenuated in a UCAN chain. To be valid, any resources contained in this array MUST be owned by the isser at decision-time (i.e. the validator's "now").
+The parenthood array (`my`) MUST be used to introduce new resources prior to them being attenuated in a UCAN chain. To be valid, any resources contained in this array MUST be owned by the issuer at decision-time (i.e. the validator's "now").
 
 This field is OPTIONAL and the array MAY be empty.
 
 disambiguates that the source of this capability is the current issuer's owned resources
 
-This field being separate is very important. Without the distinction of intriduction by parenthood, there exists ambiguity in the capability provenance could be exploited by a malicious user in an unrelated proof, forcing the validly delegated capability to appear as though it has an invalid ownership claim. Separating these capabilities into their own array makes the claimed source of authority explicit.
+This field being separate is very important. Without the distinction of introduction by parenthood, there exists ambiguity in the capability provenance could be exploited by a malicious user in an unrelated proof, forcing the validly delegated capability to appear as though it has an invalid ownership claim. Separating these capabilities into their own array makes the claimed source of authority explicit.
 
 ### 3.2.6 Attenuation
 
