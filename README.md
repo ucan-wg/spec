@@ -91,15 +91,82 @@ Unlike many authorization systems where a service controls access to resources i
 
 A resource is some data or process that has an address. It can be anything from a row in a database, a user account, storage quota, email address, etc.
 
+A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
+
+The same resource MAY be addressed with several URI formats. For instance, a database may have an address at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
+
+| URI                                            | Meaning                                                         |
+| ---------------------------------------------- | --------------------------------------------------------------- |
+| `{"with": "mailto:username@example.com", ...}` | A single email address                                          |
+| `{"with": "dns:sub.example.com", ...}` | A mutable pointer to some data                                  |
+
 ## 2.2 Ability
 
 An ability MUST be performed against some resource. Each ability MAY have its own semantics. For example, abilities MAY be unary, support a hierarchy, be monotone, form partial orders, etc. In addition, abilities MAY be general and applicable to many kinds of resources or tied to a specific one.
 
-For instance, `wnfs/APPEND` is an ability for [WebNative filesystem](https://github.com/wnfs-wg/spec) paths. The ability `wnfs/OVERWRITE` also implies the capacity to append. An email has no such tiered relationship. One can `email/SEND`, but there is no concept of a "super send."
+It describes the verb portion of the capability: an ability that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
+
+Abilities MAY be organized in a hierarchy with enums. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
+
+Abilities MUST NOT be case sensitive. For example, `http/post`, `http/POST`, `HTTP/post`, `HTTP/POST`, and `hTtP/pOsT` MUST all mean the same ability.
+
+There MUST be at least one path segment as a namespace. For example, `http/PUT` and `db/PUT` MUST be treated as unique from each other.
+
+The only reserved ability MUST be the un-namespaced [`"*"` (superuser)](#41-superuser), which MUST be allowed on any resource.
 
 ## 2.3 Capability
 
-A capability is the association of an "ability" to a "resource": `resource x ability`
+A capability is the association of an "ability" to a "resource": `resource x ability`.
+
+The `with` (resource) and `can` (ability) fields are REQUIRED. The `nb` (non-normative extension) field is OPTIONAL.
+
+``` json
+{
+  "with": $RESOURCE,
+  "can": $ABILITY,
+  "nb": $EXTENSION
+}
+```
+
+### 2.3.1 `nb` Non-Normative Fields
+
+Capabilities MAY define additional optional or required fields specific to their use case in the `nb` ([nota bene](https://en.wikipedia.org/wiki/Nota_bene)) field. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. The `nb` field MAY contain additional caveats or other important information related to specifying the capability, and MAY function as an "escape hatch" for when a use case is not fully captured by the `with` and `can` fields.
+
+Further delegation of a capability with `nb` fields set MUST respect the `nb` fields. On validation, if a `nb` field is present, it MUST be checked. If a validator is not able to interpret the `nb` field, it MUST reject the capability. As such, any `nb` caveats from a proof MUST further attenuate the delegated capability.
+
+#### 2.3.2 Examples
+
+``` json
+[
+  {
+    "with": "example://example.com/public/photos/",
+    "can": "crud/DELETE"
+  },
+  {
+    "with": "example://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr",
+    "can": "wnfs/APPEND"
+  },
+  {
+    "with": "example://example.com/public/photos/",
+    "can": "crud/DELETE",
+    "nb": {
+      "matching": "/(?i)(\W|^)(baloney|darn|drat|fooey|gosh\sdarnit|heck)(\W|$)/"
+    }
+  },
+  {
+    "with": "mailto:username@example.com",
+    "can": "msg/SEND"
+  },
+  {
+    "with": "mailto:username@example.com",
+    "can": "msg/READ",
+    "nb": {
+      "max_count": 5,
+      "templates": ["newsletter", "marketing"]
+    }
+  }
+]
+```
 
 ## 2.4 Capability Scope
 
@@ -233,9 +300,9 @@ The payload MUST describe the authorization claims, who is involved, and its val
 | `exp` | `Number`   | Expiration UTC Unix Timestamp (valid until)      | Yes      |
 | `nnc` | `String`   | Nonce                                            | No       |
 | `fct` | `Json[]`   | Facts (asserted, signed data)                    | No       |
-| `prf` | `String[]` | Proof of delegation (hash-linked UCANs)          | Yes      |
-| `my`  | `Json[]`   | Introduction by parenthood                       | No       |
+| `my`  | `Json[]`   | Delegation by parenthood                         | No       |
 | `att` | `Json[]`   | Attenuations                                     | No       |
+| `prf` | `String[]` | Proof of delegation (hash-linked UCANs)          | Yes      |
 
 ### 3.2.1 Principals
 
@@ -325,50 +392,7 @@ disambiguates that the source of this capability is the current issuer's owned r
 
 This field being separate is very important. Without the distinction of intriduction by parenthood, there exists ambiguity in the capability provenance could be exploited by a malicious user in an unrelated proof, forcing the validly delegated capability to appear as though it has an invalid ownership claim. Separating these capabilities into their own array makes the claimed source of authority explicit.
 
-This array MUST contain some or none of the following
-
-
-
-
-
-#### 3.2.5.1 Example
-
-```js
-{
-  ...,
-  "my": [
-    {
-      "with": "mailto:alice@example.com",
-      "can": "msg/send"
-    },
-    {
-      "with": "dns:*", // FIXME breaks the URI
-      "can": "crud/update"
-    },
-    {
-      "with": "dns:example.com?TYPE=A;CLASS=IN",
-      "can": "*"
-    }
-  ]
-}
-
-// To delegate all capabilities
-{
-  ...,
-  "my": [
-    {
-      "with": "*",
-      "can": "*"
-    }
-  ]
-}
-```
-
-
-
-
-
-### 3.2.6 Attenuations
+### 3.2.6 Attenuation
 
 The attenuations (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous capabilities (defined below). This array MAY be empty.
 
@@ -379,90 +403,18 @@ This array MUST contain some or none of the following:
 
 This array also includes time ranges and the proofs that start latest and end soonest from the lower and upper time bounds of the range.
 
-The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST include the `with` and `can` fields, and MAY have additional fields needed to describe the capability.
 
-``` json
-{
-  "with": $RESOURCE,
-  "can": $ABILITY,
-  "nb": $EXTENSION
-}
-```
+### 3.2.7 Proof of Delegation
 
-#### 3.2.6.1 Resource Pointer
-
-A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
-
-The same resource MAY be addressed with several URI formats. For instance, a database may have an address at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
-
-| URI                                            | Meaning                                                         |
-| ---------------------------------------------- | --------------------------------------------------------------- |
-| `{"with": "mailto:username@example.com", ...}` | A single email address                                          |
-| `{"with": "dns:sub.example.com", ...}` | A mutable pointer to some data                                  |
-
-#### 3.2.6.2 Ability
-
-The `can` field is REQUIRED. It describes the verb portion of the capability: an ability that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
-
-Abilities MAY be organized in a hierarchy with enums. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
-
-Abilities MUST NOT be case sensitive. For example, `http/post`, `http/POST`, `HTTP/post`, `HTTP/POST`, and `hTtP/pOsT` MUST all mean the same ability.
-
-There MUST be at least one path segment as a namespace. For example, `http/PUT` and `db/PUT` MUST be treated as unique from each other.
-
-The only reserved ability MUST be the un-namespaced [`"*"` (superuser)](#41-superuser), which MUST be allowed on any resource.
-
-### 3.2.6.3 `nb` Non-Normative Fields
-
-Capabilities MAY define additional optional or required fields specific to their use case in the `nb` ([nota bene](https://en.wikipedia.org/wiki/Nota_bene)) field. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. The `nb` field MAY contain additional caveats or other important information related to specifying the capability, and MAY function as an "escape hatch" for when a use case is not fully captured by the `with` and `can` fields.
-
-Further delegation of a capability with `nb` fields set MUST respect the `nb` fields. On validation, if a `nb` field is present, it MUST be checked. If a validator is not able to interpret the `nb` field, it MUST reject the capability. As such, any `nb` caveats from a proof MUST further attenuate the delegated capability.
-
-#### 3.2.6.4 Examples
-
-``` json
-"att": [
-  {
-    "with": "exampleuri://example.com/public/photos/",
-    "can": "crud/DELETE"
-  },
-  {
-    "with": "exampleuri://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr",
-    "can": "wnfs/APPEND"
-  },
-  {
-    "with": "exampleuri://example.com/public/photos/",
-    "can": "crud/DELETE",
-    "nb": {
-      "matching": "/(?i)(\W|^)(baloney|darn|drat|fooey|gosh\sdarnit|heck)(\W|$)/"
-    }
-  },
-  {
-    "with": "mailto:username@example.com",
-    "can": "msg/SEND"
-  },
-  {
-    "with": "mailto:username@example.com",
-    "can": "msg/READ",
-    "nb": {
-      "max_count": 5,
-      "templates": ["newsletter", "marketing"]
-    }
-  }
-]
-```
-
-### 3.2.6 Proof of Delegation
-
-Attenuations MUST be satisfied by matching the attenuated capability to a proof in the `prf` array ([§3.2.6.1](#3261-prf-field))
+Attenuations MUST be satisfied by matching the attenuated capability to a proof in the `prf` array ([§3.2.7.1](#3271-prf-field))
 
 Checked proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, a federated HTTP endpoint, a DHT, or shared database.
 
-#### 3.2.6.1 `prf` Field
+#### 3.2.7.1 `prf` Field
 
 The `prf` field MUST contain the content address ([§6.5](#65-content-identifiers)) of UCAN proofs (the "inputs" of a UCAN). 
 
-#### 3.2.6.2 Examples
+#### 3.2.7.2 Examples
 
 ``` json
 "prf": [
@@ -486,11 +438,9 @@ For more on this representation, please refer to [§7.1](#71-canonical-json-coll
 
 The following resources are REQUIRED to be implemented.
 
-# 4.1 `ucan:token`
+## 4.1 `ucan:token`
 
-### 5.2.1 `ucan:token` Scheme
-
-The `ucan:token` URI scheme defines addressing for UCANs.
+The `ucan:token` URI subscheme defines addressing for UCANs.
 
 ``` abnf
 ucan = "ucan:token:" selector
