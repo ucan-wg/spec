@@ -300,7 +300,7 @@ The payload MUST describe the authorization claims, who is involved, and its val
 | `fct` | `Json[]`   | Facts (asserted, signed data)                    | No       |
 | `my`  | `Json[]`   | Delegation by parenthood                         | No       |
 | `att` | `Json[]`   | Attenuations                                     | No       |
-| `prf` | `String[]` | Proof of delegation (hash-linked UCANs)          | Yes      |
+| `prf` | `String[]` | Proof of delegation (hash-linked UCANs)          | No       |
 
 ### 3.2.1 Principals
 
