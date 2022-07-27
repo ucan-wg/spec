@@ -95,7 +95,7 @@ A resource is some data or process that has an address. It can be anything from 
 
 An ability MUST be performed against some resource. Each ability MAY have its own semantics. For example, abilities MAY be unary, support a hierarchy, be monotone, form partial orders, etc. In addition, abilities MAY be general and applicable to many kinds of resources or tied to a specific one.
 
-For instance, `wnfs/APPEND` is an ability for [WebNative filesystem](https://github.com/WebNativeFileSystem/spec) paths. The ability `wnfs/OVERWRITE` also implies the capacity to append. An email has no such tiered relationship. One can `email/SEND`, but there is no concept of a "super send."
+For instance, `wnfs/APPEND` is an ability for [WebNative filesystem](https://github.com/wnfs-wg/spec) paths. The ability `wnfs/OVERWRITE` also implies the capacity to append. An email has no such tiered relationship. One can `email/SEND`, but there is no concept of a "super send."
 
 ## 2.3 Capability
 
