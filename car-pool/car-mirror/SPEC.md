@@ -347,7 +347,23 @@ On the next round, the Requestor checks each block against the filter, and begin
 └─────────────────────┘   │                           │        └───────────────┘
 ```
 
-## 3.4 Bloom Optimization
+## 3.4 Bloom Filter
+
+### 3.4.1 Indexing
+
+Indexes generated from hashes MUST follow the following strategy based on if the filter fits perfectly into a power of 256 ($2^8^p$)
+
+#### Clean $256^p$
+
+* If the size ($m$) of the filter is $p$ powers of 256 ($256^p$), take the first $p$ bytes from the hash and interpret it as an index.
+
+* If the size is not a power of 256, take the next highest number of bytes, and use [rejection sampling]. For example, if the filter has 50,000 bits, take 2 bytes (max 65,536). if 
+
+#### 3.4.1.1 Rejection sampling
+
+This 
+
+### 3.4.2 Optimization
 
 The parameters for the Bloom are set by the Requestor. Many of the parameters are self-evident from the filter itself, but the number of hashes must be passed along in the initial request.
 
@@ -357,7 +373,7 @@ It is RECOMMENDED to make the FPP one order of magnitude (OOM) under the inverse
 
 The core idea of using a Bloom filter is that it is very fast and space efficient. For example, a Bloom filter with 100k elements and a FPP of $10^{-6}$ can be expressed in a little over 350KB.
 
-### 3.4.1 Equations
+#### 3.4.2.1 Equations
 
 Legend
 * $n$: number of elements in the filter
