@@ -435,16 +435,31 @@ For more on this representation, please refer to [§7.1](#71-canonical-json-coll
 
 The following resources are REQUIRED to be implemented.
 
-## 4.1 `ucan:token`
+## 4.1 `ucan`
 
-The `ucan:token` URI subscheme defines addressing for UCANs.
+The `ucan` URI subscheme defines addressing for UCANs.
 
 ``` abnf
-ucan = "ucan:token:" selector
-selector = "*" / cid
+ucan = "ucan:" ucan-selector
+ucan-selector = "*" / cid
 ```
 
-`ucan:token:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the [CID](#65-content-identifiers) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
+`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the [CID](#65-content-identifiers) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
+
+## 4.2 `owned`
+
+The `owned` URI subscheme defines how to address all resources of a particular URI scheme owned by a particular [DID subject](https://www.w3.org/TR/did-core/#dfn-did-subjects). The DID subject MUST NOT contain any other characters, such as query params or fragments. The `scheme-selector` MUST either be the wildcard (`*`) selector or a URI scheme (such as `dns`, `mailto`, and `telnet`). 
+
+``` abnf
+owned = "owned://" <did-subject> "/" scheme-scope
+scheme-selector = "*" / <scheme>
+```
+
+```
+owned://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/*
+owned://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/dns
+owned://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/dns?type=A
+```
 
 # 5. Reserved Abilities
 
