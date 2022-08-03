@@ -448,7 +448,7 @@ ucan-selector = "*" / cid
 
 ## 4.2 `owned`
 
-The `owned` URI subscheme defines how to address all resources of a particular URI scheme owned by a particular [DID subject](https://www.w3.org/TR/did-core/#dfn-did-subjects). The DID subject MUST NOT contain any other characters, such as query params or fragments. The `scheme-selector` MUST either be the wildcard (`*`) selector or a URI scheme (such as `dns`, `mailto`, and `telnet`). 
+The `owned` URI subscheme defines how to address all resources of a particular URI scheme owned by a particular [DID subject](https://www.w3.org/TR/did-core/#dfn-did-subjects). The DID subject MUST NOT contain any other characters, such as query parameters or fragments. The `scheme-selector` MUST either be the wildcard (`*`) selector or a URI scheme (such as `dns`, `mailto`, and `telnet`). 
 
 ``` abnf
 owned = "owned://" <did-subject> "/" scheme-scope
