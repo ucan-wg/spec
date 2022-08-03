@@ -768,10 +768,10 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 
 ## 12.4 Why are the superuser and delegation abilities separate?
 
-The argument is sometimes made that `*` would mean "all abilities in context", which would include all of the abient authority for a particular resource (and thus the superuser ability). How are these different?
+The argument is sometimes made that `*` would mean "all abilities in context", which would include all of the ambient authority for a particular resource (and thus the superuser ability). How are these different?
 
 The act of delegation is distinct from granting administrative privileges. Delegation is akin to stating "any ability", and superuser is the equivalent to "all abilities".
 
-There are also human factors and providing directing users to make the right or safest decisions by deault. The superuser capability is extremely powerful. Accidentally granting administrative control over a resource by accident may be disasterous. By making the superuser ability unique, we make this level of authority as salient as any other ability.
+There are also human factors and providing directing users to make the right or safest decisions by default. The superuser capability is extremely powerful. Accidentally granting administrative control over a resource by accident may be disastrous. By making the superuser ability unique, we make this level of authority as salient as any other ability.
 
-This distinction can also be useful when requesting capabilties from others, such as in service discovery or [AWAKE](https://github.com/ucan-wg/awake). Only having `*` introduces ambiguity about the intent that has to be interpreted from context that this is specifically super user and not "whatever level of authorty that the user can provide".
+This distinction can also be useful when requesting capabilities from others, such as in service discovery or [AWAKE](https://github.com/ucan-wg/awake). Only having `*` introduces ambiguity about the intent that has to be interpreted from context that this is specifically super user and not "whatever level of authority that the user can provide".
