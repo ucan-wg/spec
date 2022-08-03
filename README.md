@@ -458,7 +458,6 @@ scheme-selector = "*" / <scheme>
 ```
 owned://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/*
 owned://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/dns
-owned://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/dns?type=A
 ```
 
 # 5. Reserved Abilities
@@ -467,24 +466,33 @@ The following abilities are REQUIRED to be implemented.
 
 ## 5.1 Superuser
 
-The superuser ability MUST be denoted `*`. This is the maximum ability and may be applied to any resource (it is the "top" ability).
+The superuser ability MUST be denoted `*`. This is the maximum ability and may be applied to any resource (it is the "top" ability). In logical terms, the superuser ability is like stating "all abilities for this resource".
 
-This is useful in several cases, for example to grant the maximum ability when the current ability semantics may be extended later
-
-## 5.2 UCAN Delegation
-
-The `ucan:token` scheme MUST accept the following ability: `ucan/DELEGATE`. This ability redelegates all of the capabilities in the selected proof(s). Other resources MAY accept this ability as part of this semantics.
-
-`ucan/delegate` is distinct from the superuser ability and acts as a re-export of the selected abilities. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `ucan` URI scheme.
+This is useful in several cases, for example to grant the maximum ability when the current ability semantics may be extended later. 
 
 ``` js
 [
   { 
-    "with": "ucan:token:bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze",
+    "with": "owned://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/wnfs", 
+    "can": "*" 
+  }
+]
+```
+
+## 5.2 UCAN Delegation
+
+The `ucan` scheme MUST accept the following ability: `ucan/DELEGATE`. This ability redelegates all of the capabilities in the selected proof(s). Other resources MAY accept this ability as part of this semantics. In logical terms, the delegation ability is like stating "any ability for this resource".
+
+`ucan/delegate` is distinct from the superuser (`*`) ability and acts as a re-export of the selected abilities. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `ucan` URI scheme.
+
+``` js
+[
+  { 
+    "with": "ucan:bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze",
     "can": "ucan/DELEGATE"
   }, 
   { 
-    "with": "ucan:token:*", 
+    "with": "ucan:*", 
     "can": "ucan/DELEGATE" 
   }
 ]
@@ -757,3 +765,13 @@ This is not a concern when simply delegating since presumably the recipient agen
 _UCAN does not have any special protection against person-in-the-middle (PITM) attacks._
 
 Were a PITM attack successfully performed on a UCAN delegation, the proof chain would contain the attacker's DID(s). It is possible to detect this scenario and revoke the relevant UCAN but does require special inspection of the topmost `iss` field to check if it is the expected DID. Therefore, it is strongly RECOMMENDED to only delegate UCANs to agents that are both trusted and authenticated and over secure channels.
+
+## 12.4 Why are the superuser and delegation abilities separate?
+
+The argument is sometimes made that `*` would mean "all abilities in context", which would include all of the abient authority for a particular resource (and thus the superuser ability). How are these different?
+
+The act of delegation is distinct from granting administrative privileges. Delegation is akin to stating "any ability", and superuser is the equivalent to "all abilities".
+
+There are also human factors and providing directing users to make the right or safest decisions by deault. The superuser capability is extremely powerful. Accidentally granting administrative control over a resource by accident may be disasterous. By making the superuser ability unique, we make this level of authority as salient as any other ability.
+
+This distinction can also be useful when requesting capabilties from others, such as in service discovery or [AWAKE](https://github.com/ucan-wg/awake). Only having `*` introduces ambiguity about the intent that has to be interpreted from context that this is specifically super user and not "whatever level of authorty that the user can provide".
