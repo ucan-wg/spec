@@ -722,7 +722,7 @@ If many invocations are discharged during a session, the sender and receiver MAY
 
 [SPKI/SDSI](https://datatracker.ietf.org/wg/spki/about/) is closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
 
-[ZCAP-LD](https://w3c-ccg.github.io/zcap-ld/) is closely related to UCAN. The primary differences are in formatting, addressing by URL instead of CID, the mechanism of separating invocation from authorization, and single versus multiple proofs.
+[ZCAP-LD](https://w3c-ccg.github.io/zcap-spec/) is closely related to UCAN. The primary differences are in formatting, addressing by URL instead of CID, the mechanism of separating invocation from authorization, and single versus multiple proofs.
 
 [CACAO](https://blog.ceramic.network/capability-based-data-security-on-ceramic/) is a translation of many of these ideas to a cross-blockchain invocation model. It contains the same basic concepts but is aimed at small messages and identities that are rooted in mutable documents rooted on a blockchain and lacks the ability to subdelegate capabilities.
 
