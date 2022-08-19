@@ -138,26 +138,26 @@ Further delegation of a capability with `nb` fields set MUST respect the `nb` fi
 [
   {
     "with": "example://example.com/public/photos/",
-    "can": "crud/DELETE"
+    "can": "crud/delete"
   },
   {
     "with": "example://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr",
-    "can": "wnfs/APPEND"
+    "can": "wnfs/append"
   },
   {
     "with": "example://example.com/public/photos/",
-    "can": "crud/DELETE",
+    "can": "crud/delete",
     "nb": {
       "matching": "/(?i)(\W|^)(baloney|darn|drat|fooey|gosh\sdarnit|heck)(\W|$)/"
     }
   },
   {
     "with": "mailto:username@example.com",
-    "can": "msg/SEND"
+    "can": "msg/send"
   },
   {
     "with": "mailto:username@example.com",
-    "can": "msg/READ",
+    "can": "msg/read",
     "nb": {
       "max_count": 5,
       "templates": ["newsletter", "marketing"]
@@ -203,21 +203,21 @@ For example, given the following scopes against a WebNative filesystem, they can
 
 ```js
 // "wnfs" abilities:
-// FETCH < APPEND < OVERWRITE < SUPERUSER
+// fetch < append < overwrite < superuser
 
 ScopeA = [
-  { "with": "wnfs://alice.example.com/pictures/", "can": "wnfs/APPEND" }
+  { "with": "wnfs://alice.example.com/pictures/", "can": "wnfs/append" }
 ];
 
 ScopeB = [
-  { "with": "wnfs://alice.example.com/pictures/vacation/", "can": "wnfs/APPEND" };
-  { "with": "wnfs://alice.example.com/pictures/vacation/hawaii/", "can": "wnfs/OVERWRITE"}
+  { "with": "wnfs://alice.example.com/pictures/vacation/", "can": "wnfs/append" };
+  { "with": "wnfs://alice.example.com/pictures/vacation/hawaii/", "can": "wnfs/overwrite"}
 ];
 
 merge(ScopeA, ScopeB) == [
-   {"with": "wnfs://alice.example.com/pictures/", "can": "wnfs/APPEND"},
-   {"with": "wnfs://alice.example.com/pictures/vacation/hawaii", "can": "wnfs/OVERWRITE"}
-   // Note that ("/pictures/vacation/" x APPEND) has become redundant, being contained in ("/pictures/" x APPEND)
+   {"with": "wnfs://alice.example.com/pictures/", "can": "wnfs/append"},
+   {"with": "wnfs://alice.example.com/pictures/vacation/hawaii", "can": "wnfs/overwrite"}
+   // Note that ("/pictures/vacation/" x append) has become redundant, being contained in ("/pictures/" x append)
 ];
 ```
 
