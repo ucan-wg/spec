@@ -290,17 +290,16 @@ EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037](https://da
 
 The payload MUST describe the authorization claims, who is involved, and its validity period.
 
-| Field | Type       | Description                                      | Required |
-| ----- | ---------- | ------------------------------------------------ | -------- |
-| `iss` | `String`   | Issuer DID (sender)                              | Yes      |
-| `aud` | `String`   | Audience DID (receiver)                          | Yes      |
-| `nbf` | `Number`   | Not Before UTC Unix Timestamp (valid from)       | No       |
-| `exp` | `Number`   | Expiration UTC Unix Timestamp (valid until)      | Yes      |
-| `nnc` | `String`   | Nonce                                            | No       |
-| `fct` | `Json[]`   | Facts (asserted, signed data)                    | No       |
-| `my`  | `Json[]`   | Delegation by parenthood                         | No       |
-| `att` | `Json[]`   | Attenuations                                     | No       |
-| `prf` | `String[]` | Proof of delegation (hash-linked UCANs)          | No       |
+| Field | Type            | Description                                      | Required |
+| ----- | --------------- | ------------------------------------------------ | -------- |
+| `iss` | `String`        | Issuer DID (sender)                              | Yes      |
+| `aud` | `String`        | Audience DID (receiver)                          | Yes      |
+| `nbf` | `Number`        | Not Before UTC Unix Timestamp (valid from)       | No       |
+| `exp` | `Number | null` | Expiration UTC Unix Timestamp (valid until)      | Yes      |
+| `nnc` | `String`        | Nonce                                            | No       |
+| `fct` | `Json[]`        | Facts (asserted, signed data)                    | No       |
+| `att` | `Json[]`        | Attenuations                                     | No       |
+| `prf` | `String[]`      | Proof of delegation (hash-linked UCANs)          | No       |
 
 ### 3.2.1 Principals
 
@@ -338,7 +337,7 @@ The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA i
 
 The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay using a UCAN. For example, pre-provisioning access to conference materials ahead of time but not allowing access until the day it starts is achievable with judicious use of `nbf`.
 
-The `exp` field MUST be set. If the time is in the past, the token MUST fail validation.
+The `exp` field MUST be set. Following the [principle of least authority](https://en.wikipedia.org/wiki/Principle_of_least_privilege), it is RECOMMENDED to give a timestamp expiry for UCANs. If the token explitely never expires, the `exp` field MUST be set to `null`. If the time is in the past at validation time, the token MUST be treated as expired and invalid.
 
 Keeping the window of validity as short as possible is RECOMMENDED. Limiting the time range can mitigate the risk of a malicious user abusing a UCAN. However, this is situationally dependent. It may be desirable to limit the frequency of forced reauthorizations for trusted devices. Due to clock drift, time bounds SHOULD NOT be considered exact. A buffer of ±60 seconds is RECOMMENDED.
 
@@ -380,17 +379,7 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 ]
 ```
 
-### 3.2.5 Introduction by Parenthood
-
-The parenthood array (`my`) MUST be used to introduce new resources prior to them being attenuated in a UCAN chain. To be valid, any resources contained in this array MUST be owned by the issuer at decision-time (i.e. the validator's "now").
-
-This field is OPTIONAL and the array MAY be empty.
-
-disambiguates that the source of this capability is the current issuer's owned resources
-
-This field being separate is very important. Without the distinction of introduction by parenthood, there exists ambiguity in the capability provenance could be exploited by a malicious user in an unrelated proof, forcing the validly delegated capability to appear as though it has an invalid ownership claim. Separating these capabilities into their own array makes the claimed source of authority explicit.
-
-### 3.2.6 Attenuation
+### 3.2.5 Attenuation
 
 The attenuations (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous capabilities (defined below). This array MAY be empty.
 
@@ -446,18 +435,18 @@ ucan-selector = "*" / cid
 
 `ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the [CID](#65-content-identifiers) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
 
-## 4.2 `owned`
+## 4.2 `own`
 
-The `owned` URI subscheme defines how to address all resources of a particular URI scheme owned by a particular [DID subject](https://www.w3.org/TR/did-core/#dfn-did-subjects). The DID subject MUST NOT contain any other characters, such as query parameters or fragments. The `scheme-selector` MUST either be the wildcard (`*`) selector or a URI scheme (such as `dns`, `mailto`, and `telnet`). 
+The `own` URI subscheme defines how to address all resources of a particular URI scheme owned by a particular [DID subject](https://www.w3.org/TR/did-core/#dfn-did-subjects). The DID subject MUST NOT contain any other characters, such as query parameters or fragments. The `scheme-selector` MUST either be the wildcard (`*`) selector or a URI scheme (such as `dns`, `mailto`, and `telnet`). 
 
 ``` abnf
-owned = "owned://" <did-subject> "/" scheme-scope
+own = "own://" <did-subject> "/" scheme-scope
 scheme-selector = "*" / <scheme>
 ```
 
 ```
-owned://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/*
-owned://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/dns
+own://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/*
+own://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/dns
 ```
 
 # 5. Reserved Abilities
@@ -598,7 +587,6 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
         │                │           │
         │  iss: Alice    │           │
         │  aud: Bob      │           ├─ Alice can revoke
-        │  my:  [X,Y,Z]  │           │
         │                │           │
         └───┬────────┬───┘           │
             │        │               │
