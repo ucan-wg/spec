@@ -337,7 +337,7 @@ The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA i
 
 The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay using a UCAN. For example, pre-provisioning access to conference materials ahead of time but not allowing access until the day it starts is achievable with judicious use of `nbf`.
 
-The `exp` field MUST be set. Following the [principle of least authority](https://en.wikipedia.org/wiki/Principle_of_least_privilege), it is RECOMMENDED to give a timestamp expiry for UCANs. If the token explcitly never expires, the `exp` field MUST be set to `null`. If the time is in the past at validation time, the token MUST be treated as expired and invalid.
+The `exp` field MUST be set. Following the [principle of least authority](https://en.wikipedia.org/wiki/Principle_of_least_privilege), it is RECOMMENDED to give a timestamp expiry for UCANs. If the token explicitly never expires, the `exp` field MUST be set to `null`. If the time is in the past at validation time, the token MUST be treated as expired and invalid.
 
 Keeping the window of validity as short as possible is RECOMMENDED. Limiting the time range can mitigate the risk of a malicious user abusing a UCAN. However, this is situationally dependent. It may be desirable to limit the frequency of forced reauthorizations for trusted devices. Due to clock drift, time bounds SHOULD NOT be considered exact. A buffer of ±60 seconds is RECOMMENDED.
 
