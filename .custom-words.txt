@@ -83,11 +83,13 @@ lifecycle
 lockboxes
 mDooWp
 mailto
+matcher
 memoization
 msg
 multicodec
 namespace
 namespaced
+namespaces
 nota
 plaintext
 potencies

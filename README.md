@@ -512,7 +512,7 @@ The "top" (or "super user") ability MUST be denoted `*/*`. The top ability grant
 
 ### 5.2.1 Bottom
 
-In concept there is a "bottom" ability ("none" or "void"), but it is not possible to represent in an ability. As it is merely the absecnce of any ability, it is not possible to construct a capability with a bottom ability.
+In concept there is a "bottom" ability ("none" or "void"), but it is not possible to represent in an ability. As it is merely the absence of any ability, it is not possible to construct a capability with a bottom ability.
 
 # 6. Validation
 
