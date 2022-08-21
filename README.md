@@ -157,7 +157,7 @@ Further delegation of a capability with `nb` fields set MUST respect the `nb` fi
   },
   {
     "with": "mailto:username@example.com",
-    "can": "msg/read",
+    "can": "msg/receive",
     "nb": {
       "max_count": 5,
       "templates": ["newsletter", "marketing"]
@@ -471,6 +471,48 @@ If an attenuated resource or capability is desired, it MUST be explicitly listed
   }
 ]
 ```
+
+## 5.2 Top
+
+The "top" (or "super user") ability MUST be denoted `*/*`. The top ability grants access to all other capabilities for the specified resource, across all possible namespaces. Top corresponds to an "all" matcher, whereas [delegation](#51-ucan-delegation) corresponds to "any" in the UCAN chain. The top ability is useful when "linking" agents by delegating all access to resource(s). This is the most powerful ability, and as such it SHOULD be handled with care.
+
+```
+                                           ┌───────┐
+                                           │       │
+                                           │  */*  │
+                                           │       │
+                                           └▲──▲──▲┘
+                                            │  │  │
+               ┌────────────────────────────┘  │  └────────────────────┐
+               │                               │                       │
+          ┌────┴────┐                     ┌────┴─────┐             ┌───┴───┐
+          │         │                     │          │             │       │
+          │  msg/*  │                     │  crud/*  │             │  ...  │
+          │         │                     │          │             │       │
+          └─▲────▲──┘                     └─▲──────▲─┘             └───────┘
+            │    │                          │      │
+            │    │                          │      │
+            │    │                          │      │
+            │    │                          │      │
+┌───────────┴┐ ┌─┴─────────────┐ ┌──────────┴──┐ ┌─┴─────────────┐
+│            │ │               │ │             │ │               │
+│  msg/send  │ │  msg/receive  │ │  crud/read  │ │  crud/mutate  │
+│            │ │               │ │             │ │               │
+└────────────┘ └───────────────┘ └─────────────┘ └─▲─────▲─────▲─┘
+                                                   │     │     │
+                                            ┌──────┘     │     └──────┐
+                                            │            │            │
+                                            │            │            │
+                               ┌────────────┴──┐ ┌───────┴───────┐ ┌──┴─────────────┐
+                               │               │ │               │ │                │
+                               │  crud/create  │ │  crud/update  │ │  crud/destroy  │
+                               │               │ │               │ │                │
+                               └───────────────┘ └───────────────┘ └────────────────┘
+```
+
+### 5.2.1 Bottom
+
+In concept there is a "bottom" ability ("none" or "void"), but it is not possible to represent in an ability. As it is merely the absecnce of any ability, it is not possible to construct a capability with a bottom ability.
 
 # 6. Validation
 
