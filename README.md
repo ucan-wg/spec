@@ -449,6 +449,8 @@ own://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/*
 own://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/dns
 ```
 
+The DID spec [permits an arbitrary DID method to specify the use of the URI path segment](https://www.w3.org/TR/did-core/#path), the `own` scheme separates out the reference of owned resources rather than a DID document itself. Other URI schemes (such as `dns` and `telnet`) define their own syntactic rules. `own` makes it clear that the contained DID is the "owner" of the resource in the path, fragments, and queries.
+
 # 5. Reserved Abilities
 
 The following abilities are REQUIRED to be implemented.
