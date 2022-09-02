@@ -1,4 +1,4 @@
-# User Controlled Authorization Network (UCAN) Specification v0.8.2
+# User Controlled Authorization Network (UCAN) Specification v0.9.0
 
 ## Editors
 
@@ -41,13 +41,13 @@ By analogy, ACLs are like a bouncer at an exclusive event. This bouncer has a li
 
 If there are many such events at many venues, the organizers need to coordinate ahead of time, denials need to be synchronized, and attendees need to show their ID cards to many bouncers. The likelihood of the bouncer letting in the wrong person due to synchronization lag or confusion by someone sharing a name is nonzero.
 
-UCANs work more like [movie tickets](http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys) or a festival pass between multiple venues. No one needs to check your ID; who you are is irrelevant. For example, if you have a ticket to see Citizen Kane, you are admitted to Theatre 3. If you cannot attend an event, you can hand this ticket to a friend who wants to see the film instead, and there is no coordination required with the theatre ahead of time. However, if the theatre needs to cancel tickets for some reason, they need a way of uniquely identifying them and sharing this information between them.
+UCANs work more like [movie tickets](http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys) or a festival pass between multiple venues. No one needs to check your ID; who you are is irrelevant. For example, if you have a ticket to see Citizen Kane, you are admitted to Theater 3. If you cannot attend an event, you can hand this ticket to a friend who wants to see the film instead, and there is no coordination required with the theater ahead of time. However, if the theater needs to cancel tickets for some reason, they need a way of uniquely identifying them and sharing this information between them.
 
 The above analogies illustrate several significant tradeoffs between these systems but are only accurate enough to build intuition. A good resource for a more thorough presentation of these tradeoffs is [Capability Myths Demolished](https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf). In this framework, UCAN approximates SPKI with some dynamic features.
 
 ## 1.3 Security Considerations
 
-Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of rights. "Witnesses" prove the possession of rights. They are cryptographically signed data showing that the UCAN issuer either owns this or that it was delegated to them by the root owner.
+Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of rights. "Proofs" are positive evidence (elsewhere called "witnesses") of the possession of rights. They are cryptographically signed data showing that the UCAN issuer either owns this or that it was delegated to them by the root owner.
 
 This signature chain is the root of trust. Private keys themselves SHOULD NOT move from one context to another: this is what the delegation mechanism provides: "sharing authority without sharing keys."
 
@@ -91,15 +91,80 @@ Unlike many authorization systems where a service controls access to resources i
 
 A resource is some data or process that has an address. It can be anything from a row in a database, a user account, storage quota, email address, etc.
 
-## 2.2 Action
+A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
 
-An action MUST be performed against some resource. Each action MAY have its own semantics. For example, actions MAY be unary, support a hierarchy, be monotone, form partial orders, etc. In addition, actions MAY be general and applicable to many kinds of resources or tied to a specific one.
+The same resource MAY be addressed with several URI formats. For instance, a database may have an address at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
-For instance, `wnfs/APPEND` is an action for WebNative filesystem paths. The action `wnfs/OVERWRITE` also implies the capacity to append. An email has no such tiered relationship. One can `email/SEND`, but there is no concept of a "super send."
+| URI                                            | Meaning                                                         |
+| ---------------------------------------------- | --------------------------------------------------------------- |
+| `{"with": "mailto:username@example.com", ...}` | A single email address                                          |
+| `{"with": "dns:sub.example.com", ...}` | A mutable pointer to some data                                  |
+
+## 2.2 Ability
+
+Abilities describe the verb portion of the capability: an ability that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/send` to a typical file system. 
+
+Abilities MAY be organized in a hierarchy with enums. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
+
+Abilities MUST NOT be case sensitive. For example, `http/post`, `http/POST`, `HTTP/post`, `HTTP/POST`, and `hTtP/pOsT` MUST all mean the same ability.
+
+There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
+
+The only reserved ability MUST be the un-namespaced [`"*"` (superuser)](#41-superuser), which MUST be allowed on any resource.
 
 ## 2.3 Capability
 
-A capability is the association of an "action" to a "resource": `resource x action`
+A capability is the association of an "ability" to a "resource": `resource x ability`.
+
+The `with` (resource) and `can` (ability) fields are REQUIRED. The `nb` (non-normative extension) field is OPTIONAL.
+
+``` json
+{
+  "with": $RESOURCE,
+  "can": $ABILITY,
+  "nb": $EXTENSION
+}
+```
+
+### 2.3.1 `nb` Non-Normative Fields
+
+Capabilities MAY define additional optional or required fields specific to their use case in the `nb` ([nota bene](https://en.wikipedia.org/wiki/Nota_bene)) field. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. The `nb` field MAY contain additional caveats or other important information related to specifying the capability, and MAY function as an "escape hatch" for when a use case is not fully captured by the `with` and `can` fields.
+
+Further delegation of a capability with `nb` fields set MUST respect the `nb` fields. On validation, if a `nb` field is present, it MUST be checked. If a validator is not able to interpret the `nb` field, it MUST reject the capability. As such, any `nb` caveats from a proof MUST further attenuate the delegated capability.
+
+#### 2.3.2 Examples
+
+``` json
+[
+  {
+    "with": "example://example.com/public/photos/",
+    "can": "crud/delete"
+  },
+  {
+    "with": "example://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr",
+    "can": "wnfs/append"
+  },
+  {
+    "with": "example://example.com/public/photos/",
+    "can": "crud/delete",
+    "nb": {
+      "matching": "/(?i)(\W|^)(baloney|darn|drat|fooey|gosh\sdarnit|heck)(\W|$)/"
+    }
+  },
+  {
+    "with": "mailto:username@example.com",
+    "can": "msg/send"
+  },
+  {
+    "with": "mailto:username@example.com",
+    "can": "msg/receive",
+    "nb": {
+      "max_count": 5,
+      "templates": ["newsletter", "marketing"]
+    }
+  }
+]
+```
 
 ## 2.4 Capability Scope
 
@@ -138,29 +203,29 @@ For example, given the following scopes against a WebNative filesystem, they can
 
 ```js
 // "wnfs" abilities:
-// FETCH < APPEND < OVERWRITE < SUPERUSER
+// fetch < append < overwrite < superuser
 
 ScopeA = [
-  { "with": "wnfs://alice.example.com/pictures/", "can": "wnfs/APPEND" }
+  { "with": "wnfs://alice.example.com/pictures/", "can": "wnfs/append" }
 ];
 
 ScopeB = [
-  { "with": "wnfs://alice.example.com/pictures/vacation/", "can": "wnfs/APPEND" };
-  { "with": "wnfs://alice.example.com/pictures/vacation/hawaii/", "can": "wnfs/OVERWRITE"}
+  { "with": "wnfs://alice.example.com/pictures/vacation/", "can": "wnfs/append" };
+  { "with": "wnfs://alice.example.com/pictures/vacation/hawaii/", "can": "wnfs/overwrite"}
 ];
 
 merge(ScopeA, ScopeB) == [
-   {"with": "wnfs://alice.example.com/pictures/", "can": "wnfs/APPEND"},
-   {"with": "wnfs://alice.example.com/pictures/vacation/hawaii", "can": "wnfs/OVERWRITE"}
-   // Note that ("/pictures/vacation/" x APPEND) has become redundant, being contained in ("/pictures/" x APPEND)
+   {"with": "wnfs://alice.example.com/pictures/", "can": "wnfs/append"},
+   {"with": "wnfs://alice.example.com/pictures/vacation/hawaii", "can": "wnfs/overwrite"}
+   // Note that ("/pictures/vacation/" x append) has become redundant, being contained in ("/pictures/" x append)
 ];
 ```
 
 ## 2.5 Delegation
 
-Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructuve "witness" acts as the authorizaton proof for a delegation. Witnesses are either the owning principal's signature or a UCAN with access to that capability in its scope.
+Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructive "proof" acts as the authorization proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its scope.
 
-Each direct delegation leaves the action at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more witnesses of different types if part of the resource's semantics. 
+Each direct delegation leaves the ability at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more proofs of different types if part of the resource's semantics. 
 
 Note that delegation is a separate concept from invocation [§2.8](#28-invocation). Delegation is the act of granting a capability to another, not the act of using it (invocation), which has additional requirements.
 
@@ -172,11 +237,27 @@ Attenuation is the process of constraining the capabilities in a delegation chai
 
 Revocation is the act of invalidating a UCAN after the fact, outside of the limitations placed on it by the UCAN's fields (such as its expiry). 
 
-In the case of UCAN, this MUST be done by a witness issuer DID. For more on the exact mechanism, see the revocation validation section.
+In the case of UCAN, this MUST be done by a proof's issuer DID. For more on the exact mechanism, see the revocation validation section.
 
 ## 2.8 Invocation
 
-UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent allowed to perform an action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§5.2.1](#521-invocation-recipient-validation).
+UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent allowed to perform some action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§6.2.1](#621-recipient-validation).
+
+## 2.9 Time
+
+Time takes on [multiple meanings](https://en.wikipedia.org/wiki/Temporal_database) in systems representing facts or knowledge. The senses of the word "time" are given below.
+
+## 2.9.1 Valid Time Range
+
+The period of time that a capability is valid from and until.
+
+## 2.9.2 Assertion Time
+
+The moment at which a delegation was asserted. This MAY be captured via an `iat` field, but is generally superfluous to capture in the token. "Assertion time" is useful when discussing the lifecycle of a token.
+
+## 2.9.3 Decision (or Validation) Time
+
+Decision time is the part of the lifecycle when "a decision" about the token is made. This is typically during validation, but also includes resolving external state (e.g. storage quotas).
 
 # 3. JWT Structure
 
@@ -201,7 +282,7 @@ EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037](https://da
 {
   "alg": "EdDSA",
   "typ": "JWT",
-  "ucv": "0.8.1"
+  "ucv": "0.9.0"
 }
 ```
 
@@ -209,31 +290,45 @@ EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037](https://da
 
 The payload MUST describe the authorization claims, who is involved, and its validity period.
 
-| Field | Type       | Description                                      | Required |
-| ----- | ---------- | ------------------------------------------------ | -------- |
-| `iss` | `String`   | Issuer DID (sender)                              | Yes      |
-| `aud` | `String`   | Audience DID (receiver)                          | Yes      |
-| `nbf` | `Number`   | Not Before UTC Unix Timestamp (valid from)       | No       |
-| `exp` | `Number`   | Expiration UTC Unix Timestamp (valid until)      | Yes      |
-| `nnc` | `String`   | Nonce                                            | No       |
-| `fct` | `Json[]`   | Facts (asserted, signed data)                    | No       |
-| `prf` | `String[]` | Proof of delegation (witnesses are nested UCANs) | Yes      |
-| `att` | `Json[]`   | Attenuations                                     | Yes      |
+| Field | Type            | Description                                      | Required |
+| ----- | --------------- | ------------------------------------------------ | -------- |
+| `iss` | `String`        | Issuer DID (sender)                              | Yes      |
+| `aud` | `String`        | Audience DID (receiver)                          | Yes      |
+| `nbf` | `Number`        | Not Before UTC Unix Timestamp (valid from)       | No       |
+| `exp` | `Number \| null` | Expiration UTC Unix Timestamp (valid until)      | Yes      |
+| `nnc` | `String`        | Nonce                                            | No       |
+| `fct` | `Json[]`        | Facts (asserted, signed data)                    | No       |
+| `att` | `Json[]`        | Attenuations                                     | No       |
+| `prf` | `String[]`      | Proof of delegation (hash-linked UCANs)          | No       |
 
 ### 3.2.1 Principals
 
 The `iss` and `aud` fields describe the token's principals. These can be conceptualized as the sender and receiver of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key` method](https://w3c-ccg.github.io/did-method-key/), and MAY be augmented with [additional DID methods](https://www.w3.org/TR/did-core/).
 
+If an issuer's DID has more than one key (e.g. [`did:ion`](https://github.com/decentralized-identity/ion), [`did:3`](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md)), the key used to sign the UCAN MUST be explicitly, using the [DID fragment](https://www.w3.org/TR/did-core/#fragment) (the hash index).
+
+The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA is supported but [RECOMMENDED that another key type be preferred](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security).
+
 #### Examples
 
 ```json
-"aud": "did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV",
-"iss": "did:key:zAKJP3f7BD6W4iWEQ9jwndVTCBq8ua2Utt8EEjJ6Vxsf",
+"aud": "did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp",
+"iss": "did:key:zDnaerDaTF5BXEavCrfRZEk316dpbLsfPDZ3WJ5hRTPFU2169",
 ```
 
 ```json
 "aud": "did:ion:EiCrsG_DLDmSKic1eaeJGDtUoC1dj8tj19nTRD9ODzAjaQ",
 "iss": "did:pkh:eth:0xb9c5714089478a327f09197987f16f9e5d936e8a",
+```
+
+```json
+"aud": "did:ion:EiCrsG_DLDmSKic1eaeJGDtUoC1dj8tj19nTRD9ODzAjaQ",
+"iss": "did:ion:test:EiANCLg1uCmxUR4IUkpW8Y5_nuuXLbAEwonQd4q8pflTnw#key-1",
+```
+
+```json
+"aud": "did:ion:EiCrsG_DLDmSKic1eaeJGDtUoC1dj8tj19nTRD9ODzAjaQ",
+"iss": "did:3:bafyreiffkeeq4wq2htejqla2is5ognligi4lvjhwrpqpl2kazjdoecmugi#yh27jTt7Ny2Pwdy",
 ```
 
 ### 3.2.2 Time Bounds
@@ -242,7 +337,7 @@ The `iss` and `aud` fields describe the token's principals. These can be concept
 
 The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay using a UCAN. For example, pre-provisioning access to conference materials ahead of time but not allowing access until the day it starts is achievable with judicious use of `nbf`.
 
-The `exp` field MUST be set. If the time is in the past, the token MUST fail validation.
+The `exp` field MUST be set. Following the [principle of least authority](https://en.wikipedia.org/wiki/Principle_of_least_privilege), it is RECOMMENDED to give a timestamp expiry for UCANs. If the token explicitly never expires, the `exp` field MUST be set to `null`. If the time is in the past at validation time, the token MUST be treated as expired and invalid.
 
 Keeping the window of validity as short as possible is RECOMMENDED. Limiting the time range can mitigate the risk of a malicious user abusing a UCAN. However, this is situationally dependent. It may be desirable to limit the frequency of forced reauthorizations for trusted devices. Due to clock drift, time bounds SHOULD NOT be considered exact. A buffer of ±60 seconds is RECOMMENDED.
 
@@ -284,187 +379,158 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 ]
 ```
 
-### 3.2.5 Attenuations
+### 3.2.5 Attenuation
 
 The attenuations (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous capabilities (defined below). This array MAY be empty.
 
 This array MUST contain some or none of the following:
 1. A strict subset (attenuation) of the capability scope from the `prf` field
-2. Capabilities composed from multiple witnesses (see rights amplification)
+2. Capabilities composed from multiple proofs (see rights amplification [§6.4](#64-rights-amplification))
 3. Capabilities originated by the `iss` DID (i.e. by parenthood)
 
-This array also includes time ranges and the witnesses that start latest and end soonest from the lower and upper time bounds of the range.
+This array also includes time ranges and the proofs that start latest and end soonest from the lower and upper time bounds of the range.
 
-The attenuation field MUST contain an array of JSON objects, which MAY be empty. A JSON capability MUST include the `with` and `can` fields and MAY have additional fields needed to describe the capability.
+### 3.2.7 Proof of Delegation
+
+Attenuations MUST be satisfied by matching the attenuated capability to a proof in the `prf` array ([§3.2.7.1](#3271-prf-field))
+
+Checked proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, a federated HTTP endpoint, a DHT, or shared database.
+
+#### 3.2.7.1 `prf` Field
+
+The `prf` field MUST contain the content address ([§6.5](#65-content-identifiers)) of UCAN proofs (the "inputs" of a UCAN). 
+
+#### 3.2.7.2 Examples
 
 ``` json
+"prf": [
+  "bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze",
+  "bafkreiemaanh3kxqchhcdx3yckeb3xvmboztptlgtmnu5jp63bvymxtlva"
+]
+```
+
+Which in a JSON representation would resolve to the following table:
+
+```json
 {
-  "with": $RESOURCE,
-  "can": $ABILITY
+  "bafkreiemaanh3kxqchhcdx3yckeb3xvmboztptlgtmnu5jp63bvymxtlva": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJhdWQiOiJkaWQ6a2V5Ono2TWtmUWhMSEJTRk11UjdiUVhUUWVxZTVrWVVXNTFIcGZaZWF5bWd5MXprUDJqTSIsImF0dCI6W3sid2l0aCI6eyJzY2hlbWUiOiJ3bmZzIiwiaGllclBhcnQiOiIvL2RlbW91c2VyLmZpc3Npb24ubmFtZS9wdWJsaWMvcGhvdG9zLyJ9LCJjYW4iOnsibmFtZXNwYWNlIjoid25mcyIsInNlZ21lbnRzIjpbIk9WRVJXUklURSJdfX0seyJ3aXRoIjp7InNjaGVtZSI6InduZnMiLCJoaWVyUGFydCI6Ii8vZGVtb3VzZXIuZmlzc2lvbi5uYW1lL3B1YmxpYy9ub3Rlcy8ifSwiY2FuIjp7Im5hbWVzcGFjZSI6InduZnMiLCJzZWdtZW50cyI6WyJPVkVSV1JJVEUiXX19XSwiZXhwIjo5MjU2OTM5NTA1LCJpc3MiOiJkaWQ6a2V5Ono2TWtyNWFlZmluMUR6akc3TUJKM25zRkNzbnZIS0V2VGIyQzRZQUp3Ynh0MWpGUyIsInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SmhkV1FpT2lKa2FXUTZhMlY1T25vMlRXdHlOV0ZsWm1sdU1VUjZha2MzVFVKS00yNXpSa056Ym5aSVMwVjJWR0l5UXpSWlFVcDNZbmgwTVdwR1V5SXNJbUYwZENJNlczc2lkMmwwYUNJNmV5SnpZMmhsYldVaU9pSjNibVp6SWl3aWFHbGxjbEJoY25RaU9pSXZMMlJsYlc5MWMyVnlMbVpwYzNOcGIyNHVibUZ0WlM5d2RXSnNhV012Y0dodmRHOXpMeUo5TENKallXNGlPbnNpYm1GdFpYTndZV05sSWpvaWQyNW1jeUlzSW5ObFoyMWxiblJ6SWpwYklrOVdSVkpYVWtsVVJTSmRmWDFkTENKbGVIQWlPamt5TlRZNU16azFNRFVzSW1semN5STZJbVJwWkRwclpYazZlalpOYTJ0WGIzRTJVek4wY1ZKWGNXdFNibmxOWkZobWNuTTFORGxGWm5VMmNVTjFOSFZxUkdaTlkycEdVRXBTSWl3aWNISm1JanBiWFgwLlNqS2FIR18yQ2UwcGp1TkY1T0QtYjZqb04xU0lKTXBqS2pqbDRKRTYxX3VwT3J0dktvRFFTeFo3V2VZVkFJQVREbDhFbWNPS2o5T3FPU3cwVmc4VkNBIiwiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1T0M0eEluMC5leUpoZFdRaU9pSmthV1E2YTJWNU9ubzJUV3R5TldGbFptbHVNVVI2YWtjM1RVSktNMjV6UmtOemJuWklTMFYyVkdJeVF6UlpRVXAzWW5oME1XcEdVeUlzSW1GMGRDSTZXM3NpZDJsMGFDSTZleUp6WTJobGJXVWlPaUozYm1aeklpd2lhR2xsY2xCaGNuUWlPaUl2TDJSbGJXOTFjMlZ5TG1acGMzTnBiMjR1Ym1GdFpTOXdkV0pzYVdNdmNHaHZkRzl6THlKOUxDSmpZVzRpT25zaWJtRnRaWE53WVdObElqb2lkMjVtY3lJc0luTmxaMjFsYm5SeklqcGJJazlXUlZKWFVrbFVSU0pkZlgxZExDSmxlSEFpT2preU5UWTVNemsxTURVc0ltbHpjeUk2SW1ScFpEcHJaWGs2ZWpaTmEydFhiM0UyVXpOMGNWSlhjV3RTYm5sTlpGaG1jbk0xTkRsRlpuVTJjVU4xTkhWcVJHWk5ZMnBHVUVwU0lpd2ljSEptSWpwYlhYMC5TakthSEdfMkNlMHBqdU5GNU9ELWI2am9OMVNJSk1waktqamw0SkU2MV91cE9ydHZLb0RRU3haN1dlWVZBSUFURGw4RW1jT0tqOU9xT1N3MFZnOFZDQSJdfQ.Ab-xfYRoqYEHuo-252MKXDSiOZkLD-h1gHt8gKBP0AVdJZ6Jruv49TLZOvgWy9QkCpiwKUeGVbHodKcVx-azCQ",
+  "bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsInVhdiI6IjAuMS4wIn0.eyJhdWQiOiJkaWQ6a2V5OnpTdEVacHpTTXRUdDlrMnZzemd2Q3dGNGZMUVFTeUExNVc1QVE0ejNBUjZCeDRlRko1Y3JKRmJ1R3hLbWJtYTQiLCJpc3MiOiJkaWQ6a2V5Ono1QzRmdVAyRERKQ2hoTUJDd0FrcFlVTXVKWmROV1dINU5lWWpVeVk4YnRZZnpEaDNhSHdUNXBpY0hyOVR0anEiLCJuYmYiOjE1ODg3MTM2MjIsImV4cCI6MTU4OTAwMDAwMCwic2NwIjoiLyIsInB0YyI6IkFQUEVORCIsInByZiI6bnVsbH0.Ay8C5ajYWHxtD8y0msla5IJ8VFffTHgVq448Hlr818JtNaTUzNIwFiuutEMECGTy69hV9Xu9bxGxTe0TpC7AzV34p0wSFax075mC3w9JYB8yqck_MEBg_dZ1xlJCfDve60AHseKPtbr2emp6hZVfTpQGZzusstimAxyYPrQUWv9wqTFmin0Ls-loAWamleUZoE1Tarlp_0h9SeV614RfRTC0e3x_VP9Ra_84JhJHZ7kiLf44TnyPl_9AbzuMdDwCvu-zXjd_jMlDyYcuwamJ15XqrgykLOm0WTREgr_sNLVciXBXd6EQ-Zh2L7hd38noJm1P_MIr9_EDRWAhoRLXPQ"
 }
 ```
 
-#### 3.2.4.1 Resource Pointer
+For more on this representation, please refer to [§7.1](#71-canonical-json-collection).
 
-A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
+# 4. Reserved Resources
 
-The same resource MAY be addressed with several URI formats. For instance, a database may have an address at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
+The following resources are REQUIRED to be implemented.
 
-| URI                                            | Meaning                                                         |
-| ---------------------------------------------- | --------------------------------------------------------------- |
-| `{"with": "mailto:boris@fission.codes", ...}`  | A single email address                                          |
-| `{"with": "my:*", ...}`                        | All resources that the iss has access to, including future ones |
-| `{"with": "my:dnslink", ...}`                  | All DNSLinks that the iss has access to, including future ones  |
-| `{"with": "dnslink://myapp.fission.app", ...}` | A mutable pointer to some data                                  |
+## 4.1 `ucan`
 
-#### 3.2.4.2 Ability
+The `ucan` URI subscheme defines addressing for UCANs.
 
-The `can` field describes the verb portion of the capability: an action that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/SEND` to a typical file system. 
+``` abnf
+ucan = "ucan:" ucan-selector
+ucan-selector = "*" / cid
+```
 
-Abilities MAY be organized in a hierarchy with enums. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
+`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the [CID](#65-content-identifiers) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
 
-Abilities MUST NOT be case sensitive. For example, `http/post`, `http/POST`, `HTTP/post`, `HTTP/POST`, and `hTtP/pOsT` MUST all mean the same ability.
+## 4.2 `own`
 
-There MUST be at least one path segment as a namespace. For example, `http/PUT` and `db/PUT` MUST be treated as unique from each other.
+The `own` URI subscheme defines how to address all resources of a particular URI scheme owned by a particular [DID subject](https://www.w3.org/TR/did-core/#dfn-did-subjects). The DID subject MUST NOT contain any other characters, such as query parameters or fragments. The `scheme-selector` MUST either be the wildcard (`*`) selector or a URI scheme (such as `dns`, `mailto`, and `telnet`). 
 
-The only reserved ability MUST be the un-namespaced [`"*"` or "superuser"](#41-superuser), which MUST be allowed on any resource.
+``` abnf
+own = "own://" <did-subject> "/" scheme-scope
+scheme-selector = "*" / <scheme>
+```
 
-#### Examples
+```
+own://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/*
+own://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/dns
+```
 
-``` json
-"att": [
-  {
-    "with": "wnfs://boris.fission.name/public/photos/",
-    "can": "crud/DELETE"
-  },
-  {
-    "with": "wnfs://boris.fission.name/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr",
-    "can": "wnfs/APPEND"
-  },
-  {
-    "with": "mailto:boris@fission.codes",
-    "can": "msg/SEND"
+The DID spec [permits an arbitrary DID method to specify the use of the URI path segment](https://www.w3.org/TR/did-core/#path), the `own` scheme separates out the reference of owned resources rather than a DID document itself. Other URI schemes (such as `dns` and `telnet`) define their own syntactic rules. `own` makes it clear that the contained DID is the "owner" of the resource in the path, fragments, and queries.
+
+# 5. Reserved Abilities
+
+The following abilities are REQUIRED to be implemented.
+
+## 5.1 UCAN Delegation
+
+The `ucan` scheme MUST accept the following ability: `ucan/*`. This ability redelegates all of the capabilities in the selected proof(s). Other resources MAY accept this ability as part of this semantics. In logical terms, the delegation ability is like stating "any ability for this resource".
+
+If an attenuated resource or capability is desired, it MUST be explicitly listed without the `ucan` URI scheme.
+
+``` js
+[
+  { 
+    "with": "ucan:bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze",
+    "can": "ucan/*"
+  }, 
+  { 
+    "with": "ucan:*", 
+    "can": "ucan/*" 
   }
 ]
 ```
 
-### 3.2.5 Proof of Delegation
+## 5.2 Top
 
-The `prf` field MUST contain UCAN witnesses (the "inputs" of a UCAN). As they need to be independently verifiable, proofs MUST either be the fully encoded version of a UCAN (including the signature) or the content address of the relevant proof. Attenuations not covered by a proof in the `prf` array MUST be treated as owned by the issuer DID.
+The "top" (or "super user") ability MUST be denoted `*/*`. The top ability grants access to all other capabilities for the specified resource, across all possible namespaces. Top corresponds to an "all" matcher, whereas [delegation](#51-ucan-delegation) corresponds to "any" in the UCAN chain. The top ability is useful when "linking" agents by delegating all access to resource(s). This is the most powerful ability, and as such it SHOULD be handled with care.
 
-Proofs referenced by content address MUST be resolvable by the recipient, for instance, over a DHT or database. Since they have no availability concern, inlined proofs SHOULD be preferred unless the proof chain has become too large for a request.
-
-#### Examples
-
-``` json
-"prf": ["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsInVhdiI6IjAuMS4wIn0.eyJhdWQiOiJkaWQ6a2V5OnpTdEVacHpTTXRUdDlrMnZzemd2Q3dGNGZMUVFTeUExNVc1QVE0ejNBUjZCeDRlRko1Y3JKRmJ1R3hLbWJtYTQiLCJpc3MiOiJkaWQ6a2V5Ono1QzRmdVAyRERKQ2hoTUJDd0FrcFlVTXVKWmROV1dINU5lWWpVeVk4YnRZZnpEaDNhSHdUNXBpY0hyOVR0anEiLCJuYmYiOjE1ODg3MTM2MjIsImV4cCI6MTU4OTAwMDAwMCwic2NwIjoiLyIsInB0YyI6IkFQUEVORCIsInByZiI6bnVsbH0.Ay8C5ajYWHxtD8y0msla5IJ8VFffTHgVq448Hlr818JtNaTUzNIwFiuutEMECGTy69hV9Xu9bxGxTe0TpC7AzV34p0wSFax075mC3w9JYB8yqck_MEBg_dZ1xlJCfDve60AHseKPtbr2emp6hZVfTpQGZzusstimAxyYPrQUWv9wqTFmin0Ls-loAWamleUZoE1Tarlp_0h9SeV614RfRTC0e3x_VP9Ra_84JhJHZ7kiLf44TnyPl_9AbzuMdDwCvu-zXjd_jMlDyYcuwamJ15XqrgykLOm0WTREgr_sNLVciXBXd6EQ-Zh2L7hd38noJm1P_MIr9_EDRWAhoRLXPQ"]
+```
+                                           ┌───────┐
+                                           │       │
+                                           │  */*  │
+                                           │       │
+                                           └▲──▲──▲┘
+                                            │  │  │
+               ┌────────────────────────────┘  │  └────────────────────────────┐
+               │                               │                               │
+          ┌────┴────┐                     ┌────┴─────┐                     ┌───┴───┐
+          │         │                     │          │                     │       │
+          │  msg/*  │                     │  crud/*  │                     │  ...  │
+          │         │                     │          │                     │       │
+          └─▲─────▲─┘                     └─▲──────▲─┘                     └───────┘
+            │     │                         │      │
+            │     │                         │      │
+            │     │                         │      │
+┌───────────┴┐ ┌──┴────────────┐ ┌──────────┴──┐ ┌─┴─────────────┐
+│            │ │               │ │             │ │               │
+│  msg/send  │ │  msg/receive  │ │  crud/read  │ │  crud/mutate  │
+│            │ │               │ │             │ │               │
+└────────────┘ └───────────────┘ └─────────────┘ └─▲─────▲─────▲─┘
+                                                   │     │     │
+                                            ┌──────┘     │     └──────┐
+                                            │            │            │
+                               ┌────────────┴──┐ ┌───────┴───────┐ ┌──┴─────────────┐
+                               │               │ │               │ │                │
+                               │  crud/create  │ │  crud/update  │ │  crud/destroy  │
+                               │               │ │               │ │                │
+                               └───────────────┘ └───────────────┘ └────────────────┘
 ```
 
-# 4. Reserved Capabilities
+### 5.2.1 Bottom
 
-The following capabilities are REQUIRED to be implemented.
+In concept there is a "bottom" ability ("none" or "void"), but it is not possible to represent in an ability. As it is merely the absence of any ability, it is not possible to construct a capability with a bottom ability.
 
-## 4.1 Superuser
-
-The superuser action MUST be denoted `*`. This is the maximum ability and may be applied to any resource (it is the "top" ability).
-
-This is useful in several cases, for example:
-
-1. When delegating all resources, like in a [`my` scheme](#4.2-all-owned-resources)
-2. To grant the maximum ability when the current ability semantics may be extended later
-
-## 4.2 All Owned Resources
-
-### 4.2.1. `my` and `as` Schemes
-
-The `my` URI scheme represents ownership over a resource — typically by parenthood — at decision-time (i.e. the validator's "now"). Resources that are created after the UCAN was created MUST be included. This higher-order scheme describes delegating some or all ambient authority to another DID.
-
-The use case of "pairing" two DIDs by delegating all current and future resources is not uncommon when a user would like to use multiple devices as "root" but does not have access to all of them directly at all times. An everyday use case for this is a user signing into multiple devices, using them both with full rights.
-
-The format for this scheme is as follows:
-
-``` abnf
-ownershipscheme = "my:" kind
-kind = "*" / <scheme> 
-```
-
-The wildcard `my:*` resource MUST be taken to mean "everything" (all resources of all types) that are owned by the current DID.
-
-A "sub-scheme" MAY be used to delegate some of that scheme controlled by parenthood. For example, `my:dns` delegates access to all DNS records. `my:mailto` selects all owned email addresses controlled by this user.
-
-Redelegating these to further DIDs in a chain MUST use the `as` URI and address the specific parent DID that owns that resource, followed by the resource kind selector. For instance: `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*` selects all resources originating from the specified DID, and `as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto` selects email addresses from the DID. 
-
-``` abnf
-delegatescheme = "as:" did ":" kind
-kind = "*" / <scheme>
-```
-
-### 4.2.2 Action
-
-The action for `my:*` or `as:<did>:*` MUST be the [superuser action `*`](#41-superuser). Another ability would not be possible since any other ability cannot be guaranteed to work across all resource types (e.g. it's not possible to `crud/UPDATE` an email address). Recall that the superuser action is special in that it selects the maximum possible action for any resource.
-
-``` json
-{"with": "my:*", "can": "*"}
-{"with": "as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:*", "can": "*"}
-
-{"with": "my:mailto", "can": "msg/SEND"}
-{"with": "as:did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp:mailto", "can": "msg/SEND"}
-```
-
-For `my` and `as` capabilities limited to some scheme, the action MUST be one normally associated with that resource. As it belongs to every action hierarchy, this MAY be the [superuser action `*`](#41-superuser).
-
-``` json
-{"with": "my:dns", "can": "crud/UPDATE"}
-{"with": "my:dns", "can": "*"}
-```
-
-## Proof Field Redelegation
-
-### `prf` Scheme
-
-The `prf` URI scheme defines addressing for UCANs and their fields.
-
-``` abnf
-prf = "prf:" selector
-selector = "*" / 1*DIGIT
-```
-
-`prf:*` represents all of the UCANs in the current proofs array. The witnesses for the current UCAN MAY be referenced by their index in the `"prf"` field. If selecting a particular witness (i.e. not the wildcard), then zero-based indexing MUST be used. For example, the first UCAN would be selected by `prf:0`, the second by `prf:1`, etc. Under the indexing scheme, selections MUST be performed on the current UCAN only and cannot recurse on nested witnesses.
-
-A further selection of capabilities inside specific witnesses MUST NOT be a valid parsing of this URI. For instance, `prf:0:mailto` MUST NOT be a valid `prf` URI.
-
-### 4.3.2 `prf` Actions
-
-The `prf` scheme MUST accept the following action: `ucan/DELEGATE`. This action redelegates all of the capabilities in the selected witness(es).
-
-`ucan/delegate` is distinct from the superuser ability and acts as a re-export of the ability. If an attenuated resource or capability is desired, it MUST be explicitly listed without the `prf` URI scheme.
-
-``` js
-{ 
-  "with": "prf:7", // Contains: { "with": "mailto:boris@example.com", "can": "email/send" }
-  "can": "ucan/DELEGATE"
-} 
-
-{ "with": "prf:*", "can": "ucan/DELEGATE" }
-```
-
-# 5. Validation
+# 6. Validation
 
 Each capability has its own semantics, which needs to be interpretable by the target resource handler. Therefore, a validator SHOULD NOT reject UCANs with resources that it does not know how to interpret.
 
 If any of the following criteria are not met, the UCAN MUST be considered invalid.
 
-## 5.1 Time
+## 6.1 Time
 
 A UCAN's time bounds MUST NOT be considered valid if the current system time is before the `nbf` field or after the `exp` field. This is called "ambient time validity."
 
-All witnesses MUST contain time bounds equal to or broader than the UCAN being delegated. If the witness expires before the outer UCAN — or starts after it — the reader MUST treat the UCAN as invalid. Delegation inside of the time bound is called "timely delegation." These conditions MUST hold even if the current wall clock time is inside of incorrectly delegated bounds. 
+All proofs MUST contain time bounds equal to or broader than the UCAN being delegated. If the proof expires before the outer UCAN — or starts after it — the reader MUST treat the UCAN as invalid. Delegation inside of the time bound is called "timely delegation." These conditions MUST hold even if the current wall clock time is inside of incorrectly delegated bounds. 
 
 A UCAN is valid inclusive from the `nbf` time and until the `exp` field. If the current time is outside of these bounds, the UCAN MUST be considered invalid. When setting these bounds, a delegator or invoker SHOULD account for expected clock drift. Use of time bounds this way is called "timely invocation."
 
-## 5.2 Principal Alignment
+## 6.2 Principal Alignment
 
-In delegation, the `aud` field of every witness MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain back to the originating principal for each resource.
+In delegation, the `aud` field of every proof MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain back to the originating principal for each resource.
 
 ```
 (Resource)                                                        ─┐
@@ -476,7 +542,7 @@ Owner: Alice ◄─────────────────────�
 │        │    │  ┌────────────────┐                   │            │
 │ iss: Alice  │  │                │  ┌────────────────┼────────┐   │
 │ aud: Bob ◄──┼──┼── iss: Bob     │  │                │        │   │
-│             │  │   aud: Carol ◄─┼──┼─── iss: Carol  │        │   ├─ UCANs
+│             │  │   aud: Carol ◄─┼──┼─── iss: Carol  │        │   ├─ UCAN Chain
 └─────────────┘  │                │  │    aud: StorageService  │   │
   Root UCAN      └────────────────┘  │                         │   │
                    Delegate UCAN     └─────────────────────────┘   │
@@ -487,11 +553,11 @@ In the above diagram, Alice has some storage. This storage may exist in one loca
 
 Alice delegates access to Bob. Bob then redelegates to Carol. Carol invokes the UCAN as part of a REST request to a storage service. To do this, she MUST both provide proof that she has access (the UCAN chain), and MUST delegate access to the discharging storage service. The discharging service MUST then check that the root issuer (Alice) is in fact the owner (typically the creator) of the resource. This MAY be listed directly on the resource, as it is here. Once the UCAN chain and root ownership are validated, the storage service performs the write.
 
-### 5.2.1 Invocation Recipient Validation
+### 6.2.1 Recipient Validation
 
-An agent discharging a capability MUST verify that the outermost `aud` field _matches its own DID._ The associated action MUST NOT be performed if they do not match. Recipient validtion is REQUIRED to prevent the misuse of UCANs in an unintended context.
+An agent executing a capability MUST verify that the outermost `aud` field _matches its own DID._ The associated ability MUST NOT be performed if they do not match. Recipient validation is REQUIRED to prevent the misuse of UCANs in an unintended context.
 
-The following UCAN fragment would be valid to invoke as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. Any other agent MUST NOT accept this UCAN. For example, `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT run the action associated with that capability.
+The following UCAN fragment would be valid to invoke as `did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV`. Any other agent MUST NOT accept this UCAN. For example, `did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp` MUST NOT run the ability associated with that capability.
 
 ``` js
 {
@@ -503,31 +569,33 @@ The following UCAN fragment would be valid to invoke as `did:key:zH3C2AVvLMv6gmM
 
 A good litmus test for invocation validity by a discharging agent is to check if they would be able to create a valid delegation for that capability.
 
-Each remote invocation MUST be a unique UCAN: using a nonce, for instance. This is easy to implement with a store of hashes of previously seen unexpired UCANs and is REQUIRED to replay attack prevention.
+### 6.2.2 Token Uniqueness
 
-## 5.3 Witness Chaining
+Each remote invocation MUST be a unique UCAN: for instance using a nonce (`nnc`) or simply a unique expiry. The recipient MUST validate that they have not received the top-level UCAN before. For implementation recommentations, please refer to [§9.3](#93-replay-attack-prevention).
 
-Each capability MUST either be originated by the issuer (root capability, or "parenthood") or have one-or-more witnesses in the `prf` field to attest that this issuer is authorized to use that capability ("introduction"). In the introduction case, this check MUST be recursively applied to its witnesses until a root witness is found (i.e. issued by the resource owner).
+## 6.3 Proof Chaining
 
-Except for rights amplification (below), each capability delegation MUST have equal or narrower capabilities from its witnesses. The time bounds MUST also be equal to or contained inside the time bounds of the witnesses' time bounds. This lowering of rights at each delegation is called "attenuation."
+Each capability MUST either be originated by the issuer (root capability, or "parenthood") or have one-or-more proofs in the `prf` field to attest that this issuer is authorized to use that capability ("introduction"). In the introduction case, this check MUST be recursively applied to its proofs until a root proof is found (i.e. issued by the resource owner).
 
-## 5.4 Rights Amplification
+Except for rights amplification (below), each capability delegation MUST have equal or narrower capabilities from its proofs. The time bounds MUST also be equal to or contained inside the time bounds of the proof's time bounds. This lowering of rights at each delegation is called "attenuation."
 
-Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating particular capabilities MAY require more than one direct witness. The relevant witnesses MAY be of a different resource and action from the amplified capability. The delegated capability MUST have this behaviour in its semantics, even if the witnesses do not.
+## 6.4 Rights Amplification
 
-## 5.6 Content Identifiers
+Some capabilities are more than the sum of their parts. The canonical example is a can of soup and a can opener. You need both to access the soup inside the can, but the can opener may come from a completely separate source than the can of soup. Such semantics MAY be implemented in UCAN capabilities. This means that validating particular capabilities MAY require more than one direct proof. The relevant proofs MAY be of a different resource and ability from the amplified capability. The delegated capability MUST have this behavior in its semantics, even if the proofs do not.
 
-UCANs MAY be referenced by content ID (CID), per the [multiformats/cid](https://github.com/multiformats/cid) specification. The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) includes the following: local store, a distributed hash table (DHT), gossip network, or RESTful service.
+## 6.5 Content Identifiers
 
-CIDs MAY be used to refer to any UCAN: a witness in a delegation chain or an entire UCAN. This has many benefits, some of which are outlined in the implementation recommendations of this document.
+A UCAN token MUST be referenced as a [base32](https://github.com/multiformats/multibase/blob/master/multibase.csv#L12) [CIDv1](https://docs.ipfs.io/concepts/content-addressing/#identifier-formats).
 
-Due to the potential for unresolvable CIDs, this SHOULD NOT be the preferred method of transmission. "Inline witnesses" SHOULD be used whenever possible, and complete UCANs SHOULD be expanded. When a CID is used, it is RECOMMENDED that it be substituted as close to the top UCAN as possible (i.e. the invocation), and as few witnesses are referenced by CID, to keep the number of required CID resolutions to a minimum. As UCANs are signed, all further delegations would require CID resolution and so SHOULD NOT be used when the intention is delegation rather than invocation. 
+The [`0x55` raw data](https://github.com/multiformats/multicodec/blob/master/table.csv#L39) codec MUST be supported. If other codecs are used (such as [`0x0129` `dag-json`](https://github.com/multiformats/multicodec/blob/master/table.csv#L104) multicodec), the UCAN MUST be able to be interpreted as a valid JWT (including the signature).
 
-## 5.7 Revocation
+The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service. Please refer to [§8](#8-token-resolution) for more.
+
+## 6.6 Revocation
 
 Any issuer of a UCAN MAY later revoke that UCAN or the capabilities that have been derived from it further downstream in a proof chain.
 
-This mechanism is eventually consistent and SHOULD be considered the last line of defence against abuse. Proactive expiry via time bounds or other constraints SHOULD be preferred, as they do not require learning more information than what would be available on an offline computer.
+This mechanism is eventually consistent and SHOULD be considered the last line of defense against abuse. Proactive expiry via time bounds or other constraints SHOULD be preferred, as they do not require learning more information than what would be available on an offline computer.
 
 While some resources are centralized (e.g. access to a server), others are unbound from specific locations (e.g. a CRDT), in which case it will take longer for the revocation to propagate.
 
@@ -549,11 +617,11 @@ A revocation message MUST conform to the following format:
 
 This format makes it easy to select the relevant UCAN, confirm that the issuer is in the proof chain for some or all capabilities, and validate that the revocation was signed by the same issuer.
 
-Any other witnesses in the selected UCAN not issued by the same DID as the revocation issuer MUST be treated as valid.
+Any other proofs in the selected UCAN not issued by the same DID as the revocation issuer MUST be treated as valid.
 
 Revocations MAY be deleted once the UCAN that they reference expires or otherwise becomes invalid via its proactive mechanisms.
 
-### 5.7.1 Example
+### 6.6.1 Example
 
 ```
                Root
@@ -561,7 +629,6 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
         │                │           │
         │  iss: Alice    │           │
         │  aud: Bob      │           ├─ Alice can revoke
-        │  att: [X,Y,Z]  │           │
         │                │           │
         └───┬────────┬───┘           │
             │        │               │
@@ -570,7 +637,7 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
 ┌──────────────┐  ┌──────────────┐   │  ─┐
 │              │  │              │   │   │
 │  iss: Bob    │  │  iss: Bob    │   │   │
-│  aud: Carol  │  │  aud: Erin   │   │   ├─ Bob can revoke
+│  aud: Carol  │  │  aud: Dan    │   │   ├─ Bob can revoke
 │  att: [X,Y]  │  │  att: [Y,Z]  │   │   │
 │              │  │              │   │   │
 └───────┬──────┘  └──┬───────────┘   │   │
@@ -580,7 +647,7 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
 ┌──────────────┐     │               │   │  ─┐
 │              │     │               │   │   │
 │  iss: Carol  │     │               │   │   │
-│  aud: Erin   │     │               │   │   ├─ Carol can revoke
+│  aud: Dan    │     │               │   │   ├─ Carol can revoke
 │  att: [X,Y]  │     │               │   │   │
 │              │     │               │   │   │
 └───────────┬──┘     │               │   │   │
@@ -589,34 +656,72 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
             ▼        ▼               │   │   │
         ┌────────────────┐           │   │   │  ─┐
         │                │           │   │   │   │
-        │  iss: Erin     │           │   │   │   │
-        │  aud: Frank    │           │   │   │   ├─ Erin can revoke
+        │  iss: Dan      │           │   │   │   │
+        │  aud: Erin     │           │   │   │   ├─ Dan can revoke
         │  att: [X,Y,Z]  │           │   │   │   │
         │                │           │   │   │   │
         └────────────────┘          ─┘  ─┘  ─┘  ─┘
 ```
 
-In this example, Alice MAY revoke any of the UCANs in the chain, Carol MAY revoke the bottom two, and so on. If the UCAN `Carol->Erin` is revoked by Alice, Bob, or Carol, then Frank will not have a valid chain for `X` since its proof is invalid. However, Frank can still prove the valid capability for `Y` and `Z` since the still-valid ("unbroken") chain `Alice->Bob->Erin->Frank` includes them. Note that despite `Y` being in the revoked `Carol->Erin` UCAN, it does not invalidate `Y` for Frank, since the unbroken chain also included a proof for `Y`. 
+In this example, Alice MAY revoke any of the UCANs in the chain, Carol MAY revoke the bottom two, and so on. If the UCAN `Carol->Dan` is revoked by Alice, Bob, or Carol, then Erin will not have a valid chain for `X` since its proof is invalid. However, Erin can still prove the valid capability for `Y` and `Z` since the still-valid ("unbroken") chain `Alice->Bob->Dan->Erin` includes them. Note that despite `Y` being in the revoked `Carol->Dan` UCAN, it does not invalidate `Y` for Erin, since the unbroken chain also included a proof for `Y`. 
 
-## 5.8 Backwards Compatibility
+## 6.7 Backwards Compatibility
 
-A UCAN validator MAY implement backward compatibility with previous versions of UCAN. Delegated UCANs MUST be of an equal or higher version than their proofs. For example, a v0.8.1 UCAN that includes witnesses that are separately v0.8.1, v0.8.0, v0.7.0, and v0.5.0 MAY be considered valid. A v0.5.0 UCAN that has a UCAN v0.7.0 witness MUST NOT be considered valid.
+A UCAN validator MAY implement backward compatibility with previous versions of UCAN. Delegated UCANs MUST be of an equal or higher version than their proofs. For example, a v0.9.0 UCAN that includes proofs that are separately v0.9.0, v0.8.1, v0.7.0, and v0.5.0 MAY be considered valid. A v0.5.0 UCAN that has a UCAN v0.9.0 proof MUST NOT be considered valid.
 
-# 6. Implementation Recommendations
+# 7. Collections
 
-## 6.1 UCAN Store
+UCANs are indexed by their hash — often called their ["content address"](https://en.wikipedia.org/wiki/Content-addressable_storage). UCANs MUST be addressable as [CIDv1](https://specs.ipld.io/block-layer/CID.html#cids-version-1).
+
+Content addressing the proofs has multiple advantages over inlining tokens, including:
+* Avoids re-encoding deeply nested proofs as Base64 many times (and the associated size increase)
+* Canonical signature
+* Enables only transmitting the relevant proofs 
+
+Multiple UCANs in a single request MAY be collected into one table. It is RECOMMENDED that these be indexed by CID. The canonical JSON representation is presented in [§7.1.1](#711-example) MUST be supported. Implementations MAY include more formats, for example to optimize for a particular transport. Transports MAY map their collection to this collection format.
+
+### 7.1 Canonical JSON Collection
+
+The canonical JSON representation is an key-value object, mapping UCAN content identifiers to their fully-encoded base64url strings. A root "entry point" (if one exists) MUST be indexed by the slash `/` character.
+
+#### 7.1.1 Example
+
+``` json
+{
+  "/": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCIsInVjdiI6IjAuOC4xIn0.eyJhdWQiOiJkaWQ6a2V5Ono2TWtmUWhMSEJTRk11UjdiUVhUUWVxZTVrWVVXNTFIcGZaZWF5bWd5MXprUDJqTSIsImF0dCI6W3sid2l0aCI6eyJzY2hlbWUiOiJ3bmZzIiwiaGllclBhcnQiOiIvL2RlbW91c2VyLmZpc3Npb24ubmFtZS9wdWJsaWMvcGhvdG9zLyJ9LCJjYW4iOnsibmFtZXNwYWNlIjoid25mcyIsInNlZ21lbnRzIjpbIk9WRVJXUklURSJdfX0seyJ3aXRoIjp7InNjaGVtZSI6InduZnMiLCJoaWVyUGFydCI6Ii8vZGVtb3VzZXIuZmlzc2lvbi5uYW1lL3B1YmxpYy9ub3Rlcy8ifSwiY2FuIjp7Im5hbWVzcGFjZSI6InduZnMiLCJzZWdtZW50cyI6WyJPVkVSV1JJVEUiXX19XSwiZXhwIjo5MjU2OTM5NTA1LCJpc3MiOiJkaWQ6a2V5Ono2TWtyNWFlZmluMUR6akc3TUJKM25zRkNzbnZIS0V2VGIyQzRZQUp3Ynh0MWpGUyIsInByZiI6WyJleUpoYkdjaU9pSkZaRVJUUVNJc0luUjVjQ0k2SWtwWFZDSXNJblZqZGlJNklqQXVPQzR4SW4wLmV5SmhkV1FpT2lKa2FXUTZhMlY1T25vMlRXdHlOV0ZsWm1sdU1VUjZha2MzVFVKS00yNXpSa056Ym5aSVMwVjJWR0l5UXpSWlFVcDNZbmgwTVdwR1V5SXNJbUYwZENJNlczc2lkMmwwYUNJNmV5SnpZMmhsYldVaU9pSjNibVp6SWl3aWFHbGxjbEJoY25RaU9pSXZMMlJsYlc5MWMyVnlMbVpwYzNOcGIyNHVibUZ0WlM5d2RXSnNhV012Y0dodmRHOXpMeUo5TENKallXNGlPbnNpYm1GdFpYTndZV05sSWpvaWQyNW1jeUlzSW5ObFoyMWxiblJ6SWpwYklrOVdSVkpYVWtsVVJTSmRmWDFkTENKbGVIQWlPamt5TlRZNU16azFNRFVzSW1semN5STZJbVJwWkRwclpYazZlalpOYTJ0WGIzRTJVek4wY1ZKWGNXdFNibmxOWkZobWNuTTFORGxGWm5VMmNVTjFOSFZxUkdaTlkycEdVRXBTSWl3aWNISm1JanBiWFgwLlNqS2FIR18yQ2UwcGp1TkY1T0QtYjZqb04xU0lKTXBqS2pqbDRKRTYxX3VwT3J0dktvRFFTeFo3V2VZVkFJQVREbDhFbWNPS2o5T3FPU3cwVmc4VkNBIiwiZXlKaGJHY2lPaUpGWkVSVFFTSXNJblI1Y0NJNklrcFhWQ0lzSW5WamRpSTZJakF1T0M0eEluMC5leUpoZFdRaU9pSmthV1E2YTJWNU9ubzJUV3R5TldGbFptbHVNVVI2YWtjM1RVSktNMjV6UmtOemJuWklTMFYyVkdJeVF6UlpRVXAzWW5oME1XcEdVeUlzSW1GMGRDSTZXM3NpZDJsMGFDSTZleUp6WTJobGJXVWlPaUozYm1aeklpd2lhR2xsY2xCaGNuUWlPaUl2TDJSbGJXOTFjMlZ5TG1acGMzTnBiMjR1Ym1GdFpTOXdkV0pzYVdNdmNHaHZkRzl6THlKOUxDSmpZVzRpT25zaWJtRnRaWE53WVdObElqb2lkMjVtY3lJc0luTmxaMjFsYm5SeklqcGJJazlXUlZKWFVrbFVSU0pkZlgxZExDSmxlSEFpT2preU5UWTVNemsxTURVc0ltbHpjeUk2SW1ScFpEcHJaWGs2ZWpaTmEydFhiM0UyVXpOMGNWSlhjV3RTYm5sTlpGaG1jbk0xTkRsRlpuVTJjVU4xTkhWcVJHWk5ZMnBHVUVwU0lpd2ljSEptSWpwYlhYMC5TakthSEdfMkNlMHBqdU5GNU9ELWI2am9OMVNJSk1waktqamw0SkU2MV91cE9ydHZLb0RRU3haN1dlWVZBSUFURGw4RW1jT0tqOU9xT1N3MFZnOFZDQSJdfQ.Ab-xfYRoqYEHuo-252MKXDSiOZkLD-h1gHt8gKBP0AVdJZ6Jruv49TLZOvgWy9QkCpiwKUeGVbHodKcVx-azCQ",
+  "bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsInVhdiI6IjAuMS4wIn0.eyJhdWQiOiJkaWQ6a2V5OnpTdEVacHpTTXRUdDlrMnZzemd2Q3dGNGZMUVFTeUExNVc1QVE0ejNBUjZCeDRlRko1Y3JKRmJ1R3hLbWJtYTQiLCJpc3MiOiJkaWQ6a2V5Ono1QzRmdVAyRERKQ2hoTUJDd0FrcFlVTXVKWmROV1dINU5lWWpVeVk4YnRZZnpEaDNhSHdUNXBpY0hyOVR0anEiLCJuYmYiOjE1ODg3MTM2MjIsImV4cCI6MTU4OTAwMDAwMCwic2NwIjoiLyIsInB0YyI6IkFQUEVORCIsInByZiI6bnVsbH0.Ay8C5ajYWHxtD8y0msla5IJ8VFffTHgVq448Hlr818JtNaTUzNIwFiuutEMECGTy69hV9Xu9bxGxTe0TpC7AzV34p0wSFax075mC3w9JYB8yqck_MEBg_dZ1xlJCfDve60AHseKPtbr2emp6hZVfTpQGZzusstimAxyYPrQUWv9wqTFmin0Ls-loAWamleUZoE1Tarlp_0h9SeV614RfRTC0e3x_VP9Ra_84JhJHZ7kiLf44TnyPl_9AbzuMdDwCvu-zXjd_jMlDyYcuwamJ15XqrgykLOm0WTREgr_sNLVciXBXd6EQ-Zh2L7hd38noJm1P_MIr9_EDRWAhoRLXPQ"
+}
+```
+
+# 8. Token Resolution
+
+Token resolution is transport specific. The exact format is left to the relevant UCAN transport specification. At minimum, such a specification MUST define at least the following:
+
+1. Request protocol
+2. Response protocol
+3. Collections format
+
+# 9. Implementation Recommendations
+
+## 9.1 UCAN Store
 
 A validator MAY keep a local store of UCANs that it has received. UCANs are immutable but also time-bound so that this store MAY evict expired or revoked UCANs.
 
 This store MAY be indexed by CID (content addressing). Multiple indices built on top of this store MAY be used to improve capability search or selection performance.
 
-## 6.2 Memoized Validation
+## 9.2 Memoized Validation
 
-Aside from revocation, UCAN validation is idempotent. Marking a CID as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a witness: if the witness was previously reviewed and is not revoked, it is RECOMMENDED to consider it valid immediately.
+Aside from revocation, capability validation is idempotent. Marking a CID (or capability index inside that CID) as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a proof: if the proof was previously reviewed and is not revoked, it is RECOMMENDED to consider it valid immediately.
 
 Revocation is irreversible. Suppose the validator learns of revocation by UCAN CID or issuer DID. In that case, the UCAN and all of its derivatives in such a cache MUST be marked as invalid, and all validations immediately fail without needing to walk the entire structure.
 
-## 6.3 Session Content ID
+## 9.3 Replay Attack Prevention
+
+Replay attack prevention is REQUIRED (per [§6.2.2 Token Uniqueness](#622-token-uniqueness)). The exact strategy is left to the implementer. One simple strategy is maintaining a set of previously seen CIDs. This MAY be the same structure as a validated UCAN memoization table (if one exists in the implementation).
+
+It is RECOMMENDED that the structure have a secondary index referencing the token expiry field. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
+
+## 9.4 Session Content ID
 
 If many invocations are discharged during a session, the sender and receiver MAY agree to use the triple of CID, nonce, and signature rather than reissuing the complete UCAN chain for every message. This saves bandwidth and avoids needing to use another session token exchange mechanism or bearer token with lower security, such as a shared secret.
 
@@ -628,13 +733,13 @@ If many invocations are discharged during a session, the sender and receiver MAY
 }
 ```
 
-# 7. Related Work and Prior Art
+# 10. Related Work and Prior Art
 
 [SPKI/SDSI](https://datatracker.ietf.org/wg/spki/about/) is closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
 
-[ZCAP-LD](https://w3c-ccg.github.io/zcap-ld/) is closely related to UCAN, and the projects were started around the same time. The primary differences are in formatting, addressing by URL, and an emphasis on linked data rather than inlining for availability.
+[ZCAP-LD](https://w3c-ccg.github.io/zcap-spec/) is closely related to UCAN. The primary differences are in formatting, addressing by URL instead of CID, the mechanism of separating invocation from authorization, and single versus multiple proofs.
 
-[CACAO](https://blog.ceramic.network/capability-based-data-security-on-ceramic/) is a translation of many of these ideas to a cross-blockchain invocation model. It contains the same basic concepts but is aimed at small messages and identities that are rooted in mutable documents rooted on a blockchain.
+[CACAO](https://blog.ceramic.network/capability-based-data-security-on-ceramic/) is a translation of many of these ideas to a cross-blockchain invocation model. It contains the same basic concepts but is aimed at small messages and identities that are rooted in mutable documents rooted on a blockchain and lacks the ability to subdelegate capabilities.
 
 [Local-First Auth](https://github.com/local-first-web/auth) uses CRDT-based ACLs and key lockboxes for role-based signatures. This is a non-certificate-based approach, instead of relying on the CRDT and signed data to build up a list of roles and members. It does have a very friendly invitation certificate mechanism in [Seitan token exchange](https://book.keybase.io/docs/teams/seitan). It is also straightforward to see which users have access to what, avoiding the confinement problem seen in many decentralized auth systems.
 
@@ -644,9 +749,11 @@ If many invocations are discharged during a session, the sender and receiver MAY
 
 [Verifiable credentials](https://www.w3.org/2017/vc/WG/) are a solution for data about people or organizations. However, they are aimed at a slightly different problem: asserting attributes about the holder of a DID, including things like work history, age, and membership.
 
-# 8. Acknowledgments
+# 11. Acknowledgments
 
 Thank you to [Brendan O'Brien](https://github.com/b5) for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
+
+Many thanks to [Hugo Dias](https://github.com/hugomrdias), [Mikael Rogers](https://github.com/mikeal/), and the entire DAG Haus team for the real world feedback, and finding inventive new use cases.
 
 Thank you [Blaine Cook](https://github.com/blaine) for the real-world feedback, ideas on future features, and lessons from other auth standards.
 
@@ -656,19 +763,19 @@ Thanks to the entire [SPKI WG](https://datatracker.ietf.org/wg/spki/about/) for 
 
 We want to especially recognize [Mark Miller](https://github.com/erights) for his numerous contributions to the field of distributed auth, programming languages, and computer security writ large.
 
-# 9. FAQ
+# 12. FAQ
 
-## 9.1 What prevents an unauthorized party from using an intercepted UCAN?
+## 12.1 What prevents an unauthorized party from using an intercepted UCAN?
 
 UCANs always contain information about the sender and receiver. A UCAN is signed by the sender (the `iss` field DID) and can only be created by an agent in possession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks together secure the certificate against use by an unauthorized party.
 
-## 9.2 What prevents replay attacks on the invocation use case?
+## 12.2 What prevents replay attacks on the invocation use case?
 
 A UCAN delegated for purposes of immediate invocation MUST be unique. If many requests are to be made in quick succession, a nonce can be used. The receiving agent (the one to perform the invocation) checks the hash of the UCAN against a local store of unexpired UCAN hashes.
 
 This is not a concern when simply delegating since presumably the recipient agent already has that UCAN.
 
-## 9.3 Is UCAN secure against person-in-the-middle attacks?
+## 12.3 Is UCAN secure against person-in-the-middle attacks?
 
 _UCAN does not have any special protection against person-in-the-middle (PITM) attacks._
 
