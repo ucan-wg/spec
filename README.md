@@ -95,7 +95,7 @@ There are several roles that an agent MAY assume:
 | --------- | ----------- |
 | Delegator | The agent signing the current UCAN, and listed in the `iss` field |
 | Delegate  | The agent being delegated to in the current UCAN, listed in the `aud` field |
-| Validator | Any party that reads the UCAN chain to determine that it is valid (e.g. structure & signatures) and which capabilities is grants |
+| Validator | Any party that interprets a UCAN to determine that it is valid, and which capabilities it grants |
 
 ## 2.2 Resource
 
