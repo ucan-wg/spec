@@ -89,15 +89,13 @@ Unlike many authorization systems where a service controls access to resources i
 
 ## 2.1 Roles
 
-There are several roles that an agent assumes in a UCAN.
+There are several roles that an agent MAY assume:
 
-| Name | Description     | 
-| ----- | -------- |
-| Issuer | The agent signing the current UCAN, and listed in the `iss` field |
-| Audience | The agent being delegated to in the current UCAN, listed in the `aud` field |
-| Delegator | |
-| Delegate | | 
-| Validator | Any party that reads the UCAN chain to determine that it is valid and matches  |
+| Name      | Description | 
+| --------- | ----------- |
+| Delegator | The agent signing the current UCAN, and listed in the `iss` field |
+| Delegate  | The agent being delegated to in the current UCAN, listed in the `aud` field |
+| Validator | Any party that reads the UCAN chain to determine that it is valid (e.g. structure & signatures) and which capabilities is grants |
 
 ## 2.2 Resource
 
