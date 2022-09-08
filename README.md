@@ -247,17 +247,29 @@ UCANs are used to delegate capabilities between DID-holding agents, eventually t
 
 Time takes on [multiple meanings](https://en.wikipedia.org/wiki/Temporal_database) in systems representing facts or knowledge. The senses of the word "time" are given below.
 
-## 2.9.1 Valid Time Range
+### 2.9.1 Valid Time Range
 
 The period of time that a capability is valid from and until.
 
-## 2.9.2 Assertion Time
+### 2.9.2 Assertion Time
 
 The moment at which a delegation was asserted. This MAY be captured via an `iat` field, but is generally superfluous to capture in the token. "Assertion time" is useful when discussing the lifecycle of a token.
 
-## 2.9.3 Decision (or Validation) Time
+### 2.9.3 Decision (or Validation) Time
 
 Decision time is the part of the lifecycle when "a decision" about the token is made. This is typically during validation, but also includes resolving external state (e.g. storage quotas).
+
+## 2.10 Roles
+
+There are several roles that an agent assumes in a UCAN.
+
+| Name | Description     | 
+| ----- | -------- |
+| Issuer | |
+| Audience | |
+| Delegator | |
+| Delegate | | 
+| Validator | |
 
 # 3. JWT Structure
 
