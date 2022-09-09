@@ -290,16 +290,16 @@ EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037](https://da
 
 The payload MUST describe the authorization claims, who is involved, and its validity period.
 
-| Field | Type            | Description                                      | Required |
-| ----- | --------------- | ------------------------------------------------ | -------- |
-| `iss` | `String`        | Issuer DID (sender)                              | Yes      |
-| `aud` | `String`        | Audience DID (receiver)                          | Yes      |
-| `nbf` | `Number`        | Not Before UTC Unix Timestamp (valid from)       | No       |
-| `exp` | `Number \| null` | Expiration UTC Unix Timestamp (valid until)      | Yes      |
-| `nnc` | `String`        | Nonce                                            | No       |
-| `fct` | `Json[]`        | Facts (asserted, signed data)                    | No       |
-| `att` | `Json[]`        | Attenuations                                     | No       |
-| `prf` | `String[]`      | Proof of delegation (hash-linked UCANs)          | No       |
+| Field | Type             | Description                                 | Required |
+| ----- | ---------------- | ------------------------------------------- | -------- |
+| `iss` | `String`         | Issuer DID (sender)                         | Yes      |
+| `aud` | `String`         | Audience DID (receiver)                     | Yes      |
+| `nbf` | `Number`         | Not Before UTC Unix Timestamp (valid from)  | No       |
+| `exp` | `Number \| null` | Expiration UTC Unix Timestamp (valid until) | Yes      |
+| `nnc` | `String`         | Nonce                                       | No       |
+| `fct` | `Json[]`         | Facts (asserted, signed data)               | No       |
+| `att` | `Json[]`         | Attenuations                                | Yes      |
+| `prf` | `String[]`       | Proof of delegation (hash-linked UCANs)     | No       |
 
 ### 3.2.1 Principals
 
@@ -381,7 +381,7 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 
 ### 3.2.5 Attenuation
 
-The attenuations (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous capabilities (defined below). This array MAY be empty.
+The attenuations (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous capabilities (defined below). This array is REQUIRED but MAY be empty.
 
 This array MUST contain some or none of the following:
 1. A strict subset (attenuation) of the capability scope from the `prf` field
