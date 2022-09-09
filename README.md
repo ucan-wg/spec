@@ -93,7 +93,7 @@ There are several roles that an agent MAY assume:
 
 | Name      | Description | 
 | --------- | ----------- |
-| Agent     | The general class of entities and principals that interact with a UCAN |
+| Agent     | The general class of entities and principals that issue or handle UCANs |
 | Principal | A DID listed in a UCAN's `iss` or `aud` field |
 | Delegator | The principal signing the current UCAN, and listed in the `iss` field |
 | Delegate  | The principal being delegated to in the current UCAN, listed in the `aud` field |
