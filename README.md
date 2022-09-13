@@ -93,11 +93,60 @@ There are several roles that an agent MAY assume:
 
 | Name      | Description | 
 | --------- | ----------- |
-| Agent     | The general class of entities and principals that issue or handle UCANs |
-| Principal | An entity identified by DID, listed in a UCAN's `iss` or `aud` field |
-| Delegator | The principal signing the current UCAN, and listed in the `iss` field |
-| Delegate  | The principal being delegated to in the current UCAN, listed in the `aud` field |
-| Validator | Any party that interprets a UCAN to determine that it is valid, and which capabilities it grants |
+| Agent     | The general class of entities and principals that interact with a UCAN |
+| Validator | Any agent that interprets a UCAN to determine that it is valid, and which capabilities it grants |
+| Principal | An agent identified by DID (listed in a UCAN's `iss` or `aud` field) |
+| Signer    | A principal that can sign payloads |
+| Issuer    | The principal signing the current UCAN. Listed in the `iss` field |
+| Audience  | The principal delegated to in the current UCAN. Listed in the `aud` field |
+| Revoker   | The issuer listed in a proof chain that revokes a UCAN |
+| Owner     | The root issuer of a capability, who has some proof that they fully control the resource |
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                                │
+│   Agent                                                                                        │
+│                                                                                                │
+│   ┌─────────────────────────────────────────────────────────────┐   ┌──────────────────────┐   │
+│   │                                                             │   │                      │   │
+│   │  Principal                                                  │   │  Validator           │   │
+│   │                                                             │   │                      │   │
+│   │  ┌─────────────────────────────┐                            │   │                      │   │
+│   │  │                             │                            │   │                      │   │
+│   │  │  Signer                     │                            │   │                      │   │
+│   │  │                             │                            │   │                      │   │
+│   │  │  ┌──────────────────────┐   │  ┌──────────────────────┐  │   │                      │   │
+│   │  │  │                      │   │  │                      │  │   │                      │   │
+│   │  │  │  Issuer              │   │  │  Audience            │  │   │                      │   │
+│   │  │  │                      │   │  │                      │  │   │                      │   │
+│   │  │  │  ┌──────────────┐    │   │  │                      │  │   │                      │   │
+│   │  │  │  │              │    │   │  │                      │  │   │                      │   │
+│   │  │  │  │  Owner       │    │   │  │                      │  │   │                      │   │
+│   │  │  │  │              │    │   │  │                      │  │   │                      │   │
+│   │  │  │  └──────────────┘    │   │  │                      │  │   │                      │   │
+│   │  │  │                      │   │  │                      │  │   │                      │   │
+│   │  │  └──────────────────────┘   │  └──────────────────────┘  │   │                      │   │
+│   │  │                             │                            │   │                      │   │
+│   │  │  ┌──────────────────────┐   │                            │   │                      │   │
+│   │  │  │                      │   │                            │   │                      │   │
+│   │  │  │  Revoker             │   │                            │   │                      │   │
+│   │  │  │                      │   │                            │   │                      │   │
+│   │  │  │                      │   │                            │   │                      │   │
+│   │  │  │                      │   │                            │   │                      │   │
+│   │  │  │                      │   │                            │   │                      │   │
+│   │  │  │                      │   │                            │   │                      │   │
+│   │  │  │                      │   │                            │   │                      │   │
+│   │  │  │                      │   │                            │   │                      │   │
+│   │  │  └──────────────────────┘   │                            │   │                      │   │
+│   │  │                             │                            │   │                      │   │
+│   │  └─────────────────────────────┘                            │   │                      │   │
+│   │                                                             │   │                      │   │
+│   └─────────────────────────────────────────────────────────────┘   └──────────────────────┘   │
+│                                                                                                │
+│                                                                                                │
+│                                                                                                │
+└────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ## 2.2 Resource
 
