@@ -87,7 +87,60 @@ Unlike many authorization systems where a service controls access to resources i
 
 # 2. Terminology
 
-## 2.1 Resource
+## 2.1 Roles
+
+There are several roles that an agent MAY assume:
+
+| Name      | Description | 
+| --------- | ----------- |
+| Agent     | The general class of entities and principals that interact with a UCAN |
+| Validator | Any agent that interprets a UCAN to determine that it is valid, and which capabilities it grants |
+| Principal | An agent identified by DID (listed in a UCAN's `iss` or `aud` field) |
+| Audience  | The principal delegated to in the current UCAN. Listed in the `aud` field |
+| Signer    | A principal that can sign payloads |
+| Issuer    | The signer of the current UCAN. Listed in the `iss` field |
+| Revoker   | The issuer listed in a proof chain that revokes a UCAN |
+| Owner     | The root issuer of a capability, who has some proof that they fully control the resource |
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                            │
+│   Agent                                                                                    │
+│                                                                                            │
+│   ┌──────────────────────────────────────────────────────────┐  ┌──────────────────────┐   │
+│   │                                                          │  │                      │   │
+│   │  Principal                                               │  │  Validator           │   │
+│   │                                                          │  │                      │   │
+│   │  ┌──────────────────────────┐                            │  │                      │   │
+│   │  │                          │                            │  │                      │   │
+│   │  │  Signer                  │                            │  │                      │   │
+│   │  │                          │                            │  │                      │   │
+│   │  │  ┌────────────────────┐  │  ┌──────────────────────┐  │  │                      │   │
+│   │  │  │                    │  │  │                      │  │  │                      │   │
+│   │  │  │  Issuer            │  │  │  Audience            │  │  │                      │   │
+│   │  │  │                    │  │  │                      │  │  │                      │   │
+│   │  │  │  ┌──────────────┐  │  │  │                      │  │  │                      │   │
+│   │  │  │  │              │  │  │  │                      │  │  │                      │   │
+│   │  │  │  │  Owner       │  │  │  │                      │  │  │                      │   │
+│   │  │  │  │              │  │  │  │                      │  │  │                      │   │
+│   │  │  │  └──────────────┘  │  │  │                      │  │  │                      │   │
+│   │  │  │                    │  │  │                      │  │  │                      │   │
+│   │  │  │  ┌──────────────┐  │  │  │                      │  │  │                      │   │
+│   │  │  │  │              │  │  │  │                      │  │  │                      │   │
+│   │  │  │  │  Revoker     │  │  │  │                      │  │  │                      │   │
+│   │  │  │  │              │  │  │  │                      │  │  │                      │   │
+│   │  │  │  └──────────────┘  │  │  │                      │  │  │                      │   │
+│   │  │  │                    │  │  │                      │  │  │                      │   │
+│   │  │  └────────────────────┘  │  └──────────────────────┘  │  │                      │   │
+│   │  │                          │                            │  │                      │   │
+│   │  └──────────────────────────┘                            │  │                      │   │
+│   │                                                          │  │                      │   │
+│   └──────────────────────────────────────────────────────────┘  └──────────────────────┘   │
+│                                                                                            │
+└────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+## 2.2 Resource
 
 A resource is some data or process that has an address. It can be anything from a row in a database, a user account, storage quota, email address, etc.
 
@@ -100,7 +153,7 @@ The same resource MAY be addressed with several URI formats. For instance, a dat
 | `{"with": "mailto:username@example.com", ...}` | A single email address                                          |
 | `{"with": "dns:sub.example.com", ...}` | A mutable pointer to some data                                  |
 
-## 2.2 Ability
+## 2.3 Ability
 
 Abilities describe the verb portion of the capability: an ability that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/send` to a typical file system. 
 
@@ -112,7 +165,7 @@ There MUST be at least one path segment as a namespace. For example, `http/put` 
 
 The only reserved ability MUST be the un-namespaced [`"*"` (superuser)](#41-superuser), which MUST be allowed on any resource.
 
-## 2.3 Capability
+## 2.4 Capability
 
 A capability is the association of an "ability" to a "resource": `resource x ability`.
 
@@ -126,13 +179,13 @@ The `with` (resource) and `can` (ability) fields are REQUIRED. The `nb` (non-nor
 }
 ```
 
-### 2.3.1 `nb` Non-Normative Fields
+### 2.4.1 `nb` Non-Normative Fields
 
 Capabilities MAY define additional optional or required fields specific to their use case in the `nb` ([nota bene](https://en.wikipedia.org/wiki/Nota_bene)) field. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. The `nb` field MAY contain additional caveats or other important information related to specifying the capability, and MAY function as an "escape hatch" for when a use case is not fully captured by the `with` and `can` fields.
 
 Further delegation of a capability with `nb` fields set MUST respect the `nb` fields. On validation, if a `nb` field is present, it MUST be checked. If a validator is not able to interpret the `nb` field, it MUST reject the capability. As such, any `nb` caveats from a proof MUST further attenuate the delegated capability.
 
-#### 2.3.2 Examples
+#### 2.4.2 Examples
 
 ``` json
 [
@@ -166,7 +219,7 @@ Further delegation of a capability with `nb` fields set MUST respect the `nb` fi
 ]
 ```
 
-## 2.4 Capability Scope
+## 2.5 Capability Scope
 
 The set of capabilities delegated by a UCAN is called its "capability scope," often shortened to "scope." This functions as a declarative description of delegated abilities.
 
@@ -221,7 +274,7 @@ merge(ScopeA, ScopeB) == [
 ];
 ```
 
-## 2.5 Delegation
+## 2.6 Delegation
 
 Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructive "proof" acts as the authorization proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its scope.
 
@@ -229,33 +282,33 @@ Each direct delegation leaves the ability at the same level or diminishes it. Th
 
 Note that delegation is a separate concept from invocation [§2.8](#28-invocation). Delegation is the act of granting a capability to another, not the act of using it (invocation), which has additional requirements.
 
-## 2.6 Attenuation
+## 2.7 Attenuation
 
 Attenuation is the process of constraining the capabilities in a delegation chain.
 
-## 2.7 Revocation
+## 2.8 Revocation
 
 Revocation is the act of invalidating a UCAN after the fact, outside of the limitations placed on it by the UCAN's fields (such as its expiry). 
 
 In the case of UCAN, this MUST be done by a proof's issuer DID. For more on the exact mechanism, see the revocation validation section.
 
-## 2.8 Invocation
+## 2.9 Invocation
 
 UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent allowed to perform some action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§6.2.1](#621-recipient-validation).
 
-## 2.9 Time
+## 2.10 Time
 
 Time takes on [multiple meanings](https://en.wikipedia.org/wiki/Temporal_database) in systems representing facts or knowledge. The senses of the word "time" are given below.
 
-## 2.9.1 Valid Time Range
+### 2.10.1 Valid Time Range
 
 The period of time that a capability is valid from and until.
 
-## 2.9.2 Assertion Time
+### 2.10.2 Assertion Time
 
 The moment at which a delegation was asserted. This MAY be captured via an `iat` field, but is generally superfluous to capture in the token. "Assertion time" is useful when discussing the lifecycle of a token.
 
-## 2.9.3 Decision (or Validation) Time
+### 2.10.3 Decision (or Validation) Time
 
 Decision time is the part of the lifecycle when "a decision" about the token is made. This is typically during validation, but also includes resolving external state (e.g. storage quotas).
 

@@ -40,6 +40,7 @@ RESTful
 RSA
 Redelegating
 Redelegation
+Revoker
 SDSI
 SPKI
 ScopeA
