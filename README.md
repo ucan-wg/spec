@@ -358,7 +358,7 @@ The payload MUST describe the authorization claims, who is involved, and its val
 
 The `iss` and `aud` fields describe the token's principals. These can be conceptualized as the sender and receiver of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key` method](https://w3c-ccg.github.io/did-method-key/), and MAY be augmented with [additional DID methods](https://www.w3.org/TR/did-core/).
 
-If an issuer's DID has more than one key (e.g. [`did:ion`](https://github.com/decentralized-identity/ion), [`did:3`](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md)), the key used to sign the UCAN MUST be explicitly, using the [DID fragment](https://www.w3.org/TR/did-core/#fragment) (the hash index).
+If an issuer's DID has more than one key (e.g. [`did:ion`](https://github.com/decentralized-identity/ion), [`did:3`](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md)), the key used to sign the UCAN MUST be made explicit, using the [DID fragment](https://www.w3.org/TR/did-core/#fragment) (the hash index).
 
 The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA is supported but [RECOMMENDED that another key type be preferred](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security).
 
