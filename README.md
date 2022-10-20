@@ -250,7 +250,7 @@ Merging capability scopes MUST follow set semantics, where the result includes a
                  scope
 ```
 
-The capability scope is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the scope is the union. Except for [rights amplification](#54-rights-amplification), every unique delegation MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
+The capability scope is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the scope is the union. Except for [rights amplification](#64-rights-amplification), every unique delegation MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
 
 For example, given the following scopes against a WebNative filesystem, they can be merged as follows:
 
