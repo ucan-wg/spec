@@ -95,6 +95,14 @@ Specification version: 0.8.0 or later
 
 ---------------------------------------------------------------------------------
 
+Licensee’s name: Nicolas Gimenez
+
+Authorized individual and system identifier: nicobao
+
+Specification version: 0.8.0 or later
+
+---------------------------------------------------------------------------------
+
 ## Withdrawals
 
 Name of party withdrawing:
