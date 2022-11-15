@@ -163,7 +163,7 @@ Abilities MUST NOT be case sensitive. For example, `http/post`, `http/POST`, `HT
 
 There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
-The only reserved ability MUST be the un-namespaced [`"*"` (superuser)](#41-superuser), which MUST be allowed on any resource.
+The only reserved ability MUST be the un-namespaced [`"*"` (superuser)](#4-superuser), which MUST be allowed on any resource.
 
 ## 2.4 Capability
 
