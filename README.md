@@ -195,17 +195,17 @@ Further delegation of a capability with `nb` fields set MUST respect the `nb` fi
     "example://example.com/public/photos/": {
       "crud/delete": {},
       "crud/delete": {
-        "matching": "/(?i)(\W|^)(baloney|darn|drat|fooey|gosh\sdarnit|heck)(\W|$)/" 
+        "matching": "/(?i)(\\W|^)(baloney|darn|drat|fooey|gosh\\sdarnit|heck)(\\W|$)/" 
       }
     }
   },
   {
-    example://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr": { 
+    "example://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr": { 
       "wnfs/append": {} 
     }
   },
   {
-    mailto:username@example.com": {
+    "mailto:username@example.com": {
       "msg/send": {},
       "msg/receive": {
         "max_count": 5,
