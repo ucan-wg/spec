@@ -1,4 +1,4 @@
-# User Controlled Authorization Network (UCAN) Specification v0.9.2
+# User Controlled Authorization Network (UCAN) Specification v0.10.0
 
 ## Editors
 
@@ -148,6 +148,8 @@ A resource describes the noun of a capability. The resource pointer MUST be prov
 
 The same resource MAY be addressed with several URI formats. For instance, a database may have an address at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
+<!-- FIXME this all changes -->
+
 | URI                                            | Meaning                                                         |
 | ---------------------------------------------- | --------------------------------------------------------------- |
 | `{"with": "mailto:username@example.com", ...}` | A single email address                                          |
@@ -163,23 +165,23 @@ Abilities MUST NOT be case sensitive. For example, `http/post`, `http/POST`, `HT
 
 There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
-The only reserved ability MUST be the un-namespaced [`"*"` (superuser)](#41-superuser), which MUST be allowed on any resource.
+The only reserved ability MUST be the un-namespaced [`"*"` (top)](#41-top), which MUST be allowed on any resource.
 
 ## 2.4 Capability
 
 A capability is the association of an "ability" to a "resource": `resource x ability`.
 
+<!-- FIXME this all changes -->
+
 The `with` (resource) and `can` (ability) fields are REQUIRED. The `nb` (non-normative extension) field is OPTIONAL.
 
 ``` json
-{
-  "with": $RESOURCE,
-  "can": $ABILITY,
-  "nb": $EXTENSION
-}
+[ $RESOURCE: { $ABILITY: $EXTENSION } ]
 ```
 
 ### 2.4.1 `nb` Non-Normative Fields
+
+<!-- FIXME this all changes -->
 
 Capabilities MAY define additional optional or required fields specific to their use case in the `nb` ([nota bene](https://en.wikipedia.org/wiki/Nota_bene)) field. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. The `nb` field MAY contain additional caveats or other important information related to specifying the capability, and MAY function as an "escape hatch" for when a use case is not fully captured by the `with` and `can` fields.
 
@@ -190,30 +192,25 @@ Further delegation of a capability with `nb` fields set MUST respect the `nb` fi
 ``` json
 [
   {
-    "with": "example://example.com/public/photos/",
-    "can": "crud/delete"
-  },
-  {
-    "with": "example://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr",
-    "can": "wnfs/append"
-  },
-  {
-    "with": "example://example.com/public/photos/",
-    "can": "crud/delete",
-    "nb": {
-      "matching": "/(?i)(\W|^)(baloney|darn|drat|fooey|gosh\sdarnit|heck)(\W|$)/"
+    "example://example.com/public/photos/": {
+      "crud/delete": {},
+      "crud/delete": {
+        "matching": "/(?i)(\W|^)(baloney|darn|drat|fooey|gosh\sdarnit|heck)(\W|$)/" 
+      }
     }
   },
   {
-    "with": "mailto:username@example.com",
-    "can": "msg/send"
+    example://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr": { 
+      "wnfs/append": {} 
+    }
   },
   {
-    "with": "mailto:username@example.com",
-    "can": "msg/receive",
-    "nb": {
-      "max_count": 5,
-      "templates": ["newsletter", "marketing"]
+    mailto:username@example.com": {
+      "msg/send": {},
+      "msg/receive": {
+        "max_count": 5,
+        "templates": ["newsletter", "marketing"]
+      }
     }
   }
 ]
