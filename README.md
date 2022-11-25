@@ -193,7 +193,7 @@ Further delegation of a capability with `nb` fields set MUST respect the `nb` fi
 [
   {
     "example://example.com/public/photos/": {
-      "crud/delete": {},
+      "crud/read": {},
       "crud/delete": {
         "matching": "/(?i)(\\W|^)(baloney|darn|drat|fooey|gosh\\sdarnit|heck)(\\W|$)/" 
       }
