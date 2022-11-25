@@ -190,30 +190,31 @@ Further delegation of a capability with `nb` fields set MUST respect the `nb` fi
 #### 2.4.2 Examples
 
 ``` json
-[
-  {
-    "example://example.com/public/photos/": {
-      "crud/read": {},
-      "crud/delete": {
-        "matching": "/(?i)(\\W|^)(baloney|darn|drat|fooey|gosh\\sdarnit|heck)(\\W|$)/" 
+{
+  "example://example.com/public/photos/": {
+    "crud/read": [],
+    "crud/delete": [
+      {
+        "matching": "/(?i)(\\W|^)(baloney|darn|drat|fooey|gosh\\sdarnit|heck)(\\W|$)/"
       }
-    }
+    ]
   },
-  {
-    "example://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr": { 
-      "wnfs/append": {} 
-    }
+  "example://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr": {
+    "wnfs/append": []
   },
-  {
-    "mailto:username@example.com": {
-      "msg/send": {},
-      "msg/receive": {
+  "mailto:username@example.com": {
+    "msg/send": [],
+    "msg/receive": [
+      {
         "max_count": 5,
-        "templates": ["newsletter", "marketing"]
+        "templates": [
+          "newsletter",
+          "marketing"
+        ]
       }
-    }
+    ]
   }
-]
+}
 ```
 
 ## 2.5 Capability Scope
