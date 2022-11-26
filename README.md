@@ -217,11 +217,11 @@ Further delegation of a capability with `nb` fields set MUST respect the `nb` fi
 }
 ```
 
-## 2.5 Capability Scope
+## 2.5 Capability Authority
 
-The set of capabilities delegated by a UCAN is called its "capability scope," often shortened to "scope." This functions as a declarative description of delegated abilities.
+The set of capabilities delegated by a UCAN is called its "capability authority," often shortened to "authority." This functions as a declarative description of delegated abilities.
 
-Merging capability scopes MUST follow set semantics, where the result includes all capabilities from the input scopes. Since broader capabilities automatically include narrower ones, this process is always additive. Capability scopes can be combined in any order, with the result always being at least as broad as each of the original scopes.
+Merging capability authoritys MUST follow set semantics, where the result includes all capabilities from the input authoritys. Since broader capabilities automatically include narrower ones, this process is always additive. Capability authoritys can be combined in any order, with the result always being at least as broad as each of the original authoritys.
 
 ``` plaintext
                  ┌───────────────────┐  ─┐
@@ -245,27 +245,27 @@ Merging capability scopes MUST follow set semantics, where the result includes a
                    │
 
                AxY U BxZ
-                 scope
+                 authority
 ```
 
-The capability scope is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the scope is the union. Except for [rights amplification](#64-rights-amplification), every unique delegation MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
+The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Except for [rights amplification](#64-rights-amplification), every unique delegation MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
 
-For example, given the following scopes against a WebNative filesystem, they can be merged as follows:
+For example, given the following authoritys against a WebNative filesystem, they can be merged as follows:
 
 ```js
 // "wnfs" abilities:
 // fetch < append < overwrite < superuser
 
-ScopeA = [
+AuthorityA = [
   { "with": "wnfs://alice.example.com/pictures/", "can": "wnfs/append" }
 ];
 
-ScopeB = [
+AuthorityB = [
   { "with": "wnfs://alice.example.com/pictures/vacation/", "can": "wnfs/append" };
   { "with": "wnfs://alice.example.com/pictures/vacation/hawaii/", "can": "wnfs/overwrite"}
 ];
 
-merge(ScopeA, ScopeB) == [
+merge(AuthorityA, AuthorityB) == [
    {"with": "wnfs://alice.example.com/pictures/", "can": "wnfs/append"},
    {"with": "wnfs://alice.example.com/pictures/vacation/hawaii", "can": "wnfs/overwrite"}
    // Note that ("/pictures/vacation/" x append) has become redundant, being contained in ("/pictures/" x append)
@@ -274,7 +274,7 @@ merge(ScopeA, ScopeB) == [
 
 ## 2.6 Delegation
 
-Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructive "proof" acts as the authorization proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its scope.
+Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructive "proof" acts as the authorization proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its authority.
 
 Each direct delegation leaves the ability at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more proofs of different types if part of the resource's semantics. 
 
@@ -435,7 +435,7 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 The attenuations (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous capabilities (defined below). This array is REQUIRED but MAY be empty.
 
 This array MUST contain some or none of the following:
-1. A strict subset (attenuation) of the capability scope from the `prf` field
+1. A strict subset (attenuation) of the capability authority from the `prf` field
 2. Capabilities composed from multiple proofs (see rights amplification [§6.4](#64-rights-amplification))
 3. Capabilities originated by the `iss` DID (i.e. by parenthood)
 
@@ -491,7 +491,7 @@ ucan-selector = "*" / cid
 The `own` URI subscheme defines how to address all resources of a particular URI scheme owned by a particular [DID subject](https://www.w3.org/TR/did-core/#dfn-did-subjects). The DID subject MUST NOT contain any other characters, such as query parameters or fragments. The `scheme-selector` MUST either be the wildcard (`*`) selector or a URI scheme (such as `dns`, `mailto`, and `telnet`). 
 
 ``` abnf
-own = "own://" <did-subject> "/" scheme-scope
+own = "own://" <did-subject> "/" scheme-authority
 scheme-selector = "*" / <scheme>
 ```
 
