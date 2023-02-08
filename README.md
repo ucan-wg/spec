@@ -529,37 +529,33 @@ If an attenuated resource or capability is desired, it MUST be explicitly listed
 
 The "top" (or "super user") ability MUST be denoted `*`. The top ability grants access to all other capabilities for the specified resource, across all possible namespaces. Top corresponds to an "all" matcher, whereas [delegation](#51-ucan-delegation) corresponds to "any" in the UCAN chain. The top ability is useful when "linking" agents by delegating all access to resource(s). This is the most powerful ability, and as such it SHOULD be handled with care.
 
+``` mermaid
+%%{ init: { 'flowchart': { 'curve': 'linear' } } }%%
+
+flowchart BT
+  *
+
+  msg/* --> *
+  subgraph msgGraph [ ]
+    msg/send --> msg/*
+    msg/receive --> msg/*
+  end
+
+  crud/* --> *
+  subgraph crudGraph [ ]
+    crud/read --> crud/*
+    crud/mutate --> crud/*
+
+    subgraph mutationGraph [ ]
+        crud/create --> crud/mutate
+        crud/update --> crud/mutate
+        crud/destroy --> crud/mutate
+    end
+  end
+
+  ... --> *
 ```
-                                           ┌───────┐
-                                           │       │
-                                           │   *   │
-                                           │       │
-                                           └▲──▲──▲┘
-                                            │  │  │
-               ┌────────────────────────────┘  │  └────────────────────────────┐
-               │                               │                               │
-          ┌────┴────┐                     ┌────┴─────┐                     ┌───┴───┐
-          │         │                     │          │                     │       │
-          │  msg/*  │                     │  crud/*  │                     │  ...  │
-          │         │                     │          │                     │       │
-          └─▲─────▲─┘                     └─▲──────▲─┘                     └───────┘
-            │     │                         │      │
-            │     │                         │      │
-            │     │                         │      │
-┌───────────┴┐ ┌──┴────────────┐ ┌──────────┴──┐ ┌─┴─────────────┐
-│            │ │               │ │             │ │               │
-│  msg/send  │ │  msg/receive  │ │  crud/read  │ │  crud/mutate  │
-│            │ │               │ │             │ │               │
-└────────────┘ └───────────────┘ └─────────────┘ └─▲─────▲─────▲─┘
-                                                   │     │     │
-                                            ┌──────┘     │     └──────┐
-                                            │            │            │
-                               ┌────────────┴──┐ ┌───────┴───────┐ ┌──┴─────────────┐
-                               │               │ │               │ │                │
-                               │  crud/create  │ │  crud/update  │ │  crud/destroy  │
-                               │               │ │               │ │                │
-                               └───────────────┘ └───────────────┘ └────────────────┘
-```
+
 
 ### 5.2.1 Bottom
 
@@ -583,21 +579,33 @@ A UCAN is valid inclusive from the `nbf` time and until the `exp` field. If the 
 
 In delegation, the `aud` field of every proof MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain back to the originating principal for each resource.
 
-```
-(Resource)                                                        ─┐
-Storage         Root Iss == Owner?                                 ├─ Agents
-Owner: Alice ◄─────────────────────── Discharger: StorageService  ─┘
-         ▲                                            ▲
-         │                                            │           ─┐
-┌────────┼────┐                                       │            │
-│        │    │  ┌────────────────┐                   │            │
-│ iss: Alice  │  │                │  ┌────────────────┼────────┐   │
-│ aud: Bob ◄──┼──┼── iss: Bob     │  │                │        │   │
-│             │  │   aud: Carol ◄─┼──┼─── iss: Carol  │        │   ├─ UCAN Chain
-└─────────────┘  │                │  │    aud: StorageService  │   │
-  Root UCAN      └────────────────┘  │                         │   │
-                   Delegate UCAN     └─────────────────────────┘   │
-                                           Invocation UCAN        ─┘
+``` mermaid
+flowchart RL
+  owner[/Alice\] -. owns .-> resource[(Resource)]
+  executor[/"Compute Service"\] --> del2Aud
+  rootIss --> owner
+
+  executor -. accesses .-> resource
+
+  rootAtt -. references .-> resource
+
+  subgraph root [Root UCAN]
+    rootIss(iss: Alice)
+    rootAud(aud: Bob)
+    rootAtt("att: (Resource, crud/*)")
+  end
+
+  subgraph del1 [Delegated UCAN]
+    del1Iss(iss: Bob) -- proof --> rootAud
+    del1Aud(aud: Carol)
+    del1Att("att: (Resource, crud/*)") --> rootAtt
+  end
+
+  subgraph del2 [Final UCAN]
+    del2Iss(iss: Carol) -- proof --> del1Aud
+    del2Aud(aud: Compute Service)
+    del2Att("att: (Resource, crud/*)") --> del1Att
+  end
 ```
 
 In the above diagram, Alice has some storage. This storage may exist in one location with a single source of truth, but to help build intuition this example is location independent: local versions and remote stored copied are eventually consistent, and there is no one "correct" copy. As such, we list the owner (Alice) directly on the resource.
