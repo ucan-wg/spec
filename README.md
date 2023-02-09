@@ -148,13 +148,6 @@ A resource describes the noun of a capability. The resource pointer MUST be prov
 
 The same resource MAY be addressed with several URI formats. For instance, a database may have an address at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
-<!-- FIXME this all changes -->
-
-| URI                                            | Meaning                                                         |
-| ---------------------------------------------- | --------------------------------------------------------------- |
-| `{"with": "mailto:username@example.com", ...}` | A single email address                                          |
-| `{"with": "dns:sub.example.com", ...}` | A mutable pointer to some data                                  |
-
 ## 2.3 Ability
 
 Abilities describe the verb portion of the capability: an ability that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/send` to a typical file system. 
@@ -171,19 +164,17 @@ The only reserved ability MUST be the un-namespaced [`"*"` (top)](#41-top), whic
 
 A capability is the association of an "ability" to a "resource": `resource x ability`.
 
-<!-- FIXME this all changes -->
-
-The `with` (resource) and `can` (ability) fields are REQUIRED. The `nb` (non-normative extension) field is OPTIONAL.
+The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
 
 ``` json
-[ $RESOURCE: { $ABILITY: $EXTENSION } ]
+[ $RESOURCE: { $ABILITY: [$EXTENSION] } ]
 ```
 
 ### 2.4.1 `nb` Non-Normative Fields
 
 <!-- FIXME this all changes -->
 
-Capabilities MAY define additional optional or required fields specific to their use case in the `nb` ([nota bene](https://en.wikipedia.org/wiki/Nota_bene)) field. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. The `nb` field MAY contain additional caveats or other important information related to specifying the capability, and MAY function as an "escape hatch" for when a use case is not fully captured by the `with` and `can` fields.
+Capabilities MAY define additional optional or required fields specific to their use case in the extended fields. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. The `nb` field MAY contain additional caveats or other important information related to specifying the capability, and MAY function as an "escape hatch" for when a use case is not fully captured by the `with` and `can` fields.
 
 Further delegation of a capability with `nb` fields set MUST respect the `nb` fields. On validation, if a `nb` field is present, it MUST be checked. If a validator is not able to interpret the `nb` field, it MUST reject the capability. As such, any `nb` caveats from a proof MUST further attenuate the delegated capability.
 
@@ -341,16 +332,16 @@ EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037](https://da
 
 The payload MUST describe the authorization claims, who is involved, and its validity period.
 
-| Field | Type             | Description                                 | Required |
-| ----- | ---------------- | ------------------------------------------- | -------- |
-| `iss` | `String`         | Issuer DID (sender)                         | Yes      |
-| `aud` | `String`         | Audience DID (receiver)                     | Yes      |
-| `nbf` | `Number`         | Not Before UTC Unix Timestamp (valid from)  | No       |
-| `exp` | `Number \| null` | Expiration UTC Unix Timestamp (valid until) | Yes      |
-| `nnc` | `String`         | Nonce                                       | No       |
-| `fct` | `Json[]`         | Facts (asserted, signed data)               | No       |
-| `att` | `Json[]`         | Attenuations                                | Yes      |
-| `prf` | `String[]`       | Proof of delegation (hash-linked UCANs)     | No       |
+| Field | Type                      | Description                                 | Required |
+| ----- | ------------------------- | ------------------------------------------- | -------- |
+| `iss` | `String`                  | Issuer DID (sender)                         | Yes      |
+| `aud` | `String`                  | Audience DID (receiver)                     | Yes      |
+| `nbf` | `Integer`                 | Not Before UTC Unix Timestamp (valid from)  | No       |
+| `exp` | `Integer \| null`         | Expiration UTC Unix Timestamp (valid until) | Yes      |
+| `nnc` | `String`                  | Nonce                                       | No       |
+| `fct` | `{String: Any}`           | Facts (asserted, signed data)               | No       |
+| `cap` | `{URI: {Ability: [Any]}}` | Capabilities                                | Yes      |
+| `prf` | `[CID]`                   | Proof of delegation (hash-linked UCANs)     | No       |
 
 ### 3.2.1 Principals
 
@@ -418,14 +409,13 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 #### Examples
 
 ``` json
-"fct": [
-  {
-    "challenge": "abcdef",
-    "from": "example.com"
+"fct": {
+  "challenges": [
+    "example.com": "abcdef",
+    "another.example.net": "12345"
   },
-  {
-    "sha3_256": "B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9",
-    "msg": "hello world"
+  "sha3_256": {
+    "B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9": "hello world"
   }
 ]
 ```
