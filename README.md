@@ -13,11 +13,11 @@
 
 # 0. Abstract
 
-User-Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifiable, delegable, expressive, openly extensible [capabilities](https://en.wikipedia.org/wiki/Object-capability_model) by extending the familiar [JWT](https://datatracker.ietf.org/doc/html/rfc7519) structure. UCANs achieve public verifiability with chained certificates and [decentralized identifiers (DIDs)](https://www.w3.org/TR/did-core/). Verifiable chain compression is enabled via [content addressing](https://en.wikipedia.org/wiki/Content-addressable_storage). Being encoded with the familiar JWT, UCAN improves the familiarity and adoptability of schemes like [SPKI/SDSI](https://theworld.com/~cme/html/spki.html) for web and native application contexts. UCAN allows for the creation and discharge of authority by any agent with a DID, including traditional systems and peer-to-peer architectures beyond traditional cloud computing.
+User-Controlled Authorization Network (UCAN) is a trustless, secure, local-first, user-originated authorization and revocation scheme. It provides public-key verifiable, delegable, expressive, openly extensible [capabilities] by extending the familiar [JWT] structure. UCANs achieve public verifiability with chained certificates and [decentralized identifiers (DIDs)][DID]. Verifiable chain compression is enabled via [content addressing]. Being encoded with the familiar JWT, UCAN improves the familiarity and adoptability of schemes like [SPKI/SDSI][SPKI] for web and native application contexts. UCAN allows for the creation and discharge of authority by any agent with a DID, including traditional systems and peer-to-peer architectures beyond traditional cloud computing.
 
 ## Language
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119).
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119].
 
 # 1. Introduction
 
@@ -102,6 +102,10 @@ There are several roles that an agent MAY assume:
 | Revoker   | The issuer listed in a proof chain that revokes a UCAN |
 | Owner     | The root issuer of a capability, who has some proof that they fully control the resource |
 
+``` mermaid
+
+```
+
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                                                                            │
@@ -160,25 +164,13 @@ There MUST be at least one path segment as a namespace. For example, `http/put` 
 
 The only reserved ability MUST be the un-namespaced [`"*"` (top)](#41-top), which MUST be allowed on any resource.
 
-## 2.4 Capability
+## 2.4 Caveats
 
-A capability is the association of an "ability" to a "resource": `resource x ability`.
-
-The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
-
-``` json
-[ $RESOURCE: { $ABILITY: [$EXTENSION] } ]
-```
-
-### 2.4.1 `nb` Non-Normative Fields
-
-<!-- FIXME this all changes -->
-
-Capabilities MAY define additional optional or required fields specific to their use case in the extended fields. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. The `nb` field MAY contain additional caveats or other important information related to specifying the capability, and MAY function as an "escape hatch" for when a use case is not fully captured by the `with` and `can` fields.
+Capabilities MAY define additional optional or required fields specific to their use case in the caveat fields. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. Caveats MAY function as an "escape hatch" for when a use case is not fully captured by the `with` and `can` fields.
 
 Further delegation of a capability with `nb` fields set MUST respect the `nb` fields. On validation, if a `nb` field is present, it MUST be checked. If a validator is not able to interpret the `nb` field, it MUST reject the capability. As such, any `nb` caveats from a proof MUST further attenuate the delegated capability.
 
-#### 2.4.2 Examples
+### 2.4.1 Examples
 
 ``` json
 {
@@ -208,9 +200,19 @@ Further delegation of a capability with `nb` fields set MUST respect the `nb` fi
 }
 ```
 
-## 2.5 Capability Authority
+## 2.5 Capability
 
-The set of capabilities delegated by a UCAN is called its "capability authority," often shortened to "authority." This functions as a declarative description of delegated abilities.
+A capability is the association of an "ability" to a "resource": `resource x ability x caveats`.
+
+The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
+
+``` json
+[ $RESOURCE: { $ABILITY: [$CAVEAT] } ]
+```
+
+## 2.6 Authority
+
+The set of capabilities delegated by a UCAN is called its "authority." This functions as a declarative description of delegated abilities.
 
 Merging capability authoritys MUST follow set semantics, where the result includes all capabilities from the input authoritys. Since broader capabilities automatically include narrower ones, this process is always additive. Capability authoritys can be combined in any order, with the result always being at least as broad as each of the original authoritys.
 
@@ -263,7 +265,7 @@ merge(AuthorityA, AuthorityB) == [
 ];
 ```
 
-## 2.6 Delegation
+## 2.7 Delegation
 
 Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructive "proof" acts as the authorization proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its authority.
 
@@ -271,39 +273,39 @@ Each direct delegation leaves the ability at the same level or diminishes it. Th
 
 Note that delegation is a separate concept from invocation [§2.8](#28-invocation). Delegation is the act of granting a capability to another, not the act of using it (invocation), which has additional requirements.
 
-## 2.7 Attenuation
+## 2.8 Attenuation
 
 Attenuation is the process of constraining the capabilities in a delegation chain.
 
-## 2.8 Revocation
+## 2.9 Revocation
 
 Revocation is the act of invalidating a UCAN after the fact, outside of the limitations placed on it by the UCAN's fields (such as its expiry). 
 
 In the case of UCAN, this MUST be done by a proof's issuer DID. For more on the exact mechanism, see the revocation validation section.
 
-## 2.9 Invocation
+## 2.10 Invocation
 
-UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Note that **the only agent allowed to perform some action with a UCAN MUST be the one holding the DID private key associated with the `aud` field**. For more on the specifics of this validation, see [§6.2.1](#621-recipient-validation).
+UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Invocation has its [own specification][invocation spec].
 
-## 2.10 Time
+## 2.11 Time
 
-Time takes on [multiple meanings](https://en.wikipedia.org/wiki/Temporal_database) in systems representing facts or knowledge. The senses of the word "time" are given below.
+Time takes on [multiple meanings][time definition] in systems representing facts or knowledge. The senses of the word "time" are given below.
 
-### 2.10.1 Valid Time Range
+### 2.11.1 Valid Time Range
 
 The period of time that a capability is valid from and until.
 
-### 2.10.2 Assertion Time
+### 2.11.2 Assertion Time
 
 The moment at which a delegation was asserted. This MAY be captured via an `iat` field, but is generally superfluous to capture in the token. "Assertion time" is useful when discussing the lifecycle of a token.
 
-### 2.10.3 Decision (or Validation) Time
+### 2.11.3 Decision (or Validation) Time
 
 Decision time is the part of the lifecycle when "a decision" about the token is made. This is typically during validation, but also includes resolving external state (e.g. storage quotas).
 
 # 3. JWT Structure
 
-UCANs MUST be formatted as JWTs, with additional required and optional keys. The overall container of a header, claims, and signature remains. Please refer to [RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519) for more on this format.
+UCANs MUST be formatted as JWTs, with additional keys as described in this document. The overall container of a header, claims, and signature remains. Please refer to [RFC 7519][JWT] for more on this format.
 
 ## 3.1 Header
 
@@ -404,7 +406,7 @@ This field SHOULD NOT be used to sign arbitrary data, such as signature challeng
 
 ### 3.2.4 Facts
 
-The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The enclosed data MUST be self-evident and externally verifiable. It MAY include information such as hash preimages, server challenges, a Merkle proof, dictionary data, etc.
+The OPTIONAL `fct` field contains a map of arbitrary facts and proofs of knowledge. The enclosed data MUST be self-evident and externally verifiable. It MAY include information such as hash preimages, server challenges, a Merkle proof, dictionary data, etc.
 
 #### Examples
 
@@ -420,26 +422,26 @@ The OPTIONAL `fct` field contains arbitrary facts and proofs of knowledge. The e
 ]
 ```
 
-### 3.2.5 Attenuation
+### 3.2.5 Capabilities & Attenuation
 
-The attenuations (i.e. UCAN output, or "caveats") MUST be an array of heterogeneous capabilities (defined below). This array is REQUIRED but MAY be empty.
+Capabilities MUST be presented as a map. This map is REQUIRED but MAY be empty.
 
 This array MUST contain some or none of the following:
 1. A strict subset (attenuation) of the capability authority from the `prf` field
-2. Capabilities composed from multiple proofs (see rights amplification [§6.4](#64-rights-amplification))
+2. Capabilities composed from multiple proofs (see [rights amplification])
 3. Capabilities originated by the `iss` DID (i.e. by parenthood)
 
 This array also includes time ranges and the proofs that start latest and end soonest from the lower and upper time bounds of the range.
 
 ### 3.2.7 Proof of Delegation
 
-Attenuations MUST be satisfied by matching the attenuated capability to a proof in the `prf` array ([§3.2.7.1](#3271-prf-field))
+Attenuations MUST be satisfied by matching the attenuated capability to a proof in the [`prf` array][prf field].
 
-Checked proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, a federated HTTP endpoint, a DHT, or shared database.
+Proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, a federated HTTP endpoint, a DHT, or shared database.
 
 #### 3.2.7.1 `prf` Field
 
-The `prf` field MUST contain the content address ([§6.5](#65-content-identifiers)) of UCAN proofs (the "inputs" of a UCAN). 
+The `prf` field MUST contain the [content address][content identifiers] of UCAN proofs (the "inputs" of a UCAN). 
 
 #### 3.2.7.2 Examples
 
@@ -459,7 +461,7 @@ Which in a JSON representation would resolve to the following table:
 }
 ```
 
-For more on this representation, please refer to [§7.1](#71-canonical-json-collection).
+For more on this representation, please refer to [canonical collections].
 
 # 4. Reserved Resources
 
@@ -576,24 +578,24 @@ flowchart RL
   rootIss --> owner
 
   executor -. accesses .-> resource
-  rootAtt -. references .-> resource
+  rootCap -. references .-> resource
 
   subgraph root [Root UCAN]
     rootIss(iss: Alice)
     rootAud(aud: Bob)
-    rootAtt("att: (Storage, crud/*)")
+    rootCap("cap: (Storage, crud/*)")
   end
 
   subgraph del1 [Delegated UCAN]
     del1Iss(iss: Bob) --> rootAud
     del1Aud(aud: Carol)
-    del1Att("att: (Storage, crud/*)") --> rootAtt
+    del1Cap("cap: (Storage, crud/*)") --> rootCap
   end
 
   subgraph del2 [Final UCAN]
     del2Iss(iss: Carol) --> del1Aud
     del2Aud(aud: Compute Service)
-    del2Att("att: (Storage, crud/*)") --> del1Att
+    del2Cap("cap: (Storage, crud/*)") --> del1Cap
   end
 ```
 
@@ -828,3 +830,16 @@ This is not a concern when simply delegating since presumably the recipient agen
 _UCAN does not have any special protection against person-in-the-middle (PITM) attacks._
 
 Were a PITM attack successfully performed on a UCAN delegation, the proof chain would contain the attacker's DID(s). It is possible to detect this scenario and revoke the relevant UCAN but does require special inspection of the topmost `iss` field to check if it is the expected DID. Therefore, it is strongly RECOMMENDED to only delegate UCANs to agents that are both trusted and authenticated and over secure channels.
+
+[DID]: https://www.w3.org/TR/did-core/
+[JWT]: https://datatracker.ietf.org/doc/html/rfc7519
+[RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
+[SPKI]: https://theworld.com/~cme/html/spki.html
+[capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
+[content addressing]: https://en.wikipedia.org/wiki/Content-addressable_storage
+[content identifiers]: #65-content-identifiers
+[prf field]: #3271-prf-field
+[rights amplification]: #64-rights-amplification
+[canonical collections]: #71-canonical-json-collection
+[invocation spec]: https://github.com/ucan-wg/invocation
+[time definition]: https://en.wikipedia.org/wiki/Temporal_database
