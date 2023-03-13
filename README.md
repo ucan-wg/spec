@@ -412,7 +412,7 @@ The OPTIONAL `fct` field contains a map of arbitrary facts and proofs of knowled
 
 ``` json
 "fct": {
-  "challenges": [
+  "challenges": {
     "example.com": "abcdef",
     "another.example.net": "12345"
   },
@@ -505,21 +505,15 @@ The `ucan` scheme MUST accept the following ability: `ucan/*`. This ability rede
 If an attenuated resource or capability is desired, it MUST be explicitly listed without the `ucan` URI scheme.
 
 ``` js
-[
-  { 
-    "with": "ucan:bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze",
-    "can": "ucan/*"
-  }, 
-  { 
-    "with": "ucan:*", 
-    "can": "ucan/*" 
-  }
-]
+{ 
+  "ucan:bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze": {"ucan:/*": []}, 
+  "ucan:*": {"ucan/*": []}
+}
 ```
 
 ## 5.2 Top
 
-The "top" (or "super user") ability MUST be denoted `*`. The top ability grants access to all other capabilities for the specified resource, across all possible namespaces. Top corresponds to an "all" matcher, whereas [delegation](#51-ucan-delegation) corresponds to "any" in the UCAN chain. The top ability is useful when "linking" agents by delegating all access to resource(s). This is the most powerful ability, and as such it SHOULD be handled with care.
+The "top" (or "super user") ability MUST be denoted `*`. The top ability grants access to all other capabilities for the specified resource, across all possible namespaces. Top corresponds to an "all" matcher, whereas [delegation] corresponds to "any" in the UCAN chain. The top ability is useful when "linking" agents by delegating all access to resource(s). This is the most powerful ability, and as such it SHOULD be handled with care.
 
 ``` mermaid
 %%{ init: { 'flowchart': { 'curve': 'linear' } } }%%
@@ -621,7 +615,7 @@ A good litmus test for invocation validity by a discharging agent is to check if
 
 ### 6.2.2 Token Uniqueness
 
-Each remote invocation MUST be a unique UCAN: for instance using a nonce (`nnc`) or simply a unique expiry. The recipient MUST validate that they have not received the top-level UCAN before. For implementation recommentations, please refer to [§9.3](#93-replay-attack-prevention).
+Each remote invocation MUST be a unique UCAN: for instance using a nonce (`nnc`) or simply a unique expiry. The recipient MUST validate that they have not received the top-level UCAN before. For implementation recommentations, please refer to the [replay attack prevention] section. 
 
 ## 6.3 Proof Chaining
 
@@ -635,9 +629,9 @@ Some capabilities are more than the sum of their parts. The canonical example is
 
 ## 6.5 Content Identifiers
 
-A UCAN token MUST be referenced as a [base32](https://github.com/multiformats/multibase/blob/master/multibase.csv#L12) [CIDv1](https://docs.ipfs.io/concepts/content-addressing/#identifier-formats).
+A UCAN token MUST be referenced as a [base32] [CIDv1].
 
-The [`0x55` raw data](https://github.com/multiformats/multicodec/blob/master/table.csv#L39) codec MUST be supported. If other codecs are used (such as [`0x0129` `dag-json`](https://github.com/multiformats/multicodec/blob/master/table.csv#L104) multicodec), the UCAN MUST be able to be interpreted as a valid JWT (including the signature).
+The [`0x55` raw data][raw data multicodec] codec MUST be supported. If other codecs are used (such as [`0x0129` `dag-json` multicodec][dag-json multicodec]), the UCAN MUST be able to be interpreted as a valid JWT (including the signature).
 
 The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service. Please refer to [§8](#8-token-resolution) for more.
 
@@ -843,3 +837,9 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [canonical collections]: #71-canonical-json-collection
 [invocation spec]: https://github.com/ucan-wg/invocation
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
+[delegation]: #51-ucan-delegation
+[replay attack prevention]: #93-replay-attack-prevention
+[base32]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L12
+[CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
+[raw data multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L39
+[dag-json multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L104
