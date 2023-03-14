@@ -2,14 +2,14 @@
 
 ## Editors
 
-* [Brooklyn Zelenka](https://github.com/expede), [Fission](https://fission.codes)
+* [Brooklyn Zelenka], [Fission]
 
 ## Authors
 
-* [Brooklyn Zelenka](https://github.com/expede), [Fission](https://fission.codes)
-* [Philipp Krüger](https://github.com/matheus23), [Fission](https://fission.codes)
-* [Daniel Holmgren](https://github.com/dholms), [Bluesky](https://blueskyweb.xyz/)
-* [Irakli Gozalishvili](https://github.com/Gozala), [Protocol Labs](https://protocol.ai/)
+* [Brooklyn Zelenka], [Fission]
+* [Philipp Krüger], [Fission]
+* [Daniel Holmgren], [Bluesky]
+* [Irakli Gozalishvili], [Protocol Labs]
 
 # 0. Abstract
 
@@ -101,10 +101,6 @@ There are several roles that an agent MAY assume:
 | Issuer    | The signer of the current UCAN. Listed in the `iss` field |
 | Revoker   | The issuer listed in a proof chain that revokes a UCAN |
 | Owner     | The root issuer of a capability, who has some proof that they fully control the resource |
-
-``` mermaid
-
-```
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -206,8 +202,8 @@ A capability is the association of an "ability" to a "resource": `resource x abi
 
 The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
 
-``` json
-[ $RESOURCE: { $ABILITY: [$CAVEAT] } ]
+```
+{ $RESOURCE: { $ABILITY: [ $CAVEATS ] } }
 ```
 
 ## 2.6 Authority
@@ -221,7 +217,7 @@ Merging capability authoritys MUST follow set semantics, where the result includ
                  │                   │   │
                  │                   │   │
 ┌────────────────┼───┐               │   │
-│                │   │ Resource B    │   │     
+│                │   │ Resource B    │   │
 │                │   │               │   │       BxZ
 │                │   │     X         │   ├─── Capability
 │     Resource A │   │               │   │
@@ -311,7 +307,7 @@ UCANs MUST be formatted as JWTs, with additional keys as described in this docum
 
 The header MUST include all of the following fields:
 | Field | Type     | Description                    | Required |
-| ----- | -------- | ------------------------------ | -------- |
+|-------|----------|--------------------------------|----------|
 | `alg` | `String` | Signature algorithm            | Yes      |
 | `typ` | `String` | Type (MUST be `"JWT"`)         | Yes      |
 | `ucv` | `String` | UCAN Semantic Version (v2.0.0) | Yes      |
@@ -335,7 +331,7 @@ EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037](https://da
 The payload MUST describe the authorization claims, who is involved, and its validity period.
 
 | Field | Type                      | Description                                 | Required |
-| ----- | ------------------------- | ------------------------------------------- | -------- |
+|-------|---------------------------|---------------------------------------------|----------|
 | `iss` | `String`                  | Issuer DID (sender)                         | Yes      |
 | `aud` | `String`                  | Audience DID (receiver)                     | Yes      |
 | `nbf` | `Integer`                 | Not Before UTC Unix Timestamp (valid from)  | No       |
@@ -431,19 +427,74 @@ This array MUST contain some or none of the following:
 2. Capabilities composed from multiple proofs (see [rights amplification])
 3. Capabilities originated by the `iss` DID (i.e. by parenthood)
 
-This array also includes time ranges and the proofs that start latest and end soonest from the lower and upper time bounds of the range.
+#### 3.2.5.1 Anatomy
 
-### 3.2.7 Proof of Delegation
+The anatomy of a capability MUST be given as a mapping of resource URI to ability to array of caveats:
+
+```
+{ $RESOURCE: { $ABILITY: [ $CAVEATS ] } }
+```
+
+#### 3.2.5.2 Resource
+
+Reources MUST be unique and given as [URI]s.
+
+Resources in the capabilities map MAY overlap. For example, the following MAY coexist as top-level keys in a capabilities map:
+
+```json
+"https://example.com",
+"https://example.com/blog"
+```
+
+#### 3.2.5.3 Abilities
+
+Abilities MUST be presented as a string. By convention, abilities SHOULD be namespaced with a slash, such as `msg/send`.
+
+#### 3.2.5.4 Caveat Array
+
+Caveats are open ended, and MUST be interpratable by the _____.
+
+An attenuated caveat MUST (syntactically) include all of the fields of the relevant proof caveat, plus the newly introduced caveats.
+
+The caveat array MUST be interpreted as
+
+The caveat array MAY be empty, and if so MUST be interpreted as "no caveats".
+
+```json
+{
+  "dns:example.com?TYPE=TXT": {
+    "crud/create": []
+  },
+  "https://example.com/blog": {
+    "crud/read": []
+    "crud/update": [
+      {"status": "draft"},
+      {"status": "published", "day-of-week": "Monday"} // only publish on Mondays
+    ]
+  }
+}
+```
+
+MUST be interpreted as the following table
+
+| Resource                   | Ability       | Caveats                                           |
+|----------------------------|---------------|---------------------------------------------------|
+| `dns:example.com?TYPE=TXT` | `crud/create` | None                                              |
+| `https://example.com/blog` | `crud/read`   | None                                              |
+| `https://example.com/blog` | `crud/update` | `{status: "draft"}`                               |
+| `https://example.com/blog` | `crud/update` | `{status: "publishsed", "day-of-week": "monday"}` |
+
+### 3.2.6 Proof of Delegation
 
 Attenuations MUST be satisfied by matching the attenuated capability to a proof in the [`prf` array][prf field].
 
 Proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, a federated HTTP endpoint, a DHT, or shared database.
 
-#### 3.2.7.1 `prf` Field
+#### 3.2.6.1 `prf` Field
 
 The `prf` field MUST contain the [content address][content identifiers] of UCAN proofs (the "inputs" of a UCAN). 
 
-#### 3.2.7.2 Examples
+#### 3.2.6.2 Examples
 
 ``` json
 "prf": [
@@ -682,7 +733,7 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
 │              │  │              │   │   │
 │  iss: Bob    │  │  iss: Bob    │   │   │
 │  aud: Carol  │  │  aud: Dan    │   │   ├─ Bob can revoke
-│  att: [X,Y]  │  │  att: [Y,Z]  │   │   │
+│  cap: [X,Y]  │  │  cap: [Y,Z]  │   │   │
 │              │  │              │   │   │
 └───────┬──────┘  └──┬───────────┘   │   │
         │            │               │   │
@@ -692,7 +743,7 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
 │              │     │               │   │   │
 │  iss: Carol  │     │               │   │   │
 │  aud: Dan    │     │               │   │   ├─ Carol can revoke
-│  att: [X,Y]  │     │               │   │   │
+│  cap: [X,Y]  │     │               │   │   │
 │              │     │               │   │   │
 └───────────┬──┘     │               │   │   │
             │        │               │   │   │
@@ -702,7 +753,7 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
         │                │           │   │   │   │
         │  iss: Dan      │           │   │   │   │
         │  aud: Erin     │           │   │   │   ├─ Dan can revoke
-        │  att: [X,Y,Z]  │           │   │   │   │
+        │  cap: [X,Y,Z]  │           │   │   │   │
         │                │           │   │   │   │
         └────────────────┘          ─┘  ─┘  ─┘  ─┘
 ```
@@ -761,7 +812,7 @@ Revocation is irreversible. Suppose the validator learns of revocation by UCAN C
 
 ## 9.3 Replay Attack Prevention
 
-Replay attack prevention is REQUIRED (per [§6.2.2 Token Uniqueness](#622-token-uniqueness)). The exact strategy is left to the implementer. One simple strategy is maintaining a set of previously seen CIDs. This MAY be the same structure as a validated UCAN memoization table (if one exists in the implementation).
+Replay attack prevention is REQUIRED ([Token Uniqueness]). The exact strategy is left to the implementer. One simple strategy is maintaining a set of previously seen CIDs. This MAY be the same structure as a validated UCAN memoization table (if one exists in the implementation).
 
 It is RECOMMENDED that the structure have a secondary index referencing the token expiry field. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
 
@@ -779,33 +830,33 @@ If many invocations are discharged during a session, the sender and receiver MAY
 
 # 10. Related Work and Prior Art
 
-[SPKI/SDSI](https://datatracker.ietf.org/wg/spki/about/) is closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
+[SPKI/SDSI] is closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
 
-[ZCAP-LD](https://w3c-ccg.github.io/zcap-spec/) is closely related to UCAN. The primary differences are in formatting, addressing by URL instead of CID, the mechanism of separating invocation from authorization, and single versus multiple proofs.
+[ZCAP-LD] is closely related to UCAN. The primary differences are in formatting, addressing by URL instead of CID, the mechanism of separating invocation from authorization, and single versus multiple proofs.
 
-[CACAO](https://blog.ceramic.network/capability-based-data-security-on-ceramic/) is a translation of many of these ideas to a cross-blockchain invocation model. It contains the same basic concepts but is aimed at small messages and identities that are rooted in mutable documents rooted on a blockchain and lacks the ability to subdelegate capabilities.
+[CACAO] is a translation of many of these ideas to a cross-blockchain invocation model. It contains the same basic concepts but is aimed at small messages and identities that are rooted in mutable documents rooted on a blockchain and lacks the ability to subdelegate capabilities.
 
-[Local-First Auth](https://github.com/local-first-web/auth) uses CRDT-based ACLs and key lockboxes for role-based signatures. This is a non-certificate-based approach, instead of relying on the CRDT and signed data to build up a list of roles and members. It does have a very friendly invitation certificate mechanism in [Seitan token exchange](https://book.keybase.io/docs/teams/seitan). It is also straightforward to see which users have access to what, avoiding the confinement problem seen in many decentralized auth systems.
+[Local-First Auth] uses CRDT-based ACLs and key lockboxes for role-based signatures. This is a non-certificate-based approach, instead of relying on the CRDT and signed data to build up a list of roles and members. It does have a very friendly invitation certificate mechanism in [Seitan token exchange]. It is also straightforward to see which users have access to what, avoiding the confinement problem seen in many decentralized auth systems.
 
-[Macaroon](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf) is a MAC-based capability and cookie system aimed at distributing authority across services in a trusted network (typically in the context of a Cloud). By not relying on asymmetric signatures, Macaroons achieve excellent space savings and performance, given that the MAC can be checked against the relevant services during discharge. The authority is rooted in an originating server rather than with an end-user.
+[Macaroon] is a MAC-based capability and cookie system aimed at distributing authority across services in a trusted network (typically in the context of a Cloud). By not relying on asymmetric signatures, Macaroons achieve excellent space savings and performance, given that the MAC can be checked against the relevant services during discharge. The authority is rooted in an originating server rather than with an end-user.
 
-[Biscuit](https://github.com/biscuit-auth/biscuit/) uses Datalog to describe capabilities. It has a specialized format but is otherwise in line with UCAN.
+[Biscuit] uses Datalog to describe capabilities. It has a specialized format but is otherwise in line with UCAN.
 
-[Verifiable credentials](https://www.w3.org/2017/vc/WG/) are a solution for data about people or organizations. However, they are aimed at a slightly different problem: asserting attributes about the holder of a DID, including things like work history, age, and membership.
+[Verifiable credentials] are a solution for data about people or organizations. However, they are aimed at a slightly different problem: asserting attributes about the holder of a DID, including things like work history, age, and membership.
 
 # 11. Acknowledgments
 
-Thank you to [Brendan O'Brien](https://github.com/b5) for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
+Thank you to [Brendan O'Brien] for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
 
-Many thanks to [Hugo Dias](https://github.com/hugomrdias), [Mikael Rogers](https://github.com/mikeal/), and the entire DAG Haus team for the real world feedback, and finding inventive new use cases.
+Many thanks to [Hugo Dias], [Mikael Rogers], and the entire DAG House team for the real world feedback, and finding inventive new use cases.
 
-Thank you [Blaine Cook](https://github.com/blaine) for the real-world feedback, ideas on future features, and lessons from other auth standards.
+Thank you [Blaine Cook] for the real-world feedback, ideas on future features, and lessons from other auth standards.
 
-Thank you [Dan Finlay](https://github.com/danfinlay) for being sufficiently passionate about OCAP that we realized that capability systems had a real chance of adoption in an ACL-dominated world.
+Thank you [Dan Finlay] for being sufficiently passionate about OCAP that we realized that capability systems had a real chance of adoption in an ACL-dominated world.
 
-Thanks to the entire [SPKI WG](https://datatracker.ietf.org/wg/spki/about/) for their closely related pioneering work.
+Thanks to the entire [SPKI WG][SPKI/SDSI] for their closely related pioneering work.
 
-We want to especially recognize [Mark Miller](https://github.com/erights) for his numerous contributions to the field of distributed auth, programming languages, and computer security writ large.
+We want to especially recognize [Mark Miller] for his numerous contributions to the field of distributed auth, programming languages, and computer security writ large.
 
 # 12. FAQ
 
@@ -825,21 +876,44 @@ _UCAN does not have any special protection against person-in-the-middle (PITM) a
 
 Were a PITM attack successfully performed on a UCAN delegation, the proof chain would contain the attacker's DID(s). It is possible to detect this scenario and revoke the relevant UCAN but does require special inspection of the topmost `iss` field to check if it is the expected DID. Therefore, it is strongly RECOMMENDED to only delegate UCANs to agents that are both trusted and authenticated and over secure channels.
 
+[Biscuit]: https://github.com/biscuit-auth/biscuit/
+[Blaine Cook]: https://github.com/blaine
+[Bluesky]: https://blueskyweb.xyz/
+[Brendan O'Brien]: https://github.com/b5
+[Brooklyn Zelenka]: https://github.com/expede 
+[CACAO]: https://blog.ceramic.network/capability-based-data-security-on-ceramic/
+[CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
 [DID]: https://www.w3.org/TR/did-core/
+[Dan Finlay]: https://github.com/danfinlay
+[Daniel Holmgren]: https://github.com/dholms
+[Fission]: https://fission.codes
+[Hugo Dias]: https://github.com/hugomrdias
+[Irakli Gozalishvili]: https://github.com/Gozala
 [JWT]: https://datatracker.ietf.org/doc/html/rfc7519
+[Local-First Auth]: https://github.com/local-first-web/auth
+[Macaroon]: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf
+[Mark Miller]: https://github.com/erights
+[Mikael Rogers]: https://github.com/mikeal/
+[Philipp Krüger]: https://github.com/matheus23
+[Protocol Labs]: https://protocol.ai/
 [RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
+[SPKI/SDSI]: https://datatracker.ietf.org/wg/spki/about/
 [SPKI]: https://theworld.com/~cme/html/spki.html
+[Seitan token exchange]: https://book.keybase.io/docs/teams/seitan
+[Token Uniqueness]: #622-token-uniqueness
+[Verifiable credentials]: https://www.w3.org/2017/vc/WG/
+[ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
+[base32]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L12
+[canonical collections]: #71-canonical-json-collection
 [capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
 [content addressing]: https://en.wikipedia.org/wiki/Content-addressable_storage
 [content identifiers]: #65-content-identifiers
-[prf field]: #3271-prf-field
-[rights amplification]: #64-rights-amplification
-[canonical collections]: #71-canonical-json-collection
-[invocation spec]: https://github.com/ucan-wg/invocation
-[time definition]: https://en.wikipedia.org/wiki/Temporal_database
-[delegation]: #51-ucan-delegation
-[replay attack prevention]: #93-replay-attack-prevention
-[base32]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L12
-[CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
-[raw data multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L39
 [dag-json multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L104
+[delegation]: #51-ucan-delegation
+[invocation spec]: https://github.com/ucan-wg/invocation
+[prf field]: #3271-prf-field
+[raw data multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L39
+[replay attack prevention]: #93-replay-attack-prevention
+[rights amplification]: #64-rights-amplification
+[time definition]: https://en.wikipedia.org/wiki/Temporal_database
+[URI]: https://www.rfc-editor.org/rfc/rfc3986
