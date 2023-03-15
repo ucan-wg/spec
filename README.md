@@ -281,7 +281,7 @@ In the case of UCAN, this MUST be done by a proof's issuer DID. For more on the 
 
 ## 2.10 Invocation
 
-UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Invocation has its [own specification][invocation spec].
+UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Invocation has its [own specification][invocation].
 
 ## 2.11 Time
 
@@ -429,15 +429,16 @@ This array MUST contain some or none of the following:
 
 #### 3.2.5.1 Anatomy
 
-The anatomy of a capability MUST be given as a mapping of resource URI to ability to array of caveats:
+The anatomy of a capability MUST be given as a mapping of resource URI to abilities to array of caveats or the wildcard `*`:
 
 ```
-{ $RESOURCE: { $ABILITY: [ $CAVEATS ] } }
+{ $RESOURCE: { $ABILITY: "*" } }
+{ $RESOURCE: { $ABILITY: [ ...$CAVEATS ] } }
 ```
 
 #### 3.2.5.2 Resource
 
-Reources MUST be unique and given as [URI]s.
+Resources MUST be unique and given as [URI]s.
 
 Resources in the capabilities map MAY overlap. For example, the following MAY coexist as top-level keys in a capabilities map:
 
@@ -448,25 +449,21 @@ Resources in the capabilities map MAY overlap. For example, the following MAY co
 
 #### 3.2.5.3 Abilities
 
-Abilities MUST be presented as a string. By convention, abilities SHOULD be namespaced with a slash, such as `msg/send`.
+Abilities MUST be presented as a string. By convention, abilities SHOULD be namespaced with a slash, such as `msg/send`. One or more abilities MUST be given for each resource.
 
 #### 3.2.5.4 Caveat Array
 
-Caveats are open ended, and MUST be interpratable by the _____.
+Caveats MAY be open ended. Caveats MUST be understood by the executor of the eventual [invocation]. Caveats MUST prevent invocation otherwise.
 
-An attenuated caveat MUST (syntactically) include all of the fields of the relevant proof caveat, plus the newly introduced caveats.
-
-The caveat array MUST be interpreted as
-
-The caveat array MAY be empty, and if so MUST be interpreted as "no caveats".
+On validation, the caveat array MUST be treated as a logically disjunct (an "OR", NOT an "and"). In other words: passing validation against _any_ caveat in the array MUST be terated as valid. For example, consider the following capabilities:
 
 ```json
 {
   "dns:example.com?TYPE=TXT": {
-    "crud/create": []
+    "crud/create": "*"
   },
   "https://example.com/blog": {
-    "crud/read": []
+    "crud/read": "*",
     "crud/update": [
       {"status": "draft"},
       {"status": "published", "day-of-week": "Monday"} // only publish on Mondays
@@ -475,14 +472,27 @@ The caveat array MAY be empty, and if so MUST be interpreted as "no caveats".
 }
 ```
 
-MUST be interpreted as the following table
+The above MUST be interpreted as the set of capabilities below. If _any_ are matched, the check MUST pass validation.
 
-| Resource                   | Ability       | Caveats                                           |
+| Resource                   | Ability       | Caveat                                            |
 |----------------------------|---------------|---------------------------------------------------|
-| `dns:example.com?TYPE=TXT` | `crud/create` | None                                              |
-| `https://example.com/blog` | `crud/read`   | None                                              |
+| `dns:example.com?TYPE=TXT` | `crud/create` | Always                                            |
+| `https://example.com/blog` | `crud/read`   | Always                                            |
 | `https://example.com/blog` | `crud/update` | `{status: "draft"}`                               |
 | `https://example.com/blog` | `crud/update` | `{status: "publishsed", "day-of-week": "monday"}` |
+
+The caveat array SHOULD NOT be empty, as an empty array means "in no case" (which is equivalent to not listing the ability). This follows from the rule that delegations MUST be of equal or lesser scope. When an array is given, an attenuated caveat MUST (syntactically) include all of the fields of the relevant proof caveat, plus the newly introduced caveats.
+
+| Proof Caveats | Delegated Caveats | Is Valid? | Comment                              |
+|---------------|-------------------|-----------|--------------------------------------|
+| `"*"`         | `"*"`             | Yes       | Equal                                |
+| `[x]`         | `[x]`             | Yes       | Equal                                |
+| `[x]`         | `"*"`             | No        | Escalation to any                    |
+| `"*"`         | `[x]`             | Yes       | Introduces a new caveat              |
+| `[x, y]`      | `[x]`             | Yes       | Removes a capability                 |
+| `[x, y]`      | `[x, (y + z)]`    | Yes       | Attenuates existing caveat           |
+| `[x, y]`      | `[x, y, z]`       | No        | Escalation by adding new capability  |
+
 
 ### 3.2.6 Proof of Delegation
 
@@ -910,10 +920,11 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [content identifiers]: #65-content-identifiers
 [dag-json multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L104
 [delegation]: #51-ucan-delegation
-[invocation spec]: https://github.com/ucan-wg/invocation
+[invocation]: https://github.com/ucan-wg/invocation
 [prf field]: #3271-prf-field
 [raw data multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L39
 [replay attack prevention]: #93-replay-attack-prevention
 [rights amplification]: #64-rights-amplification
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
+[disjunction]: https://en.wikipedia.org/wiki/Logical_disjunction
