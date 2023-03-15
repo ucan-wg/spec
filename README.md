@@ -203,6 +203,7 @@ A capability is the association of an "ability" to a "resource": `resource x abi
 The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
 
 ```
+{ $RESOURCE: { $ABILITY: "*" } }
 { $RESOURCE: { $ABILITY: [ $CAVEATS ] } }
 ```
 
