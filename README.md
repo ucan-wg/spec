@@ -408,15 +408,17 @@ The OPTIONAL `fct` field contains a map of arbitrary facts and proofs of knowled
 #### Examples
 
 ``` json
-"fct": {
-  "challenges": {
-    "example.com": "abcdef",
-    "another.example.net": "12345"
-  },
-  "sha3_256": {
-    "B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9": "hello world"
+{
+  "fct": {
+    "challenges": {
+      "example.com": "abcdef",
+      "another.example.net": "12345"
+    },
+    "sha3_256": {
+      "B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9": "hello world"
+    }
   }
-]
+}
 ```
 
 ### 3.2.5 Capabilities & Attenuation
