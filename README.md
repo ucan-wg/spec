@@ -769,7 +769,7 @@ Revocations MAY be deleted once the UCAN that they reference expires or otherwis
         └────────────────┘          ─┘  ─┘  ─┘  ─┘
 ```
 
-In this example, Alice MAY revoke any of the UCANs in the chain, Carol MAY revoke the bottom two, and so on. If the UCAN `Carol->Dan` is revoked by Alice, Bob, or Carol, then Erin will not have a valid chain for `X` since its proof is invalid. However, Erin can still prove the valid capability for `Y` and `Z` since the still-valid ("unbroken") chain `Alice->Bob->Dan->Erin` includes them. Note that despite `Y` being in the revoked `Carol->Dan` UCAN, it does not invalidate `Y` for Erin, since the unbroken chain also included a proof for `Y`. 
+In this example, Alice MAY revoke any of the UCANs in the chain, Carol MAY revoke the bottom two, and so on. If the UCAN `Carol → Dan` is revoked by Alice, Bob, or Carol, then Erin will not have a valid chain for `X` since its proof is invalid. However, Erin can still prove the valid capability for `Y` and `Z` since the still-valid ("unbroken") chain `Alice → Bob → Dan → Erin` includes them. Note that despite `Y` being in the revoked `Carol → Dan` UCAN, it does not invalidate `Y` for Erin, since the unbroken chain also included a proof for `Y`. 
 
 ## 6.7 Backwards Compatibility
 
@@ -777,14 +777,14 @@ A UCAN validator MAY implement backward compatibility with previous versions of 
 
 # 7. Collections
 
-UCANs are indexed by their hash — often called their ["content address"](https://en.wikipedia.org/wiki/Content-addressable_storage). UCANs MUST be addressable as [CIDv1](https://specs.ipld.io/block-layer/CID.html#cids-version-1).
+UCANs are indexed by their hash — often called their ["content address"][content addressable storage]. UCANs MUST be addressable as [CIDv1].
 
 Content addressing the proofs has multiple advantages over inlining tokens, including:
 * Avoids re-encoding deeply nested proofs as Base64 many times (and the associated size increase)
 * Canonical signature
 * Enables only transmitting the relevant proofs 
 
-Multiple UCANs in a single request MAY be collected into one table. It is RECOMMENDED that these be indexed by CID. The canonical JSON representation is presented in [§7.1.1](#711-example) MUST be supported. Implementations MAY include more formats, for example to optimize for a particular transport. Transports MAY map their collection to this collection format.
+Multiple UCANs in a single request MAY be collected into one table. It is RECOMMENDED that these be indexed by CID. The [canonical JSON representation][canonical collections] (below) MUST be supported. Implementations MAY include more formats, for example to optimize for a particular transport. Transports MAY map their collection to this collection format.
 
 ### 7.1 Canonical JSON Collection
 
@@ -895,9 +895,13 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [CACAO]: https://blog.ceramic.network/capability-based-data-security-on-ceramic/
 [CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
 [Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
+[DID fragment]: https://www.w3.org/TR/did-core/#fragment
+[DID path]: https://www.w3.org/TR/did-core/#path
+[DID subject]: https://www.w3.org/TR/did-core/#dfn-did-subjects
 [DID]: https://www.w3.org/TR/did-core/
 [Dan Finlay]: https://github.com/danfinlay
 [Daniel Holmgren]: https://github.com/dholms
+[ECDSA security]: https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security
 [FIDO]: https://fidoalliance.org/fido-authentication/
 [Fission]: https://fission.codes
 [Hugo Dias]: https://github.com/hugomrdias
@@ -908,6 +912,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Mark Miller]: https://github.com/erights
 [Mikael Rogers]: https://github.com/mikeal/
 [OCAP]: http://erights.org/elib/capability/index.html
+[POLA]: (https://en.wikipedia.org/wiki/Principle_of_least_privilege
 [Philipp Krüger]: https://github.com/matheus23
 [Protocol Labs]: https://protocol.ai/
 [RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
@@ -919,12 +924,16 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
+[`did:3`]: https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md
+[`did:ion`]: https://github.com/decentralized-identity/ion
+[`did:key`]: https://w3c-ccg.github.io/did-method-key/
 [base32]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L12
 [browser api crypto key]: https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
 [canonical collections]: #71-canonical-json-collection
 [capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
 [caps as keys]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
 [confinement]: http://www.erights.org/elib/capability/dist-confine.html
+[content addressable storage]: (https://en.wikipedia.org/wiki/Content-addressable_storage)
 [content addressing]: https://en.wikipedia.org/wiki/Content-addressable_storage
 [content identifiers]: #65-content-identifiers
 [dag-json multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L104
@@ -938,13 +947,5 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [secure hardware enclave]: https://support.apple.com/en-ca/guide/security/sec59b0b31ff
 [spki rfc]: https://www.rfc-editor.org/rfc/rfc2693.html
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
-[top ability]: #41-top
-[`did:key`]: https://w3c-ccg.github.io/did-method-key/
-[`did:ion`]: https://github.com/decentralized-identity/ion
-[`did:3`]: https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md
-[DID fragment]: https://www.w3.org/TR/did-core/#fragment
-[ECDSA security]: https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security
-[POLA]: (https://en.wikipedia.org/wiki/Principle_of_least_privilege
-[DID path]: https://www.w3.org/TR/did-core/#path
 [token resolution]: #8-token-resolution
-[DID subject]: https://www.w3.org/TR/did-core/#dfn-did-subjects
+[top ability]: #41-top
