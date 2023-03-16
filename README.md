@@ -704,7 +704,7 @@ A canonical CID can be important for some use cases, such as caching and [revoca
 * [CIDv1]
 * [base32]
 * [SHA2-256]
-* [Raw data multicodec]
+* [Raw data multicodec] (`0x55`)
 
 ## 6.6 Revocation
 
@@ -716,7 +716,7 @@ While some resources are centralized (e.g. access to a server), others are unbou
 
 Every resource type SHOULD have a canonical location where its revocations are kept. This list is non-exclusive, and revocation messages MAY be gossiped between peers in a network to share this information more quickly.
 
-It is RECOMMENDED that the canonical revocation store be kept as close to (or inside) the resource it is about as possible. For example, the WebNative File System maintains a Merkle tree of revoked CIDs at a well-known path. Another example is that a centralized server could have an endpoint that lists the revoked UCANs by [CIDv1].
+It is RECOMMENDED that the canonical revocation store be kept as close to (or inside) the resource it is about as possible. For example, the WebNative File System maintains a Merkle tree of revoked CIDs at a well-known path. Another example is that a centralized server could have an endpoint that lists the revoked UCANs by [canonical CID].
 
 Revocations MUST be irreversible. If the revocation was issued in error, a unique UCAN MAY be issued (e.g. by updating the nonce or changing the time bounds). This prevents confusion as the revocation moves through the network and makes revocation stores append-only and highly amenable to caching.
 
@@ -725,8 +725,8 @@ A revocation message MUST conform to the following format:
 ``` js
 {
   "iss": did,
-  "revoke": ucanCid,
-  "challenge": sign(did.privateKey, `REVOKE:${ucanCid}`)
+  "revoke": canonicalUcanCid,
+  "challenge": sign(did.privateKey, `REVOKE:${canonicalUcanCid}`)
 }
 ```
 
@@ -786,7 +786,7 @@ A UCAN validator MAY implement backward compatibility with previous versions of 
 
 # 7. Collections
 
-UCANs are indexed by their hash — often called their ["content address"][content addressable storage]. UCANs MUST be addressable as [CIDv1].
+UCANs are indexed by their hash — often called their ["content address"][content addressable storage]. UCANs MUST be addressable as [CIDv1]. Use of a [canonical CID] is RECOMMENDED.
 
 Content addressing the proofs has multiple advantages over inlining tokens, including:
 * Avoids re-encoding deeply nested proofs as Base64 many times (and the associated size increase)
@@ -872,7 +872,9 @@ Many thanks to [Hugo Dias], [Mikael Rogers], and the entire DAG House team for t
 
 Thank you [Blaine Cook] for the real-world feedback, ideas on future features, and lessons from other auth standards.
 
-Thank you [Dan Finlay] for being sufficiently passionate about OCAP that we realized that capability systems had a real chance of adoption in an ACL-dominated world.
+Many thanks to [Christopher Joel] for his real-world feedback, raising many pragmatic considerations, and the Rust implementation and related crates.
+
+Thank you [Dan Finlay] for being sufficiently passionate about [OCAP] that we realized that capability systems had a real chance of adoption in an ACL-dominated world.
 
 Thanks to the entire [SPKI WG][SPKI/SDSI] for their closely related pioneering work.
 
@@ -903,6 +905,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Brooklyn Zelenka]: https://github.com/expede 
 [CACAO]: https://blog.ceramic.network/capability-based-data-security-on-ceramic/
 [CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
+[Canonical CID]: #651-cid-canonicalization
 [Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
 [DID fragment]: https://www.w3.org/TR/did-core/#fragment
 [DID path]: https://www.w3.org/TR/did-core/#path
@@ -960,4 +963,4 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [token resolution]: #8-token-resolution
 [top ability]: #41-top
- 
+[Christopher Joel]: https://github.com/cdata
