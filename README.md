@@ -162,16 +162,25 @@ The only reserved ability MUST be the un-namespaced [`"*"` (top)](#41-top), whic
 
 ## 2.4 Caveats
 
-Capabilities MAY define additional optional or required fields specific to their use case in the caveat fields. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. Caveats MAY function as an "escape hatch" for when a use case is not fully captured by the `with` and `can` fields.
+Capabilities MAY define additional optional or required fields specific to their use case in the caveat fields. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. Caveats MAY function as an "escape hatch" for when a use case is not fully captured by the resource and ability fields. Caveats can be read as "on the condition that `<some caveat>` holds".
 
-Further delegation of a capability with `nb` fields set MUST respect the `nb` fields. On validation, if a `nb` field is present, it MUST be checked. If a validator is not able to interpret the `nb` field, it MUST reject the capability. As such, any `nb` caveats from a proof MUST further attenuate the delegated capability.
+## 2.5 Capability
 
-### 2.4.1 Examples
+A capability is the association of an "ability" to a "resource": `resource x ability x caveats`.
+
+The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
+
+```
+{ $RESOURCE: { $ABILITY: "*" } }
+{ $RESOURCE: { $ABILITY: [ $CAVEATS ] } }
+```
+
+### 2.5.1 Examples
 
 ``` json
 {
   "example://example.com/public/photos/": {
-    "crud/read": [],
+    "crud/read": "*",
     "crud/delete": [
       {
         "matching": "/(?i)(\\W|^)(baloney|darn|drat|fooey|gosh\\sdarnit|heck)(\\W|$)/"
@@ -179,10 +188,10 @@ Further delegation of a capability with `nb` fields set MUST respect the `nb` fi
     ]
   },
   "example://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr": {
-    "wnfs/append": []
+    "wnfs/append": "*"
   },
   "mailto:username@example.com": {
-    "msg/send": [],
+    "msg/send": "*",
     "msg/receive": [
       {
         "max_count": 5,
@@ -194,17 +203,6 @@ Further delegation of a capability with `nb` fields set MUST respect the `nb` fi
     ]
   }
 }
-```
-
-## 2.5 Capability
-
-A capability is the association of an "ability" to a "resource": `resource x ability x caveats`.
-
-The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
-
-```
-{ $RESOURCE: { $ABILITY: "*" } }
-{ $RESOURCE: { $ABILITY: [ $CAVEATS ] } }
 ```
 
 ## 2.6 Authority
