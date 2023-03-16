@@ -7,9 +7,9 @@
 ## Authors
 
 * [Brooklyn Zelenka], [Fission]
-* [Philipp Krüger], [Fission]
 * [Daniel Holmgren], [Bluesky]
 * [Irakli Gozalishvili], [Protocol Labs]
+* [Philipp Krüger], [Fission]
 
 # 0. Abstract
 
@@ -31,9 +31,9 @@ A large portion of personal information now also moves through connected systems
 
 Ahead-of-time coordination is often a barrier to development in many projects. Flexibility to define specialized authorization semantics for resources and the ability to integrate with external systems trustlessly are essential as the number of autonomous, specialized, and coordinating applications increases.
 
-Many high-value applications run in hostile environments. In recognition of this, many vendors now include public key functionality, such as [non-extractable keys in browsers](https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey), [certificate systems for external keys](https://fidoalliance.org/fido-authentication/), and [secure hardware enclaves](https://support.apple.com/en-ca/guide/security/sec59b0b31ff) in widespread consumer devices.
+Many high-value applications run in hostile environments. In recognition of this, many vendors now include public key functionality, such as [non-extractable keys in browsers][browser api crypto key], [certificate systems for external keys][fido], and [secure hardware enclave]s in widespread consumer devices.
 
-Two related models that work exceptionally well in the above context are Simple Public Key Infrastructure ([SPKI](https://www.rfc-editor.org/rfc/rfc2693.html)) and object capabilities ([OCAP](http://erights.org/elib/capability/index.html)). Since offline operation and self-verifiability are two requirements, UCAN adopts an approach closely related to SPKI. UCANs follow the "capabilities as certificates" model, with extensions for revocation and stateful capabilities.
+Two related models that work exceptionally well in the above context are Simple Public Key Infrastructure ([SPKI][spki rfc]) and object capabilities ([OCAP]). Since offline operation and self-verifiability are two requirements, UCAN adopts an approach closely related to SPKI. UCANs follow the "capabilities as certificates" model, with extensions for revocation and stateful capabilities.
 
 ## 1.2 Intuition
 
@@ -41,9 +41,9 @@ By analogy, ACLs are like a bouncer at an exclusive event. This bouncer has a li
 
 If there are many such events at many venues, the organizers need to coordinate ahead of time, denials need to be synchronized, and attendees need to show their ID cards to many bouncers. The likelihood of the bouncer letting in the wrong person due to synchronization lag or confusion by someone sharing a name is nonzero.
 
-UCANs work more like [movie tickets](http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys) or a festival pass between multiple venues. No one needs to check your ID; who you are is irrelevant. For example, if you have a ticket to see Citizen Kane, you are admitted to Theater 3. If you cannot attend an event, you can hand this ticket to a friend who wants to see the film instead, and there is no coordination required with the theater ahead of time. However, if the theater needs to cancel tickets for some reason, they need a way of uniquely identifying them and sharing this information between them.
+UCANs work more like [movie tickets][caps as keys] or a festival pass between multiple venues. No one needs to check your ID; who you are is irrelevant. For example, if you have a ticket to see Citizen Kane, you are admitted to Theater 3. If you cannot attend an event, you can hand this ticket to a friend who wants to see the film instead, and there is no coordination required with the theater ahead of time. However, if the theater needs to cancel tickets for some reason, they need a way of uniquely identifying them and sharing this information between them.
 
-The above analogies illustrate several significant tradeoffs between these systems but are only accurate enough to build intuition. A good resource for a more thorough presentation of these tradeoffs is [Capability Myths Demolished](https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf). In this framework, UCAN approximates SPKI with some dynamic features.
+The above analogies illustrate several significant tradeoffs between these systems but are only accurate enough to build intuition. A good resource for a more thorough presentation of these tradeoffs is [Capability Myths Demolished]. In this framework, UCAN approximates SPKI with some dynamic features.
 
 ## 1.3 Security Considerations
 
@@ -53,7 +53,7 @@ This signature chain is the root of trust. Private keys themselves SHOULD NOT mo
 
 UCANs (and other forms of PKI) depend on the ambient authority of the owner of each resource. This means that the discharging agent must be able to verify the root ownership at decision time. The rest of the chain in-between is self-certifying.
 
-While certificate chains go a long way toward improving security, they do not provide [confinement](http://www.erights.org/elib/capability/dist-confine.html) on their own. The principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for and reducing authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical since they can further sub-delegate their authority to others without alerting their delegator. UCANs do not offer confinement (as that would require all processes to be online), so it is impossible to guarantee knowledge of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort.
+While certificate chains go a long way toward improving security, they do not provide [confinement] on their own. The principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for and reducing authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical since they can further sub-delegate their authority to others without alerting their delegator. UCANs do not offer confinement (as that would require all processes to be online), so it is impossible to guarantee knowledge of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort.
 
 ## 1.4 Inversion of Control
 
@@ -144,7 +144,7 @@ There are several roles that an agent MAY assume:
 
 A resource is some data or process that has an address. It can be anything from a row in a database, a user account, storage quota, email address, etc.
 
-A resource describes the noun of a capability. The resource pointer MUST be provided in [URI](https://datatracker.ietf.org/doc/html/rfc3986) format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
+A resource describes the noun of a capability. The resource pointer MUST be provided in [URI] format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
 
 The same resource MAY be addressed with several URI formats. For instance, a database may have an address at the level of direct memory with `file`, via `sqldb` to gain access to SQL semantics, `http` to use web addressing, and `dnslink` to use Merkle DAGs inside DNS `TXT` records. 
 
@@ -158,7 +158,7 @@ Abilities MUST NOT be case sensitive. For example, `http/post`, `http/POST`, `HT
 
 There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
-The only reserved ability MUST be the un-namespaced [`"*"` (top)](#41-top), which MUST be allowed on any resource.
+The only reserved ability MUST be the un-namespaced [`"*"` (top)][top ability], which MUST be allowed on any resource.
 
 ## 2.4 Caveats
 
@@ -236,7 +236,7 @@ Merging capability authoritys MUST follow set semantics, where the result includ
                  authority
 ```
 
-The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Except for [rights amplification](#64-rights-amplification), every unique delegation MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
+The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Except for [rights amplification], every unique delegation MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
 
 For example, given the following authoritys against a WebNative filesystem, they can be merged as follows:
 
@@ -266,7 +266,7 @@ Delegation is the act of granting another principal (the delegate) the capabilit
 
 Each direct delegation leaves the ability at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more proofs of different types if part of the resource's semantics. 
 
-Note that delegation is a separate concept from invocation [§2.8](#28-invocation). Delegation is the act of granting a capability to another, not the act of using it (invocation), which has additional requirements.
+Note that delegation is a separate concept from [invocation]. Delegation is the act of granting a capability to another, not the act of using it (invocation), which has additional requirements.
 
 ## 2.8 Attenuation
 
@@ -313,7 +313,7 @@ The header MUST include all of the following fields:
 
 The header is a standard JWT header, with an additional REQUIRED field `ucv`. This field sets the version of the UCAN specification used in the payload.
 
-EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037](https://datatracker.ietf.org/doc/html/rfc8037).
+EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037].
 
 ### Examples
 
@@ -321,7 +321,7 @@ EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037](https://da
 {
   "alg": "EdDSA",
   "typ": "JWT",
-  "ucv": "0.9.0"
+  "ucv": "0.10.0"
 }
 ```
 
@@ -342,11 +342,11 @@ The payload MUST describe the authorization claims, who is involved, and its val
 
 ### 3.2.1 Principals
 
-The `iss` and `aud` fields describe the token's principals. These can be conceptualized as the sender and receiver of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key` method](https://w3c-ccg.github.io/did-method-key/), and MAY be augmented with [additional DID methods](https://www.w3.org/TR/did-core/).
+The `iss` and `aud` fields describe the token's principals. These can be conceptualized as the sender and receiver of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key`] method, and MAY be augmented with [additional DID methods][DID].
 
-If an issuer's DID has more than one key (e.g. [`did:ion`](https://github.com/decentralized-identity/ion), [`did:3`](https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md)), the key used to sign the UCAN MUST be made explicit, using the [DID fragment](https://www.w3.org/TR/did-core/#fragment) (the hash index).
+If an issuer's DID has more than one key (e.g. [`did:ion`], [`did:3`]), the key used to sign the UCAN MUST be made explicit, using the [DID fragment] (the hash index).
 
-The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA is supported but [RECOMMENDED that another key type be preferred](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security).
+The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA is supported but [RECOMMENDED that another key type be preferred][ECDSA security].
 
 #### Examples
 
@@ -372,11 +372,11 @@ The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA i
 
 ### 3.2.2 Time Bounds
 
-`nbf` and `exp` stand for "not before" and "expires at," respectively. These are standard fields from [RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519) (JWT). Taken together, they represent the time bounds for a token.
+`nbf` and `exp` stand for "not before" and "expires at," respectively. These are standard fields from [RFC 7519][JWT] (JWT). Taken together, they represent the time bounds for a token.
 
 The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay using a UCAN. For example, pre-provisioning access to conference materials ahead of time but not allowing access until the day it starts is achievable with judicious use of `nbf`.
 
-The `exp` field MUST be set. Following the [principle of least authority](https://en.wikipedia.org/wiki/Principle_of_least_privilege), it is RECOMMENDED to give a timestamp expiry for UCANs. If the token explicitly never expires, the `exp` field MUST be set to `null`. If the time is in the past at validation time, the token MUST be treated as expired and invalid.
+The `exp` field MUST be set. Following the [principle of least authority][POLA], it is RECOMMENDED to give a timestamp expiry for UCANs. If the token explicitly never expires, the `exp` field MUST be set to `null`. If the time is in the past at validation time, the token MUST be treated as expired and invalid.
 
 Keeping the window of validity as short as possible is RECOMMENDED. Limiting the time range can mitigate the risk of a malicious user abusing a UCAN. However, this is situationally dependent. It may be desirable to limit the frequency of forced reauthorizations for trusted devices. Due to clock drift, time bounds SHOULD NOT be considered exact. A buffer of ±60 seconds is RECOMMENDED.
 
@@ -538,11 +538,11 @@ ucan = "ucan:" ucan-selector
 ucan-selector = "*" / cid
 ```
 
-`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the [CID](#65-content-identifiers) MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
+`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the [CID][content identifiers] MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
 
 ## 4.2 `own`
 
-The `own` URI subscheme defines how to address all resources of a particular URI scheme owned by a particular [DID subject](https://www.w3.org/TR/did-core/#dfn-did-subjects). The DID subject MUST NOT contain any other characters, such as query parameters or fragments. The `scheme-selector` MUST either be the wildcard (`*`) selector or a URI scheme (such as `dns`, `mailto`, and `telnet`). 
+The `own` URI subscheme defines how to address all resources of a particular URI scheme owned by a particular [DID subject]. The DID subject MUST NOT contain any other characters, such as query parameters or fragments. The `scheme-selector` MUST either be the wildcard (`*`) selector or a URI scheme (such as `dns`, `mailto`, and `telnet`). 
 
 ``` abnf
 own = "own://" <did-subject> "/" scheme-authority
@@ -554,7 +554,7 @@ own://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/*
 own://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/dns
 ```
 
-The DID spec [permits an arbitrary DID method to specify the use of the URI path segment](https://www.w3.org/TR/did-core/#path), the `own` scheme separates out the reference of owned resources rather than a DID document itself. Other URI schemes (such as `dns` and `telnet`) define their own syntactic rules. `own` makes it clear that the contained DID is the "owner" of the resource in the path, fragments, and queries.
+The DID spec [permits an arbitrary DID method to specify the use of the URI path segment][DID path], the `own` scheme separates out the reference of owned resources rather than a DID document itself. Other URI schemes (such as `dns` and `telnet`) define their own syntactic rules. `own` makes it clear that the contained DID is the "owner" of the resource in the path, fragments, and queries.
 
 # 5. Reserved Abilities
 
@@ -695,7 +695,7 @@ A UCAN token MUST be referenced as a [base32] [CIDv1].
 
 The [`0x55` raw data][raw data multicodec] codec MUST be supported. If other codecs are used (such as [`0x0129` `dag-json` multicodec][dag-json multicodec]), the UCAN MUST be able to be interpreted as a valid JWT (including the signature).
 
-The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service. Please refer to [§8](#8-token-resolution) for more.
+The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service. Please refer to [token resolution] for more.
 
 ## 6.6 Revocation
 
@@ -894,9 +894,11 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Brooklyn Zelenka]: https://github.com/expede 
 [CACAO]: https://blog.ceramic.network/capability-based-data-security-on-ceramic/
 [CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
+[Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
 [DID]: https://www.w3.org/TR/did-core/
 [Dan Finlay]: https://github.com/danfinlay
 [Daniel Holmgren]: https://github.com/dholms
+[FIDO]: https://fidoalliance.org/fido-authentication/
 [Fission]: https://fission.codes
 [Hugo Dias]: https://github.com/hugomrdias
 [Irakli Gozalishvili]: https://github.com/Gozala
@@ -905,27 +907,44 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Macaroon]: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf
 [Mark Miller]: https://github.com/erights
 [Mikael Rogers]: https://github.com/mikeal/
+[OCAP]: http://erights.org/elib/capability/index.html
 [Philipp Krüger]: https://github.com/matheus23
 [Protocol Labs]: https://protocol.ai/
 [RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
+[RFC 8037]: (https://datatracker.ietf.org/doc/html/rfc8037
 [SPKI/SDSI]: https://datatracker.ietf.org/wg/spki/about/
 [SPKI]: https://theworld.com/~cme/html/spki.html
 [Seitan token exchange]: https://book.keybase.io/docs/teams/seitan
 [Token Uniqueness]: #622-token-uniqueness
+[URI]: https://www.rfc-editor.org/rfc/rfc3986
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
 [base32]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L12
+[browser api crypto key]: https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
 [canonical collections]: #71-canonical-json-collection
 [capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
+[caps as keys]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
+[confinement]: http://www.erights.org/elib/capability/dist-confine.html
 [content addressing]: https://en.wikipedia.org/wiki/Content-addressable_storage
 [content identifiers]: #65-content-identifiers
 [dag-json multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L104
 [delegation]: #51-ucan-delegation
+[disjunction]: https://en.wikipedia.org/wiki/Logical_disjunction
 [invocation]: https://github.com/ucan-wg/invocation
 [prf field]: #3271-prf-field
 [raw data multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L39
 [replay attack prevention]: #93-replay-attack-prevention
 [rights amplification]: #64-rights-amplification
+[secure hardware enclave]: https://support.apple.com/en-ca/guide/security/sec59b0b31ff
+[spki rfc]: https://www.rfc-editor.org/rfc/rfc2693.html
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
-[URI]: https://www.rfc-editor.org/rfc/rfc3986
-[disjunction]: https://en.wikipedia.org/wiki/Logical_disjunction
+[top ability]: #41-top
+[`did:key`]: https://w3c-ccg.github.io/did-method-key/
+[`did:ion`]: https://github.com/decentralized-identity/ion
+[`did:3`]: https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md
+[DID fragment]: https://www.w3.org/TR/did-core/#fragment
+[ECDSA security]: https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security
+[POLA]: (https://en.wikipedia.org/wiki/Principle_of_least_privilege
+[DID path]: https://www.w3.org/TR/did-core/#path
+[token resolution]: #8-token-resolution
+[DID subject]: https://www.w3.org/TR/did-core/#dfn-did-subjects
