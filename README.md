@@ -691,11 +691,20 @@ Some capabilities are more than the sum of their parts. The canonical example is
 
 ## 6.5 Content Identifiers
 
-A UCAN token MUST be referenced as a [base32] [CIDv1].
+A UCAN token MUST be referenced as a [base32] [CIDv1]. [SHA2-256] is the RECOMMENDED hash algorithm.
 
 The [`0x55` raw data][raw data multicodec] codec MUST be supported. If other codecs are used (such as [`0x0129` `dag-json` multicodec][dag-json multicodec]), the UCAN MUST be able to be interpreted as a valid JWT (including the signature).
 
 The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service. Please refer to [token resolution] for more.
+
+## 6.5.1 CID Canonicalization
+
+A canonical CID can be important for some use cases, such as caching and [revocation]. A canonical CID MUST conform to the following:
+
+* [CIDv1]
+* [base32]
+* [SHA2-256]
+* [Raw data multicodec]
 
 ## 6.6 Revocation
 
@@ -707,7 +716,7 @@ While some resources are centralized (e.g. access to a server), others are unbou
 
 Every resource type SHOULD have a canonical location where its revocations are kept. This list is non-exclusive, and revocation messages MAY be gossiped between peers in a network to share this information more quickly.
 
-It is RECOMMENDED that the canonical revocation store be kept as close to (or inside) the resource it is about as possible. For example, the WebNative File System maintains a Merkle tree of revoked CIDs at a well-known path. Another example is that a centralized server could have an endpoint that lists the revoked UCANs by CID.
+It is RECOMMENDED that the canonical revocation store be kept as close to (or inside) the resource it is about as possible. For example, the WebNative File System maintains a Merkle tree of revoked CIDs at a well-known path. Another example is that a centralized server could have an endpoint that lists the revoked UCANs by [CIDv1].
 
 Revocations MUST be irreversible. If the revocation was issued in error, a unique UCAN MAY be issued (e.g. by updating the nonce or changing the time bounds). This prevents confusion as the revocation moves through the network and makes revocation stores append-only and highly amenable to caching.
 
@@ -917,6 +926,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Protocol Labs]: https://protocol.ai/
 [RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
 [RFC 8037]: (https://datatracker.ietf.org/doc/html/rfc8037
+[SHA2-256]: https://en.wikipedia.org/wiki/SHA-2
 [SPKI/SDSI]: https://datatracker.ietf.org/wg/spki/about/
 [SPKI]: https://theworld.com/~cme/html/spki.html
 [Seitan token exchange]: https://book.keybase.io/docs/teams/seitan
@@ -943,9 +953,11 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [prf field]: #3271-prf-field
 [raw data multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L39
 [replay attack prevention]: #93-replay-attack-prevention
+[revocation]: #66-revocation
 [rights amplification]: #64-rights-amplification
 [secure hardware enclave]: https://support.apple.com/en-ca/guide/security/sec59b0b31ff
 [spki rfc]: https://www.rfc-editor.org/rfc/rfc2693.html
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [token resolution]: #8-token-resolution
 [top ability]: #41-top
+ 
