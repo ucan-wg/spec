@@ -878,6 +878,8 @@ Thank you [Dan Finlay] for being sufficiently passionate about [OCAP] that we re
 
 Thanks to the entire [SPKI WG][SPKI/SDSI] for their closely related pioneering work.
 
+Many thanks to [Alan Karp] for sharing his vast experience with capability-based authorization, patterns, and many right words for us to search for.
+
 We want to especially recognize [Mark Miller] for his numerous contributions to the field of distributed auth, programming languages, and computer security writ large.
 
 # 12. FAQ
@@ -898,6 +900,7 @@ _UCAN does not have any special protection against person-in-the-middle (PITM) a
 
 Were a PITM attack successfully performed on a UCAN delegation, the proof chain would contain the attacker's DID(s). It is possible to detect this scenario and revoke the relevant UCAN but does require special inspection of the topmost `iss` field to check if it is the expected DID. Therefore, it is strongly RECOMMENDED to only delegate UCANs to agents that are both trusted and authenticated and over secure channels.
 
+[Alan Karp]: https://github.com/alanhkarp
 [Biscuit]: https://github.com/biscuit-auth/biscuit/
 [Blaine Cook]: https://github.com/blaine
 [Bluesky]: https://blueskyweb.xyz/
@@ -907,6 +910,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
 [Canonical CID]: #651-cid-canonicalization
 [Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
+[Christopher Joel]: https://github.com/cdata
 [DID fragment]: https://www.w3.org/TR/did-core/#fragment
 [DID path]: https://www.w3.org/TR/did-core/#path
 [DID subject]: https://www.w3.org/TR/did-core/#dfn-did-subjects
@@ -963,4 +967,3 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [token resolution]: #8-token-resolution
 [top ability]: #41-top
-[Christopher Joel]: https://github.com/cdata
