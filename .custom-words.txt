@@ -11,6 +11,7 @@ BxZ
 CIDs
 CIDv
 CRDT
+Canonicalization
 DAG
 DAGs
 DHT
@@ -78,6 +79,7 @@ del
 delegable
 delegator
 disambiguates
+disjunct
 djdX
 enums
 extractable

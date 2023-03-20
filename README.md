@@ -460,7 +460,7 @@ Abilities MUST be presented as a string. By convention, abilities SHOULD be name
 
 Caveats MAY be open ended. Caveats MUST be understood by the executor of the eventual [invocation]. Caveats MUST prevent invocation otherwise.
 
-On validation, the caveat array MUST be treated as a logically disjunct (an "OR", NOT an "and"). In other words: passing validation against _any_ caveat in the array MUST be terated as valid. For example, consider the following capabilities:
+On validation, the caveat array MUST be treated as a logically disjunct (an "OR", NOT an "and"). In other words: passing validation against _any_ caveat in the array MUST pass the check. For example, consider the following capabilities:
 
 ```json
 {
@@ -820,7 +820,7 @@ Token resolution is transport specific. The exact format is left to the relevant
 2. Response protocol
 3. Collections format
 
-Note that if an instance cannot derefence a CID at runtime, the UCAN MUST fail validation. This is consistent with the [constructive semantics] of UCAN.
+Note that if an instance cannot dereference a CID at runtime, the UCAN MUST fail validation. This is consistent with the [constructive semantics] of UCAN.
 
 # 9. Implementation Recommendations
 
