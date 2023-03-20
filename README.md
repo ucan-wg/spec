@@ -376,7 +376,7 @@ The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA i
 
 ### 3.2.2 Time Bounds
 
-`nbf` and `exp` stand for "not before" and "expires at," respectively. These are standard fields from [RFC 7519][JWT] (JWT). Taken together, they represent the time bounds for a token.
+`nbf` and `exp` stand for "not before" and "expires at," respectively. These are standard fields from [RFC 7519][JWT] (JWT) (which in turn uses [RFC 3339]), and represent seconds in UTC without time zone or other offset. Taken together, they represent the time bounds for a token.
 
 The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay using a UCAN. For example, pre-provisioning access to conference materials ahead of time but not allowing access until the day it starts is achievable with judicious use of `nbf`.
 
@@ -977,3 +977,4 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [token resolution]: #8-token-resolution
 [top ability]: #41-top
+[RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339
