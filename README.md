@@ -937,12 +937,12 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Mark Miller]: https://github.com/erights
 [Mikael Rogers]: https://github.com/mikeal/
 [OCAP]: http://erights.org/elib/capability/index.html
-[POLA]: (https://en.wikipedia.org/wiki/Principle_of_least_privilege
+[POLA]: https://en.wikipedia.org/wiki/Principle_of_least_privilege
 [Philipp Krüger]: https://github.com/matheus23
 [Protocol Labs]: https://protocol.ai/
 [RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339
-[RFC 8037]: (https://datatracker.ietf.org/doc/html/rfc8037
+[RFC 8037]: https://datatracker.ietf.org/doc/html/rfc8037
 [SHA2-256]: https://en.wikipedia.org/wiki/SHA-2
 [SPKI/SDSI]: https://datatracker.ietf.org/wg/spki/about/
 [SPKI]: https://theworld.com/~cme/html/spki.html
@@ -961,7 +961,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [caps as keys]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
 [confinement]: http://www.erights.org/elib/capability/dist-confine.html
 [constructive semantics]: https://en.wikipedia.org/wiki/Intuitionistic_logic
-[content addressable storage]: (https://en.wikipedia.org/wiki/Content-addressable_storage)
+[content addressable storage]: https://en.wikipedia.org/wiki/Content-addressable_storage
 [content addressing]: https://en.wikipedia.org/wiki/Content-addressable_storage
 [content identifiers]: #65-content-identifiers
 [dag-json multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L104
