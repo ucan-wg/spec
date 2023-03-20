@@ -323,9 +323,9 @@ Attenuation is the process of constraining the capabilities in a delegation chai
   },
   "dns:example.com": { // Not delegated
     "crud/create": [
-      {"record": "A"},
-      {"record": "CNAME"},
-      {"record": "TXT"}
+      {"type": "A"},
+      {"type": "CNAME"},
+      {"type": "TXT"}
     ]
   }
 }
