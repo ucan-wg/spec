@@ -941,6 +941,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Philipp Krüger]: https://github.com/matheus23
 [Protocol Labs]: https://protocol.ai/
 [RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
+[RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339
 [RFC 8037]: (https://datatracker.ietf.org/doc/html/rfc8037
 [SHA2-256]: https://en.wikipedia.org/wiki/SHA-2
 [SPKI/SDSI]: https://datatracker.ietf.org/wg/spki/about/
@@ -977,4 +978,3 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [token resolution]: #8-token-resolution
 [top ability]: #41-top
-[RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339

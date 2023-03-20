@@ -78,6 +78,7 @@ cryptographically
 del
 delegable
 delegator
+dereference
 disambiguates
 disjunct
 djdX
