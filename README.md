@@ -818,6 +818,8 @@ Token resolution is transport specific. The exact format is left to the relevant
 2. Response protocol
 3. Collections format
 
+Note that if an instance cannot derefence a CID at runtime, the UCAN MUST fail validation. This is consistent with the [constructive semantics] of UCAN.
+
 # 9. Implementation Recommendations
 
 ## 9.1 UCAN Store
@@ -952,6 +954,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
 [caps as keys]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
 [confinement]: http://www.erights.org/elib/capability/dist-confine.html
+[constructive semantics]: https://en.wikipedia.org/wiki/Intuitionistic_logic
 [content addressable storage]: (https://en.wikipedia.org/wiki/Content-addressable_storage)
 [content addressing]: https://en.wikipedia.org/wiki/Content-addressable_storage
 [content identifiers]: #65-content-identifiers
