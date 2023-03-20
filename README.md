@@ -315,6 +315,8 @@ The header is a standard JWT header, with an additional REQUIRED field `ucv`. Th
 
 EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037].
 
+Note that the JWT `"alg": "none"` option MUST NOT be supported. The lack of signature prevents the issuer from being validatable.
+
 ### Examples
 
 ```json
