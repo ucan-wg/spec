@@ -171,7 +171,6 @@ A capability is the association of an "ability" to a "resource": `resource x abi
 The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
 
 ```
-{ $RESOURCE: { $ABILITY: "*" } }
 { $RESOURCE: { $ABILITY: [ $CAVEATS ] } }
 ```
 
@@ -180,7 +179,7 @@ The resource and ability fields are REQUIRED. Any non-normative extensions are O
 ``` json
 {
   "example://example.com/public/photos/": {
-    "crud/read": "*",
+    "crud/read": [{}],
     "crud/delete": [
       {
         "matching": "/(?i)(\\W|^)(baloney|darn|drat|fooey|gosh\\sdarnit|heck)(\\W|$)/"
@@ -188,10 +187,10 @@ The resource and ability fields are REQUIRED. Any non-normative extensions are O
     ]
   },
   "example://example.com/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr": {
-    "wnfs/append": "*"
+    "wnfs/append": [{}]
   },
   "mailto:username@example.com": {
-    "msg/send": "*",
+    "msg/send": [{}],
     "msg/receive": [
       {
         "max_count": 5,
@@ -280,7 +279,7 @@ Attenuation is the process of constraining the capabilities in a delegation chai
 
 {
   "example://example.com/public/photos/": {
-    "crud/read": "*",
+    "crud/read": [{}],
     "crud/delete": [
       {
         "matching": "/(?i)(\\W|^)(baloney|darn|drat|fooey|gosh\\sdarnit|heck)(\\W|$)/"
@@ -288,7 +287,7 @@ Attenuation is the process of constraining the capabilities in a delegation chai
     ]
   },
   "mailto:username@example.com": {
-    "msg/send": "*",
+    "msg/send": [{}],
     "msg/receive": [
       {
         "max_count": 5,
@@ -306,11 +305,11 @@ Attenuation is the process of constraining the capabilities in a delegation chai
 
 {
   "example://example.com/public/photos/": {
-    "crud/read": "*",
-    "crud/delete": "*", // Broader than claimed
+    "crud/read": [{}],
+    "crud/delete": [{}], // Broader than claimed
   },
   "mailto:username@example.com": {
-    "msg/send": "*", // Broader than claimed
+    "msg/send": [{}], // Broader than claimed
     "msg/receive": [
       {
         "max_count": 5,
@@ -491,12 +490,9 @@ This array MUST contain some or none of the following:
 2. Capabilities composed from multiple proofs (see [rights amplification])
 3. Capabilities originated by the `iss` DID (i.e. by parenthood)
 
-#### 3.2.5.1 Anatomy
-
-The anatomy of a capability MUST be given as a mapping of resource URI to abilities to array of caveats or the wildcard `*`:
+The anatomy of a capability MUST be given as a mapping of resource URI to abilities to array of caveats.
 
 ```
-{ $RESOURCE: { $ABILITY: "*" } }
 { $RESOURCE: { $ABILITY: [ ...$CAVEATS ] } }
 ```
 
@@ -524,10 +520,10 @@ On validation, the caveat array MUST be treated as a logically disjunct (an "OR"
 ```json
 {
   "dns:example.com?TYPE=TXT": {
-    "crud/create": "*"
+    "crud/create": [{}]
   },
   "https://example.com/blog": {
-    "crud/read": "*",
+    "crud/read": [{}],
     "crud/update": [
       {"status": "draft"},
       {"status": "published", "day-of-week": "Monday"} // only publish on Mondays
@@ -549,10 +545,10 @@ The caveat array SHOULD NOT be empty, as an empty array means "in no case" (whic
 
 | Proof Caveats | Delegated Caveats | Is Valid? | Comment                              |
 |---------------|-------------------|-----------|--------------------------------------|
-| `"*"`         | `"*"`             | Yes       | Equal                                |
+| `[{}]`        | `[{}]`            | Yes       | Equal                                |
 | `[x]`         | `[x]`             | Yes       | Equal                                |
-| `[x]`         | `"*"`             | No        | Escalation to any                    |
-| `"*"`         | `[x]`             | Yes       | Introduces a new caveat              |
+| `[x]`         | `[{}]`            | No        | Escalation to any                    |
+| `[{}]`        | `[x]`             | Yes       | Introduces a new caveat              |
 | `[x, y]`      | `[x]`             | Yes       | Removes a capability                 |
 | `[x, y]`      | `[x, (y + z)]`    | Yes       | Attenuates existing caveat           |
 | `[x, y]`      | `[x, y, z]`       | No        | Escalation by adding new capability  |
