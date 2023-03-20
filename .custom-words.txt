@@ -10,6 +10,7 @@ Bluesky
 BxZ
 CIDs
 CIDv
+CNAME
 CRDT
 Canonicalization
 DAG
@@ -55,6 +56,7 @@ ScopeA
 ScopeB
 Seitan
 Subschemes
+TXT
 UCAN
 UCAN's
 UCANs
@@ -82,9 +84,11 @@ dereference
 disambiguates
 disjunct
 djdX
+dns
 enums
 extractable
 filesystem
+fooey
 hawaii
 init
 inlining
@@ -119,6 +123,7 @@ rootAud
 rootCap
 rootIss
 runtime
+sdarnit
 situationally
 stateful
 subdelegate
