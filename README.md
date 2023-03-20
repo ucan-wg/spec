@@ -272,6 +272,65 @@ Note that delegation is a separate concept from [invocation]. Delegation is the 
 
 Attenuation is the process of constraining the capabilities in a delegation chain.
 
+
+### 2.8.1 Examples
+
+``` json
+// Example claimed capabilities
+
+{
+  "example://example.com/public/photos/": {
+    "crud/read": "*",
+    "crud/delete": [
+      {
+        "matching": "/(?i)(\\W|^)(baloney|darn|drat|fooey|gosh\\sdarnit|heck)(\\W|$)/"
+      }
+    ]
+  },
+  "mailto:username@example.com": {
+    "msg/send": "*",
+    "msg/receive": [
+      {
+        "max_count": 5,
+        "templates": [
+          "newsletter",
+          "marketing"
+        ]
+      }
+    ]
+  }
+}
+
+
+// Example proof capabilities
+
+{
+  "example://example.com/public/photos/": {
+    "crud/read": "*",
+    "crud/delete": "*", // Broader than claimed
+  },
+  "mailto:username@example.com": {
+    "msg/send": "*", // Broader than claimed
+    "msg/receive": [
+      {
+        "max_count": 5,
+        "templates": [
+          "newsletter",
+          "marketing"
+        ]
+      }
+    ]
+  },
+  "dns:example.com": { // Not delegated
+    "crud/create": [
+      {"record": "A"},
+      {"record": "CNAME"},
+      {"record": "TXT"}
+    ]
+  }
+}
+```
+
 ## 2.9 Revocation
 
 Revocation is the act of invalidating a UCAN after the fact, outside of the limitations placed on it by the UCAN's fields (such as its expiry). 
