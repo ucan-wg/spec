@@ -209,7 +209,7 @@ The resource and ability fields are REQUIRED. Any non-normative extensions are O
 
 The set of capabilities delegated by a UCAN is called its "authority." This functions as a declarative description of delegated abilities.
 
-Merging capability authoritys MUST follow set semantics, where the result includes all capabilities from the input authoritys. Since broader capabilities automatically include narrower ones, this process is always additive. Capability authoritys can be combined in any order, with the result always being at least as broad as each of the original authoritys.
+Merging capability authorities MUST follow set semantics, where the result includes all capabilities from the input authorities. Since broader capabilities automatically include narrower ones, this process is always additive. Capability authorities can be combined in any order, with the result always being at least as broad as each of the original authorities.
 
 ``` plaintext
                  ┌───────────────────┐  ─┐
@@ -238,7 +238,7 @@ Merging capability authoritys MUST follow set semantics, where the result includ
 
 The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Except for [rights amplification], every unique delegation MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
 
-For example, given the following authoritys against a WebNative filesystem, they can be merged as follows:
+For example, given the following authorities against a WebNative filesystem, they can be merged as follows:
 
 ```js
 // "wnfs" abilities:
