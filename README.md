@@ -346,6 +346,8 @@ The payload MUST describe the authorization claims, who is involved, and its val
 
 The `iss` and `aud` fields describe the token's principals. These can be conceptualized as the sender and receiver of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key`] method, and MAY be augmented with [additional DID methods][DID].
 
+The `iss` and `aud` fields MUST contain a single principle each.
+
 If an issuer's DID has more than one key (e.g. [`did:ion`], [`did:3`]), the key used to sign the UCAN MUST be made explicit, using the [DID fragment] (the hash index).
 
 The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA is supported but [RECOMMENDED that another key type be preferred][ECDSA security].
@@ -878,6 +880,8 @@ Thank you [Blaine Cook] for the real-world feedback, ideas on future features, a
 
 Many thanks to [Christopher Joel] for his real-world feedback, raising many pragmatic considerations, and the Rust implementation and related crates.
 
+Thanks to [Juan Caballero] for the numerous questions, clarifications, and general advice on putting together a comprehensible spec.
+
 Thank you [Dan Finlay] for being sufficiently passionate about [OCAP] that we realized that capability systems had a real chance of adoption in an ACL-dominated world.
 
 Thanks to the entire [SPKI WG][SPKI/SDSI] for their closely related pioneering work.
@@ -927,6 +931,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Hugo Dias]: https://github.com/hugomrdias
 [Irakli Gozalishvili]: https://github.com/Gozala
 [JWT]: https://datatracker.ietf.org/doc/html/rfc7519
+[Juan Caballero]: https://github.com/bumblefudge
 [Local-First Auth]: https://github.com/local-first-web/auth
 [Macaroon]: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf
 [Mark Miller]: https://github.com/erights
