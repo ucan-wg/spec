@@ -590,30 +590,20 @@ The following resources are REQUIRED to be implemented.
 
 ## 4.1 `ucan`
 
-The `ucan` URI subscheme defines addressing for UCANs.
+The `ucan` URI scheme defines URI selectors for UCANs.
 
 ``` abnf
-ucan = "ucan:" ucan-selector
-ucan-selector = "*" / cid
+ucan = "ucan:" ["//" resource-owner-did "/"] ucan-selector
+ucan-selector = "*" / uri-scheme / ucan-cid
 ```
 
-`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the [CID][content identifiers] MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
-
-## 4.2 `own`
-
-The `own` URI subscheme defines how to address all resources of a particular URI scheme owned by a particular [DID subject]. The DID subject MUST NOT contain any other characters, such as query parameters or fragments. The `scheme-selector` MUST either be the wildcard (`*`) selector or a URI scheme (such as `dns`, `mailto`, and `telnet`). 
-
-``` abnf
-own = "own://" <did-subject> "/" scheme-authority
-scheme-selector = "*" / <scheme>
-```
-
-```
-own://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/*
-own://did:key:zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV/dns
-```
-
-The DID spec [permits an arbitrary DID method to specify the use of the URI path segment][DID path], the `own` scheme separates out the reference of owned resources rather than a DID document itself. Other URI schemes (such as `dns` and `telnet`) define their own syntactic rules. `own` makes it clear that the contained DID is the "owner" of the resource in the path, fragments, and queries.
+| Syntax                  | Meaning                                       |
+|-------------------------|-----------------------------------------------|
+| `ucan:<cid>`            | A specific UCAN by [CID][content identifiers] |
+| `ucan:*`                | All possible provable UCANs                   |
+| `ucan:./*`              | All in this UCAN's proofs                     |
+| `ucan://<did>/*`        | All of any scheme "owned" by a DID            |
+| `ucan://<did>/<scheme>` | All of scheme "owned" by a DID                |
 
 # 5. Reserved Abilities
 
