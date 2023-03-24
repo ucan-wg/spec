@@ -626,7 +626,7 @@ If an attenuated resource or capability is desired, it MUST be explicitly listed
 ``` js
 { 
   "ucan:bafkreihogico5an3e2xy3fykalfwxxry7itbhfcgq6f47sif6d7w6uk2ze": {"ucan:/*": []}, 
-  "ucan:*": {"ucan/*": []}
+  "ucan:*": {"ucan/*": [{}]}
 }
 ```
 
