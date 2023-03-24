@@ -553,12 +553,12 @@ The caveat array SHOULD NOT be empty, as an empty array means "in no case" (whic
 | `[x, y]`      | `[x, (y + z)]`    | Yes       | Attenuates existing caveat           |
 | `[x, y]`      | `[x, y, z]`       | No        | Escalation by adding new capability  |
 
-Note that for consisteny in this syntax, the empty array MUST be equivalent to disallowing the capability. Conversely, an empty object MUST be treated as "no caveats".
+Note that for consistency in this syntax, the empty array MUST be equivalent to disallowing the capability. Conversely, an empty object MUST be treated as "no caveats".
 
-| Proof Caveats | Comment                                                      |
-|---------------|--------------------------------------------------------------|
-| `[]`          | No capabilities                                              |
-| `[{}]`        | Full capabilties for this resource/ability pair (no caveats) |
+| Proof Caveats | Comment                                                       |
+|---------------|---------------------------------------------------------------|
+| `[]`          | No capabilities                                               |
+| `[{}]`        | Full capabilities for this resource/ability pair (no caveats) |
 
 ### 3.2.6 Proof of Delegation
 
