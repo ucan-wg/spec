@@ -564,7 +564,7 @@ Note that for consisteny in this syntax, the empty array MUST be equivalent to d
 
 Attenuations MUST be satisfied by matching the attenuated capability to a proof in the [`prf` array][prf field].
 
-Proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, a federated HTTP endpoint, a DHT, or shared database.
+Proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, a federated HTTP endpoint, a DHT, or a shared database.
 
 #### 3.2.6.1 `prf` Field
 
