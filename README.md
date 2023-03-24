@@ -404,7 +404,7 @@ The payload MUST describe the authorization claims, who is involved, and its val
 
 The `iss` and `aud` fields describe the token's principals. These can be conceptualized as the sender and receiver of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key`] method, and MAY be augmented with [additional DID methods][DID].
 
-The `iss` and `aud` fields MUST contain a single principle each.
+The `iss` and `aud` fields MUST contain a single principal each.
 
 If an issuer's DID has more than one key (e.g. [`did:ion`], [`did:3`]), the key used to sign the UCAN MUST be made explicit, using the [DID fragment] (the hash index).
 
