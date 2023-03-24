@@ -389,16 +389,16 @@ Note that the JWT `"alg": "none"` option MUST NOT be supported. The lack of sign
 
 The payload MUST describe the authorization claims, who is involved, and its validity period.
 
-| Field | Type                      | Description                                 | Required |
-|-------|---------------------------|---------------------------------------------|----------|
-| `iss` | `String`                  | Issuer DID (sender)                         | Yes      |
-| `aud` | `String`                  | Audience DID (receiver)                     | Yes      |
-| `nbf` | `Integer`                 | Not Before UTC Unix Timestamp (valid from)  | No       |
-| `exp` | `Integer \| null`         | Expiration UTC Unix Timestamp (valid until) | Yes      |
-| `nnc` | `String`                  | Nonce                                       | No       |
-| `fct` | `{String: Any}`           | Facts (asserted, signed data)               | No       |
-| `cap` | `{URI: {Ability: [Any]}}` | Capabilities                                | Yes      |
-| `prf` | `[CID]`                   | Proof of delegation (hash-linked UCANs)     | No       |
+| Field | Type                         | Description                                 | Required |
+|-------|------------------------------|---------------------------------------------|----------|
+| `iss` | `String`                     | Issuer DID (sender)                         | Yes      |
+| `aud` | `String`                     | Audience DID (receiver)                     | Yes      |
+| `nbf` | `Integer`                    | Not Before UTC Unix Timestamp (valid from)  | No       |
+| `exp` | `Integer \| null`            | Expiration UTC Unix Timestamp (valid until) | Yes      |
+| `nnc` | `String`                     | Nonce                                       | No       |
+| `fct` | `{String: Any}`              | Facts (asserted, signed data)               | No       |
+| `cap` | `{URI: {Ability: [Object]}}` | Capabilities                                | Yes      |
+| `prf` | `[CID]`                      | Proof of delegation (hash-linked UCANs)     | No       |
 
 ### 3.2.1 Principals
 
@@ -513,7 +513,7 @@ Abilities MUST be presented as a string. By convention, abilities SHOULD be name
 
 #### 3.2.5.4 Caveat Array
 
-Caveats MAY be open ended. Caveats MUST be understood by the executor of the eventual [invocation]. Caveats MUST prevent invocation otherwise.
+Caveats MAY be open ended. Caveats MUST be understood by the executor of the eventual [invocation]. Caveats MUST prevent invocation otherwise. Caveats MUST be formatted as objects.
 
 On validation, the caveat array MUST be treated as a logically disjunct (an "OR", NOT an "and"). In other words: passing validation against _any_ caveat in the array MUST pass the check. For example, consider the following capabilities:
 
@@ -553,6 +553,12 @@ The caveat array SHOULD NOT be empty, as an empty array means "in no case" (whic
 | `[x, y]`      | `[x, (y + z)]`    | Yes       | Attenuates existing caveat           |
 | `[x, y]`      | `[x, y, z]`       | No        | Escalation by adding new capability  |
 
+Note that for consisteny in this syntax, the empty array MUST be equivalent to disallowing the capability. Conversely, an empty object MUST be treated as "no caveats".
+
+| Proof Caveats | Comment                                                      |
+|---------------|--------------------------------------------------------------|
+| `[]`          | No capabilities                                              |
+| `[{}]`        | Full capabilties for this resource/ability pair (no caveats) |
 
 ### 3.2.6 Proof of Delegation
 
@@ -603,7 +609,9 @@ ucan-selector = "*" / uri-scheme / ucan-cid
 | `ucan:*`                | All possible provable UCANs                   |
 | `ucan:./*`              | All in this UCAN's proofs                     |
 | `ucan://<did>/*`        | All of any scheme "owned" by a DID            |
-| `ucan://<did>/<scheme>` | All of scheme "owned" by a DID                |
+| `ucan://<did>/<scheme>` | All of scheme "owned" by a DID                 |
+
+`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the  MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
 
 # 5. Reserved Abilities
 
