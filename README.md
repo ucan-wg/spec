@@ -485,7 +485,7 @@ The OPTIONAL `fct` field contains a map of arbitrary facts and proofs of knowled
 
 Capabilities MUST be presented as a map. This map is REQUIRED but MAY be empty.
 
-This array MUST contain some or none of the following:
+This map MUST contain some or none of the following:
 1. A strict subset (attenuation) of the capability authority from the `prf` field
 2. Capabilities composed from multiple proofs (see [rights amplification])
 3. Capabilities originated by the `iss` DID (i.e. by parenthood)
