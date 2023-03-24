@@ -609,9 +609,9 @@ ucan-selector = "*" / uri-scheme / ucan-cid
 | `ucan:*`                | All possible provable UCANs                   |
 | `ucan:./*`              | All in this UCAN's proofs                     |
 | `ucan://<did>/*`        | All of any scheme "owned" by a DID            |
-| `ucan://<did>/<scheme>` | All of scheme "owned" by a DID                 |
+| `ucan://<did>/<scheme>` | All of scheme "owned" by a DID                |
 
-`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then the  MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
+`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then its CID MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
 
 # 5. Reserved Abilities
 
