@@ -306,10 +306,10 @@ Attenuation is the process of constraining the capabilities in a delegation chai
 {
   "example://example.com/public/photos/": {
     "crud/read": [{}],
-    "crud/delete": [{}], // Broader than claimed
+    "crud/delete": [{}], // Proof is (correctly) broader than claimed
   },
   "mailto:username@example.com": {
-    "msg/send": [{}], // Broader than claimed
+    "msg/send": [{}], // Proof is (correctly) broader than claimed
     "msg/receive": [
       {
         "max_count": 5,
@@ -320,7 +320,7 @@ Attenuation is the process of constraining the capabilities in a delegation chai
       }
     ]
   },
-  "dns:example.com": { // Not delegated
+  "dns:example.com": { // Not delegated, so no problem
     "crud/create": [
       {"type": "A"},
       {"type": "CNAME"},
@@ -553,7 +553,7 @@ The caveat array SHOULD NOT be empty, as an empty array means "in no case" (whic
 | `[x, y]`      | `[x, (y + z)]`    | Yes       | Attenuates existing caveat           |
 | `[x, y]`      | `[x, y, z]`       | No        | Escalation by adding new capability  |
 
-Note that for consistency in this syntax, the empty array MUST be equivalent to disallowing the capability. Conversely, an empty object MUST be treated as "no caveats".
+Note that for consisteny in this syntax, the empty array MUST be equivalent to disallowing the capability. Conversely, an empty object MUST be treated as "no caveats".
 
 | Proof Caveats | Comment                                                       |
 |---------------|---------------------------------------------------------------|
@@ -931,6 +931,8 @@ Many thanks to [Hugo Dias], [Mikael Rogers], and the entire DAG House team for t
 
 Thank you [Blaine Cook] for the real-world feedback, ideas on future features, and lessons from other auth standards.
 
+Many thanks to [Brian Ginsburg] and [Steven Vandevelde] for their many copy edits, feedback from real world usage, maintenance of the TypeScript implementation, and tools such as [ucan.xyz].
+
 Many thanks to [Christopher Joel] for his real-world feedback, raising many pragmatic considerations, and the Rust implementation and related crates.
 
 Thanks to [Juan Caballero] for the numerous questions, clarifications, and general advice on putting together a comprehensible spec.
@@ -966,6 +968,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Blaine Cook]: https://github.com/blaine
 [Bluesky]: https://blueskyweb.xyz/
 [Brendan O'Brien]: https://github.com/b5
+[Brian Ginsburg]: https://github.com/bgins
 [Brooklyn Zelenka]: https://github.com/expede 
 [CACAO]: https://blog.ceramic.network/capability-based-data-security-on-ceramic/
 [CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
@@ -1000,6 +1003,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [SPKI/SDSI]: https://datatracker.ietf.org/wg/spki/about/
 [SPKI]: https://theworld.com/~cme/html/spki.html
 [Seitan token exchange]: https://book.keybase.io/docs/teams/seitan
+[Steven Vandevelde]: https://github.com/icidasset
 [Token Uniqueness]: #622-token-uniqueness
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
@@ -1031,3 +1035,4 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [token resolution]: #8-token-resolution
 [top ability]: #41-top
+[ucan.xyz]: https://ucan.xyz
