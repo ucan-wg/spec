@@ -57,11 +57,13 @@ ScopeB
 Seitan
 Subschemes
 TXT
+TypeScript
 UCAN
 UCAN's
 UCANs
 URI
 URIs
+Vandevelde
 WG
 WebNative
 ZCAP
@@ -142,4 +144,5 @@ validator
 validator's
 verifiability
 wnfs
+xyz
 ymuepAQ
