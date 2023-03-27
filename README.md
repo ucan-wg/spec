@@ -243,9 +243,11 @@ For example, given the following authorities against a WebNative filesystem, the
 // "wnfs" abilities:
 // fetch < append < overwrite < superuser
 
-AuthorityA = [
-  { "with": "wnfs://alice.example.com/pictures/", "can": "wnfs/append" }
-];
+AuthorityA = {
+  "wnfs://alice.example.com/pictures/": {
+    "wnfs/append": [{}]
+  }
+};
 
 AuthorityB = {
   "wnfs://alice.example.com/pictures/vacation/": {
