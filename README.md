@@ -247,10 +247,14 @@ AuthorityA = [
   { "with": "wnfs://alice.example.com/pictures/", "can": "wnfs/append" }
 ];
 
-AuthorityB = [
-  { "with": "wnfs://alice.example.com/pictures/vacation/", "can": "wnfs/append" };
-  { "with": "wnfs://alice.example.com/pictures/vacation/hawaii/", "can": "wnfs/overwrite"}
-];
+AuthorityB = {
+  "wnfs://alice.example.com/pictures/vacation/": {
+    "wnfs/append": [{}]
+  },
+  "wnfs://alice.example.com/pictures/vacation/hawaii/": {
+    "wnfs/overwrite": [{}]
+  }
+};
 
 merge(AuthorityA, AuthorityB) == [
    {"with": "wnfs://alice.example.com/pictures/", "can": "wnfs/append"},
