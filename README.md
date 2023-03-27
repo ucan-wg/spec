@@ -256,11 +256,15 @@ AuthorityB = {
   }
 };
 
-merge(AuthorityA, AuthorityB) == [
-   {"with": "wnfs://alice.example.com/pictures/", "can": "wnfs/append"},
-   {"with": "wnfs://alice.example.com/pictures/vacation/hawaii", "can": "wnfs/overwrite"}
-   // Note that ("/pictures/vacation/" x append) has become redundant, being contained in ("/pictures/" x append)
-];
+merge(AuthorityA, AuthorityB) == {
+  "wnfs://alice.example.com/pictures/": {
+    "wnfs/append": [{}],
+  },
+ "wnfs://alice.example.com/pictures/vacation/hawaii": {
+   "wnfs/overwrite": [{}]
+ }
+ // Note that ("/pictures/vacation/" x append) has become redundant, being contained in ("/pictures/" x append)
+};
 ```
 
 ## 2.7 Delegation
