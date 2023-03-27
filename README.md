@@ -539,7 +539,7 @@ The above MUST be interpreted as the set of capabilities below. If _any_ are mat
 | `dns:example.com?TYPE=TXT` | `crud/create` | Always                                            |
 | `https://example.com/blog` | `crud/read`   | Always                                            |
 | `https://example.com/blog` | `crud/update` | `{status: "draft"}`                               |
-| `https://example.com/blog` | `crud/update` | `{status: "publishsed", "day-of-week": "monday"}` |
+| `https://example.com/blog` | `crud/update` | `{status: "published", "day-of-week": "monday"}` |
 
 The caveat array SHOULD NOT be empty, as an empty array means "in no case" (which is equivalent to not listing the ability). This follows from the rule that delegations MUST be of equal or lesser scope. When an array is given, an attenuated caveat MUST (syntactically) include all of the fields of the relevant proof caveat, plus the newly introduced caveats.
 
