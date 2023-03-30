@@ -247,7 +247,7 @@ AuthorityA = {
   "wnfs://alice.example.com/pictures/": {
     "wnfs/append": [{}]
   }
-};
+}
 
 AuthorityB = {
   "wnfs://alice.example.com/pictures/vacation/": {
@@ -256,17 +256,17 @@ AuthorityB = {
   "wnfs://alice.example.com/pictures/vacation/hawaii/": {
     "wnfs/overwrite": [{}]
   }
-};
+}
 
 merge(AuthorityA, AuthorityB) == {
   "wnfs://alice.example.com/pictures/": {
     "wnfs/append": [{}],
   },
- "wnfs://alice.example.com/pictures/vacation/hawaii": {
-   "wnfs/overwrite": [{}]
- }
- // Note that ("/pictures/vacation/" x append) has become redundant, being contained in ("/pictures/" x append)
-};
+  "wnfs://alice.example.com/pictures/vacation/hawaii": {
+    "wnfs/overwrite": [{}]
+  }
+  // Note that ("/pictures/vacation/" x append) has become redundant, being contained in ("/pictures/" x append)
+}
 ```
 
 ## 2.7 Delegation
