@@ -377,9 +377,8 @@ The header MUST include all of the following fields:
 |-------|----------|--------------------------------|----------|
 | `alg` | `String` | Signature algorithm            | Yes      |
 | `typ` | `String` | Type (MUST be `"JWT"`)         | Yes      |
-| `ucv` | `String` | UCAN Semantic Version (v2.0.0) | Yes      |
 
-The header is a standard JWT header, with an additional REQUIRED field `ucv`. This field sets the version of the UCAN specification used in the payload.
+The header is a standard JWT header.
 
 EdDSA, as applied to JOSE (including JWT), is described in [RFC 8037].
 
@@ -391,7 +390,6 @@ Note that the JWT `"alg": "none"` option MUST NOT be supported. The lack of sign
 {
   "alg": "EdDSA",
   "typ": "JWT",
-  "ucv": "0.10.0"
 }
 ```
 
@@ -401,6 +399,7 @@ The payload MUST describe the authorization claims, who is involved, and its val
 
 | Field | Type                         | Description                                 | Required |
 |-------|------------------------------|---------------------------------------------|----------|
+| `ucv` | `String`                     | UCAN Semantic Version (`0.2.0`)             | Yes      |
 | `iss` | `String`                     | Issuer DID (sender)                         | Yes      |
 | `aud` | `String`                     | Audience DID (receiver)                     | Yes      |
 | `nbf` | `Integer`                    | Not Before UTC Unix Timestamp (valid from)  | No       |
@@ -410,7 +409,12 @@ The payload MUST describe the authorization claims, who is involved, and its val
 | `cap` | `{URI: {Ability: [Object]}}` | Capabilities                                | Yes      |
 | `prf` | `[CID]`                      | Proof of delegation (hash-linked UCANs)     | No       |
 
-### 3.2.1 Principals
+
+### 3.2.1 Version
+
+The `ucv` field sets the version of the UCAN specification used in the payload.
+
+### 3.2.2 Principals
 
 The `iss` and `aud` fields describe the token's principals. These can be conceptualized as the sender and receiver of a postal letter. The token MUST be signed with the private key associated with the DID in the `iss` field. Implementations MUST include the [`did:key`] method, and MAY be augmented with [additional DID methods][DID].
 
@@ -442,7 +446,7 @@ The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA i
 "iss": "did:3:bafyreiffkeeq4wq2htejqla2is5ognligi4lvjhwrpqpl2kazjdoecmugi#yh27jTt7Ny2Pwdy",
 ```
 
-### 3.2.2 Time Bounds
+### 3.2.3 Time Bounds
 
 `nbf` and `exp` stand for "not before" and "expires at," respectively. These are standard fields from [RFC 7519][JWT] (JWT) (which in turn uses [RFC 3339]), and represent seconds in UTC without time zone or other offset. Taken together, they represent the time bounds for a token.
 
@@ -459,7 +463,7 @@ Keeping the window of validity as short as possible is RECOMMENDED. Limiting the
 "exp": 1575606941,
 ```
 
-### 3.2.3 Nonce
+### 3.2.4 Nonce
 
 The OPTIONAL nonce parameter `nnc` MAY be any value. A randomly generated string is RECOMMENDED to provide a unique UCAN, though it MAY also be a monotonically increasing count of the number of links in the hash chain. This field helps prevent replay attacks and ensures a unique CID per delegation. The `iss`, `aud`, and `exp` fields together will often ensure that UCANs are unique, but adding the nonce ensures this uniqueness.
 
@@ -471,7 +475,7 @@ This field SHOULD NOT be used to sign arbitrary data, such as signature challeng
 "nnc": "1701-D"
 ```
 
-### 3.2.4 Facts
+### 3.2.5 Facts
 
 The OPTIONAL `fct` field contains a map of arbitrary facts and proofs of knowledge. The enclosed data MUST be self-evident and externally verifiable. It MAY include information such as hash preimages, server challenges, a Merkle proof, dictionary data, etc.
 
@@ -491,7 +495,7 @@ The OPTIONAL `fct` field contains a map of arbitrary facts and proofs of knowled
 }
 ```
 
-### 3.2.5 Capabilities & Attenuation
+### 3.2.6 Capabilities & Attenuation
 
 Capabilities MUST be presented as a map. This map is REQUIRED but MAY be empty.
 
@@ -506,7 +510,7 @@ The anatomy of a capability MUST be given as a mapping of resource URI to abilit
 { $RESOURCE: { $ABILITY: [ ...$CAVEATS ] } }
 ```
 
-#### 3.2.5.2 Resource
+#### 3.2.6.1 Resource
 
 Resources MUST be unique and given as [URI]s.
 
@@ -517,11 +521,11 @@ Resources in the capabilities map MAY overlap. For example, the following MAY co
 "https://example.com/blog"
 ```
 
-#### 3.2.5.3 Abilities
+#### 3.2.6.2 Abilities
 
 Abilities MUST be presented as a string. By convention, abilities SHOULD be namespaced with a slash, such as `msg/send`. One or more abilities MUST be given for each resource.
 
-#### 3.2.5.4 Caveat Array
+#### 3.2.6.3 Caveat Array
 
 Caveats MAY be open ended. Caveats MUST be understood by the executor of the eventual [invocation]. Caveats MUST prevent invocation otherwise. Caveats MUST be formatted as objects.
 
@@ -570,17 +574,17 @@ Note that for consistency in this syntax, the empty array MUST be equivalent to 
 | `[]`          | No capabilities                                               |
 | `[{}]`        | Full capabilities for this resource/ability pair (no caveats) |
 
-### 3.2.6 Proof of Delegation
+### 3.2.7 Proof of Delegation
 
 Attenuations MUST be satisfied by matching the attenuated capability to a proof in the [`prf` array][prf field].
 
 Proofs MUST be resolvable by the recipient. A proof MAY be left unresolvable if it is not used as support for the top-level UCAN's capability chain. The exact format MUST be defined in the relevant transport specification. Some examples of possible formats include: a JSON object payload delivered with the UCAN, a federated HTTP endpoint, a DHT, or a shared database.
 
-#### 3.2.6.1 `prf` Field
+#### 3.2.7.1 `prf` Field
 
 The `prf` field MUST contain the [content address][content identifiers] of UCAN proofs (the "inputs" of a UCAN). 
 
-#### 3.2.6.2 Examples
+#### 3.2.7.2 Examples
 
 ``` json
 "prf": [
