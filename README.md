@@ -699,7 +699,7 @@ A UCAN is valid inclusive from the `nbf` time and until the `exp` field. If the 
 
 In delegation, the `aud` field of every proof MUST match the `iss` field of the outer UCAN (the one being delegated to). This alignment MUST form a chain back to the originating principal for each resource. 
 
-This calculation MUST NOT take into account [DID fragment]s. If present, fragments are only intended to clarify which of a DID's keys was used to sign a particular UCAN, not to limit which specific key is delegated between. Use of `did:key` if delegation to a specific key is desired.
+This calculation MUST NOT take into account [DID fragment]s. If present, fragments are only intended to clarify which of a DID's keys was used to sign a particular UCAN, not to limit which specific key is delegated between. Use `did:key` if delegation to a specific key is desired.
 
 ``` mermaid
 flowchart RL
