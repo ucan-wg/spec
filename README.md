@@ -420,7 +420,7 @@ The `iss` and `aud` fields describe the token's principals. These can be concept
 
 The `iss` and `aud` fields MUST contain a single principal each.
 
-If an issuer's DID has more than one key (e.g. [`did:ion`], [`did:3`]), the key used to sign the UCAN MUST be made explicit, using the [DID fragment] (the hash index).
+If an issuer's DID has more than one key (e.g. [`did:ion`], [`did:3`]), the key used to sign the UCAN MUST be made explicit, using the [DID fragment] (the hash index) in the `iss` field. The `aud` field SHOULD NOT include a hash field, as this defeats the purpose of delegating to an identifier for multiple keys instead of an identity.
 
 It is RECOMMENDED that the underlying key types RSA, ECDSA, and EdDSA be supported.
 
