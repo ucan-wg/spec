@@ -791,13 +791,13 @@ It is RECOMMENDED that the canonical revocation store be kept as close to (or in
 
 Revocations MUST be irreversible. If the revocation was issued in error, a unique UCAN MAY be issued (e.g. by updating the nonce or changing the time bounds). This prevents confusion as the revocation moves through the network and makes revocation stores append-only and highly amenable to caching.
 
-A revocation message MUST conform to the following format:
+A revocation message MUST conform to the following JSON format:
 
 ``` js
 {
   "iss": did,
   "revoke": canonicalUcanCid,
-  "challenge": sign(did.privateKey, `REVOKE:${canonicalUcanCid}`)
+  "challenge": base64Unpadded(sign(did.privateKey, `REVOKE:${canonicalUcanCid}`))
 }
 ```
 
