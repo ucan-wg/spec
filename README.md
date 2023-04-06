@@ -557,16 +557,16 @@ The above MUST be interpreted as the set of capabilities below. If _any_ are mat
 
 The caveat array SHOULD NOT be empty, as an empty array means "in no case" (which is equivalent to not listing the ability). This follows from the rule that delegations MUST be of equal or lesser scope. When an array is given, an attenuated caveat MUST (syntactically) include all of the fields of the relevant proof caveat, plus the newly introduced caveats.
 
-| Proof Caveats | Delegated Caveats | Is Valid? | Comment                                 |
-|---------------|-------------------|-----------|-----------------------------------------|
-| `[{}]`        | `[{}]`            | Yes       | Equal                                   |
-| `[x]`         | `[x]`             | Yes       | Equal                                   |
-| `[x]`         | `[{}]`            | No        | Escalation to any                       |
-| `[{}]`        | `[x]`             | Yes       | Attenuates the `{}` caveat to `x`       |
-| `[x]`         | `[y]`             | No        | Escelartion by using a different caveat |
-| `[x, y]`      | `[x]`             | Yes       | Removes a capability                    |
-| `[x, y]`      | `[x, (y + z)]`    | Yes       | Attenuates existing caveat              |
-| `[x, y]`      | `[x, y, z]`       | No        | Escalation by adding new capability     |
+| Proof Caveats | Delegated Caveats | Is Valid? | Comment                                |
+|---------------|-------------------|-----------|----------------------------------------|
+| `[{}]`        | `[{}]`            | Yes       | Equal                                  |
+| `[x]`         | `[x]`             | Yes       | Equal                                  |
+| `[x]`         | `[{}]`            | No        | Escalation to any                      |
+| `[{}]`        | `[x]`             | Yes       | Attenuates the `{}` caveat to `x`      |
+| `[x]`         | `[y]`             | No        | Escelation by using a different caveat |
+| `[x, y]`      | `[x]`             | Yes       | Removes a capability                   |
+| `[x, y]`      | `[x, (y + z)]`    | Yes       | Attenuates existing caveat             |
+| `[x, y]`      | `[x, y, z]`       | No        | Escalation by adding new capability    |
 
 Note that for consistency in this syntax, the empty array MUST be equivalent to disallowing the capability. Conversely, an empty object MUST be treated as "no caveats".
 
