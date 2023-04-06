@@ -563,7 +563,7 @@ The caveat array SHOULD NOT be empty, as an empty array means "in no case" (whic
 | `[x]`         | `[x]`             | Yes       | Equal                                  |
 | `[x]`         | `[{}]`            | No        | Escalation to any                      |
 | `[{}]`        | `[x]`             | Yes       | Attenuates the `{}` caveat to `x`      |
-| `[x]`         | `[y]`             | No        | Escelation by using a different caveat |
+| `[x]`         | `[y]`             | No        | Escalation by using a different caveat |
 | `[x, y]`      | `[x]`             | Yes       | Removes a capability                   |
 | `[x, y]`      | `[x, (y + z)]`    | Yes       | Attenuates existing caveat             |
 | `[x, y]`      | `[x, y, z]`       | No        | Escalation by adding new capability    |
