@@ -422,7 +422,7 @@ The `iss` and `aud` fields MUST contain a single principal each.
 
 If an issuer's DID has more than one key (e.g. [`did:ion`], [`did:3`]), the key used to sign the UCAN MUST be made explicit, using the [DID fragment] (the hash index).
 
-The underlying key types RSA, ECDSA, and EdDSA MUST be supported. Use of ECDSA is supported but [RECOMMENDED that another key type be preferred][ECDSA security].
+It is RECOMMENDED that the underlying key types RSA, ECDSA, and EdDSA be supported.
 
 #### Examples
 
