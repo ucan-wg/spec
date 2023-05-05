@@ -952,6 +952,10 @@ Many thanks to [Brian Ginsburg] and [Steven Vandevelde] for their many copy edit
 
 Many thanks to [Christopher Joel] for his real-world feedback, raising many pragmatic considerations, and the Rust implementation and related crates.
 
+Many thanks to [Christine Lemmer-Webber] for her handwritten feedback on the design of UCAN.
+
+Thanks to [Benjamin Goering] for the many community threads and connections to [W3C] standards.
+
 Thanks to [Juan Caballero] for the numerous questions, clarifications, and general advice on putting together a comprehensible spec.
 
 Thank you [Dan Finlay] for being sufficiently passionate about [OCAP] that we realized that capability systems had a real chance of adoption in an ACL-dominated world.
@@ -981,6 +985,7 @@ _UCAN does not have any special protection against person-in-the-middle (PITM) a
 Were a PITM attack successfully performed on a UCAN delegation, the proof chain would contain the attacker's DID(s). It is possible to detect this scenario and revoke the relevant UCAN but does require special inspection of the topmost `iss` field to check if it is the expected DID. Therefore, it is strongly RECOMMENDED to only delegate UCANs to agents that are both trusted and authenticated and over secure channels.
 
 [Alan Karp]: https://github.com/alanhkarp
+[Benjamin Goering]: https://github.com/gobengo
 [Biscuit]: https://github.com/biscuit-auth/biscuit/
 [Blaine Cook]: https://github.com/blaine
 [Bluesky]: https://blueskyweb.xyz/
@@ -991,6 +996,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
 [Canonical CID]: #651-cid-canonicalization
 [Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
+[Christine Lemmer-Webber]: https://github.com/cwebber
 [Christopher Joel]: https://github.com/cdata
 [DID fragment]: https://www.w3.org/TR/did-core/#fragment
 [DID path]: https://www.w3.org/TR/did-core/#path
@@ -1024,6 +1030,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Token Uniqueness]: #622-token-uniqueness
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
+[W3C]: https://www.w3.org/
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
 [`did:3`]: https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md
 [`did:ion`]: https://github.com/decentralized-identity/ion
