@@ -952,7 +952,7 @@ Many thanks to [Brian Ginsburg] and [Steven Vandevelde] for their many copy edit
 
 Many thanks to [Christopher Joel] for his real-world feedback, raising many pragmatic considerations, and the Rust implementation and related crates.
 
-Many thanks to [Christine Lemmer-Webber] for her handwritten feedback on the design of UCAN, spearheading the [OCapN](https://github.com/ocapn/ocapn) initiative, and her related work on [ZCAP-LD].
+Many thanks to [Christine Lemmer-Webber] for her handwritten(!) feedback on the design of UCAN, spearheading the [OCapN] initiative, and her related work on [ZCAP-LD].
 
 Thanks to [Benjamin Goering] for the many community threads and connections to [W3C] standards.
 
@@ -1016,6 +1016,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Mark Miller]: https://github.com/erights
 [Mikael Rogers]: https://github.com/mikeal/
 [OCAP]: http://erights.org/elib/capability/index.html
+[OCapN]: https://github.com/ocapn/ocapn
 [POLA]: https://en.wikipedia.org/wiki/Principle_of_least_privilege
 [Philipp Krüger]: https://github.com/matheus23
 [Protocol Labs]: https://protocol.ai/
