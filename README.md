@@ -952,7 +952,7 @@ Many thanks to [Brian Ginsburg] and [Steven Vandevelde] for their many copy edit
 
 Many thanks to [Christopher Joel] for his real-world feedback, raising many pragmatic considerations, and the Rust implementation and related crates.
 
-Many thanks to [Christine Lemmer-Webber] for her handwritten feedback on the design of UCAN.
+Many thanks to [Christine Lemmer-Webber] for her handwritten feedback on the design of UCAN, spearheading the [OCapN](https://github.com/ocapn/ocapn) initiative, and her related work on [ZCAP-LD].
 
 Thanks to [Benjamin Goering] for the many community threads and connections to [W3C] standards.
 
