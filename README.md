@@ -628,7 +628,7 @@ ucan-selector = "*" / uri-scheme / ucan-cid
 
 `ucan:./*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then its CID MUST be used (`ucan:<cid>`). In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
 
-`ucan:*` is very powerful and deserves special mention. It selects _any_ UCAN that the issuer has access to (including transitively), even if it is not in the proofs of the current UCAN. This is useful when delegating permissions to another agent, incluing all unknown future delegations to the issuer.
+`ucan:*` is very powerful and deserves special mention. It selects _any_ UCAN that the issuer has access to (including transitively), even if it is not in the proofs of the current UCAN. This is useful when delegating permissions to another agent, including all unknown future delegations to the issuer.
 
 # 5. Reserved Abilities
 
@@ -1035,7 +1035,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
-[`did:3`]: https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md
+[`did:3`]: https://github.com/ceramicnetwork/CIPs/blob/main/CIPs/cip-79.md
 [`did:ion`]: https://github.com/decentralized-identity/ion
 [`did:key`]: https://w3c-ccg.github.io/did-method-key/
 [base32]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L12
