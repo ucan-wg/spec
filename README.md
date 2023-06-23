@@ -626,7 +626,9 @@ ucan-selector = "*" / uri-scheme / ucan-cid
 | `ucan://<did>/*`        | All of any scheme "owned" by a DID            |
 | `ucan://<did>/<scheme>` | All of scheme "owned" by a DID                |
 
-`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then its CID MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
+`ucan:./*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then its CID MUST be used (`ucan:<cid>`). In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
+
+`ucan:*` is very powerful and deserves special mention. It selects _any_ UCAN that the issuer has access to (including transitively), even if it is not in the proofs of the current UCAN. This is useful when delegating permissions to another agent, incluing all unknown future delegations to the issuer.
 
 # 5. Reserved Abilities
 
