@@ -448,7 +448,7 @@ It is RECOMMENDED that the underlying key types RSA, ECDSA, and EdDSA be support
 
 ### 3.2.3 Time Bounds
 
-`nbf` and `exp` stand for "not before" and "expires at," respectively. These are standard fields from [RFC 7519][JWT] (JWT) (which in turn uses [RFC 3339]), and represent seconds in UTC without time zone or other offset. Taken together, they represent the time bounds for a token.
+`nbf` and `exp` stand for "not before" and "expires at," respectively. These are standard fields from [RFC 7519][JWT] (JWT) (which in turn uses [RFC 3339]), and represent seconds in UTC without time zone or other offset. Taken together, they represent the time bounds for a token. These timestamps MUST be represented as the number of integer seconds since the Unix epoch.
 
 The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay using a UCAN. For example, pre-provisioning access to conference materials ahead of time but not allowing access until the day it starts is achievable with judicious use of `nbf`.
 
@@ -1033,7 +1033,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
-[`did:3`]: https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md
+[`did:3`]: https://github.com/ceramicnetwork/CIPs/blob/main/CIPs/cip-79.md
 [`did:ion`]: https://github.com/decentralized-identity/ion
 [`did:key`]: https://w3c-ccg.github.io/did-method-key/
 [base32]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L12
