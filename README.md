@@ -1033,7 +1033,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
-[`did:3`]: https://github.com/ceramicnetwork/CIP/blob/main/CIPs/CIP-79/CIP-79.md
+[`did:3`]: https://github.com/ceramicnetwork/CIPs/blob/main/CIPs/cip-79.md
 [`did:ion`]: https://github.com/decentralized-identity/ion
 [`did:key`]: https://w3c-ccg.github.io/did-method-key/
 [base32]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L12
