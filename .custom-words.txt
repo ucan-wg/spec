@@ -1,5 +1,7 @@
 ACL
 ACLs
+AlicePhone
+AliceRoot
 Attenuations
 Aud
 Auth
@@ -77,6 +79,7 @@ alice
 attenuations
 aud
 auth
+autonumber
 bene
 blockchain
 codec
@@ -124,12 +127,14 @@ preimages
 quG
 reauthorizations
 recommentations
+redelegate
 redelegates
 rootAud
 rootCap
 rootIss
 runtime
 sdarnit
+sequenceDiagram
 situationally
 stateful
 subdelegate

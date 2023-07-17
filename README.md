@@ -626,7 +626,33 @@ ucan-selector = "*" / uri-scheme / ucan-cid
 | `ucan://<did>/*`        | All of any scheme "owned" by a DID            |
 | `ucan://<did>/<scheme>` | All of scheme "owned" by a DID                |
 
-`ucan:*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then its CID MUST be used. In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
+`ucan:./*` represents all of the UCANs in the current proofs array. If selecting a particular proof (i.e. not the wildcard), then its CID MUST be used (`ucan:<cid>`). In the case of selecting a particular proof, the validator MUST check that the delegated content address is listed in the proofs (`prf`) field.
+
+`ucan:*` is very powerful and deserves special mention. It selects _any_ UCAN that the issuer has access to (including transitively), even if it is not in the proofs of the current UCAN. This is useful when delegating permissions to another agent, including all unknown future delegations to the issuer.
+
+### 4.1.1 `ucan:*` Example
+
+As an example, Alice is a user that would like to sign in to multiple devices, and has a `did:key` (she doesn't want to do complex key management). Her root key (`did:key:aliceRoot`) lives on her desktop. She creates a `ucan:*` delegation to her phone's DID (`did:key:alicePhone`).
+
+Bob would like to share access to write into a shared directory with Alice. Normally, either Bob would have to be aware of all of Alice's public keys, or the device that Bob delegates to would have to manually redelegate to Alice's other devices. With `ucan:*`, Bob can delegate to `did:key:aliceRoot`, and `did:key:alicePhone` can use the `ucan:*` resource to access Bob's shared directory.
+
+``` mermaid
+sequenceDiagram
+    autonumber
+    participant AliceRoot
+    participant AlicePhone
+    participant Bob
+
+    AliceRoot ->> AlicePhone: ucan:*
+    Bob ->> AliceRoot: bobSharedDirectory
+    
+    Note over AliceRoot, Bob: Alice's Phone accesses Bob's Directory
+    Bob -->> AliceRoot: bobSharedDirectory
+    AliceRoot -->> AlicePhone: ucan:*
+    AlicePhone ->> Bob: Write into BobSharedDirectory
+```
+
+In the diagram above, solid lines are delegations. The dotted lines are proofs in a proof chain. `did:key:alicePhone` would includes both the proofs to connecting Bob to `did:key:aliceRoot`, and from `did:key:alicePhone` to `did:key:alicePhone`. Step 5 is `did:key:alicePhone` invoking that proof chain to access Bob's shared directory.
 
 # 5. Reserved Abilities
 
