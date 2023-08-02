@@ -1077,7 +1077,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [disjunction]: https://en.wikipedia.org/wiki/Logical_disjunction
 [invocation]: https://github.com/ucan-wg/invocation
 [prf field]: #3271-prf-field
-[raw data multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L39
+[raw data multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L41
 [replay attack prevention]: #93-replay-attack-prevention
 [revocation]: #66-revocation
 [rights amplification]: #64-rights-amplification
