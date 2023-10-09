@@ -193,7 +193,7 @@ sequenceDiagram
     actor Alice
     actor Bob
 
-    Note over ACL: Setup
+    Note over ACL, DBAgent: Setup
     DBAgent ->> ACL: signup(DBAgent)
     ACL ->> ACL: register(DBAgent)
 
@@ -204,7 +204,7 @@ sequenceDiagram
     Alice -->> Bob: delegate(DBAgent, write)
 
     Note over Database, Bob: Invocation
-    Bob ->>+ DBAgent: invoke(DBAgent, write(key, value), proof: [➊,➋])
+    Bob ->>+ DBAgent: invoke(DBAgent, [write, key, value], proof: [➊,➋])
 
     critical External System
         DBAgent ->> ACL: write(key, value)
