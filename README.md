@@ -128,51 +128,7 @@ Unlike many authorization systems where a service controls access to resources i
 
 
 
-### Lifecycle
-
-FIXME show flow of resources passing handles to themselves
-
-
-``` mermaid
-sequenceDiagram
-    autonumber
-
-    participant FileAgent
-    actor Alice
-    actor Bob
-
-    Note over FileAgent, Bob: Delegation
-    FileAgent -->> Alice: Delegate(FileAgent, write)
-    Alice -->> Bob: Delegate(FileAgent, write)
-
-    Note over FileAgent, Bob: Invocation
-    Bob ->> FileAgent: Invoke(FileAgent, write(content), proof: [➊,➋])
-    FileAgent ->> Bob: ACK
-
-    Note over FileAgent, Bob: Revocation
-    Alice ->> FileAgent: Revoke(➋, proof: [➊,➋])
-    Bob ->> FileAgent: Invoke(FileAgent, write(content), proof: [➊,➋])
-    FileAgent -X Bob: NAK(➏) [rejected]
-```
-
-
-
-
-
-
-
-
-
-
-# 2 Specifications
-
-FIXME move some of this to prior section
-
-
-
-
-
-
+# 2 Lifecycle
 
 The UCAN lifecycle has three parts: [delegation], [invocation], and [revocation]. Supporting delegation and invocation is REQUIRED. Revocation support is RECOMMENDED.
 
@@ -188,6 +144,76 @@ flowchart TD
     click del href "https://github.com/ucan-wg/delegation" "UCAN Delegation Spec"
     click inv href "https://github.com/ucan-wg/invocation" "UCAN Invocation Spec"
     click rev href "https://github.com/ucan-wg/revocation" "UCAN Revocation Spec"
+```
+
+## 2.1 Example
+
+Here is a concrete example of all stages of the UCAN lifecycle for access to write to a database.
+
+``` mermaid
+sequenceDiagram
+    participant Database
+
+    actor DBAgent
+    actor Alice
+    actor Bob
+
+    Note over Database, Bob: Set Up Agent-Owned Resource
+    DBAgent ->> Database: createDB()
+
+    autonumber 1
+
+    Note over Database, Bob: Delegation
+    DBAgent -->> Alice: delegate(DBAgent, write)
+    Alice -->> Bob: delegate(DBAgent, write)
+
+    Note over Database, Bob: Invocation
+    Bob ->> DBAgent: invoke(DBAgent, [write, [key, value]], proof: [➊,➋])
+    DBAgent ->> Database: write(key, value)
+    DBAgent ->> Bob: ACK
+
+    Note over Database, Bob: Revocation
+    Alice ->> DBAgent: revoke(➋, proof: [➊,➋])
+    Bob ->> DBAgent: invoke(DBAgent, [write, [key, newValue]], proof: [➊,➋])
+    DBAgent -X Bob: NAK(➏) [rejected]
+```
+
+## 2.3 Wrapping Existing Systems
+
+In the RECOMMENDED scenario, the agent controlling a resource has a unique reference to it. This is always possible in a system that has adopted capabilities end-to-end.
+
+Interacting with existing systems MAY require relying on ambient authority contained in an ACL, nonunique reference, or other authorization logic. These cases are still compatible with UCAN, but the security guarantees are weaker since 1. the surface area is larger, and 2. part of the auth system lives outside UCAN.
+
+``` mermaid
+sequenceDiagram
+    participant Database
+    participant ACL as External Auth System
+
+    actor DBAgent
+    actor Alice
+    actor Bob
+
+    Note over ACL: Setup
+    DBAgent ->> ACL: signup(DBAgent)
+    ACL ->> ACL: register(DBAgent)
+
+    autonumber 1
+
+    Note over DBAgent, Bob: Delegation
+    DBAgent -->> Alice: delegate(DBAgent, write)
+    Alice -->> Bob: delegate(DBAgent, write)
+
+    Note over Database, Bob: Invocation
+    Bob ->>+ DBAgent: invoke(DBAgent, write(key, value), proof: [➊,➋])
+
+    critical External System
+        DBAgent ->> ACL: write(key, value)
+        ACL ->> ACL: check(write, key, value, DBAgent)
+        ACL ->> Database: write(key, value)
+        ACL ->> DBAgent: ACK
+    end
+
+    DBAgent ->>- Bob: ACK
 ```
 
 ## 2.1 Delegation
@@ -597,7 +623,12 @@ _UCAN does not have any special protection against person-in-the-middle (PITM) a
 
 Were a PITM attack successfully performed on a UCAN delegation, the proof chain would contain the attacker's DID(s). It is possible to detect this scenario and revoke the relevant UCAN but does require special inspection of the topmost `iss` field to check if it is the expected DID. Therefore, it is strongly RECOMMENDED to only delegate UCANs to agents that are both trusted and authenticated and over secure channels.
 
+<!-- Internal Links -->
+
+<!-- External Links -->
+
 [Alan Karp]: https://github.com/alanhkarp
+[BCP 14]: https://www.rfc-editor.org/info/bcp14
 [Benjamin Goering]: https://github.com/gobengo
 [Biscuit]: https://github.com/biscuit-auth/biscuit/
 [Blaine Cook]: https://github.com/blaine
@@ -607,7 +638,6 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Brooklyn Zelenka]: https://github.com/expede 
 [CACAO]: https://blog.ceramic.network/capability-based-data-security-on-ceramic/
 [CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
-[Canonical CID]: #651-cid-canonicalization
 [Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
 [Christine Lemmer-Webber]: https://github.com/cwebber
 [Christopher Joel]: https://github.com/cdata
@@ -641,37 +671,22 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [SPKI]: https://theworld.com/~cme/html/spki.html
 [Seitan token exchange]: https://book.keybase.io/docs/teams/seitan
 [Steven Vandevelde]: https://github.com/icidasset
-[Token Uniqueness]: #622-token-uniqueness
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
-[`did:3`]: https://github.com/ceramicnetwork/CIPs/blob/main/CIPs/cip-79.md
-[`did:ion`]: https://github.com/decentralized-identity/ion
-[`did:key`]: https://w3c-ccg.github.io/did-method-key/
-[base32]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L12
 [browser api crypto key]: https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
-[canonical collections]: #71-canonical-json-collection
 [capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
 [caps as keys]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
 [confinement]: http://www.erights.org/elib/capability/dist-confine.html
 [constructive semantics]: https://en.wikipedia.org/wiki/Intuitionistic_logic
 [content addressable storage]: https://en.wikipedia.org/wiki/Content-addressable_storage
 [content addressing]: https://en.wikipedia.org/wiki/Content-addressable_storage
-[content identifiers]: #65-content-identifiers
 [dag-json multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L104
-[delegation]: #51-ucan-delegation
-[disjunction]: https://en.wikipedia.org/wiki/Logical_disjunction
+[delegation]: https://github.com/ucan-wg/delegation
 [invocation]: https://github.com/ucan-wg/invocation
-[prf field]: #3271-prf-field
 [raw data multicodec]: https://github.com/multiformats/multicodec/blob/a03169371c0a4aec0083febc996c38c3846a0914/table.csv?plain=1#L41
-[replay attack prevention]: #93-replay-attack-prevention
-[revocation]: #66-revocation
-[rights amplification]: #64-rights-amplification
 [secure hardware enclave]: https://support.apple.com/en-ca/guide/security/sec59b0b31ff
 [spki rfc]: https://www.rfc-editor.org/rfc/rfc2693.html
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
-[token resolution]: #8-token-resolution
-[top ability]: #41-top
 [ucan.xyz]: https://ucan.xyz
-[BCP 14]: https://www.rfc-editor.org/info/bcp14
