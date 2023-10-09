@@ -83,7 +83,7 @@ FIXME FIXME FIXME
 
 Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of rights. "Proofs" are positive evidence (elsewhere called "witnesses") of the possession of rights. They are cryptographically signed data showing that the UCAN issuer either owns this or that it was delegated to them by the root owner.
 
-Root capability issuers function as verifiable, distributed roots of trust. The delegation chain is by definition a provenance log. Private keys themselves SHOULD NOT move from one context to another: this is what the delegation mechanism provides: "sharing authority without sharing keys."
+Root capability issuers function as verifiable, distributed roots of trust. The delegation chain is by definition a provenance log. Private keys themselves SHOULD NOT move from one context to another. Keeping keys unique to each physical device and unique per use case is RECOMMENDED to reduce opportunity for keys to leak, and limit blast radius in the case of compromises. "Sharing authority without sharing keys" is provided by capabilities, so there is no reason to share keys directly.
 
 Note that a structurally and cryptographicaly valid UCAN chain can be semantically invalid. The executor MUST verify the ownership of any external resources at execution time. While not possible for all use cases (e.g. replicated state machines and eventually consistent data), having the executor be the resource itself is RECOMMENDED.
 
@@ -132,6 +132,28 @@ Unlike many authorization systems where a service controls access to resources i
 
 FIXME show flow of resources passing handles to themselves
 
+
+``` mermaid
+sequenceDiagram
+    autonumber
+
+    participant FileAgent
+    actor Alice
+    actor Bob
+
+    Note over FileAgent, Bob: Delegation
+    FileAgent -->> Alice: Delegate(FileAgent, write)
+    Alice -->> Bob: Delegate(FileAgent, write)
+
+    Note over FileAgent, Bob: Invocation
+    Bob ->> FileAgent: Invoke(FileAgent, write(content), proof: [➊,➋])
+    FileAgent ->> Bob: ACK
+
+    Note over FileAgent, Bob: Revocation
+    Alice ->> FileAgent: Revoke(➋, proof: [➊,➋])
+    Bob ->> FileAgent: Invoke(FileAgent, write(content), proof: [➊,➋])
+    FileAgent -X Bob: NAK(➏) [rejected]
+```
 
 
 
