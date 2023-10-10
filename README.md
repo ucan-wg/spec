@@ -62,11 +62,15 @@ UCANs work more like [movie tickets][caps as keys] or a festival pass. No one ne
 
 Object capability ("ocap") systems use a combination of references, encapsulated state, and proxy forwarding. As the name implies, this is fairly close to object-oriented or actor-based systems. Object capabilities are [robust][Robust Composition], flexible, and expressive.
 
-To achieve these properties, object capabilities have two requirements: [fail-stop], and locality preservation. The emphasis on consistency rules out partition tolerance[^pcec].
+To achieve these properties, object capabilities have two requirements: [fail-safe], and locality preservation. The emphasis on consistency rules out partition tolerance[^pcec].
 
 [^pcec]: To be precise, this is a [PC/EC][PACELC] system, which is a critical tradeoff for many systems. UCAN can be used to model both PC/EC and PA/EL, but is most typically PC/EL.
 
 ## 1.3 Security Considerations
+
+> Whether to enable cooperation or to limit vulnerabilty, we care about _authority_ rather than _permissions._ Permissions determine what actions an individual program may perform on objects it can directly access. Authority describes the effects that a program may cause on objects it can access, either directly by permission, or indirectly by permitted interactions with other programs.
+>
+> —[Mark Miller], [Robust Composition]
 
 Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of authority. "Proofs" are positive evidence (elsewhere called "witnesses") of the possession of rights. They are cryptographically verifiable chains showing that the UCAN issuer either claims to directly own a resource, or that it was delegated to them by some claimed owner. In the most common case, the root owner's ID is the only globally unique identity for the resource.
 
@@ -271,7 +275,7 @@ For example, a capability may used to represent the ability to send email from a
 
 ## 2.7 Authority
 
-The set of capabilities delegated by a UCAN is called its "authority." This functions as a declarative description of delegated abilities.
+The set of capabilities delegated by a UCAN is called its "authority." To frame it another way, it's the set of effects that a principal can cause, and functions as a declarative description of delegated abilities.
 
 Merging capability authorities MUST follow set semantics, where the result includes all capabilities from the input authorities. Since broader capabilities automatically include narrower ones, this process is always additive. Capability authorities can be combined in any order, with the result always being at least as broad as each of the original authorities.
 
@@ -342,12 +346,11 @@ Maintaining a secondary token expiry index is RECOMMENDED. This enables garbage 
 >
 > —[Meiklejohn], [A Certain Tendency Of The Database Community]
 
-FIXME Expand
+Unlike many authorization systems where a service controls access to resources in their care, location-independent, offline, and leaderless resources require control to live with the user. Therefore, the same data MAY be used across many applications, data stores, and users. Since they don't have a single location, applying UCAN to [RSM]s and [CRDT]s MAY be modelled by lifting the requirement that the Executor be the Subject.
 
-Unlike many authorization systems where a service controls access to resources in their care, location-independent, offline, and leaderless resources require control to live with the user. Therefore, the same data MAY be used across many applications, data stores, and users.
+Ultimately this comes down to a question of push vs pull. In push, the subject MUST be the specific site being pushed to ("I command you to apply the following updates to your state").
 
-
-
+Pull is the broad class of situations where an Invoker doesn't require that a particular replica apply its state. Applying a change to a local CRDT replica and maintaining a UCAN invocation log is a valid update to "the CRDT": a version of the CRDT Subject exists locally even if the Subject's private key is not present. Gossiping these changes among agents allows each to apply changes that it becomes aware of. Thanks to the invocation log (or equivalent integrated directly into the CRDT), provenance of authority is made transparent.
 
 ``` mermaid
 sequenceDiagram
@@ -360,16 +363,16 @@ sequenceDiagram
     autonumber
 
     Note over CRDT, Bob: Setup
-    CRDT -->> Alice: delegate(CRDT_ID, append)
-    CRDT -->> Bob: delegate(CRDT_ID, append)
+    CRDT -->> Alice: delegate(CRDT_ID, merge)
+    CRDT -->> Bob: delegate(CRDT_ID, merge)
     
     Note over Bob, Carol: Bob Invites Carol
-    Bob -->> Carol: delegate(CRDT_ID, append)
+    Bob -->> Carol: delegate(CRDT_ID, merge)
 
     Note over Alice, Carol: Direct P2P Gossip
-    Carol ->> Bob: invoke(CRDT_ID, append, {C1}, proof: [➋,➍])
-    Alice ->> Carol: invoke(CRDT_ID, append, {A1}}, proof: [➊])
-    Bob ->> Alice: invoke(CRDT_ID, append, {B1, C1}, proof: [➋])
+    Carol ->> Bob: invoke(CRDT_ID, merge, {"Carrot"}, proof: [➋,➍])
+    Alice ->> Carol: invoke(CRDT_ID, merge, {"Apple"}}, proof: [➊])
+    Bob ->> Alice: invoke(CRDT_ID, merge, {"Banana", "Carrot"}, proof: [➋])
 ```
 
 ## 4.5 Wrapping Existing Systems
