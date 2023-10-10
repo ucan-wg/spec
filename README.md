@@ -88,13 +88,13 @@ This is achieved due to two properties: self-certifying delegation and reference
 
 # 2 Lifecycle
 
-The UCAN lifecycle has three parts: [delegation], [invocation], and optionally [revocation].
+The UCAN lifecycle has three parts:
 
-| Spec       | Required    |
-|------------|-------------|
-| Delegation | REQUIRED    |
-| Invocation | REQUIRED    |
-| Revocation | RECOMMENDED |
+| Spec         | Description                                                               | Required    |
+|--------------|---------------------------------------------------------------------------|-------------|
+| [Delegation] | Pass, attenuate, and secure authority in a partition-tolerant way         | REQUIRED    |
+| [Invocation] | Exercise authority that has been delegated through one or more delegatees | REQUIRED    |
+| [Revocation] | Undo a delegation, breaking a delegation chain for mallicious users       | RECOMMENDED |
 
 ``` mermaid
 flowchart TD
@@ -237,26 +237,15 @@ sequenceDiagram
     Bob ->>+ DBAgent: invoke(DBAgent, [write, key, value], proof: [➊,➋])
 
     critical External System
-        DBAgent ->> ACL: write(key, value)
-        ACL ->> ACL: check(write, key, value, DBAgent)
-        ACL ->> Database: write(key, value)
-        ACL ->> DBAgent: ACK
+        DBAgent ->> ACL: getToken(write, key, AuthGrant)
+        ACL ->> DBAgent: AccessToken
+        
+        DBAgent ->> Database: request(write, value, AccessToken)
+        Database ->> DBAgent: ACK
     end
 
     DBAgent ->>- Bob: ACK
 ```
-
-## 2.1 Delegation
-
-[UCAN Delegation] defines how to pass, attenuate, and secure authority in a partition-tolerant way.
-
-## 2.2 Invocation
-
-[UCAN Invocation] defines how to exercise the authority that has been delegated through one or more delegatees.
-
-## 2.3 Revocation
-
-[UCAN Revocation] provides a (post hoc) mechanism to undo a delegation, breaking a delegation chain for mallicious users.
 
 # 2. Terminology
 
