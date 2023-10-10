@@ -287,51 +287,17 @@ FIXME formats
 
 ## 2.6 Capability
 
-FIXME move to delegation spec?
-
 A capability is the association of an "ability" to a "resource": `resource x ability x caveats`.
 
 The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
 
-```
-{ $RESOURCE: { $ABILITY: $CAVEATS } }
-```
+For example, a capability may used to represent the ability to send email from a certain address on Fridays:
 
-### 2.5.1 Examples
-
-``` json
-{
-  "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
-    "crud/read": {},
-    "crud/delete": [
-      {
-        "uri": "example://example.com/public/photos/",
-        "matching": "/(?i)(\\W|^)(baloney|darn|drat|fooey|gosh\\sdarnit|heck)(\\W|$)/"
-      }
-    ]
-  },
-  "did:key:z6MkjchhfUsD6mmvni8mCdXHw216Xrm9bQe2mBH1P5RDjVJG": {
-    "wnfs/append": {
-      "uri": "file:/private/84MZ7aqwKn7sNiMGsSbaxsEa6EPnQLoKYbXByxNBrCEr" FIXME
-    }
-  },
-  "did:key:z6MknGc3ocHs3zdPiJbnaaqDi58NGb4pk1Sp9WxWufuXSdxf": {
-    "msg/send": {
-      "sender": "mailto:carol@example.com"
-    },
-    "msg/receive": [
-      {
-        "receiver": "mailto:carol@example.com",
-        "max_count": 5,
-        "templates": [
-          "newsletter",
-          "marketing"
-        ]
-      }
-    ]
-  }
-}
-```
+| Field    | Example                                                    |
+|----------|------------------------------------------------------------|
+| Resource | `did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK` |
+| Ability  | `msg/send`                                                 |
+| Caveat   | `{sender: "mailto:alice@example.com", "day": "friday"}`    |
 
 ## 2.7 Authority
 
@@ -366,38 +332,6 @@ Merging capability authorities MUST follow set semantics, where the result inclu
 
 The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Except for [rights amplification], every unique delegation MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
 
-For example, given the following authorities against a WebNative filesystem, they can be merged as follows:
-
-```js
-// "wnfs" abilities:
-// fetch < append < overwrite < superuser
-
-AuthorityA = {
-  "wnfs://alice.example.com/pictures/": {
-    "wnfs/append": [{}]
-  }
-}
-
-AuthorityB = {
-  "wnfs://alice.example.com/pictures/vacation/": {
-    "wnfs/append": [{}]
-  },
-  "wnfs://alice.example.com/pictures/vacation/hawaii/": {
-    "wnfs/overwrite": [{}]
-  }
-}
-
-merge(AuthorityA, AuthorityB) == {
-  "wnfs://alice.example.com/pictures/": {
-    "wnfs/append": [{}],
-  },
-  "wnfs://alice.example.com/pictures/vacation/hawaii": {
-    "wnfs/overwrite": [{}]
-  }
-  // Note that ("/pictures/vacation/" x append) has become redundant, being contained in ("/pictures/" x append)
-}
-```
-
 ## 2.7 Delegation
 
 Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructive "proof" acts as the authorization proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its authority.
@@ -410,65 +344,6 @@ Note that delegation is a separate concept from [invocation]. Delegation is the 
 
 Attenuation is the process of constraining the capabilities in a delegation chain.
 
-
-### 2.8.1 Examples
-
-``` json
-// Example claimed capabilities
-
-{
-  "example://example.com/public/photos/": {
-    "crud/read": [{}],
-    "crud/delete": [
-      {
-        "matching": "/(?i)(\\W|^)(baloney|darn|drat|fooey|gosh\\sdarnit|heck)(\\W|$)/"
-      }
-    ]
-  },
-  "mailto:username@example.com": {
-    "msg/send": [{}],
-    "msg/receive": [
-      {
-        "max_count": 5,
-        "templates": [
-          "newsletter",
-          "marketing"
-        ]
-      }
-    ]
-  }
-}
-
-
-// Example proof capabilities
-
-{
-  "example://example.com/public/photos/": {
-    "crud/read": [{}],
-    "crud/delete": [{}], // Proof is (correctly) broader than claimed
-  },
-  "mailto:username@example.com": {
-    "msg/send": [{}], // Proof is (correctly) broader than claimed
-    "msg/receive": [
-      {
-        "max_count": 5,
-        "templates": [
-          "newsletter",
-          "marketing"
-        ]
-      }
-    ]
-  },
-  "dns:example.com": { // Not delegated, so no problem
-    "crud/create": [
-      {"type": "A"},
-      {"type": "CNAME"},
-      {"type": "TXT"}
-    ]
-  }
-}
-```
-
 ## 2.9 Revocation
 
 Revocation is the act of invalidating a UCAN after the fact, outside of the limitations placed on it by the UCAN's fields (such as its expiry). 
@@ -479,18 +354,7 @@ In the case of UCAN, this MUST be done by a proof's issuer DID. For more on the 
 
 UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Invocation has its [own specification][invocation].
 
-
-
-
-
-
-
-
-
-
-
-
-# 8. Token Resolution
+# 3. Token Resolution
 
 Token resolution is transport specific. The exact format is left to the relevant UCAN transport specification. At minimum, such a specification MUST define at least the following:
 
@@ -500,33 +364,36 @@ Token resolution is transport specific. The exact format is left to the relevant
 
 Note that if an instance cannot dereference a CID at runtime, the UCAN MUST fail validation. This is consistent with the [constructive semantics] of UCAN.
 
-# 9. Implementation Recommendations
+# 4. Implementation Recommendations
 
-## 9.1 UCAN Store
+## 4.1 Delegation Store
 
 A validator MAY keep a local store of UCANs that it has received. UCANs are immutable but also time-bound so that this store MAY evict expired or revoked UCANs.
 
-This store MAY be indexed by CID (content addressing). Multiple indices built on top of this store MAY be used to improve capability search or selection performance.
+This store SHOULD be indexed by CID (content addressing). Multiple indices built on top of this store MAY be used to improve capability search or selection performance.
 
-## 9.2 Memoized Validation
+## 4.2 Memoized Validation
 
 Aside from revocation, capability validation is idempotent. Marking a CID (or capability index inside that CID) as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a proof: if the proof was previously reviewed and is not revoked, it is RECOMMENDED to consider it valid immediately.
 
 Revocation is irreversible. Suppose the validator learns of revocation by UCAN CID or issuer DID. In that case, the UCAN and all of its derivatives in such a cache MUST be marked as invalid, and all validations immediately fail without needing to walk the entire structure.
 
-## 9.3 Replay Attack Prevention
+## 4.3 Replay Attack Prevention
 
-Replay attack prevention is REQUIRED ([Token Uniqueness]). The exact strategy is left to the implementer. One simple strategy is maintaining a set of previously seen CIDs. This MAY be the same structure as a validated UCAN memoization table (if one exists in the implementation).
+Replay attack prevention is REQUIRED ([Token Uniqueness]). The exact strategy is left to the implementer. Some simple strategies include maintaining a set of previously seen CIDs, or requiring that nonces be monotonically increasing per principal. This MAY be the same structure as a validated UCAN memoization table (if one is implementated).
 
-It is RECOMMENDED that the structure have a secondary index referencing the token expiry field. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
+Maintaining a secondary token expiry index is RECOMMENDED. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
 
-## 9.4 Session Content ID
+## 4.4 Session Content ID
+
+Som 
 
 FIXME replace with invocation & content addressed delegtaions
 
 FIXME find solution to Daniel's curl counterexample
 
-## 2.3 Beyond Single System Image
+
+## 4.5 Beyond Single System Image
 
 > As we continue to increase the number of globally connected devices,
 we must embrace a design that considers every single member in the system as
@@ -567,7 +434,7 @@ sequenceDiagram
     Bob ->> Alice: invoke(CRDT_ID, append, {B1, C1}, proof: [➋])
 ```
 
-## 2.4 Wrapping Existing Systems
+## 4.6 Wrapping Existing Systems
 
 In the RECOMMENDED scenario, the agent controlling a resource has a unique reference to it. This is always possible in a system that has adopted capabilities end-to-end.
 
