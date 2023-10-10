@@ -180,13 +180,17 @@ sequenceDiagram
 
 ## 2.3 Beyond Single System Image
 
+> As we continue to increase the number of globally connected devices,
+we must embrace a design that considers every single member in the system as
+the primary site for the data that it is generates. It is completely impractical
+that we can look at a single, or a small number, of globally distributed data
+centers as the primary site for all global information that we desire to perform
+computations with.
+>
+> [Meiklejohn], [A Certain Tendency Of The Database Community]
 
-FIXME link to or quote CM's paper
+FIXME Expand
 
-
-
-
-WIP
 
 
 
@@ -201,36 +205,19 @@ sequenceDiagram
     autonumber
 
     Note over CRDT, Bob: Setup
-    CRDT -->> Alice: delegate(CRDT, append)
-    CRDT -->> Bob: delegate(CRDT, append)
+    CRDT -->> Alice: delegate(CRDT_ID, append)
+    CRDT -->> Bob: delegate(CRDT_ID, append)
 
     destroy CRDT
     Alice ->> CRDT: ACK
     
     Note over Bob, Carol: Bob Invites Carol
-    Bob -->> Carol: delegate(CRDT, append)
+    Bob -->> Carol: delegate(CRDT_ID, append)
 
     Note over Alice, Carol: Gossip Among Yourselves
-    Carol ->> Bob: invoke(CRDT, append, {C1}, proof: [➋,➍])
-    Alice ->> Carol: invoke(CRDT, append, {A1}}, proof: [➊])
-    Bob ->> Alice: invoke(CRDT, append, {B1, C1}, proof: [➋])
-
-    Note over Alice, Carol: Sign up for a CRDT Storage Service
-    create participant Storage as CRDT Storage Service
-    Bob ->> Storage: sigup(CRDT, {B1, C1})
-    Storage -->> Bob: Delegate(Storage, store, max: 5GB)
-
-    Bob -->> Carol: Delegate(Storage, store, max: 1GB)
-    Bob -->> Alice: Delegate(Storage, store, max: 1GB)
-
-    Note over Alice, Carol: Gossip Among Yourselves
-    Carol ->> Alice: invoke(CRDT, append, {C2}, proof: [➋,➍])
-    Bob ->> Alice: invoke(CRDT, append, {B2}), proof: [➋])
-    Alice ->> Carol: invoke(CRDT, append, {A2, B2}, proof: [➊])
-
-    Note over Carol, Storage: Store on Service
-    Carol ->> Storage: invoke(CRDT, append, {A1, A2, B2, C2}, proof: [➋,➍])
-    Carol ->> Storage: invoke(Storage, {store: await(⓯)} proof: [➒,➓])
+    Carol ->> Bob: invoke(CRDT_ID, append, {C1}, proof: [➋,➍])
+    Alice ->> Carol: invoke(CRDT_ID, append, {A1}}, proof: [➊])
+    Bob ->> Alice: invoke(CRDT_ID, append, {B1, C1}, proof: [➋])
 ```
 
 ## 2.4 Wrapping Existing Systems
@@ -636,6 +623,17 @@ FIXME find solution to Daniel's curl counterexample
 
 # 11. Acknowledgments
 
+
+
+
+FIXME not an endorsement
+
+
+
+FIXME add Martin
+
+
+
 Thank you to [Brendan O'Brien] for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
 
 Many thanks to [Hugo Dias], [Mikael Rogers], and the entire DAG House team for the real world feedback, and finding inventive new use cases.
@@ -682,6 +680,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 
 <!-- External Links -->
 
+[A Certain Tendency Of The Database Community]: https://arxiv.org/pdf/1510.08473.pdf
 [Alan Karp]: https://github.com/alanhkarp
 [BCP 14]: https://www.rfc-editor.org/info/bcp14
 [Benjamin Goering]: https://github.com/gobengo
@@ -712,6 +711,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Local-First Auth]: https://github.com/local-first-web/auth
 [Macaroon]: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf
 [Mark Miller]: https://github.com/erights
+[Meiklejohn]: https://christophermeiklejohn.com/
 [Mikael Rogers]: https://github.com/mikeal/
 [OCAP]: http://erights.org/elib/capability/index.html
 [OCapN]: https://github.com/ocapn/ocapn
