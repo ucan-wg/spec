@@ -1,22 +1,5 @@
 # User Controlled Authorization Network (UCAN) Specification v1.0.0-rc.1
 
-
-
-
-PURPOSE OF THIS DOC:
-- Motivation
-- How the parts fit togethr
-- Theory dump
-
-
-
-TODO
-- operation vs ability (level of specificity)
-  - especially see if there's a cleaner way to handle ucan/*
-- Remove delegation-specific text
-- Give a high level understanding of the system components
-- Some theory: active cap certs
-
 ## Editors
 
 * [Brooklyn Zelenka], [Fission]
@@ -49,7 +32,7 @@ Being encoded with the familiar JWT, UCAN improves the familiarity and adoptabil
 
 ## 1.1 Motivation
 
-Since at least [Multics], [access control lists (ACLs)] have been the most popular form of digital authorization, where a list of what each user is allowed to do is maintained on the resource. ACLs have been a successful model suited to architectures where persistent access to a single list is viable. ACLs require that rules are sufficiently well specified, such as in a centralized database with rules covering all possible permutations of scenario. This both imposes a very high maintenance burden on programmers as a systems grows in complexity, and is a key vector for [confused deputies][confused deputy problem]. 
+Since at least [Multics], access control lists ([ACL]s) have been the most popular form of digital authorization, where a list of what each user is allowed to do is maintained on the resource. ACLs have been a successful model suited to architectures where persistent access to a single list is viable. ACLs require that rules are sufficiently well specified, such as in a centralized database with rules covering all possible permutations of scenario. This both imposes a very high maintenance burden on programmers as a systems grows in complexity, and is a key vector for [confused deputies][confused deputy problem]. 
 
 With increasing interconnectivity between machines becoming commonplace, authorization needs to scale to meet the load demands of distributed systems while providing partition tolerance. However, it is not always practical to maintain a single central authorization source. Even when copies of the authorization list are distributed to the relevant servers, latency and partitions introduce troublesome challenges with conflicting updates, to say nothing of storage requirements.
 
@@ -96,41 +79,22 @@ FIXME FIXME FIXME
 
 ## 1.4 Inversion of Control
 
-Unlike many authorization systems where a service controls access to resources in their care, location-independent, offline, and leaderless resources require control to live with the user. Therefore, the same data MAY be used across many applications, data stores, and users.
-
-```
-┌─────────────┐   ┌─────────────┐   ┌─────────────┐
-│             │   │             │   │             │
-│             │   │ ┌─────────┐ │   │             │
-│             │   │ │  Bob's  │ │   │             │
-│             │   │ │  Photo  │ │   │             │
-│             │   │ │ Gallery │ │   │             │
-│             │   │ └─────────┘ │   │             │
-│             │   │             │   │             │
-│   Alice's   │   │    Bob's    │   │   Carol's   │
-│    Stuff    │   │    Stuff    │   │    Stuff    │
-│             │   │             │   │             │
-│     ┌───────┼───┼─────────────┼───┼──┐          │
-│     │       │   │             │   │  │          │
-│     │       │   │         ┌───┼───┼──┼────────┐ │
-│     │       │   │ Alice's │   │   │  │        │ │
-│     │       │   │  Music  │   │   │  │Carol's │ │
-│     │       │   │ Player  │   │   │  │  Game  │ │
-│     │       │   │         │   │   │  │        │ │
-│     │       │   │         └───┼───┼──┼────────┘ │
-│     │       │   │             │   │  │          │
-│     └───────┼───┼─────────────┼───┼──┘          │
-│             │   │             │   │             │
-└─────────────┘   └─────────────┘   └─────────────┘
-```
 
 
 
 
+
+This is achieved due to two properties: self-certifying delegation and reference passing. Unlike a system like [OAuth], there is no Authorization server (AS) that sits between requestors and resources. In UCAN, the owner of a resource is 
 
 # 2 Lifecycle
 
-The UCAN lifecycle has three parts: [delegation], [invocation], and [revocation]. Supporting delegation and invocation is REQUIRED. Revocation support is RECOMMENDED.
+The UCAN lifecycle has three parts: [delegation], [invocation], and optionally [revocation].
+
+| Spec       | Required    |
+|------------|-------------|
+| Delegation | REQUIRED    |
+| Invocation | REQUIRED    |
+| Revocation | RECOMMENDED |
 
 ``` mermaid
 flowchart TD
@@ -191,6 +155,33 @@ computations with.
 
 FIXME Expand
 
+Unlike many authorization systems where a service controls access to resources in their care, location-independent, offline, and leaderless resources require control to live with the user. Therefore, the same data MAY be used across many applications, data stores, and users.
+
+```
+┌─────────────┐   ┌─────────────┐   ┌─────────────┐
+│             │   │             │   │             │
+│             │   │ ┌─────────┐ │   │             │
+│             │   │ │  Bob's  │ │   │             │
+│             │   │ │  Photo  │ │   │             │
+│             │   │ │ Gallery │ │   │             │
+│             │   │ └─────────┘ │   │             │
+│             │   │             │   │             │
+│   Alice's   │   │    Bob's    │   │   Carol's   │
+│    Stuff    │   │    Stuff    │   │    Stuff    │
+│             │   │             │   │             │
+│     ┌───────┼───┼─────────────┼───┼──┐          │
+│     │       │   │             │   │  │          │
+│     │       │   │         ┌───┼───┼──┼────────┐ │
+│     │       │   │ Alice's │   │   │  │        │ │
+│     │       │   │  Music  │   │   │  │Carol's │ │
+│     │       │   │ Player  │   │   │  │  Game  │ │
+│     │       │   │         │   │   │  │        │ │
+│     │       │   │         └───┼───┼──┼────────┘ │
+│     │       │   │             │   │  │          │
+│     └───────┼───┼─────────────┼───┼──┘          │
+│             │   │             │   │             │
+└─────────────┘   └─────────────┘   └─────────────┘
+```
 
 
 
@@ -202,13 +193,11 @@ sequenceDiagram
     actor Bob
     actor Carol
     
-    participant Storage as Hosted CRDT_ID Replica
-
     autonumber
 
     Note over CRDT, Bob: Setup
     CRDT -->> Alice: delegate(CRDT_ID, append)
-    CRDT ->> Bob: delegate(CRDT_ID, append)
+    CRDT -->> Bob: delegate(CRDT_ID, append)
     
     Note over Bob, Carol: Bob Invites Carol
     Bob -->> Carol: delegate(CRDT_ID, append)
@@ -276,15 +265,14 @@ sequenceDiagram
 There are several roles that an agent MAY assume:
 
 | Name      | Description                                                                                      | 
-| --------- | ------------------------------------------------------------------------------------------------ |
+|-----------|--------------------------------------------------------------------------------------------------|
 | Agent     | The general class of entities and principals that interact with a UCAN                           |
 | Audience  | The principal delegated to in the current UCAN. Listed in the `aud` field                        |
-| Executor  | FIXME FIXME FIXME |
+| Executor  | The agent that actually performs the action described in an invocation                           |
 | Issuer    | The signer of the current UCAN. Listed in the `iss` field                                        |
 | Owner     | The root issuer of a capability, who has some proof that they fully control the resource         |
 | Principal | An agent identified by DID (listed in a UCAN's `iss` or `aud` field)                             |
 | Revoker   | The issuer listed in a proof chain that revokes a UCAN                                           |
-| Signer    | A principal that can sign payloads                                                               |
 | Validator | Any agent that interprets a UCAN to determine that it is valid, and which capabilities it grants |
 
 ``` mermaid
@@ -303,25 +291,24 @@ flowchart TD
             subgraph Audience
                 Invoker
             end
-        end
 
-        subgraph Validator
             Executor
         end
+
+        Validator
     end
 ```
 
-## 2.2 Resource
+## 2.2 Subject
 
-A resource is some data or process that has an address. It can be anything from a row in a database, a user account, storage quota, email address, etc.
+## 2.3 Resource
 
-A resource describes the noun of a capability. The resource pointer MUST be provided in [URI] format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
+A resource is some data or process that has an address. It can be anything from a row in a database, a user account, storage quota, email address, etc. Resource MAY be as coarse or fine grained as desired. Finer-grained is RECOMMENDED where possible, as it is easier to model the principle of least authority ([POLA]).
+
+A resource describes the noun of a capability. It is either The resource pointer MUST be provided in [URI] format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
 
 Having a unique agent represent a resource (and act as its manager) is RECOMMENDED. However, to help traditional ACL-based systems transition to certificate capabilities, an agent MAY manage multiple resources, and act as the registrant in the ACL system. These situatons can be represneted as follows:
 
-``` mermaid
-
-```
 
 
 ## 2.3 Operation
