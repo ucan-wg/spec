@@ -124,17 +124,7 @@ This inverts the usual relationship between resources and users: the resource gr
 └─────────────┘   └─────────────┘   └─────────────┘
 ```
 
-### 1.4.1 Overcoming the Single System Image
-
-
-
-
-
-
-
-
-
-
+This additionally allows UCAN to model auth for [eventually consistent and replicated state][Post-SSI].
 
 # 2 Lifecycle
 
@@ -205,9 +195,10 @@ There are several roles that an agent MAY assume:
 | Audience  | The principal delegated to in the current UCAN. Listed in the `aud` field                        |
 | Executor  | The agent that actually performs the action described in an invocation                           |
 | Issuer    | The signer of the current UCAN. Listed in the `iss` field                                        |
-| Owner     | The root issuer of a capability, who has some proof that they fully control the resource         |
+| Owner     | A Subect that controls some external resource                                                    |
 | Principal | An agent identified by DID (listed in a UCAN's `iss` or `aud` field)                             |
 | Revoker   | The issuer listed in a proof chain that revokes a UCAN                                           |
+| Subject   | The principal who's authority is delegated or invoked                                            |
 | Validator | Any agent that interprets a UCAN to determine that it is valid, and which capabilities it grants |
 
 ``` mermaid
@@ -219,7 +210,10 @@ flowchart TD
             subgraph Issuer
                 direction TB
                 
-                Owner
+                subgraph Subject
+                  Owner
+                end
+
                 Revoker
             end
 
@@ -234,17 +228,13 @@ flowchart TD
     end
 ```
 
-## 2.2 Subject
+## 2.2 Resource
 
-## 2.3 Resource
-
-A resource is some data or process that has an address. It can be anything from a row in a database, a user account, storage quota, email address, etc. Resource MAY be as coarse or fine grained as desired. Finer-grained is RECOMMENDED where possible, as it is easier to model the principle of least authority ([POLA]).
+A resource is some data or process that can be uniquely identified by a [URI]. It can be anything from a row in a database, a user account, storage quota, email address, etc. Resource MAY be as coarse or fine grained as desired. Finer-grained is RECOMMENDED where possible, as it is easier to model the principle of least authority ([POLA]).
 
 A resource describes the noun of a capability. It is either The resource pointer MUST be provided in [URI] format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
 
 Having a unique agent represent a resource (and act as its manager) is RECOMMENDED. However, to help traditional ACL-based systems transition to certificate capabilities, an agent MAY manage multiple resources, and act as the registrant in the ACL system. These situatons can be represneted as follows:
-
-
 
 ## 2.3 Operation
 
@@ -287,17 +277,17 @@ FIXME formats
 
 ## 2.6 Capability
 
-A capability is the association of an "ability" to a "resource": `resource x ability x caveats`.
+A capability is the association of an "ability" to a "subject": `subject x ability x caveats`.
 
 The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
 
 For example, a capability may used to represent the ability to send email from a certain address on Fridays:
 
-| Field    | Example                                                    |
-|----------|------------------------------------------------------------|
-| Resource | `did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK` |
-| Ability  | `msg/send`                                                 |
-| Caveat   | `{sender: "mailto:alice@example.com", "day": "friday"}`    |
+| Field   | Example                                                    |
+|---------|------------------------------------------------------------|
+| Subject | `did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK` |
+| Ability | `msg/send`                                                 |
+| Caveat  | `{sender: "mailto:alice@example.com", "day": "friday"}`    |
 
 ## 2.7 Authority
 
@@ -310,10 +300,10 @@ Merging capability authorities MUST follow set semantics, where the result inclu
                  │                   │   │
                  │                   │   │
 ┌────────────────┼───┐               │   │
-│                │   │ Resource B    │   │
+│                │   │ Subject B     │   │
 │                │   │               │   │       BxZ
 │                │   │     X         │   ├─── Capability
-│     Resource A │   │               │   │
+│     Subject A  │   │               │   │
 │                │   │ Ability Z     │   │
 │         X      │   │               │   │
 │                │   │               │   │
@@ -327,14 +317,14 @@ Merging capability authorities MUST follow set semantics, where the result inclu
                    │
 
                AxY U BxZ
-                 authority
+               authority
 ```
 
 The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Except for [rights amplification], every unique delegation MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
 
 ## 2.7 Delegation
 
-Delegation is the act of granting another principal (the delegate) the capability to use a resource that another has (the delegator). A constructive "proof" acts as the authorization proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its authority.
+Delegation is the act of granting another principal (the delegate) the capability to use a subject resource that another has (the delegator). A constructive "proof" acts as the authorization proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its authority.
 
 Each direct delegation leaves the ability at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more proofs of different types if part of the resource's semantics. 
 
@@ -473,7 +463,7 @@ sequenceDiagram
     DBAgent ->>- Bob: ACK
 ```
 
-# 10. Related Work and Prior Art
+# 5. Related Work and Prior Art
 
 [SPKI/SDSI] is closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
 
@@ -489,7 +479,7 @@ sequenceDiagram
 
 [Verifiable credentials] are a solution for data about people or organizations. However, they are aimed at a slightly different problem: asserting attributes about the holder of a DID, including things like work history, age, and membership.
 
-# 11. Acknowledgments
+# 6. Acknowledgments
 
 
 
@@ -526,19 +516,19 @@ Many thanks to [Alan Karp] for sharing his vast experience with capability-based
 
 We want to especially recognize [Mark Miller] for his numerous contributions to the field of distributed auth, programming languages, and computer security writ large.
 
-# 12. FAQ
+# 7. FAQ
 
-## 12.1 What prevents an unauthorized party from using an intercepted UCAN?
+## 7.1 What prevents an unauthorized party from using an intercepted UCAN?
 
 UCANs always contain information about the sender and receiver. A UCAN is signed by the sender (the `iss` field DID) and can only be created by an agent in possession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks together secure the certificate against use by an unauthorized party.
 
-## 12.2 What prevents replay attacks on the invocation use case?
+## 7.2 What prevents replay attacks on the invocation use case?
 
 A UCAN delegated for purposes of immediate invocation MUST be unique. If many requests are to be made in quick succession, a nonce can be used. The receiving agent (the one to perform the invocation) checks the hash of the UCAN against a local store of unexpired UCAN hashes.
 
 This is not a concern when simply delegating since presumably the recipient agent already has that UCAN.
 
-## 12.3 Is UCAN secure against person-in-the-middle attacks?
+## 7.3 Is UCAN secure against person-in-the-middle attacks?
 
 _UCAN does not have any special protection against person-in-the-middle (PITM) attacks._
 
@@ -615,3 +605,4 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [spki rfc]: https://www.rfc-editor.org/rfc/rfc2693.html
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [ucan.xyz]: https://ucan.xyz
+ 
