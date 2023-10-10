@@ -13,8 +13,9 @@
 
 ## Sub-Specifications
 
-* [UCAN Invocation]
-* [UCAN Revocation]
+* [UCAN Delegation][delegation]
+* [UCAN Invocation][invocation]
+* [UCAN Revocation][revocation]
 
 ## Language
 
@@ -31,6 +32,10 @@ User-Controlled Authorization Network (UCAN) is a [trustless], secure, [local-fi
 Being encoded with the familiar JWT, UCAN improves the familiarity and adoptability of schemes like [SPKI/SDSI][SPKI] for web and native application contexts. UCAN allows for the creation, delegation, and invocation of authority by any agent with a DID, including traditional systems and peer-to-peer architectures beyond traditional cloud computing.
 
 ## 1.1 Motivation
+
+> If we practice our principles, we could have both security and functionality. Treating security as a separate concern has not succeeded in bridging the gap between principle and practice, because it operates without knowledge of what constitutes least authority.
+>
+> — Miller et al, [The Structure of Authority]
 
 Since at least [Multics], access control lists ([ACL]s) have been the most popular form of digital authorization, where a list of what each user is allowed to do is maintained on the resource. ACLs have been a successful model suited to architectures where persistent access to a single list is viable. ACLs require that rules are sufficiently well specified, such as in a centralized database with rules covering all possible permutations of scenario. This both imposes a very high maintenance burden on programmers as a systems grows in complexity, and is a key vector for [confused deputies][confused deputy problem]. 
 
@@ -67,10 +72,6 @@ To achieve these properties, object capabilities have two requirements: [fail-sa
 [^pcec]: To be precise, this is a [PC/EC][PACELC] system, which is a critical tradeoff for many systems. UCAN can be used to model both PC/EC and PA/EL, but is most typically PC/EL.
 
 ## 1.3 Security Considerations
-
-> Whether to enable cooperation or to limit vulnerabilty, we care about _authority_ rather than _permissions._ Permissions determine what actions an individual program may perform on objects it can directly access. Authority describes the effects that a program may cause on objects it can access, either directly by permission, or indirectly by permitted interactions with other programs.
->
-> —[Mark Miller], [Robust Composition]
 
 Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of authority. "Proofs" are positive evidence (elsewhere called "witnesses") of the possession of rights. They are cryptographically verifiable chains showing that the UCAN issuer either claims to directly own a resource, or that it was delegated to them by some claimed owner. In the most common case, the root owner's ID is the only globally unique identity for the resource.
 
@@ -118,7 +119,7 @@ This inverts the usual relationship between resources and users: the resource gr
 └─────────────┘   └─────────────┘   └─────────────┘
 ```
 
-This additionally allows UCAN to model auth for [eventually consistent and replicated state][Post-SSI].
+This additionally allows UCAN to model auth for [eventually consistent and replicated state][overcoming SSI].
 
 # 2 Lifecycle
 
@@ -275,6 +276,10 @@ For example, a capability may used to represent the ability to send email from a
 
 ## 2.7 Authority
 
+> Whether to enable cooperation or to limit vulnerabilty, we care about _authority_ rather than _permissions._ Permissions determine what actions an individual program may perform on objects it can directly access. Authority describes the effects that a program may cause on objects it can access, either directly by permission, or indirectly by permitted interactions with other programs.
+>
+> —[Mark Miller], [Robust Composition]
+
 The set of capabilities delegated by a UCAN is called its "authority." To frame it another way, it's the set of effects that a principal can cause, and functions as a declarative description of delegated abilities.
 
 Merging capability authorities MUST follow set semantics, where the result includes all capabilities from the input authorities. Since broader capabilities automatically include narrower ones, this process is always additive. Capability authorities can be combined in any order, with the result always being at least as broad as each of the original authorities.
@@ -304,7 +309,7 @@ Merging capability authorities MUST follow set semantics, where the result inclu
                authority
 ```
 
-The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Except for [rights amplification], every unique delegation MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
+The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Every unique delegated capabilty MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
 
 ## 2.8 Attenuation
 
@@ -450,7 +455,7 @@ Thanks to [Juan Caballero] for the numerous questions, clarifications, and gener
 
 Thank you [Dan Finlay] for being sufficiently passionate about [OCAP] that we realized that capability systems had a real chance of adoption in an ACL-dominated world.
 
-Thanks to [Martin Kleppmann] conversations exporating options for access control on CRDTs and [local-first] applications.
+Thanks to [Martin Kleppmann] of [Ink & Switch] for conversations exporating options for access control on CRDTs and [local-first] applications.
 
 Thanks to the entire [SPKI WG][SPKI/SDSI] for their closely related pioneering work.
 
@@ -478,9 +483,14 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 
 <!-- Internal Links -->
 
+[Token Uniqueness]
+[overcoming SSI]
+[sub-specifications]
+
 <!-- External Links -->
 
 [A Certain Tendency Of The Database Community]: https://arxiv.org/pdf/1510.08473.pdf
+[ACL]: https://en.wikipedia.org/wiki/Access-control_list
 [Alan Karp]: https://github.com/alanhkarp
 [BCP 14]: https://www.rfc-editor.org/info/bcp14
 [Benjamin Goering]: https://github.com/gobengo
@@ -492,6 +502,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Brooklyn Zelenka]: https://github.com/expede 
 [CACAO]: https://blog.ceramic.network/capability-based-data-security-on-ceramic/
 [CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
+[CRDT]: https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type
 [Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
 [Christine Lemmer-Webber]: https://github.com/cwebber
 [Christopher Joel]: https://github.com/cdata
@@ -506,6 +517,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Fission]: https://fission.codes
 [GUID]: https://en.wikipedia.org/wiki/Universally_unique_identifier
 [Hugo Dias]: https://github.com/hugomrdias
+[Ink & Switch]: https://www.inkandswitch.com/
 [Irakli Gozalishvili]: https://github.com/Gozala
 [JWT]: https://datatracker.ietf.org/doc/html/rfc7519
 [Juan Caballero]: https://github.com/bumblefudge
@@ -515,6 +527,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Martin Kleppmann]: https://martin.kleppmann.com/
 [Meiklejohn]: https://christophermeiklejohn.com/
 [Mikael Rogers]: https://github.com/mikeal/
+[Multics]: https://en.wikipedia.org/wiki/Multics
 [OCAP]: http://erights.org/elib/capability/index.html
 [OCapN]: https://github.com/ocapn/ocapn
 [PACELC]: https://en.wikipedia.org/wiki/PACELC_theorem
@@ -524,11 +537,14 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339
 [RFC 8037]: https://datatracker.ietf.org/doc/html/rfc8037
+[RSM]: https://en.wikipedia.org/wiki/State_machine_replication
+[Robust Composition]: http://www.erights.org/talks/thesis/markm-thesis.pdf
 [SHA2-256]: https://en.wikipedia.org/wiki/SHA-2
 [SPKI/SDSI]: https://datatracker.ietf.org/wg/spki/about/
 [SPKI]: https://theworld.com/~cme/html/spki.html
 [Seitan token exchange]: https://book.keybase.io/docs/teams/seitan
 [Steven Vandevelde]: https://github.com/icidasset
+[The Structure of Authority]: http://erights.org/talks/no-sep/secnotsep.pdf
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
@@ -536,17 +552,22 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [browser api crypto key]: https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
 [capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
 [caps as keys]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
+[certificate capability model]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
 [confinement]: http://www.erights.org/elib/capability/dist-confine.html
+[confused deputy problem]: https://en.wikipedia.org/wiki/Confused_deputy_problem
 [constructive semantics]: https://en.wikipedia.org/wiki/Intuitionistic_logic
 [content addressable storage]: https://en.wikipedia.org/wiki/Content-addressable_storage
 [content addressing]: https://en.wikipedia.org/wiki/Content-addressable_storage
 [dag-json multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L104
 [delegation]: https://github.com/ucan-wg/delegation
+[fail-safe]: https://en.wikipedia.org/wiki/Fail-safe
 [invocation]: https://github.com/ucan-wg/invocation
 [local-first]: https://www.inkandswitch.com/local-first/
+[passkey]: https://www.passkeys.com/
 [raw data multicodec]: https://github.com/multiformats/multicodec/blob/a03169371c0a4aec0083febc996c38c3846a0914/table.csv?plain=1#L41
 [revocation]: https://github.com/ucan-wg/revocation
 [secure hardware enclave]: https://support.apple.com/en-ca/guide/security/sec59b0b31ff
 [spki rfc]: https://www.rfc-editor.org/rfc/rfc2693.html
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
+[trustless]: https://blueskyweb.xyz/blog/3-6-2022-a-self-authenticating-social-protocol
 [ucan.xyz]: https://ucan.xyz
