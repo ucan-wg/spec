@@ -190,60 +190,48 @@ WIP
 
 
 
-
-
+``` mermaid
 sequenceDiagram
-    participant CRDT as CRDT Init
+    participant CRDT as Inital Grow-Only Set (CRDT)
 
     actor Alice
     actor Bob
     actor Carol
 
-    autonumber 1
+    autonumber
 
-    Note over Bob, Carol: Gossip Among Yourselves
-    %% Alice ->> CRDT: init()
-    CRDT -->> Alice: delegate(CRDT, update)
-    CRDT -->> Bob: delegate(CRDT, update)
+    Note over CRDT, Bob: Setup
+    CRDT -->> Alice: delegate(CRDT, append)
+    CRDT -->> Bob: delegate(CRDT, append)
 
-    %% destroy CRDT
-    %% Alice ->> CRDT: ACK, you can go offline
-
-    Note over Bob, Carol: Gossip Among Yourselves
-    Alice -->> Bob: delegate(write, Alice)
+    destroy CRDT
+    Alice ->> CRDT: ACK
     
-    Note over Bob, Carol: Gossip Among Yourselves
-    Alice -->> Carol: delegate(write, Alice)
-    Alice -->> Carol: delegate(CRDT, update)
+    Note over Bob, Carol: Bob Invites Carol
+    Bob -->> Carol: delegate(CRDT, append)
 
-    Note over Bob, Carol: Gossip Among Yourselves
-    Bob -->> Alice: delegate(write, Bob)
-    Alice -->> Carol: delegate(write, Bob)
+    Note over Alice, Carol: Gossip Among Yourselves
+    Carol ->> Bob: invoke(CRDT, append, {C1}, proof: [➋,➍])
+    Alice ->> Carol: invoke(CRDT, append, {A1}}, proof: [➊])
+    Bob ->> Alice: invoke(CRDT, append, {B1, C1}, proof: [➋])
 
-    Note over Bob, Carol: Gossip Among Yourselves
-    Carol ->> Bob: invoke
-    Bob ->> Carol: invoke
-    Carol ->> Alice: invoke
+    Note over Alice, Carol: Sign up for a CRDT Storage Service
+    create participant Storage as CRDT Storage Service
+    Bob ->> Storage: sigup(CRDT, {B1, C1})
+    Storage -->> Bob: Delegate(Storage, store, max: 5GB)
 
-    %% Bob ->> Alice: invoke(CRDT, update, "foo")
-    %% Carol ->> Dan: invoke(CRDT, update, "bar")
+    Bob -->> Carol: Delegate(Storage, store, max: 1GB)
+    Bob -->> Alice: Delegate(Storage, store, max: 1GB)
 
+    Note over Alice, Carol: Gossip Among Yourselves
+    Carol ->> Alice: invoke(CRDT, append, {C2}, proof: [➋,➍])
+    Bob ->> Alice: invoke(CRDT, append, {B2}), proof: [➋])
+    Alice ->> Carol: invoke(CRDT, append, {A2, B2}, proof: [➊])
 
-    %% Note over Alice, Carol: Invocation
-    %% Carol ->> CRDTAgent: invoke(CRDTAgent, [write, [key, value]], proof: [➊,➋])
-    %% CRDTAgent ->> Alice: write(key, value)
-    %% CRDTAgent ->> Carol: ACK
-
-    %% Note over CRDTAgent, Carol: Revocation
-    %% Bob ->> CRDTAgent: revoke(➋, proof: [➊,➋])
-    %% Carol ->> CRDTAgent: invoke(CRDTAgent, [write, [key, newValue]], proof: [➊,➋])
-    %% CRDTAgent -X Carol: NAK(➏) [rejected]
-%%  🄌 ➊ ➋ ➌ ➍ ➎ ➏ ➐ ➑ ➒ ➓ 
-
-
-
-
-
+    Note over Carol, Storage: Store on Service
+    Carol ->> Storage: invoke(CRDT, append, {A1, A2, B2, C2}, proof: [➋,➍])
+    Carol ->> Storage: invoke(Storage, {store: await(⓯)} proof: [➒,➓])
+```
 
 ## 2.4 Wrapping Existing Systems
 
