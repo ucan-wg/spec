@@ -76,14 +76,9 @@ Note that a structurally and cryptographicaly valid UCAN chain can be semantical
 
 While certificate chains go a long way toward improving security, they do not provide [confinement] on their own. The principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for and reducing authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical since they can further sub-delegate their authority to others without alerting their delegator. UCANs do not offer confinement (as that would require all processes to be online), so it is impossible to guarantee knowledge of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort.
 
-
-
-
-FIXME GUID but better
-
-
 ### 1.3.1 Confused Deputy
 
+FIXME
 
 
 ## 1.4 Inversion of Control
@@ -211,7 +206,8 @@ flowchart TD
                 direction TB
                 
                 subgraph Subject
-                  Owner
+                    Executor
+                    Owner
                 end
 
                 Revoker
@@ -220,15 +216,17 @@ flowchart TD
             subgraph Audience
                 Invoker
             end
-
-            Executor
         end
 
         Validator
     end
 ```
 
-## 2.2 Resource
+## 2.3 Subject
+
+A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the addition of public key verifiability. This unforgeability prevents mallicious namespace collisions which can lead to confused deputies.
+
+## 2.3 Resource
 
 A resource is some data or process that can be uniquely identified by a [URI]. It can be anything from a row in a database, a user account, storage quota, email address, etc. Resource MAY be as coarse or fine grained as desired. Finer-grained is RECOMMENDED where possible, as it is easier to model the principle of least authority ([POLA]).
 
@@ -236,48 +234,33 @@ A resource describes the noun of a capability. It is either The resource pointer
 
 Having a unique agent represent a resource (and act as its manager) is RECOMMENDED. However, to help traditional ACL-based systems transition to certificate capabilities, an agent MAY manage multiple resources, and act as the registrant in the ACL system. These situatons can be represneted as follows:
 
+Unless explicitly stated, the Resource of a UCAN MUST be the Subject.
+
 ## 2.3 Operation
 
+Operations are concrete messages ("verbs") that MUST be unambiguously interpretable by the Subject of a UCAN. Operations are REQUIRED in invocations. Some examples include `msg/send`, `crud/read`, and `ucan/revoke`.
 
+Much like other message-passing systems, the specific resource MUST define the behaviour for a particular message. For instance, `crud/update` MAY be used to destructively update a database row, or append to a append-only log. Specific messages MAY be created at will; the only restriction is that the Executor understand how to interpret that message in the context of a specific resource.
 
-FIXME
+While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/send` to a typical file system. 
 
-
-
-
-
-
-
-
-
-
-
-
-
+Operations MUST NOT be case-sensitive. There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
 ## 2.4 Ability
 
-Abilities describe the verb portion of the capability: an ability that can be performed on a resource. For instance, the standard HTTP methods such as `GET`, `PUT`, and `POST` would be possible `can` values for an `http` resource. While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/send` to a typical file system. 
+Abilities abstract over Operations to allow for extension of UCAN delegations.
 
-Abilities MAY be organized in a hierarchy with enums. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing potencies this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
-
-Abilities MUST NOT be case sensitive. For example, `http/post`, `http/POST`, `HTTP/post`, `HTTP/POST`, and `hTtP/pOsT` MUST all mean the same ability.
-
-There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
-
-The only reserved ability MUST be the un-namespaced [`"*"` (top)][top ability], which MUST be allowed on any resource.
+Abilities MAY be organized in a hierarchy. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing abilities this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
 ## 2.5 Caveats
 
 Capabilities MAY define additional optional or required fields specific to their use case in the caveat fields. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. Caveats MAY function as an "escape hatch" for when a use case is not fully captured by the resource and ability fields. Caveats can be read as "on the condition that `<some caveat>` holds".
 
-FIXME descibe types under the ability
-
-FIXME formats
+A common use for the caveats field is to define the resource that sits behind the Subject.
 
 ## 2.6 Capability
 
-A capability is the association of an "ability" to a "subject": `subject x ability x caveats`.
+A capability is the association of an ability to a subject: `subject x ability x caveats`.
 
 The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
 
@@ -374,25 +357,11 @@ Replay attack prevention is REQUIRED ([Token Uniqueness]). The exact strategy is
 
 Maintaining a secondary token expiry index is RECOMMENDED. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
 
-## 4.4 Session Content ID
+## 4.4 Beyond Single System Image
 
-Som 
-
-FIXME replace with invocation & content addressed delegtaions
-
-FIXME find solution to Daniel's curl counterexample
-
-
-## 4.5 Beyond Single System Image
-
-> As we continue to increase the number of globally connected devices,
-we must embrace a design that considers every single member in the system as
-the primary site for the data that it is generates. It is completely impractical
-that we can look at a single, or a small number, of globally distributed data
-centers as the primary site for all global information that we desire to perform
-computations with.
+> As we continue to increase the number of globally connected devices, we must embrace a design that considers every single member in the system as the primary site for the data that it is generates. It is completely impractical that we can look at a single, or a small number, of globally distributed data centers as the primary site for all global information that we desire to perform computations with.
 >
-> [Meiklejohn], [A Certain Tendency Of The Database Community]
+> —[Meiklejohn], [A Certain Tendency Of The Database Community]
 
 FIXME Expand
 
@@ -424,7 +393,7 @@ sequenceDiagram
     Bob ->> Alice: invoke(CRDT_ID, append, {B1, C1}, proof: [➋])
 ```
 
-## 4.6 Wrapping Existing Systems
+## 4.5 Wrapping Existing Systems
 
 In the RECOMMENDED scenario, the agent controlling a resource has a unique reference to it. This is always possible in a system that has adopted capabilities end-to-end.
 
@@ -481,17 +450,6 @@ sequenceDiagram
 
 # 6. Acknowledgments
 
-
-
-
-FIXME not an endorsement
-
-
-
-FIXME add Martin
-
-
-
 Thank you to [Brendan O'Brien] for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
 
 Many thanks to [Hugo Dias], [Mikael Rogers], and the entire DAG House team for the real world feedback, and finding inventive new use cases.
@@ -509,6 +467,8 @@ Thanks to [Benjamin Goering] for the many community threads and connections to [
 Thanks to [Juan Caballero] for the numerous questions, clarifications, and general advice on putting together a comprehensible spec.
 
 Thank you [Dan Finlay] for being sufficiently passionate about [OCAP] that we realized that capability systems had a real chance of adoption in an ACL-dominated world.
+
+Thanks to [Martin Kleppmann] conversations exporating options for access control on CRDTs and [local-first] applications.
 
 Thanks to the entire [SPKI WG][SPKI/SDSI] for their closely related pioneering work.
 
@@ -562,6 +522,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [ECDSA security]: https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security
 [FIDO]: https://fidoalliance.org/fido-authentication/
 [Fission]: https://fission.codes
+[GUID]: https://en.wikipedia.org/wiki/Universally_unique_identifier
 [Hugo Dias]: https://github.com/hugomrdias
 [Irakli Gozalishvili]: https://github.com/Gozala
 [JWT]: https://datatracker.ietf.org/doc/html/rfc7519
@@ -569,6 +530,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Local-First Auth]: https://github.com/local-first-web/auth
 [Macaroon]: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf
 [Mark Miller]: https://github.com/erights
+[Martin Kleppmann]: https://martin.kleppmann.com/
 [Meiklejohn]: https://christophermeiklejohn.com/
 [Mikael Rogers]: https://github.com/mikeal/
 [OCAP]: http://erights.org/elib/capability/index.html
@@ -599,10 +561,10 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [dag-json multicodec]: https://github.com/multiformats/multicodec/blob/master/table.csv#L104
 [delegation]: https://github.com/ucan-wg/delegation
 [invocation]: https://github.com/ucan-wg/invocation
+[local-first]: https://www.inkandswitch.com/local-first/
 [raw data multicodec]: https://github.com/multiformats/multicodec/blob/a03169371c0a4aec0083febc996c38c3846a0914/table.csv?plain=1#L41
 [revocation]: https://github.com/ucan-wg/revocation
 [secure hardware enclave]: https://support.apple.com/en-ca/guide/security/sec59b0b31ff
 [spki rfc]: https://www.rfc-editor.org/rfc/rfc2693.html
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [ucan.xyz]: https://ucan.xyz
- 
