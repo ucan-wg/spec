@@ -158,12 +158,12 @@ sequenceDiagram
     actor Alice
     actor Bob
 
-    Note over Database, Bob: Set Up Agent-Owned Resource
+    Note over Database, DBAgent: Set Up Agent-Owned Resource
     DBAgent ->> Database: createDB()
 
     autonumber 1
 
-    Note over Database, Bob: Delegation
+    Note over DBAgent, Bob: Delegation
     DBAgent -->> Alice: delegate(DBAgent, write)
     Alice -->> Bob: delegate(DBAgent, write)
 
@@ -172,13 +172,80 @@ sequenceDiagram
     DBAgent ->> Database: write(key, value)
     DBAgent ->> Bob: ACK
 
-    Note over Database, Bob: Revocation
+    Note over DBAgent, Bob: Revocation
     Alice ->> DBAgent: revoke(➋, proof: [➊,➋])
     Bob ->> DBAgent: invoke(DBAgent, [write, [key, newValue]], proof: [➊,➋])
     DBAgent -X Bob: NAK(➏) [rejected]
 ```
 
-## 2.3 Wrapping Existing Systems
+## 2.3 Beyond Single System Image
+
+
+FIXME link to or quote CM's paper
+
+
+
+
+WIP
+
+
+
+
+
+sequenceDiagram
+    participant CRDT as CRDT Init
+
+    actor Alice
+    actor Bob
+    actor Carol
+
+    autonumber 1
+
+    Note over Bob, Carol: Gossip Among Yourselves
+    %% Alice ->> CRDT: init()
+    CRDT -->> Alice: delegate(CRDT, update)
+    CRDT -->> Bob: delegate(CRDT, update)
+
+    %% destroy CRDT
+    %% Alice ->> CRDT: ACK, you can go offline
+
+    Note over Bob, Carol: Gossip Among Yourselves
+    Alice -->> Bob: delegate(write, Alice)
+    
+    Note over Bob, Carol: Gossip Among Yourselves
+    Alice -->> Carol: delegate(write, Alice)
+    Alice -->> Carol: delegate(CRDT, update)
+
+    Note over Bob, Carol: Gossip Among Yourselves
+    Bob -->> Alice: delegate(write, Bob)
+    Alice -->> Carol: delegate(write, Bob)
+
+    Note over Bob, Carol: Gossip Among Yourselves
+    Carol ->> Bob: invoke
+    Bob ->> Carol: invoke
+    Carol ->> Alice: invoke
+
+    %% Bob ->> Alice: invoke(CRDT, update, "foo")
+    %% Carol ->> Dan: invoke(CRDT, update, "bar")
+
+
+    %% Note over Alice, Carol: Invocation
+    %% Carol ->> CRDTAgent: invoke(CRDTAgent, [write, [key, value]], proof: [➊,➋])
+    %% CRDTAgent ->> Alice: write(key, value)
+    %% CRDTAgent ->> Carol: ACK
+
+    %% Note over CRDTAgent, Carol: Revocation
+    %% Bob ->> CRDTAgent: revoke(➋, proof: [➊,➋])
+    %% Carol ->> CRDTAgent: invoke(CRDTAgent, [write, [key, newValue]], proof: [➊,➋])
+    %% CRDTAgent -X Carol: NAK(➏) [rejected]
+%%  🄌 ➊ ➋ ➌ ➍ ➎ ➏ ➐ ➑ ➒ ➓ 
+
+
+
+
+
+
+## 2.4 Wrapping Existing Systems
 
 In the RECOMMENDED scenario, the agent controlling a resource has a unique reference to it. This is always possible in a system that has adopted capabilities end-to-end.
 
