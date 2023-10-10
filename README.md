@@ -177,7 +177,6 @@ sequenceDiagram
     DBAgent -X Bob: NAK(➏) [rejected]
 ```
 
-
 # 2. Terminology
 
 ## 2.1 Roles
@@ -206,6 +205,8 @@ flowchart TD
                 direction TB
                 
                 subgraph Subject
+                    direction TB
+                    
                     Executor
                     Owner
                 end
