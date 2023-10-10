@@ -76,11 +76,6 @@ Note that a structurally and cryptographicaly valid UCAN chain can be semantical
 
 While certificate chains go a long way toward improving security, they do not provide [confinement] on their own. The principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for and reducing authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical since they can further sub-delegate their authority to others without alerting their delegator. UCANs do not offer confinement (as that would require all processes to be online), so it is impossible to guarantee knowledge of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort.
 
-### 1.3.1 Confused Deputy
-
-FIXME
-
-
 ## 1.4 Inversion of Control
 
 This is achieved due to two properties: self-certifying delegation and reference passing. There is no Authorization Server (AS) that sits between requestors and resources. In traditional terms, the owner of a UCAN resource is the resource server (RS) directly.
@@ -226,7 +221,7 @@ flowchart TD
 
 ## 2.3 Subject
 
-A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the addition of public key verifiability. This unforgeability prevents mallicious namespace collisions which can lead to confused deputies.
+A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the addition of public key verifiability. This unforgeability prevents mallicious namespace collisions which can lead to [confused deputies].
 
 ## 2.3 Resource
 
