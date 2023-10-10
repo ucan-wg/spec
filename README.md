@@ -186,14 +186,15 @@ There are several roles that an agent MAY assume:
 | Name      | Description                                                                                      | 
 |-----------|--------------------------------------------------------------------------------------------------|
 | Agent     | The general class of entities and principals that interact with a UCAN                           |
-| Audience  | The principal delegated to in the current UCAN. Listed in the `aud` field                        |
-| Executor  | The agent that actually performs the action described in an invocation                           |
-| Issuer    | The signer of the current UCAN. Listed in the `iss` field                                        |
+| Audience  | The Principal delegated to in the current UCAN. Listed in the `aud` field                        |
+| Executor  | The Agent that actually performs the action described in an invocation                           |
+| Invoker   | A Principal that requests that an Executor perform some action that uses the Invoker's authority |
+| Issuer    | The Principal of the current UCAN. Listed in the `iss` field                                     |
 | Owner     | A Subect that controls some external resource                                                    |
 | Principal | An agent identified by DID (listed in a UCAN's `iss` or `aud` field)                             |
-| Revoker   | The issuer listed in a proof chain that revokes a UCAN                                           |
-| Subject   | The principal who's authority is delegated or invoked                                            |
-| Validator | Any agent that interprets a UCAN to determine that it is valid, and which capabilities it grants |
+| Revoker   | The Issuer listed in a proof chain that revokes a UCAN                                           |
+| Subject   | The Principal who's authority is delegated or invoked                                            |
+| Validator | Any Agent that interprets a UCAN to determine that it is valid, and which capabilities it grants |
 
 ``` mermaid
 flowchart TD
@@ -306,27 +307,9 @@ Merging capability authorities MUST follow set semantics, where the result inclu
 
 The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Except for [rights amplification], every unique delegation MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
 
-## 2.7 Delegation
-
-Delegation is the act of granting another principal (the delegate) the capability to use a subject resource that another has (the delegator). A constructive "proof" acts as the authorization proof for a delegation. Proofs are either the owning principal's signature or a UCAN with access to that capability in its authority.
-
-Each direct delegation leaves the ability at the same level or diminishes it. The only exception is in "rights amplification," where a delegation MAY be proven by one-or-more proofs of different types if part of the resource's semantics. 
-
-Note that delegation is a separate concept from [invocation]. Delegation is the act of granting a capability to another, not the act of using it (invocation), which has additional requirements.
-
 ## 2.8 Attenuation
 
-Attenuation is the process of constraining the capabilities in a delegation chain.
-
-## 2.9 Revocation
-
-Revocation is the act of invalidating a UCAN after the fact, outside of the limitations placed on it by the UCAN's fields (such as its expiry). 
-
-In the case of UCAN, this MUST be done by a proof's issuer DID. For more on the exact mechanism, see the revocation validation section.
-
-## 2.10 Invocation
-
-UCANs are used to delegate capabilities between DID-holding agents, eventually terminating in an "invocation" of those capabilities. Invocation is when the capability is exercised to perform some task on a resource. Invocation has its [own specification][invocation].
+Attenuation is the process of constraining the capabilities in a delegation chain. Each direct delegation MUST either directly restate or attenuate (diminish) its capabilities.
 
 # 3. Token Resolution
 
