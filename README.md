@@ -60,11 +60,15 @@ UCANs work more like [movie tickets][caps as keys] or a festival pass. No one ne
 
 ### 1.2.3 Object Capabilities
 
-FIXME FIXME FIXME 
+Object capability ("ocap") systems use a combination of references, encapsulated state, and proxy forwarding. As the name implies, this is fairly close to object-oriented or actor-based systems. Object capabilities are [robust][Robust Composition], flexible, and expressive.
+
+To achieve these properties, object capabilities have two requirements: [fail-stop], and locality preservation. The emphasis on consistency rules out partition tolerance[^pcec].
+
+[^pcec]: To be precise, this is a [PC/EC][PACELC] system, which is a critical tradeoff for many systems. UCAN can be used to model both PC/EC and PA/EL, but is most typically PC/EL.
 
 ## 1.3 Security Considerations
 
-Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of rights. "Proofs" are positive evidence (elsewhere called "witnesses") of the possession of rights. They are cryptographically signed data showing that the UCAN issuer either owns this or that it was delegated to them by the root owner.
+Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of authority. "Proofs" are positive evidence (elsewhere called "witnesses") of the possession of rights. They are cryptographically verifiable chains showing that the UCAN issuer either claims to directly own a resource, or that it was delegated to them by some claimed owner. In the most common case, the root owner's ID is the only globally unique identity for the resource.
 
 Root capability issuers function as verifiable, distributed roots of trust. The delegation chain is by definition a provenance log. Private keys themselves SHOULD NOT move from one context to another. Keeping keys unique to each physical device and unique per use case is RECOMMENDED to reduce opportunity for keys to leak, and limit blast radius in the case of compromises. "Sharing authority without sharing keys" is provided by capabilities, so there is no reason to share keys directly.
 
@@ -72,29 +76,75 @@ Note that a structurally and cryptographicaly valid UCAN chain can be semantical
 
 While certificate chains go a long way toward improving security, they do not provide [confinement] on their own. The principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for and reducing authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical since they can further sub-delegate their authority to others without alerting their delegator. UCANs do not offer confinement (as that would require all processes to be online), so it is impossible to guarantee knowledge of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort.
 
+
+
+
+FIXME GUID but better
+
+
 ### 1.3.1 Confused Deputy
 
-FIXME FIXME FIXME
 
 
 ## 1.4 Inversion of Control
 
+This is achieved due to two properties: self-certifying delegation and reference passing. There is no Authorization Server (AS) that sits between requestors and resources. In traditional terms, the owner of a UCAN resource is the resource server (RS) directly.
+
+This inverts the usual relationship between resources and users: the resource grants some (or all) authority over itself to agents, as opposed an Authorization Server managing the relationship between them. This has several major advantages:
+
+- Fully distributed and scalable
+- Self-contained request without intermediary 
+- Partition tolerance, [support for replicated data and machines][overcoming SSI]
+- Flexible granularity
+- Compositionality: no distinction between resources residing together or apart
+
+```
+┌─────────────┐   ┌─────────────┐   ┌─────────────┐
+│             │   │             │   │             │
+│             │   │ ┌─────────┐ │   │             │
+│             │   │ │  Bob's  │ │   │             │
+│             │   │ │  Photo  │ │   │             │
+│             │   │ │ Gallery │ │   │             │
+│             │   │ └─────────┘ │   │             │
+│             │   │             │   │             │
+│   Alice's   │   │    Bob's    │   │   Carol's   │
+│    Stuff    │   │    Stuff    │   │    Stuff    │
+│             │   │             │   │             │
+│     ┌───────┼───┼─────────────┼───┼──┐          │
+│     │       │   │             │   │  │          │
+│     │       │   │         ┌───┼───┼──┼────────┐ │
+│     │       │   │ Alice's │   │   │  │        │ │
+│     │       │   │  Music  │   │   │  │Carol's │ │
+│     │       │   │ Player  │   │   │  │  Game  │ │
+│     │       │   │         │   │   │  │        │ │
+│     │       │   │         └───┼───┼──┼────────┘ │
+│     │       │   │             │   │  │          │
+│     └───────┼───┼─────────────┼───┼──┘          │
+│             │   │             │   │             │
+└─────────────┘   └─────────────┘   └─────────────┘
+```
+
+### 1.4.1 Overcoming the Single System Image
 
 
 
 
 
-This is achieved due to two properties: self-certifying delegation and reference passing. Unlike a system like [OAuth], there is no Authorization server (AS) that sits between requestors and resources. In UCAN, the owner of a resource is 
+
+
+
+
+
 
 # 2 Lifecycle
 
 The UCAN lifecycle has three parts:
 
-| Spec         | Description                                                               | Required    |
-|--------------|---------------------------------------------------------------------------|-------------|
-| [Delegation] | Pass, attenuate, and secure authority in a partition-tolerant way         | REQUIRED    |
-| [Invocation] | Exercise authority that has been delegated through one or more delegatees | REQUIRED    |
-| [Revocation] | Undo a delegation, breaking a delegation chain for mallicious users       | RECOMMENDED |
+| Spec         | Description                                                               | Requirement Level |
+|--------------|---------------------------------------------------------------------------|-------------------|
+| [Delegation] | Pass, attenuate, and secure authority in a partition-tolerant way         | REQUIRED          |
+| [Invocation] | Exercise authority that has been delegated through one or more delegatees | REQUIRED          |
+| [Revocation] | Undo a delegation, breaking a delegation chain for mallicious users       | RECOMMENDED       |
 
 ``` mermaid
 flowchart TD
@@ -112,7 +162,7 @@ flowchart TD
 
 ## 2.1 Example
 
-Here is a concrete example of all stages of the UCAN lifecycle for access to write to a database.
+Here is a concrete example of all stages of the UCAN lifecycle for database write access.
 
 ``` mermaid
 sequenceDiagram
@@ -142,110 +192,6 @@ sequenceDiagram
     DBAgent -X Bob: NAK(➏) [rejected]
 ```
 
-## 2.3 Beyond Single System Image
-
-> As we continue to increase the number of globally connected devices,
-we must embrace a design that considers every single member in the system as
-the primary site for the data that it is generates. It is completely impractical
-that we can look at a single, or a small number, of globally distributed data
-centers as the primary site for all global information that we desire to perform
-computations with.
->
-> [Meiklejohn], [A Certain Tendency Of The Database Community]
-
-FIXME Expand
-
-Unlike many authorization systems where a service controls access to resources in their care, location-independent, offline, and leaderless resources require control to live with the user. Therefore, the same data MAY be used across many applications, data stores, and users.
-
-```
-┌─────────────┐   ┌─────────────┐   ┌─────────────┐
-│             │   │             │   │             │
-│             │   │ ┌─────────┐ │   │             │
-│             │   │ │  Bob's  │ │   │             │
-│             │   │ │  Photo  │ │   │             │
-│             │   │ │ Gallery │ │   │             │
-│             │   │ └─────────┘ │   │             │
-│             │   │             │   │             │
-│   Alice's   │   │    Bob's    │   │   Carol's   │
-│    Stuff    │   │    Stuff    │   │    Stuff    │
-│             │   │             │   │             │
-│     ┌───────┼───┼─────────────┼───┼──┐          │
-│     │       │   │             │   │  │          │
-│     │       │   │         ┌───┼───┼──┼────────┐ │
-│     │       │   │ Alice's │   │   │  │        │ │
-│     │       │   │  Music  │   │   │  │Carol's │ │
-│     │       │   │ Player  │   │   │  │  Game  │ │
-│     │       │   │         │   │   │  │        │ │
-│     │       │   │         └───┼───┼──┼────────┘ │
-│     │       │   │             │   │  │          │
-│     └───────┼───┼─────────────┼───┼──┘          │
-│             │   │             │   │             │
-└─────────────┘   └─────────────┘   └─────────────┘
-```
-
-
-
-``` mermaid
-sequenceDiagram
-    participant CRDT as Inital Grow-Only Set (CRDT)
-
-    actor Alice
-    actor Bob
-    actor Carol
-    
-    autonumber
-
-    Note over CRDT, Bob: Setup
-    CRDT -->> Alice: delegate(CRDT_ID, append)
-    CRDT -->> Bob: delegate(CRDT_ID, append)
-    
-    Note over Bob, Carol: Bob Invites Carol
-    Bob -->> Carol: delegate(CRDT_ID, append)
-
-    Note over Alice, Carol: Direct P2P Gossip
-    Carol ->> Bob: invoke(CRDT_ID, append, {C1}, proof: [➋,➍])
-    Alice ->> Carol: invoke(CRDT_ID, append, {A1}}, proof: [➊])
-    Bob ->> Alice: invoke(CRDT_ID, append, {B1, C1}, proof: [➋])
-```
-
-## 2.4 Wrapping Existing Systems
-
-In the RECOMMENDED scenario, the agent controlling a resource has a unique reference to it. This is always possible in a system that has adopted capabilities end-to-end.
-
-Interacting with existing systems MAY require relying on ambient authority contained in an ACL, nonunique reference, or other authorization logic. These cases are still compatible with UCAN, but the security guarantees are weaker since 1. the surface area is larger, and 2. part of the auth system lives outside UCAN.
-
-``` mermaid
-sequenceDiagram
-    participant Database
-    participant ACL as External Auth System
-
-    actor DBAgent
-    actor Alice
-    actor Bob
-
-    Note over ACL, DBAgent: Setup
-    DBAgent ->> ACL: signup(DBAgent)
-    ACL ->> ACL: register(DBAgent)
-
-    autonumber 1
-
-    Note over DBAgent, Bob: Delegation
-    DBAgent -->> Alice: delegate(DBAgent, write)
-    Alice -->> Bob: delegate(DBAgent, write)
-
-    Note over Database, Bob: Invocation
-    Bob ->>+ DBAgent: invoke(DBAgent, [write, key, value], proof: [➊,➋])
-
-    critical External System
-        DBAgent ->> ACL: getToken(write, key, AuthGrant)
-        ACL ->> DBAgent: AccessToken
-        
-        DBAgent ->> Database: request(write, value, AccessToken)
-        Database ->> DBAgent: ACK
-    end
-
-    DBAgent ->>- Bob: ACK
-```
 
 # 2. Terminology
 
@@ -580,6 +526,86 @@ FIXME replace with invocation & content addressed delegtaions
 
 FIXME find solution to Daniel's curl counterexample
 
+## 2.3 Beyond Single System Image
+
+> As we continue to increase the number of globally connected devices,
+we must embrace a design that considers every single member in the system as
+the primary site for the data that it is generates. It is completely impractical
+that we can look at a single, or a small number, of globally distributed data
+centers as the primary site for all global information that we desire to perform
+computations with.
+>
+> [Meiklejohn], [A Certain Tendency Of The Database Community]
+
+FIXME Expand
+
+Unlike many authorization systems where a service controls access to resources in their care, location-independent, offline, and leaderless resources require control to live with the user. Therefore, the same data MAY be used across many applications, data stores, and users.
+
+
+
+
+``` mermaid
+sequenceDiagram
+    participant CRDT as Inital Grow-Only Set (CRDT)
+
+    actor Alice
+    actor Bob
+    actor Carol
+    
+    autonumber
+
+    Note over CRDT, Bob: Setup
+    CRDT -->> Alice: delegate(CRDT_ID, append)
+    CRDT -->> Bob: delegate(CRDT_ID, append)
+    
+    Note over Bob, Carol: Bob Invites Carol
+    Bob -->> Carol: delegate(CRDT_ID, append)
+
+    Note over Alice, Carol: Direct P2P Gossip
+    Carol ->> Bob: invoke(CRDT_ID, append, {C1}, proof: [➋,➍])
+    Alice ->> Carol: invoke(CRDT_ID, append, {A1}}, proof: [➊])
+    Bob ->> Alice: invoke(CRDT_ID, append, {B1, C1}, proof: [➋])
+```
+
+## 2.4 Wrapping Existing Systems
+
+In the RECOMMENDED scenario, the agent controlling a resource has a unique reference to it. This is always possible in a system that has adopted capabilities end-to-end.
+
+Interacting with existing systems MAY require relying on ambient authority contained in an ACL, nonunique reference, or other authorization logic. These cases are still compatible with UCAN, but the security guarantees are weaker since 1. the surface area is larger, and 2. part of the auth system lives outside UCAN.
+
+``` mermaid
+sequenceDiagram
+    participant Database
+    participant ACL as External Auth System
+
+    actor DBAgent
+    actor Alice
+    actor Bob
+
+    Note over ACL, DBAgent: Setup
+    DBAgent ->> ACL: signup(DBAgent)
+    ACL ->> ACL: register(DBAgent)
+
+    autonumber 1
+
+    Note over DBAgent, Bob: Delegation
+    DBAgent -->> Alice: delegate(DBAgent, write)
+    Alice -->> Bob: delegate(DBAgent, write)
+
+    Note over Database, Bob: Invocation
+    Bob ->>+ DBAgent: invoke(DBAgent, [write, key, value], proof: [➊,➋])
+
+    critical External System
+        DBAgent ->> ACL: getToken(write, key, AuthGrant)
+        ACL ->> DBAgent: AccessToken
+        
+        DBAgent ->> Database: request(write, value, AccessToken)
+        Database ->> DBAgent: ACK
+    end
+
+    DBAgent ->>- Bob: ACK
+```
+
 # 10. Related Work and Prior Art
 
 [SPKI/SDSI] is closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
@@ -690,6 +716,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Mikael Rogers]: https://github.com/mikeal/
 [OCAP]: http://erights.org/elib/capability/index.html
 [OCapN]: https://github.com/ocapn/ocapn
+[PACELC]: https://en.wikipedia.org/wiki/PACELC_theorem
 [POLA]: https://en.wikipedia.org/wiki/Principle_of_least_privilege
 [Philipp Krüger]: https://github.com/matheus23
 [Protocol Labs]: https://protocol.ai/
@@ -716,6 +743,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [delegation]: https://github.com/ucan-wg/delegation
 [invocation]: https://github.com/ucan-wg/invocation
 [raw data multicodec]: https://github.com/multiformats/multicodec/blob/a03169371c0a4aec0083febc996c38c3846a0914/table.csv?plain=1#L41
+[revocation]: https://github.com/ucan-wg/revocation
 [secure hardware enclave]: https://support.apple.com/en-ca/guide/security/sec59b0b31ff
 [spki rfc]: https://www.rfc-editor.org/rfc/rfc2693.html
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
