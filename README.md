@@ -201,20 +201,19 @@ sequenceDiagram
     actor Alice
     actor Bob
     actor Carol
+    
+    participant Storage as Hosted CRDT_ID Replica
 
     autonumber
 
     Note over CRDT, Bob: Setup
     CRDT -->> Alice: delegate(CRDT_ID, append)
-    CRDT -->> Bob: delegate(CRDT_ID, append)
-
-    destroy CRDT
-    Alice ->> CRDT: ACK
+    CRDT ->> Bob: delegate(CRDT_ID, append)
     
     Note over Bob, Carol: Bob Invites Carol
     Bob -->> Carol: delegate(CRDT_ID, append)
 
-    Note over Alice, Carol: Gossip Among Yourselves
+    Note over Alice, Carol: Direct P2P Gossip
     Carol ->> Bob: invoke(CRDT_ID, append, {C1}, proof: [➋,➍])
     Alice ->> Carol: invoke(CRDT_ID, append, {A1}}, proof: [➊])
     Bob ->> Alice: invoke(CRDT_ID, append, {B1, C1}, proof: [➋])
