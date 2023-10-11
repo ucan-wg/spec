@@ -51,7 +51,7 @@ Two related models that work exceptionally well in the above context are Simple 
 
 ## 1.2 Intuition for Auth System Differences 
 
-The below analogies illustrate several significant tradeoffs between these systems but are only accurate enough to build intuition. A good resource for a more thorough presentation of these tradeoffs is [Capability Myths Demolished]. In this framework, UCAN approximates SPKI with some dynamic features.
+The below analogies illustrate several significant trade-offs between these systems but are only accurate enough to build intuition. A good resource for a more thorough presentation of these trade-offs is [Capability Myths Demolished]. In this framework, UCAN approximates SPKI with some dynamic features.
 
 ### 1.2.1 Access Control Lists
 
@@ -61,7 +61,7 @@ If there are many such events at many venues, the organizers need to coordinate 
 
 ### 1.2.2 Certificate Capabilities
 
-UCANs work more like [movie tickets][caps as keys] or a festival pass. No one needs to check your ID; who you are is irrelevant. For example, if you have a ticket issued by the theatre to see Citizen Kane, you are admitted to Theater 3. If you cannot attend an event, you can hand this ticket to a friend who wants to see the film instead, and there is no coordination required with the theater ahead of time. However, if the theater needs to cancel tickets for some reason, they need a way of uniquely identifying them and sharing this information between them.
+UCANs work more like [movie tickets][caps as keys] or a festival pass. No one needs to check your ID; who you are is irrelevant. For example, if you have a ticket issued by the theater to see Citizen Kane, you are admitted to Theater 3. If you cannot attend an event, you can hand this ticket to a friend who wants to see the film instead, and there is no coordination required with the theater ahead of time. However, if the theater needs to cancel tickets for some reason, they need a way of uniquely identifying them and sharing this information between them.
 
 ### 1.2.3 Object Capabilities
 
@@ -69,7 +69,7 @@ Object capability ("ocap") systems use a combination of references, encapsulated
 
 To achieve these properties, object capabilities have two requirements: [fail-safe], and locality preservation. The emphasis on consistency rules out partition tolerance[^pcec].
 
-[^pcec]: To be precise, this is a [PC/EC][PACELC] system, which is a critical tradeoff for many systems. UCAN can be used to model both PC/EC and PA/EL, but is most typically PC/EL.
+[^pcec]: To be precise, this is a [PC/EC][PACELC] system, which is a critical trade-off for many systems. UCAN can be used to model both PC/EC and PA/EL, but is most typically PC/EL.
 
 ## 1.3 Security Considerations
 
@@ -359,7 +359,7 @@ Pull is the broad class of situations where an Invoker doesn't require that a pa
 
 ``` mermaid
 sequenceDiagram
-    participant CRDT as Inital Grow-Only Set (CRDT)
+    participant CRDT as Initial Grow-Only Set (CRDT)
 
     actor Alice
     actor Bob
@@ -384,7 +384,7 @@ sequenceDiagram
 
 In the RECOMMENDED scenario, the agent controlling a resource has a unique reference to it. This is always possible in a system that has adopted capabilities end-to-end.
 
-Interacting with existing systems MAY require relying on ambient authority contained in an ACL, nonunique reference, or other authorization logic. These cases are still compatible with UCAN, but the security guarantees are weaker since 1. the surface area is larger, and 2. part of the auth system lives outside UCAN.
+Interacting with existing systems MAY require relying on ambient authority contained in an ACL, non-unique reference, or other authorization logic. These cases are still compatible with UCAN, but the security guarantees are weaker since 1. the surface area is larger, and 2. part of the auth system lives outside UCAN.
 
 ``` mermaid
 sequenceDiagram
@@ -455,7 +455,7 @@ Thanks to [Juan Caballero] for the numerous questions, clarifications, and gener
 
 Thank you [Dan Finlay] for being sufficiently passionate about [OCAP] that we realized that capability systems had a real chance of adoption in an ACL-dominated world.
 
-Thanks to [Martin Kleppmann] of [Ink & Switch] for conversations exporating options for access control on CRDTs and [local-first] applications.
+Thanks to [Martin Kleppmann] of [Ink & Switch] for conversations exploring options for access control on CRDTs and [local-first] applications.
 
 Thanks to the entire [SPKI WG][SPKI/SDSI] for their closely related pioneering work.
 
