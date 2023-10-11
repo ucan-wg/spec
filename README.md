@@ -145,7 +145,45 @@ flowchart TD
     click rev href "https://github.com/ucan-wg/revocation" "UCAN Revocation Spec"
 ```
 
-## 2.1 Example
+## 2.2 Time
+
+It is often useful to talk about a UCAN in the context of some action. For example, a UCAN delegation may be valid when it was created, but expired when invoked.
+
+``` mermaid
+flowchart
+    subgraph Range[Validity Interval]
+        DT[Delegation-Time]
+        IT[Invocation-Time]
+
+    subgraph VT[Validation-Time]
+        ET[Execution-Time]
+   end
+```
+
+### 2.2.1 Validity Interval
+
+The period of time that a capability is valid from and until. This is the range from the latest "not before" to the earliest expiry in the UCAN delegation chain.
+
+### 2.2.2 Delegation-Time
+
+The moment at which a delegation is asserted. This MAY be captured via an `iat` field, but is generally superfluous to capture in the token.
+
+### 2.2.3 Invocation-Time
+
+The moment a UCAN Invocation is created. It must be within the Validity Interval.
+
+### 2.2.4 Validation-Time
+
+Validation MAY occur at multiple points during a UCAN's lifecycle. The main two are:
+
+- On receipt of a delegation
+- When executing an invocation
+
+### 2.2.5 Execution-Time
+
+To avoid the overloaded word "runtime", UCAN adopts the term "execution-time" to express the moment that the executor attempts to use the authority captured in an invocation and associated delegation chain. Validation MUST occur at this time.
+
+## 2.3 Example
 
 Here is a concrete example of all stages of the UCAN lifecycle for database write access.
 
@@ -572,3 +610,11 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [trustless]: https://blueskyweb.xyz/blog/3-6-2022-a-self-authenticating-social-protocol
 [ucan.xyz]: https://ucan.xyz
+
+
+
+
+
+
+
+
