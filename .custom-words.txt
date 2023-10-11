@@ -167,6 +167,7 @@ trustlessly
 ucan
 un
 unary
+unforgeability
 unresolvable
 url
 validatable
