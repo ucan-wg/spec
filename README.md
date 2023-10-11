@@ -77,7 +77,7 @@ Each UCAN includes a constructive set of assertions of what it is allowed to do.
 
 Root capability issuers function as verifiable, distributed roots of trust. The delegation chain is by definition a provenance log. Private keys themselves SHOULD NOT move from one context to another. Keeping keys unique to each physical device and unique per use case is RECOMMENDED to reduce opportunity for keys to leak, and limit blast radius in the case of compromises. "Sharing authority without sharing keys" is provided by capabilities, so there is no reason to share keys directly.
 
-Note that a structurally and cryptographicaly valid UCAN chain can be semantically invalid. The executor MUST verify the ownership of any external resources at execution time. While not possible for all use cases (e.g. replicated state machines and eventually consistent data), having the executor be the resource itself is RECOMMENDED.
+Note that a structurally and cryptographically valid UCAN chain can be semantically invalid. The executor MUST verify the ownership of any external resources at execution time. While not possible for all use cases (e.g. replicated state machines and eventually consistent data), having the executor be the resource itself is RECOMMENDED.
 
 While certificate chains go a long way toward improving security, they do not provide [confinement] on their own. The principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for and reducing authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical since they can further sub-delegate their authority to others without alerting their delegator. UCANs do not offer confinement (as that would require all processes to be online), so it is impossible to guarantee knowledge of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort.
 
@@ -125,11 +125,11 @@ This additionally allows UCAN to model auth for [eventually consistent and repli
 
 The UCAN lifecycle has three parts:
 
-| Spec         | Description                                                               | Requirement Level |
-|--------------|---------------------------------------------------------------------------|-------------------|
-| [Delegation] | Pass, attenuate, and secure authority in a partition-tolerant way         | REQUIRED          |
-| [Invocation] | Exercise authority that has been delegated through one or more delegatees | REQUIRED          |
-| [Revocation] | Undo a delegation, breaking a delegation chain for mallicious users       | RECOMMENDED       |
+| Spec         | Description                                                              | Requirement Level |
+|--------------|--------------------------------------------------------------------------|-------------------|
+| [Delegation] | Pass, attenuate, and secure authority in a partition-tolerant way        | REQUIRED          |
+| [Invocation] | Exercise authority that has been delegated through one or more delegates | REQUIRED          |
+| [Revocation] | Undo a delegation, breaking a delegation chain for malicious users       | RECOMMENDED       |
 
 ``` mermaid
 flowchart TD
@@ -177,9 +177,9 @@ sequenceDiagram
     DBAgent -X Bob: NAK(➏) [rejected]
 ```
 
-# 2. Terminology
+# 3. Terminology
 
-## 2.1 Roles
+## 3.1 Roles
 
 There are several roles that an agent MAY assume:
 
@@ -190,7 +190,7 @@ There are several roles that an agent MAY assume:
 | Executor  | The Agent that actually performs the action described in an invocation                           |
 | Invoker   | A Principal that requests that an Executor perform some action that uses the Invoker's authority |
 | Issuer    | The Principal of the current UCAN. Listed in the `iss` field                                     |
-| Owner     | A Subect that controls some external resource                                                    |
+| Owner     | A Subject that controls some external resource                                                    |
 | Principal | An agent identified by DID (listed in a UCAN's `iss` or `aud` field)                             |
 | Revoker   | The Issuer listed in a proof chain that revokes a UCAN                                           |
 | Subject   | The Principal who's authority is delegated or invoked                                            |
@@ -224,43 +224,43 @@ flowchart TD
     end
 ```
 
-## 2.3 Subject
+## 3.3 Subject
 
-A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the addition of public key verifiability. This unforgeability prevents mallicious namespace collisions which can lead to [confused deputies].
+A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the addition of public key verifiability. This unforgeability prevents malicious namespace collisions which can lead to [confused deputies].
 
-## 2.3 Resource
+## 3.3 Resource
 
 A resource is some data or process that can be uniquely identified by a [URI]. It can be anything from a row in a database, a user account, storage quota, email address, etc. Resource MAY be as coarse or fine grained as desired. Finer-grained is RECOMMENDED where possible, as it is easier to model the principle of least authority ([POLA]).
 
 A resource describes the noun of a capability. It is either The resource pointer MUST be provided in [URI] format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
 
-Having a unique agent represent a resource (and act as its manager) is RECOMMENDED. However, to help traditional ACL-based systems transition to certificate capabilities, an agent MAY manage multiple resources, and act as the registrant in the ACL system. These situatons can be represneted as follows:
+Having a unique agent represent a resource (and act as its manager) is RECOMMENDED. However, to help traditional ACL-based systems transition to certificate capabilities, an agent MAY manage multiple resources, and act as the registrant in the ACL system. These situations can be represented as follows:
 
 Unless explicitly stated, the Resource of a UCAN MUST be the Subject.
 
-## 2.3 Operation
+## 3.3 Operation
 
 Operations are concrete messages ("verbs") that MUST be unambiguously interpretable by the Subject of a UCAN. Operations are REQUIRED in invocations. Some examples include `msg/send`, `crud/read`, and `ucan/revoke`.
 
-Much like other message-passing systems, the specific resource MUST define the behaviour for a particular message. For instance, `crud/update` MAY be used to destructively update a database row, or append to a append-only log. Specific messages MAY be created at will; the only restriction is that the Executor understand how to interpret that message in the context of a specific resource.
+Much like other message-passing systems, the specific resource MUST define the behavior for a particular message. For instance, `crud/update` MAY be used to destructively update a database row, or append to a append-only log. Specific messages MAY be created at will; the only restriction is that the Executor understand how to interpret that message in the context of a specific resource.
 
 While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/send` to a typical file system. 
 
 Operations MUST NOT be case-sensitive. There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
-## 2.4 Ability
+## 3.4 Ability
 
 Abilities abstract over Operations to allow for extension of UCAN delegations.
 
 Abilities MAY be organized in a hierarchy. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing abilities this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
 
-## 2.5 Caveats
+## 3.5 Caveats
 
 Capabilities MAY define additional optional or required fields specific to their use case in the caveat fields. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. Caveats MAY function as an "escape hatch" for when a use case is not fully captured by the resource and ability fields. Caveats can be read as "on the condition that `<some caveat>` holds".
 
 A common use for the caveats field is to define the resource that sits behind the Subject.
 
-## 2.6 Capability
+## 3.6 Capability
 
 A capability is the association of an ability to a subject: `subject x ability x caveats`.
 
@@ -274,9 +274,9 @@ For example, a capability may used to represent the ability to send email from a
 | Ability | `msg/send`                                                 |
 | Caveat  | `{sender: "mailto:alice@example.com", "day": "friday"}`    |
 
-## 2.7 Authority
+## 3.7 Authority
 
-> Whether to enable cooperation or to limit vulnerabilty, we care about _authority_ rather than _permissions._ Permissions determine what actions an individual program may perform on objects it can directly access. Authority describes the effects that a program may cause on objects it can access, either directly by permission, or indirectly by permitted interactions with other programs.
+> Whether to enable cooperation or to limit vulnerability, we care about _authority_ rather than _permissions._ Permissions determine what actions an individual program may perform on objects it can directly access. Authority describes the effects that a program may cause on objects it can access, either directly by permission, or indirectly by permitted interactions with other programs.
 >
 > —[Mark Miller], [Robust Composition]
 
@@ -311,11 +311,11 @@ Merging capability authorities MUST follow set semantics, where the result inclu
 
 The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Every unique delegated capabilty MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
 
-## 2.8 Attenuation
+## 3.8 Attenuation
 
 Attenuation is the process of constraining the capabilities in a delegation chain. Each direct delegation MUST either directly restate or attenuate (diminish) its capabilities.
 
-# 3. Token Resolution
+# 4. Token Resolution
 
 Token resolution is transport specific. The exact format is left to the relevant UCAN transport specification. At minimum, such a specification MUST define at least the following:
 
@@ -325,27 +325,27 @@ Token resolution is transport specific. The exact format is left to the relevant
 
 Note that if an instance cannot dereference a CID at runtime, the UCAN MUST fail validation. This is consistent with the [constructive semantics] of UCAN.
 
-# 4. Implementation Recommendations
+# 5. Implementation Recommendations
 
-## 4.1 Delegation Store
+## 5.1 Delegation Store
 
 A validator MAY keep a local store of UCANs that it has received. UCANs are immutable but also time-bound so that this store MAY evict expired or revoked UCANs.
 
 This store SHOULD be indexed by CID (content addressing). Multiple indices built on top of this store MAY be used to improve capability search or selection performance.
 
-## 4.2 Memoized Validation
+## 5.2 Memoized Validation
 
 Aside from revocation, capability validation is idempotent. Marking a CID (or capability index inside that CID) as valid acts as memoization, obviating the need to check the entire structure on every validation. This extends to distinct UCANs that share a proof: if the proof was previously reviewed and is not revoked, it is RECOMMENDED to consider it valid immediately.
 
 Revocation is irreversible. Suppose the validator learns of revocation by UCAN CID or issuer DID. In that case, the UCAN and all of its derivatives in such a cache MUST be marked as invalid, and all validations immediately fail without needing to walk the entire structure.
 
-## 4.3 Replay Attack Prevention
+## 5.3 Replay Attack Prevention
 
-Replay attack prevention is REQUIRED. Every UCAN token MUST have a unique CID. Some simple strategies for implementing uniqueness tracking include maintaining a set of previously seen CIDs, or requiring that nonces be monotonically increasing per principal. This MAY be the same structure as a validated UCAN memoization table (if one is implementated).
+Replay attack prevention is REQUIRED. Every UCAN token MUST have a unique CID. Some simple strategies for implementing uniqueness tracking include maintaining a set of previously seen CIDs, or requiring that nonces be monotonically increasing per principal. This MAY be the same structure as a validated UCAN memoization table (if one is implemented).
 
 Maintaining a secondary token expiry index is RECOMMENDED. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
 
-## 4.4 Beyond Single System Image
+## 5.4 Beyond Single System Image
 
 > As we continue to increase the number of globally connected devices, we must embrace a design that considers every single member in the system as the primary site for the data that it is generates. It is completely impractical that we can look at a single, or a small number, of globally distributed data centers as the primary site for all global information that we desire to perform computations with.
 >
@@ -380,7 +380,7 @@ sequenceDiagram
     Bob ->> Alice: invoke(CRDT_ID, merge, {"Banana", "Carrot"}, proof: [➋])
 ```
 
-## 4.5 Wrapping Existing Systems
+## 5.5 Wrapping Existing Systems
 
 In the RECOMMENDED scenario, the agent controlling a resource has a unique reference to it. This is always possible in a system that has adopted capabilities end-to-end.
 
@@ -419,7 +419,7 @@ sequenceDiagram
     DBAgent ->>- Bob: ACK
 ```
 
-# 5. Related Work and Prior Art
+# 6. Related Work and Prior Art
 
 [SPKI/SDSI] is closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
 
@@ -435,7 +435,7 @@ sequenceDiagram
 
 [Verifiable credentials] are a solution for data about people or organizations. However, they are aimed at a slightly different problem: asserting attributes about the holder of a DID, including things like work history, age, and membership.
 
-# 6. Acknowledgments
+# 7. Acknowledgments
 
 Thank you to [Brendan O'Brien] for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
 
@@ -463,19 +463,19 @@ Many thanks to [Alan Karp] for sharing his vast experience with capability-based
 
 We want to especially recognize [Mark Miller] for his numerous contributions to the field of distributed auth, programming languages, and computer security writ large.
 
-# 7. FAQ
+# 8. FAQ
 
-## 7.1 What prevents an unauthorized party from using an intercepted UCAN?
+## 8.1 What prevents an unauthorized party from using an intercepted UCAN?
 
 UCANs always contain information about the sender and receiver. A UCAN is signed by the sender (the `iss` field DID) and can only be created by an agent in possession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks together secure the certificate against use by an unauthorized party.
 
-## 7.2 What prevents replay attacks on the invocation use case?
+## 8.2 What prevents replay attacks on the invocation use case?
 
 A UCAN delegated for purposes of immediate invocation MUST be unique. If many requests are to be made in quick succession, a nonce can be used. The receiving agent (the one to perform the invocation) checks the hash of the UCAN against a local store of unexpired UCAN hashes.
 
 This is not a concern when simply delegating since presumably the recipient agent already has that UCAN.
 
-## 7.3 Is UCAN secure against person-in-the-middle attacks?
+## 8.3 Is UCAN secure against person-in-the-middle attacks?
 
 _UCAN does not have any special protection against person-in-the-middle (PITM) attacks._
 
@@ -483,7 +483,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 
 <!-- Internal Links -->
 
-[overcoming SSI]: https://github.com/ucan-wg/spec/blob/high-level/README.md#44-beyond-single-system-image
+[overcoming SSI]: #54-beyond-single-system-image
 [sub-specifications]: #sub-specifications
 
 <!-- External Links -->
