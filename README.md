@@ -37,7 +37,7 @@ Being encoded with the familiar JWT, UCAN improves the familiarity and adoptabil
 >
 > — Miller et al, [The Structure of Authority]
 
-Since at least [Multics], access control lists ([ACL]s) have been the most popular form of digital authorization, where a list of what each user is allowed to do is maintained on the resource. ACLs have been a successful model suited to architectures where persistent access to a single list is viable. ACLs require that rules are sufficiently well specified, such as in a centralized database with rules covering all possible permutations of scenario. This both imposes a very high maintenance burden on programmers as a systems grows in complexity, and is a key vector for [confused deputies][confused deputy problem]. 
+Since at least [Multics], access control lists ([ACL]s) have been the most popular form of digital authorization, where a list of what each user is allowed to do is maintained on the resource. ACLs (and later [RBAC]) have been a successful model suited to architectures where persistent access to a single list is viable. ACLs require that rules are sufficiently well specified, such as in a centralized database with rules covering all possible permutations of scenario. This both imposes a very high maintenance burden on programmers as a systems grows in complexity, and is a key vector for [confused deputies][confused deputy problem]. 
 
 With increasing interconnectivity between machines becoming commonplace, authorization needs to scale to meet the load demands of distributed systems while providing partition tolerance. However, it is not always practical to maintain a single central authorization source. Even when copies of the authorization list are distributed to the relevant servers, latency and partitions introduce troublesome challenges with conflicting updates, to say nothing of storage requirements.
 
@@ -341,7 +341,7 @@ Revocation is irreversible. Suppose the validator learns of revocation by UCAN C
 
 ## 4.3 Replay Attack Prevention
 
-Replay attack prevention is REQUIRED ([Token Uniqueness]). The exact strategy is left to the implementer. Some simple strategies include maintaining a set of previously seen CIDs, or requiring that nonces be monotonically increasing per principal. This MAY be the same structure as a validated UCAN memoization table (if one is implementated).
+Replay attack prevention is REQUIRED. Every UCAN token MUST have a unique CID. Some simple strategies for implementing uniqueness tracking include maintaining a set of previously seen CIDs, or requiring that nonces be monotonically increasing per principal. This MAY be the same structure as a validated UCAN memoization table (if one is implementated).
 
 Maintaining a secondary token expiry index is RECOMMENDED. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
 
@@ -483,9 +483,8 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 
 <!-- Internal Links -->
 
-[Token Uniqueness]
-[overcoming SSI]
-[sub-specifications]
+[overcoming SSI]: https://github.com/ucan-wg/spec/blob/high-level/README.md#44-beyond-single-system-image
+[sub-specifications]: #sub-specifications
 
 <!-- External Links -->
 
@@ -513,6 +512,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Dan Finlay]: https://github.com/danfinlay
 [Daniel Holmgren]: https://github.com/dholms
 [ECDSA security]: https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security
+[Email about SPKI]: http://wiki.erights.org/wiki/Capability-based_Active_Invocation_Certificates
 [FIDO]: https://fidoalliance.org/fido-authentication/
 [Fission]: https://fission.codes
 [GUID]: https://en.wikipedia.org/wiki/Universally_unique_identifier
@@ -534,6 +534,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [POLA]: https://en.wikipedia.org/wiki/Principle_of_least_privilege
 [Philipp Krüger]: https://github.com/matheus23
 [Protocol Labs]: https://protocol.ai/
+[RBAC]: https://en.wikipedia.org/wiki/Role-based_access_control
 [RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339
 [RFC 8037]: https://datatracker.ietf.org/doc/html/rfc8037
@@ -552,7 +553,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [browser api crypto key]: https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
 [capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
 [caps as keys]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
-[certificate capability model]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
+[certificate capability model]: http://wiki.erights.org/wiki/Capability-based_Active_Invocation_Certificates
 [confinement]: http://www.erights.org/elib/capability/dist-confine.html
 [confused deputy problem]: https://en.wikipedia.org/wiki/Confused_deputy_problem
 [constructive semantics]: https://en.wikipedia.org/wiki/Intuitionistic_logic
