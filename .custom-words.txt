@@ -25,6 +25,7 @@ DID's
 DIDs
 DNS
 DNSLinks
+DT
 Datalog
 ECDSA
 EL
