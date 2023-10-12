@@ -264,6 +264,14 @@ flowchart TD
 
 ## 3.3 Subject
 
+> Every Erlang process in the universe should be addressable and introspective
+> 
+> Joe Armstrong, Code Mesh 2016
+
+> At the very least every object should have a URL
+>
+> — Alan Kay, [The computer revolution hasn't happened yet]
+
 A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the addition of public key verifiability. This unforgeability prevents malicious namespace collisions which can lead to [confused deputies].
 
 ## 3.3 Resource
@@ -610,11 +618,3 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [trustless]: https://blueskyweb.xyz/blog/3-6-2022-a-self-authenticating-social-protocol
 [ucan.xyz]: https://ucan.xyz
-
-
-
-
-
-
-
-
