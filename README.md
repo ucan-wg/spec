@@ -149,17 +149,6 @@ flowchart TD
 
 It is often useful to talk about a UCAN in the context of some action. For example, a UCAN delegation may be valid when it was created, but expired when invoked.
 
-``` mermaid
-flowchart
-    subgraph Range[Validity Interval]
-        DT[Delegation-Time]
-        IT[Invocation-Time]
-
-    subgraph VT[Validation-Time]
-        ET[Execution-Time]
-   end
-```
-
 ### 2.2.1 Validity Interval
 
 The period of time that a capability is valid from and until. This is the range from the latest "not before" to the earliest expiry in the UCAN delegation chain.
