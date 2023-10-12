@@ -272,7 +272,7 @@ flowchart TD
 > 
 > — Joe Armstrong, Code Mesh 2016
 
-A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the addition of public key verifiability. This unforgeability prevents malicious namespace collisions which can lead to [confused deputies].
+A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the addition of public key verifiability. This unforgeability prevents malicious namespace collisions which can lead to [confused deputies][confused deputy problem].
 
 ## 3.3 Resource
 
