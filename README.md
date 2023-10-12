@@ -276,7 +276,7 @@ A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the
 
 ## 3.3 Resource
 
-A resource is some data or process that can be uniquely identified by a [URI]. It can be anything from a row in a database, a user account, storage quota, email address, etc. Resource MAY be as coarse or fine grained as desired. Finer-grained is RECOMMENDED where possible, as it is easier to model the principle of least authority ([POLA]).
+A resource is some data or process that can be uniquely identified by a [URI]. It can be anything from a row in a database, a user account, storage quota, email address, etc. Resource MAY be as coarse or fine grained as desired. Finer-grained is RECOMMENDED where possible, as it is easier to model the principle of least authority ([PoLA]).
 
 A resource describes the noun of a capability. It is either The resource pointer MUST be provided in [URI] format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
 
@@ -577,7 +577,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [OCAP]: http://erights.org/elib/capability/index.html
 [OCapN]: https://github.com/ocapn/ocapn
 [PACELC]: https://en.wikipedia.org/wiki/PACELC_theorem
-[POLA]: https://en.wikipedia.org/wiki/Principle_of_least_privilege
+[PoLA]: https://en.wikipedia.org/wiki/Principle_of_least_privilege
 [Philipp Krüger]: https://github.com/matheus23
 [Protocol Labs]: https://protocol.ai/
 [RBAC]: https://en.wikipedia.org/wiki/Role-based_access_control
