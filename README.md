@@ -138,9 +138,9 @@ flowchart TD
     del[Delegation]
     prm[Promise]
 
-    prm -.->|awaits| inv
-    rev -->|is a kind of| inv -->|is proven by| del
-    rev -.->|invalidates| del
+    prm -->|awaits| inv
+    rev -->|a kind of| inv -->|proven by| del
+    rev -->|invalidates| del
 
     click del href "https://github.com/ucan-wg/delegation" "UCAN Delegation Spec"
     click inv href "https://github.com/ucan-wg/invocation" "UCAN Invocation Spec"
