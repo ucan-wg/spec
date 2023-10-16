@@ -1,7 +1,5 @@
 # User Controlled Authorization Network (UCAN) Specification v1.0.0-rc.1
 
-FIXME delegaton/invocation diagram cap shoudl get broken into separate fields
-
 ## Editors
 
 * [Brooklyn Zelenka], [Fission]
