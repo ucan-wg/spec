@@ -379,7 +379,7 @@ Note that if an instance cannot dereference a CID at runtime, the UCAN MUST fail
 
 ## 4.1 Content Identifiers
 
-A UCAN token SHOULD be referenced as a [base32] [CIDv1]. [BLAKE3] is the RECOMMENDED hash algorithm. The [DAG-CBOR] codec MUST be supported, and [DAG-JSON] support is RECOMMENDED. 
+A UCAN token SHOULD be referenced as a [base32][multibase] [CIDv1]. [SHA2-256] is the RECOMMENDED hash algorithm. The [DAG-CBOR] codec MUST be supported, and [DAG-JSON] support is RECOMMENDED. 
 
 The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service.
 
@@ -564,6 +564,8 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
 [Christine Lemmer-Webber]: https://github.com/cwebber
 [Christopher Joel]: https://github.com/cdata
+[DAG-CBOR]: https://ipld.io/specs/codecs/dag-cbor/spec/
+[DAG-JSON]: https://ipld.io/specs/codecs/dag-json/spec/
 [DID fragment]: https://www.w3.org/TR/did-core/#fragment
 [DID path]: https://www.w3.org/TR/did-core/#path
 [DID subject]: https://www.w3.org/TR/did-core/#dfn-did-subjects
@@ -599,6 +601,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [RSM]: https://en.wikipedia.org/wiki/State_machine_replication
 [Robust Composition]: http://www.erights.org/talks/thesis/markm-thesis.pdf
 [SHA2-256]: https://en.wikipedia.org/wiki/SHA-2
+[SHA2-256]: https://en.wikipedia.org/wiki/SHA-2
 [SPKI/SDSI]: https://datatracker.ietf.org/wg/spki/about/
 [SPKI]: https://theworld.com/~cme/html/spki.html
 [Seitan token exchange]: https://book.keybase.io/docs/teams/seitan
@@ -624,6 +627,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [fail-safe]: https://en.wikipedia.org/wiki/Fail-safe
 [invocation]: https://github.com/ucan-wg/invocation
 [local-first]: https://www.inkandswitch.com/local-first/
+[multibase]: https://github.com/multiformats/multibase
 [passkey]: https://www.passkeys.com/
 [promise]: https://github.com/ucan-wg/promise
 [raw data multicodec]: https://github.com/multiformats/multicodec/blob/a03169371c0a4aec0083febc996c38c3846a0914/table.csv?plain=1#L41
