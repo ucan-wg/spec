@@ -1,5 +1,7 @@
 # User Controlled Authorization Network (UCAN) Specification v1.0.0-rc.1
 
+FIXME delegaton/invocation diagram cap shoudl get broken into separate fields
+
 ## Editors
 
 * [Brooklyn Zelenka], [Fission]
@@ -27,9 +29,9 @@ User-Controlled Authorization Network (UCAN) is a [trustless], secure, [local-fi
 
 # 1. Introduction
 
-User-Controlled Authorization Network (UCAN) is a [trustless], secure, [local-first], user-originated , distributed authorization scheme. It provides public-key verifiable, delegable, expressive, openly extensible [capabilities] by extending the familiar [JWT] structure. UCANs achieve public verifiability with late-bound certificate chains and principals represented by [decentralized identifiers (DIDs)][DID].
+User-Controlled Authorization Network (UCAN) is a [trustless], secure, [local-first], user-originated, distributed authorization scheme. It provides public-key verifiable, delegable, expressive, openly extensible [capabilities]. UCANs achieve public verifiability with late-bound certificate chains and principals represented by [decentralized identifiers (DIDs)][DID].
 
-Being encoded with the familiar JWT, UCAN improves the familiarity and adoptability of schemes like [SPKI/SDSI][SPKI] for web and native application contexts. UCAN allows for the creation, delegation, and invocation of authority by any agent with a DID, including traditional systems and peer-to-peer architectures beyond traditional cloud computing.
+UCAN improves the familiarity and adoptability of schemes like [SPKI/SDSI][SPKI] for web and native application contexts. UCAN allows for the creation, delegation, and invocation of authority by any agent with a DID, including traditional systems and peer-to-peer architectures beyond traditional cloud computing.
 
 ## 1.1 Motivation
 
@@ -371,6 +373,12 @@ Token resolution is transport specific. The exact format is left to the relevant
 
 Note that if an instance cannot dereference a CID at runtime, the UCAN MUST fail validation. This is consistent with the [constructive semantics] of UCAN.
 
+## 4.1 Content Identifiers
+
+A UCAN token SHOULD be referenced as a [base32] [CIDv1]. [BLAKE3] is the RECOMMENDED hash algorithm. The [DAG-CBOR] codec MUST be supported, and [DAG-JSON] support is RECOMMENDED. 
+
+The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service.
+
 # 5. Implementation Recommendations
 
 ## 5.1 Delegation Store
@@ -565,7 +573,6 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Hugo Dias]: https://github.com/hugomrdias
 [Ink & Switch]: https://www.inkandswitch.com/
 [Irakli Gozalishvili]: https://github.com/Gozala
-[JWT]: https://datatracker.ietf.org/doc/html/rfc7519
 [Juan Caballero]: https://github.com/bumblefudge
 [Local-First Auth]: https://github.com/local-first-web/auth
 [Macaroon]: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf
@@ -577,8 +584,8 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [OCAP]: http://erights.org/elib/capability/index.html
 [OCapN]: https://github.com/ocapn/ocapn
 [PACELC]: https://en.wikipedia.org/wiki/PACELC_theorem
-[PoLA]: https://en.wikipedia.org/wiki/Principle_of_least_privilege
 [Philipp Krüger]: https://github.com/matheus23
+[PoLA]: https://en.wikipedia.org/wiki/Principle_of_least_privilege
 [Protocol Labs]: https://protocol.ai/
 [RBAC]: https://en.wikipedia.org/wiki/Role-based_access_control
 [RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
@@ -592,6 +599,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Seitan token exchange]: https://book.keybase.io/docs/teams/seitan
 [Steven Vandevelde]: https://github.com/icidasset
 [The Structure of Authority]: http://erights.org/talks/no-sep/secnotsep.pdf
+[The computer revolution hasn't happened yet]: https://www.youtube.com/watch?v=oKg1hTOQXoY
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
@@ -618,4 +626,3 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [trustless]: https://blueskyweb.xyz/blog/3-6-2022-a-self-authenticating-social-protocol
 [ucan.xyz]: https://ucan.xyz
-[The computer revolution hasn't happened yet]: https://www.youtube.com/watch?v=oKg1hTOQXoY
