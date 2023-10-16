@@ -70,21 +70,19 @@ Object capability ("ocap") systems use a combination of references, encapsulated
 
 To achieve these properties, object capabilities have two requirements: [fail-safe], and locality preservation. The emphasis on consistency rules out partition tolerance[^pcec].
 
-[^pcec]: To be precise, this is a [PC/EC][PACELC] system, which is a critical trade-off for many systems. UCAN can be used to model both PC/EC and PA/EL, but is most typically PC/EL.
-
 ## 1.3 Security Considerations
 
-Each UCAN includes a constructive set of assertions of what it is allowed to do. Note that this is not a predicate: it is a positive assertion of authority. "Proofs" are positive evidence (elsewhere called "witnesses") of the possession of rights. They are cryptographically verifiable chains showing that the UCAN issuer either claims to directly own a resource, or that it was delegated to them by some claimed owner. In the most common case, the root owner's ID is the only globally unique identity for the resource.
+Each UCAN includes an assertions of what it is allowed to do. "Proofs" are positive evidence (elsewhere called "witnesses") of the possession of rights. They are cryptographically verifiable chains showing that the UCAN issuer either claims to directly own a resource, or that it was delegated to them by some claimed owner. In the most common case, the root owner's ID is the only globally unique identity for the resource.
 
 Root capability issuers function as verifiable, distributed roots of trust. The delegation chain is by definition a provenance log. Private keys themselves SHOULD NOT move from one context to another. Keeping keys unique to each physical device and unique per use case is RECOMMENDED to reduce opportunity for keys to leak, and limit blast radius in the case of compromises. "Sharing authority without sharing keys" is provided by capabilities, so there is no reason to share keys directly.
 
-Note that a structurally and cryptographically valid UCAN chain can be semantically invalid. The executor MUST verify the ownership of any external resources at execution time. While not possible for all use cases (e.g. replicated state machines and eventually consistent data), having the executor be the resource itself is RECOMMENDED.
+Note that a structurally and cryptographically valid UCAN chain can be semantically invalid. The executor MUST verify the ownership of any external resources at execution time. While not possible for all use cases (e.g. replicated state machines and eventually consistent data), having the Executor be the resource itself is RECOMMENDED.
 
 While certificate chains go a long way toward improving security, they do not provide [confinement] on their own. The principle of least authority SHOULD be used when delegating a UCAN: minimizing the amount of time that a UCAN is valid for and reducing authority to the bare minimum required for the delegate to complete their task. This delegate should be trusted as little as is practical since they can further sub-delegate their authority to others without alerting their delegator. UCANs do not offer confinement (as that would require all processes to be online), so it is impossible to guarantee knowledge of all of the sub-delegations that exist. The ability to revoke some or all downstream UCANs exists as a last resort.
 
 ## 1.4 Inversion of Control
 
-This is achieved due to two properties: self-certifying delegation and reference passing. There is no Authorization Server (AS) that sits between requestors and resources. In traditional terms, the owner of a UCAN resource is the resource server (RS) directly.
+[Inversion of control] is achieved due to two properties: self-certifying delegation and reference passing. There is no Authorization Server (AS) that sits between requestors and resources. In traditional terms, the owner of a UCAN resource is the resource server (RS) directly.
 
 This inverts the usual relationship between resources and users: the resource grants some (or all) authority over itself to agents, as opposed an Authorization Server managing the relationship between them. This has several major advantages:
 
@@ -149,7 +147,7 @@ flowchart TD
     click rev href "https://github.com/ucan-wg/revocation" "UCAN Revocation Spec"
 ```
 
-## 2.2 Time
+## 2.1 Time
 
 It is often useful to talk about a UCAN in the context of some action. For example, a UCAN delegation may be valid when it was created, but expired when invoked.
 
@@ -164,30 +162,30 @@ sequenceDiagram
     Alice ->> Alice: Execute
 ```
 
-### 2.2.1 Validity Interval
+### 2.1.1 Validity Interval
 
 The period of time that a capability is valid from and until. This is the range from the latest "not before" to the earliest expiry in the UCAN delegation chain.
 
-### 2.2.2 Delegation-Time
+### 2.1.2 Delegation-Time
 
 The moment at which a delegation is asserted. This MAY be captured via an `iat` field, but is generally superfluous to capture in the token.
 
-### 2.2.3 Invocation-Time
+### 2.1.3 Invocation-Time
 
 The moment a UCAN Invocation is created. It must be within the Validity Interval.
 
-### 2.2.4 Validation-Time
+### 2.1.4 Validation-Time
 
 Validation MAY occur at multiple points during a UCAN's lifecycle. The main two are:
 
 - On receipt of a delegation
 - When executing an invocation
 
-### 2.2.5 Execution-Time
+### 2.1.5 Execution-Time
 
 To avoid the overloaded word "runtime", UCAN adopts the term "execution-time" to express the moment that the executor attempts to use the authority captured in an invocation and associated delegation chain. Validation MUST occur at this time.
 
-## 2.3 Example
+## 2.2 Example
 
 Here is a concrete example of all stages of the UCAN lifecycle for database write access.
 
@@ -266,7 +264,7 @@ flowchart TD
     end
 ```
 
-## 3.3 Subject
+## 3.2 Subject
 
 > At the very least every object should have a URL
 >
@@ -288,7 +286,7 @@ Having a unique agent represent a resource (and act as its manager) is RECOMMEND
 
 Unless explicitly stated, the Resource of a UCAN MUST be the Subject.
 
-## 3.3 Action
+## 3.4 Action
 
 Actions are concrete messages ("verbs") that MUST be unambiguously interpretable by the Subject of a UCAN. Actions are REQUIRED in invocations. Some examples include `msg/send`, `crud/read`, and `ucan/revoke`.
 
@@ -298,7 +296,7 @@ While arbitrary semantics MAY be described, they MUST apply to the target resour
 
 Actions MUST NOT be case-sensitive. There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
-## 3.4 Ability
+### 3.4.1 Ability
 
 Abilities abstract over [Action]s to allow for extension of UCAN delegations.
 
@@ -477,7 +475,25 @@ sequenceDiagram
     DBAgent ->>- Bob: ACK
 ```
 
-# 6. Related Work and Prior Art
+# 6. FAQ
+
+## 6.1 What prevents an unauthorized party from using an intercepted UCAN?
+
+UCANs always contain information about the sender and receiver. A UCAN is signed by the sender (the `iss` field DID) and can only be created by an agent in possession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks together secure the certificate against use by an unauthorized party.
+
+## 6.2 What prevents replay attacks on the invocation use case?
+
+A UCAN delegated for purposes of immediate invocation MUST be unique. If many requests are to be made in quick succession, a nonce can be used. The receiving agent (the one to perform the invocation) checks the hash of the UCAN against a local store of unexpired UCAN hashes.
+
+This is not a concern when simply delegating since presumably the recipient agent already has that UCAN.
+
+## 6.3 Is UCAN secure against person-in-the-middle attacks?
+
+_UCAN does not have any special protection against person-in-the-middle (PITM) attacks._
+
+Were a PITM attack successfully performed on a UCAN delegation, the proof chain would contain the attacker's DID(s). It is possible to detect this scenario and revoke the relevant UCAN but does require special inspection of the topmost `iss` field to check if it is the expected DID. Therefore, it is strongly RECOMMENDED to only delegate UCANs to agents that are both trusted and authenticated and over secure channels.
+
+# 7. Related Work and Prior Art
 
 [SPKI/SDSI] is closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
 
@@ -493,7 +509,7 @@ sequenceDiagram
 
 [Verifiable credentials] are a solution for data about people or organizations. However, they are aimed at a slightly different problem: asserting attributes about the holder of a DID, including things like work history, age, and membership.
 
-# 7. Acknowledgments
+# 8. Acknowledgments
 
 Thank you to [Brendan O'Brien] for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
 
@@ -521,23 +537,9 @@ Many thanks to [Alan Karp] for sharing his vast experience with capability-based
 
 We want to especially recognize [Mark Miller] for his numerous contributions to the field of distributed auth, programming languages, and computer security writ large.
 
-# 8. FAQ
+<!-- Footnotes -->
 
-## 8.1 What prevents an unauthorized party from using an intercepted UCAN?
-
-UCANs always contain information about the sender and receiver. A UCAN is signed by the sender (the `iss` field DID) and can only be created by an agent in possession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks together secure the certificate against use by an unauthorized party.
-
-## 8.2 What prevents replay attacks on the invocation use case?
-
-A UCAN delegated for purposes of immediate invocation MUST be unique. If many requests are to be made in quick succession, a nonce can be used. The receiving agent (the one to perform the invocation) checks the hash of the UCAN against a local store of unexpired UCAN hashes.
-
-This is not a concern when simply delegating since presumably the recipient agent already has that UCAN.
-
-## 8.3 Is UCAN secure against person-in-the-middle attacks?
-
-_UCAN does not have any special protection against person-in-the-middle (PITM) attacks._
-
-Were a PITM attack successfully performed on a UCAN delegation, the proof chain would contain the attacker's DID(s). It is possible to detect this scenario and revoke the relevant UCAN but does require special inspection of the topmost `iss` field to check if it is the expected DID. Therefore, it is strongly RECOMMENDED to only delegate UCANs to agents that are both trusted and authenticated and over secure channels.
+[^pcec]: To be precise, this is a [PC/EC][PACELC] system, which is a critical trade-off for many systems. UCAN can be used to model both PC/EC and PA/EL, but is most typically PC/EL.
 
 <!-- Internal Links -->
 
@@ -579,6 +581,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [GUID]: https://en.wikipedia.org/wiki/Universally_unique_identifier
 [Hugo Dias]: https://github.com/hugomrdias
 [Ink & Switch]: https://www.inkandswitch.com/
+[Inversion of control]: https://en.wikipedia.org/wiki/Inversion_of_control
 [Irakli Gozalishvili]: https://github.com/Gozala
 [Juan Caballero]: https://github.com/bumblefudge
 [Local-First Auth]: https://github.com/local-first-web/auth
