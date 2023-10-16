@@ -288,21 +288,23 @@ Having a unique agent represent a resource (and act as its manager) is RECOMMEND
 
 Unless explicitly stated, the Resource of a UCAN MUST be the Subject.
 
-## 3.3 Operation
+## 3.3 Action
 
-Operations are concrete messages ("verbs") that MUST be unambiguously interpretable by the Subject of a UCAN. Operations are REQUIRED in invocations. Some examples include `msg/send`, `crud/read`, and `ucan/revoke`.
+Actions are concrete messages ("verbs") that MUST be unambiguously interpretable by the Subject of a UCAN. Actions are REQUIRED in invocations. Some examples include `msg/send`, `crud/read`, and `ucan/revoke`.
 
 Much like other message-passing systems, the specific resource MUST define the behavior for a particular message. For instance, `crud/update` MAY be used to destructively update a database row, or append to a append-only log. Specific messages MAY be created at will; the only restriction is that the Executor understand how to interpret that message in the context of a specific resource.
 
 While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/send` to a typical file system. 
 
-Operations MUST NOT be case-sensitive. There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
+Actions MUST NOT be case-sensitive. There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
 ## 3.4 Ability
 
-Abilities abstract over Operations to allow for extension of UCAN delegations.
+Abilities abstract over [Action]s to allow for extension of UCAN delegations.
 
 Abilities MAY be organized in a hierarchy. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing abilities this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
+
+Abilities MUST NOT be case-sensitive. There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
 ## 3.5 Caveats
 
@@ -539,6 +541,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 
 <!-- Internal Links -->
 
+[Action]: #33-action
 [overcoming SSI]: #54-beyond-single-system-image
 [sub-specifications]: #sub-specifications
 
