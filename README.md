@@ -2,20 +2,21 @@
 
 ## Editors
 
-* [Brooklyn Zelenka], [Fission]
+- [Brooklyn Zelenka], [Fission]
 
 ## Authors
 
-* [Brooklyn Zelenka], [Fission]
-* [Daniel Holmgren], [Bluesky]
-* [Irakli Gozalishvili], [Protocol Labs]
-* [Philipp Krüger], [Fission]
+- [Brooklyn Zelenka], [Fission]
+- [Daniel Holmgren], [Bluesky]
+- [Irakli Gozalishvili], [Protocol Labs]
+- [Philipp Krüger], [Fission]
 
 ## Sub-Specifications
 
-* [UCAN Delegation][delegation]
-* [UCAN Invocation][invocation]
-* [UCAN Revocation][revocation]
+- [UCAN Delegation][delegation]
+- [UCAN Invocation][invocation]
+- [UCAN Promise][promise]
+- [UCAN Revocation][revocation]
 
 ## Language
 
@@ -129,6 +130,7 @@ The UCAN lifecycle has three parts:
 |--------------|--------------------------------------------------------------------------|-------------------|
 | [Delegation] | Pass, attenuate, and secure authority in a partition-tolerant way        | REQUIRED          |
 | [Invocation] | Exercise authority that has been delegated through one or more delegates | REQUIRED          |
+| [Promise]    | Await the result of an Invocation inside another Invocation              | RECOMMENDED       |
 | [Revocation] | Undo a delegation, breaking a delegation chain for malicious users       | RECOMMENDED       |
 
 ``` mermaid
@@ -136,7 +138,9 @@ flowchart TD
     rev[Revocation]
     inv[Invocation]
     del[Delegation]
+    prm[Promise]
 
+    prm -.->|awaits| inv
     rev -->|is a kind of| inv -->|is proven by| del
     rev -.->|invalidates| del
 
@@ -598,6 +602,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Steven Vandevelde]: https://github.com/icidasset
 [The Structure of Authority]: http://erights.org/talks/no-sep/secnotsep.pdf
 [The computer revolution hasn't happened yet]: https://www.youtube.com/watch?v=oKg1hTOQXoY
+[UCAN Promise]: https://github.com/ucan-wg/promise
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
