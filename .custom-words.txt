@@ -11,6 +11,7 @@ BCP
 BT
 Bluesky
 BxZ
+CBOR
 CIDs
 CIDv
 CNAME
@@ -58,6 +59,7 @@ PITM
 PKI
 POLA
 Philipp
+PoLA
 RBAC
 RESTful
 RL
@@ -143,6 +145,7 @@ plaintext
 potencies
 pre
 preimages
+prm
 quG
 rc
 reauthorizations
