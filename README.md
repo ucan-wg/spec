@@ -622,6 +622,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [invocation]: https://github.com/ucan-wg/invocation
 [local-first]: https://www.inkandswitch.com/local-first/
 [passkey]: https://www.passkeys.com/
+[promise]: https://github.com/ucan-wg/promise
 [raw data multicodec]: https://github.com/multiformats/multicodec/blob/a03169371c0a4aec0083febc996c38c3846a0914/table.csv?plain=1#L41
 [revocation]: https://github.com/ucan-wg/revocation
 [secure hardware enclave]: https://support.apple.com/en-ca/guide/security/sec59b0b31ff
