@@ -168,7 +168,7 @@ The period of time that a capability is valid from and until. This is the range 
 
 ### 2.1.2 Delegation-Time
 
-The moment at which a delegation is asserted. This MAY be captured via an `iat` field, but is generally superfluous to capture in the token.
+The moment at which a delegation is asserted. This MAY be captured by an `iat` field, but is generally superfluous to capture in the token.
 
 ### 2.1.3 Invocation-Time
 
