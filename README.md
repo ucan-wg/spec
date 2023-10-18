@@ -228,7 +228,7 @@ There are several roles that an agent MAY assume:
 | Agent     | The general class of entities and principals that interact with a UCAN                           |
 | Audience  | The Principal delegated to in the current UCAN. Listed in the `aud` field                        |
 | Executor  | The Agent that actually performs the action described in an invocation                           |
-| Invoker   | A Principal that requests that an Executor perform some action that uses the Invoker's authority |
+| Invoker   | A Principal that requests an Executor perform some action that uses the Invoker's authority |
 | Issuer    | The Principal of the current UCAN. Listed in the `iss` field                                     |
 | Owner     | A Subject that controls some external resource                                                    |
 | Principal | An agent identified by DID (listed in a UCAN's `iss` or `aud` field)                             |
