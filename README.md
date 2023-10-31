@@ -313,18 +313,18 @@ Capabilities MAY define additional optional or required fields specific to their
 
 ## 3.6 Capability
 
-A capability is the association of an ability to a subject: `subject x command x arguments x caveats`.
+A capability is the association of an ability to a subject: `subject x command x arguments x conditions`.
 
 The Subject and Command fields are REQUIRED. Any non-normative extensions are OPTIONAL.
 
 For example, a capability may used to represent the ability to send email from a certain address on Fridays:
 
-| Field     | Example                                                    |
-|-----------|------------------------------------------------------------|
-| Subject   | `did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK` |
-| Command   | `msg/send`                                                 |
-| Arguments | `{sender: "mailto:alice@example.com"}`                     |
-| Caveats   | `[{"day": "friday"}]`                                      |
+| Field      | Example                                                                      |
+|------------|------------------------------------------------------------------------------|
+| Subject    | `did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK`                   |
+| Command    | `msg/send`                                                                   |
+| Arguments  | `{sender: "mailto:alice@example.com"}`                                       |
+| Conditions | `[{"day": "friday"}, {"field": "to", "includes": "mailto:bob@example.com"}]` |
 
 ## 3.7 Authority
 
