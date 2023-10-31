@@ -296,6 +296,8 @@ While arbitrary semantics MAY be described, they MUST apply to the target resour
 
 Commands MUST NOT be case-sensitive. There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
+The slash convention (`my/command`, `my/other/command`) is only that: a namespacing _convention_. `dostuff`, `my/special/command` and `bbq-case-command` MUST all be accepted. The slash convention is RECOMMENDED to avoid namespace collision.
+
 ### 3.4.1 Ability
 
 Abilities abstract over [Command]s to allow for extension of UCAN delegations.
@@ -312,17 +314,18 @@ A common use for the caveats field is to define the resource that sits behind th
 
 ## 3.6 Capability
 
-A capability is the association of an ability to a subject: `subject x ability x caveats`.
+A capability is the association of an ability to a subject: `subject x command x arguments x caveats`.
 
-The resource and ability fields are REQUIRED. Any non-normative extensions are OPTIONAL.
+The Subject and Command fields are REQUIRED. Any non-normative extensions are OPTIONAL.
 
 For example, a capability may used to represent the ability to send email from a certain address on Fridays:
 
-| Field   | Example                                                    |
-|---------|------------------------------------------------------------|
-| Subject | `did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK` |
-| Ability | `msg/send`                                                 |
-| Caveat  | `{sender: "mailto:alice@example.com", "day": "friday"}`    |
+| Field     | Example                                                    |
+|-----------|------------------------------------------------------------|
+| Subject   | `did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK` |
+| Command   | `msg/send`                                                 |
+| Arguments | `{sender: "mailto:alice@example.com"}`                     |
+| Caveats   | `[{"day": "friday"}]`                                      |
 
 ## 3.7 Authority
 
