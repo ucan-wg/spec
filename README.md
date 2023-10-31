@@ -307,11 +307,9 @@ Abilities MAY be organized in a hierarchy. A typical example is a superuser capa
 
 Abilities MUST NOT be case-sensitive. There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
-## 3.5 Caveats
+## 3.5 Conditions
 
-Capabilities MAY define additional optional or required fields specific to their use case in the caveat fields. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. Caveats MAY function as an "escape hatch" for when a use case is not fully captured by the resource and ability fields. Caveats can be read as "on the condition that `<some caveat>` holds".
-
-A common use for the caveats field is to define the resource that sits behind the Subject.
+Capabilities MAY define additional optional or required fields specific to their use case in the Condition fields. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. Conditions MAY function as an "escape hatch" for when a use case is not fully captured by the resource and ability fields.
 
 ## 3.6 Capability
 
