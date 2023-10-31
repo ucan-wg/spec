@@ -36,7 +36,7 @@ UCAN improves the familiarity and adoptability of schemes like [SPKI/SDSI][SPKI]
 
 > If we practice our principles, we could have both security and functionality. Treating security as a separate concern has not succeeded in bridging the gap between principle and practice, because it operates without knowledge of what constitutes least authority.
 >
-> — Miller et al, [The Structure of Authority]
+> — [Miller][Mark Miller] et al, [The Structure of Authority]
 
 Since at least [Multics], access control lists ([ACL]s) have been the most popular form of digital authorization, where a list of what each user is allowed to do is maintained on the resource. ACLs (and later [RBAC]) have been a successful model suited to architectures where persistent access to a single list is viable. ACLs require that rules are sufficiently well specified, such as in a centralized database with rules covering all possible permutations of scenario. This both imposes a very high maintenance burden on programmers as a systems grows in complexity, and is a key vector for [confused deputies][confused deputy problem]. 
 
@@ -133,13 +133,14 @@ The UCAN lifecycle has three parts:
 
 ``` mermaid
 flowchart TD
-    rev[Revocation]
-    inv[Invocation]
-    del[Delegation]
-    prm[Promise]
+    prm(Promise\n⏳)
+    inv(Invocation\n🚀)
+    del(Delegation\n🎟️)
+    rev(Revocation\n🛑)
 
     prm -->|awaits| inv
-    rev -->|a kind of| inv -->|proven by| del
+    del -->|proves| inv
+    rev -.->|kind of| inv
     rev -->|invalidates| del
 
     click del href "https://github.com/ucan-wg/delegation" "UCAN Delegation Spec"
