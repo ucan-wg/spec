@@ -133,10 +133,10 @@ The UCAN lifecycle has three parts:
 
 ``` mermaid
 flowchart TD
-    prm(Promise\n⏳)
-    inv(Invocation\n🚀)
-    del(Delegation\n🎟️)
-    rev(Revocation\n🛑)
+    prm(Promise)
+    inv(Invocation)
+    del(Delegation️)
+    rev(Revocation)
 
     prm -->|awaits| inv
     del -->|proves| inv
