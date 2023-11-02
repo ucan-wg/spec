@@ -283,7 +283,7 @@ A resource is some data or process that can be uniquely identified by a [URI]. I
 
 A resource describes the noun of a capability. The resource pointer MUST be provided in [URI] format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
 
-Having a unique agent represent a resource (and act as its manager) is RECOMMENDED. However, to help traditional ACL-based systems transition to certificate capabilities, an agent MAY manage multiple resources, and act as the registrant in the ACL system. These situations can be represented as follows:
+Having a unique agent represent a resource (and act as its manager) is RECOMMENDED. However, to help traditional ACL-based systems transition to certificate capabilities, an agent MAY manage multiple resources, and [act as the registrant in the ACL system][wrapping existing systems].
 
 Unless explicitly stated, the Resource of a UCAN MUST be the Subject.
 
@@ -548,6 +548,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Command]: #33-command
 [overcoming SSI]: #54-beyond-single-system-image
 [sub-specifications]: #sub-specifications
+[wrapping existing systems]: #55-wrapping-existing-systems
 
 <!-- External Links -->
 
