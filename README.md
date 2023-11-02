@@ -433,7 +433,7 @@ sequenceDiagram
     Bob -->> Carol: delegate(CRDT_ID, merge)
 
     Note over Alice, Carol: Direct P2P Gossip
-    Carol ->> Bob: invoke(CRDT_ID, merge, {"Carrot"}, proof: [➋,➍])
+    Carol ->> Bob: invoke(CRDT_ID, merge, {"Carrot"}, proof: [➋,❸])
     Alice ->> Carol: invoke(CRDT_ID, merge, {"Apple"}}, proof: [➊])
     Bob ->> Alice: invoke(CRDT_ID, merge, {"Banana", "Carrot"}, proof: [➋])
 ```
