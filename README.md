@@ -135,7 +135,7 @@ The UCAN lifecycle has three parts:
 flowchart TD
     prm(Promise)
     inv(Invocation)
-    del(Delegation️)
+    del(Delegation)
     rev(Revocation)
 
     prm -->|awaits| inv
