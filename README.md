@@ -84,7 +84,7 @@ While certificate chains go a long way toward improving security, they do not pr
 
 [Inversion of control] is achieved due to two properties: self-certifying delegation and reference passing. There is no Authorization Server (AS) that sits between requestors and resources. In traditional terms, the owner of a UCAN resource is the resource server (RS) directly.
 
-This inverts the usual relationship between resources and users: the resource grants some (or all) authority over itself to agents, as opposed an Authorization Server managing the relationship between them. This has several major advantages:
+This inverts the usual relationship between resources and users: the resource grants some (or all) authority over itself to agents, as opposed to an Authorization Server managing the relationship between them. This has several major advantages:
 
 - Fully distributed and scalable
 - Self-contained request without intermediary 
