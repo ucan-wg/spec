@@ -52,7 +52,7 @@ Two related models that work exceptionally well in the above context are Simple 
 
 ## 1.2 Intuition for Auth System Differences 
 
-The below analogies illustrate several significant trade-offs between these systems but are only accurate enough to build intuition. A good resource for a more thorough presentation of these trade-offs is [Capability Myths Demolished]. In this framework, UCAN approximates SPKI with some dynamic features.
+The following analogies illustrate several significant trade-offs between these systems but are only accurate enough to build intuition. A good resource for a more thorough presentation of these trade-offs is [Capability Myths Demolished]. In this framework, UCAN approximates SPKI with some dynamic features.
 
 ### 1.2.1 Access Control Lists
 
