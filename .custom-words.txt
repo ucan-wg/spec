@@ -137,6 +137,7 @@ multicodec
 namespace
 namespaced
 namespaces
+namespacing
 nonces
 nota
 ocap
