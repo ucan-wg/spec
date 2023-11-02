@@ -332,7 +332,7 @@ For example, a capability may used to represent the ability to send email from a
 >
 > —[Mark Miller], [Robust Composition]
 
-The set of capabilities delegated by a UCAN is called its "authority." To frame it another way, it's the set of effects that a principal can cause, and functions as a declarative description of delegated abilities.
+The set of capabilities delegated by a UCAN is called its "authority." To frame it another way, it's the set of effects that a principal can cause, and acts as a declarative description of delegated abilities.
 
 Merging capability authorities MUST follow set semantics, where the result includes all capabilities from the input authorities. Since broader capabilities automatically include narrower ones, this process is always additive. Capability authorities can be combined in any order, with the result always being at least as broad as each of the original authorities.
 
