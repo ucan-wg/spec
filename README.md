@@ -1031,7 +1031,7 @@ Were a PITM attack successfully performed on a UCAN delegation, the proof chain 
 [Dan Finlay]: https://github.com/danfinlay
 [Daniel Holmgren]: https://github.com/dholms
 [ECDSA security]: https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security
-[FIDO]: https://fidoalliance.org/fido-authentication/
+[FIDO]: https://fidoalliance.org/what-is-fido/
 [Fission]: https://fission.codes
 [Hugo Dias]: https://github.com/hugomrdias
 [Irakli Gozalishvili]: https://github.com/Gozala
