@@ -321,7 +321,7 @@ For example, a capability may used to represent the ability to send email from a
 | Command    | `msg/send`                                                                                   |
 | Policy     | `["or", ["==", ".from", "mailto:me@example.com"], ["match", ".cc", "mailto:*@example.com"]]` |
 
-For a more complete treatment, please see the [UCAN Delegation] spec.
+For a more complete treatment, please see the [UCAN Delegation][delegation] spec.
 
 ## Authority
 
@@ -534,13 +534,13 @@ sequenceDiagram
 
 ## What prevents an unauthorized party from using an intercepted UCAN?
 
-UCANs always contain information about the sender and receiver. A UCAN is signed by the sender (the `iss` field DID) and can only be created by an agent in possession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks together secure the certificate against use by an unauthorized party.
+UCANs always contain information about the sender and receiver. A UCAN is signed by the sender (the `iss` field DID) and can only be created by an agent in possession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks together secure the certificate against use by an unauthorized party. [UCAN Invocations][invocation] prevent 
 
 ## What prevents replay attacks on the invocation use case?
 
-A UCAN delegated for purposes of immediate invocation MUST be unique. If many requests are to be made in quick succession, a nonce can be used. The receiving agent (the one to perform the invocation) checks the hash of the UCAN against a local store of unexpired UCAN hashes.
+All UCAN Invocations MUST have a unique CID. The executing agent MUST check this validation uniqueness against a local store of unexpired UCAN hashes.
 
-This is not a concern when simply delegating since presumably the recipient agent already has that UCAN.
+This is not a concern when simply delegating since receiving a delegation is idempotent.
 
 ## Is UCAN secure against person-in-the-middle attacks?
 
@@ -548,9 +548,13 @@ _UCAN does not have any special protection against person-in-the-middle (PITM) a
 
 If a PITM attack was successfully performed on a UCAN delegation, the proof chain would contain the attacker's DID(s). It is possible to detect this scenario and revoke the relevant UCAN but this does require special inspection of the topmost `iss` field to check if it is the expected DID. Therefore, it is strongly RECOMMENDED to only delegate UCANs to agents that are both trusted and authenticated and over secure channels.
 
-## Can my implementation support more cryptographic algorithms.
+## Can my implementation support more cryptographic algorithms?
 
 It is possible to use other algorithms, but doing so limits interoperability with the broader UCAN ecosystem. This is thus considered "off spec" (i.e. non-interoperable). If you choose to extend UCAN with additional algorithms, you MUST include this metadata in the (self-describing) [Varsig] header.
+
+## Why must those specific signature algorithms be supported?
+
+In an ideal world, a single algorithm (Ed25519) would be available everywhere. For many historical reasons, P-256 and `secp256k1` are the only practical options for many applications, such as the [WebCrypto API] and many cryptocurrency wallets. A design goal of UCAN is to leverage existing public key infrastructure (PKI), and supporting these three algoritms achieves that goal. Requiring multiple signature types for broad interoperability is not an unusual design choice; for example, [JWT] suports multiple signature algorithms for a similar reason.
 
 # Related Work and Prior Art
 
@@ -640,6 +644,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Dan Finlay]: https://github.com/danfinlay
 [Daniel Holmgren]: https://github.com/dholms
 [ECDSA security]: https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security
+[Ed25519]: https://en.wikipedia.org/wiki/EdDSA#Ed25519
 [EdDSA]: https://datatracker.ietf.org/doc/html/rfc8032#section-5.1
 [Email about SPKI]: http://wiki.erights.org/wiki/Capability-based_Active_Invocation_Certificates
 [FIDO]: https://fidoalliance.org/fido-authentication/
@@ -650,6 +655,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Ink & Switch]: https://www.inkandswitch.com/
 [Inversion of control]: https://en.wikipedia.org/wiki/Inversion_of_control
 [Irakli Gozalishvili]: https://github.com/Gozala
+[JWT]: https://www.rfc-editor.org/rfc/rfc7519
 [Juan Caballero]: https://github.com/bumblefudge
 [Local-First Auth]: https://github.com/local-first-web/auth
 [Macaroon]: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf
@@ -685,9 +691,11 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Varsig]: https://github.com/ChainAgnostic/varsig
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
+[WebCrypto API]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API
 [Witchcraft Software]: https://github.com/expede
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
 [`did:key`]: https://w3c-ccg.github.io/did-method-key/
+[`secp256k1`]: https://en.bitcoin.it/wiki/Secp256k1
 [browser api crypto key]: https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
 [capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
 [caps as keys]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
