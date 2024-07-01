@@ -665,7 +665,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Philipp Krüger]: https://github.com/matheus23
 [PoLA]: https://en.wikipedia.org/wiki/Principle_of_least_privilege
 [Protocol Labs]: https://protocol.ai/
-[PvH]
+[PvH]: https://www.pvh.ca
 [RBAC]: https://en.wikipedia.org/wiki/Role-based_access_control
 [RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339
@@ -685,6 +685,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Varsig]: https://github.com/ChainAgnostic/varsig
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
+[Witchcraft Software]: https://github.com/expede
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
 [`did:key`]: https://w3c-ccg.github.io/did-method-key/
 [browser api crypto key]: https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
@@ -712,4 +713,3 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [trustless]: https://blueskyweb.xyz/blog/3-6-2022-a-self-authenticating-social-protocol
 [ucan.xyz]: https://ucan.xyz
-[Witchcraft Software]: https://github.com/expede
