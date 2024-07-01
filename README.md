@@ -614,7 +614,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 
 <!-- Footnotes -->
  
-[^b58btc]: This choice retains compatability with common CID tools, and forces a canonical CID encoding unlike `base32`'s case-insensitivity.
+[^b58btc]: The choice of `base58btc` retains compatability with common CID tools, and forces a canonical CID encoding unlike `base32`'s case-insensitivity.
 [^pcec]: To be precise, this is a [PC/EC][PACELC] system, which is a critical trade-off for many systems. UCAN can be used to model both PC/EC and PA/EL, but is most typically PC/EL.
 
 <!-- Internal Links -->
