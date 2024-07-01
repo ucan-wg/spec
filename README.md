@@ -545,7 +545,7 @@ sequenceDiagram
 
 ## What prevents an unauthorized party from using an intercepted UCAN?
 
-UCANs always contain information about the sender and receiver. A UCAN is signed by the sender (the `iss` field DID) and can only be created by an agent in possession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks together secure the certificate against use by an unauthorized party. [UCAN Invocations][invocation] prevent 
+UCANs always contain information about the sender and receiver. A UCAN is signed by the sender (the `iss` field DID) and can only be created by an agent in possession of the relevant private key. The recipient (the `aud` field DID) is required to check that the field matches their DID. These two checks together secure the certificate against use by an unauthorized party. [UCAN Invocations][invocation] prevent use by an unauthorized party by signing over a request to use the capability granted in a delegation chain.
 
 ## What prevents replay attacks on the invocation use case?
 
