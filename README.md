@@ -374,12 +374,6 @@ Token resolution is transport specific. The exact format is left to the relevant
 
 Note that if an instance cannot dereference a CID at runtime, the UCAN MUST fail validation. This is consistent with the [constructive semantics] of UCAN.
 
-## Content Identifiers
-
-A UCAN token SHOULD be referenced as a [base32][multibase] [CIDv1]. [SHA2-256] is the RECOMMENDED hash algorithm. The [DAG-CBOR] codec MUST be supported, and [DAG-JSON] support is RECOMMENDED. 
-
-The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service.
-
 # Canonicalization
 
 ## Cryptosuite
@@ -396,17 +390,22 @@ Across all UCAN specifications, the following cryptosuite MUST be supported:
 
 All UCANs MUST be canonically encoded with [DAG-CBOR] for signing. A UCAN MAY be presented or stored in other [IPLD] formats (such as [DAG-JSON]), but converted to DAG-CBOR for signature validation.
 
+## Content Identifiers
+
+A UCAN token SHOULD be referenced as a [base32][multibase] [CIDv1]. [SHA-256] is the RECOMMENDED hash algorithm. The [DAG-CBOR] codec MUST be supported.
+
+The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service.
+
 ## Envelope
 
 All UCAN formats MUST use the following envelope format:
 
-| Field                             | Type               | Required | Description                                                          |
-|-----------------------------------|--------------------|----------|----------------------------------------------------------------------|
-| `.0`                              | `Signature`        | Yes      | A signature by the Payload's `iss` over the `SignaturePayload` field |
-| `.1`                              | `SignaturePayload` | Yes      | The content that was signed                                          |
-| `.1._h`                           | `VarsigHeader`      | Yes      | The [Varsig] v1 header   |
-| `.1.ucan/<subspec-tag>@<version>` | `TokenPayload` | Yes      | The UCAN payload         |
-
+| Field                             | Type           | Description                                                    |
+|-----------------------------------|----------------|----------------------------------------------------------------|
+| `.0`                              | `Signature`    | A signature by the Payload's `iss` over the `SigPayload` field |
+| `.1`                              | `SigPayload`   | The content that was signed                                    |
+| `.1._h`                           | `VarsigHeader` | The [Varsig] v1 header                                         |
+| `.1.ucan/<subspec-tag>@<version>` | `TokenPayload` | The UCAN token payload                                         |
 
 ``` mermaid
 flowchart TD
@@ -674,8 +673,6 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [RSM]: https://en.wikipedia.org/wiki/State_machine_replication
 [Robust Composition]: http://www.erights.org/talks/thesis/markm-thesis.pdf
 [SHA-256]: https://en.wikipedia.org/wiki/SHA-2
-[SHA2-256]: https://en.wikipedia.org/wiki/SHA-2
-[SHA2-256]: https://en.wikipedia.org/wiki/SHA-2
 [SPKI/SDSI]: https://datatracker.ietf.org/wg/spki/about/
 [SPKI]: https://theworld.com/~cme/html/spki.html
 [Seitan token exchange]: https://book.keybase.io/docs/teams/seitan
