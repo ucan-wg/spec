@@ -415,7 +415,7 @@ All UCAN formats MUST use the following envelope format:
 |-----------------------------------|----------------|----------------------------------------------------------------|
 | `.0`                              | `Bytes`        | A signature by the Payload's `iss` over the `SigPayload` field |
 | `.1`                              | `SigPayload`   | The content that was signed                                    |
-| `.1._h`                           | `VarsigHeader` | The [Varsig] v1 header                                         |
+| `.1.h`                            | `VarsigHeader` | The [Varsig] v1 header                                         |
 | `.1.ucan/<subspec-tag>@<version>` | `TokenPayload` | The UCAN token payload                                         |
 
 ``` mermaid
@@ -439,7 +439,7 @@ For example:
 [
   {"/": {"bytes": "7aEDQLYvb3lygk9yvAbk0OZD0q+iF9c3+wpZC4YlFThkiNShcVriobPFr/wl3akjM18VvIv/Zw2LtA4uUmB5m8PWEAU"}},
   {
-    "_h": {"/": {"bytes": "NBIFEgEAcQ"}},
+    "h": {"/": {"bytes": "NBIFEgEAcQ"}},
     "ucan/example@1.0.0-rc.1": {
       "hello": "world"
     }
