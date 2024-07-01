@@ -307,24 +307,21 @@ Abilities MAY be organized in a hierarchy. A typical example is a superuser capa
 
 Abilities MUST NOT be case-sensitive. There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
-## Conditions
-
-Capabilities MAY define additional optional or required fields specific to their use case in the Condition fields. This field is OPTIONAL in the general case, but MAY be REQUIRED by particular capability types that require this information to validate. Conditions MAY function as an "escape hatch" for when a use case is not fully captured by the resource and ability fields.
-
 ## Capability
 
-A capability is the association of an ability to a subject: `subject x command x arguments x conditions`.
+A capability is the association of an ability to a subject: `subject x command x policy`.
 
 The Subject and Command fields are REQUIRED. Any non-normative extensions are OPTIONAL.
 
-For example, a capability may used to represent the ability to send email from a certain address on Fridays:
+For example, a capability may used to represent the ability to send email from a certain address to others at `@example.com`.
 
-| Field      | Example                                                                      |
-|------------|------------------------------------------------------------------------------|
-| Subject    | `did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK`                   |
-| Command    | `msg/send`                                                                   |
-| Arguments  | `{sender: "mailto:alice@example.com"}`                                       |
-| Conditions | `[{"day": "friday"}, {"field": "to", "includes": "mailto:bob@example.com"}]` |
+| Field      | Example                                                                                      |
+|------------|----------------------------------------------------------------------------------------------|
+| Subject    | `did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK`                                   |
+| Command    | `msg/send`                                                                                   |
+| Policy     | `["or", ["==", ".from", "mailto:me@example.com"], ["match", ".cc", "mailto:*@example.com"]]` |
+
+For a more complete treatment, please see the [UCAN Delegation] spec.
 
 ## Authority
 
@@ -358,7 +355,7 @@ Merging capability authorities MUST follow set semantics, where the result inclu
                    │
 
                AxY U BxZ
-               authority
+               Capability
 ```
 
 The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Every unique delegated capability MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
@@ -383,6 +380,63 @@ A UCAN token SHOULD be referenced as a [base32][multibase] [CIDv1]. [SHA2-256] i
 
 The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service.
 
+# Canonicalization
+
+## Cryptosuite
+
+Across all UCAN specifications, the following cryptosuite MUST be supported:
+
+| Role      | REQUIRED Algorithms               | Notes                                | 
+|-----------|-----------------------------------|--------------------------------------|
+| Hash      | [SHA-256] (SHA2)                  |                                      |
+| Signature | [Ed25519], [P-256], [`secp256k1`] | Preference of Ed25519 is RECOMMENDED |
+| [DID]     | [`did:key`]                       |                                      |
+
+## Wire Encoding
+
+All UCANs MUST be canonically encoded with [DAG-CBOR] for signing. A UCAN MAY be presented or stored in other [IPLD] formats (such as [DAG-JSON]), but converted to DAG-CBOR for signature validation.
+
+## Envelope
+
+All UCAN formats MUST use the following envelope format:
+
+| Field                             | Type               | Required | Description                                                          |
+|-----------------------------------|--------------------|----------|----------------------------------------------------------------------|
+| `.0`                              | `Signature`        | Yes      | A signature by the Payload's `iss` over the `SignaturePayload` field |
+| `.1`                              | `SignaturePayload` | Yes      | The content that was signed                                          |
+| `.1._h`                           | `VarsigHeader`      | Yes      | The [Varsig] v1 header   |
+| `.1.ucan/<subspec-tag>@<version>` | `TokenPayload` | Yes      | The UCAN payload         |
+
+
+``` mermaid
+flowchart TD
+    subgraph Ucan ["UCAN Envelope"]
+        SignatureBytes["Signature (raw bytes)"]
+      
+        subgraph SigPayload ["Signature Payload"]
+            VarsigHeader["Varsig Header"]
+
+            subgraph UcanPayload ["Token Payload"]
+                fields["..."]
+            end
+        end
+    end
+```
+
+For example:
+
+``` js
+[
+  {"/": {"bytes": "7aEDQLYvb3lygk9yvAbk0OZD0q+iF9c3+wpZC4YlFThkiNShcVriobPFr/wl3akjM18VvIv/Zw2LtA4uUmB5m8PWEAU"}},
+  {
+    "_h": {"/": {"bytes": "NBIFEgEAcQ"}},
+    "ucan/example@1.0.0-rc.1": {
+      "hello": "world"
+    }
+  }
+]
+```
+
 # Implementation Recommendations
 
 ## Delegation Store
@@ -399,7 +453,7 @@ Revocation is irreversible. Suppose the validator learns of revocation by UCAN C
 
 ## Replay Attack Prevention
 
-Replay attack prevention is REQUIRED. Every UCAN token MUST have a unique CID. Some simple strategies for implementing uniqueness tracking include maintaining a set of previously seen CIDs, or requiring that nonces be monotonically increasing per principal. This MAY be the same structure as a validated UCAN memoization table (if one is implemented).
+Replay attack prevention is REQUIRED. Every UCAN token MUST hash to a unique [CIDv1]. Some simple strategies for implementing uniqueness tracking include maintaining a set of previously seen CIDs, or requiring that nonces be monotonically increasing per principal. This MAY be the same structure as a validated UCAN memoization table (if one is implemented).
 
 Maintaining a secondary token expiry index is RECOMMENDED. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
 
@@ -495,13 +549,17 @@ _UCAN does not have any special protection against person-in-the-middle (PITM) a
 
 If a PITM attack was successfully performed on a UCAN delegation, the proof chain would contain the attacker's DID(s). It is possible to detect this scenario and revoke the relevant UCAN but this does require special inspection of the topmost `iss` field to check if it is the expected DID. Therefore, it is strongly RECOMMENDED to only delegate UCANs to agents that are both trusted and authenticated and over secure channels.
 
+## Can my implementation support more cryptographic algorithms.
+
+It is possible to use other algorithms, but doing so limits interoperability with the broader UCAN ecosystem. This is thus considered "off spec" (i.e. non-interoperable). If you choose to extend UCAN with additional algorithms, you MUST include this metadata in the (self-describing) [Varsig] header.
+
 # Related Work and Prior Art
 
-[SPKI/SDSI] is closely related to UCAN. A different format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
+[SPKI/SDSI] is closely related to UCAN. A different encoding format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
 
 [ZCAP-LD] is closely related to UCAN. The primary differences are in formatting, addressing by URL instead of CID, the mechanism of separating invocation from authorization, and single versus multiple proofs.
 
-[CACAO] is a translation of many of these ideas to a cross-blockchain invocation model. It contains the same basic concepts but is aimed at small messages and identities that are rooted in mutable documents rooted on a blockchain and lacks the ability to subdelegate capabilities.
+[CACAO] is a translation of many of these ideas to a cross-blockchain delegated bearer token model. It contains the same basic concepts as UCAN delegation, but is aimed at small messages and identities that are rooted in mutable documents rooted on a blockchain and lacks the ability to subdelegate capabilities.
 
 [Local-First Auth] is a non-certificate-based approach, instead relying on a CRDT to build up a list of group members, devices, and roles. It has a friendly invitation mechanism based on a [Seitan token exchange]. It is also straightforward to see which users have access to what, avoiding the confinement problem seen in many decentralized auth systems.
 
@@ -509,15 +567,17 @@ If a PITM attack was successfully performed on a UCAN delegation, the proof chai
 
 [Biscuit] uses Datalog to describe capabilities. It has a specialized format but is otherwise in line with UCAN.
 
-[Verifiable credentials] are a solution for data about people or organizations. However, they are aimed at a slightly different problem: asserting attributes about the holder of a DID, including things like work history, age, and membership.
+[Verifiable credentials] are a solution for data about people or organizations. However, they are aimed at a related-but-distinct problem: asserting attributes about the holder of a DID, including things like work history, age, and membership.
 
 # Acknowledgments
 
 Thank you to [Brendan O'Brien] for real-world feedback, technical collaboration, and implementing the first Golang UCAN library.
 
+Thank you [Blaine Cook] for the real-world feedback, ideas on future features, and lessons from other auth standards.
+
 Many thanks to [Hugo Dias], [Mikael Rogers], and the entire DAG House team for the real world feedback, and finding inventive new use cases.
 
-Thank you [Blaine Cook] for the real-world feedback, ideas on future features, and lessons from other auth standards.
+Thank to [Hannah Howard] and [Alan Shaw] at [Storacha] for their team's feedback from real world use cases.
 
 Many thanks to [Brian Ginsburg] and [Steven Vandevelde] for their many copy edits, feedback from real world usage, maintenance of the TypeScript implementation, and tools such as [ucan.xyz].
 
@@ -525,19 +585,19 @@ Many thanks to [Christopher Joel] for his real-world feedback, raising many prag
 
 Many thanks to [Christine Lemmer-Webber] for her handwritten(!) feedback on the design of UCAN, spearheading the [OCapN] initiative, and her related work on [ZCAP-LD].
 
+Many thanks to [Alan Karp] for sharing his vast experience with capability-based authorization, patterns, and many right words for us to search for.
+
 Thanks to [Benjamin Goering] for the many community threads and connections to [W3C] standards.
 
 Thanks to [Juan Caballero] for the numerous questions, clarifications, and general advice on putting together a comprehensible spec.
 
 Thank you [Dan Finlay] for being sufficiently passionate about [OCAP] that we realized that capability systems had a real chance of adoption in an ACL-dominated world.
 
-Thanks to [Martin Kleppmann] of [Ink & Switch] for conversations exploring options for access control on CRDTs and [local-first] applications.
+Thanks to [Peter van Hardenberg][PvH] and [Martin Kleppmann] of [Ink & Switch] for conversations exploring options for access control on CRDTs and [local-first] applications.
 
 Thanks to the entire [SPKI WG][SPKI/SDSI] for their closely related pioneering work.
 
-Many thanks to [Alan Karp] for sharing his vast experience with capability-based authorization, patterns, and many right words for us to search for.
-
-We want to especially recognize [Mark Miller] for his numerous contributions to the field of distributed auth, programming languages, and computer security writ large.
+We want to especially recognize [Mark Miller] for his numerous contributions to the field of distributed auth, programming languages, and networked security writ large.
 
 <!-- Footnotes -->
 
@@ -555,7 +615,9 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [A Certain Tendency Of The Database Community]: https://arxiv.org/pdf/1510.08473.pdf
 [ACL]: https://en.wikipedia.org/wiki/Access-control_list
 [Alan Karp]: https://github.com/alanhkarp
+[Alan Shaw]: https://github.com/alanshaw
 [BCP 14]: https://www.rfc-editor.org/info/bcp14
+[BLAKE3]: https://github.com/BLAKE3-team/BLAKE3
 [Benjamin Goering]: https://github.com/gobengo
 [Biscuit]: https://github.com/biscuit-auth/biscuit/
 [Blaine Cook]: https://github.com/blaine
@@ -565,6 +627,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Brooklyn Zelenka]: https://github.com/expede 
 [CACAO]: https://blog.ceramic.network/capability-based-data-security-on-ceramic/
 [CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
+[CIDv1]: https://github.com/multiformats/cid
 [CRDT]: https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type
 [Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
 [Christine Lemmer-Webber]: https://github.com/cwebber
@@ -578,10 +641,12 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Dan Finlay]: https://github.com/danfinlay
 [Daniel Holmgren]: https://github.com/dholms
 [ECDSA security]: https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security
+[EdDSA]: https://datatracker.ietf.org/doc/html/rfc8032#section-5.1
 [Email about SPKI]: http://wiki.erights.org/wiki/Capability-based_Active_Invocation_Certificates
 [FIDO]: https://fidoalliance.org/fido-authentication/
 [Fission]: https://fission.codes
 [GUID]: https://en.wikipedia.org/wiki/Universally_unique_identifier
+[Hannah Howard]: https://github.com/hannahhoward
 [Hugo Dias]: https://github.com/hugomrdias
 [Ink & Switch]: https://www.inkandswitch.com/
 [Inversion of control]: https://en.wikipedia.org/wiki/Inversion_of_control
@@ -596,29 +661,35 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Multics]: https://en.wikipedia.org/wiki/Multics
 [OCAP]: http://erights.org/elib/capability/index.html
 [OCapN]: https://github.com/ocapn/ocapn
+[P-256]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf#page=111
 [PACELC]: https://en.wikipedia.org/wiki/PACELC_theorem
 [Philipp Krüger]: https://github.com/matheus23
 [PoLA]: https://en.wikipedia.org/wiki/Principle_of_least_privilege
 [Protocol Labs]: https://protocol.ai/
+[PvH]
 [RBAC]: https://en.wikipedia.org/wiki/Role-based_access_control
 [RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339
 [RFC 8037]: https://datatracker.ietf.org/doc/html/rfc8037
 [RSM]: https://en.wikipedia.org/wiki/State_machine_replication
 [Robust Composition]: http://www.erights.org/talks/thesis/markm-thesis.pdf
+[SHA-256]: https://en.wikipedia.org/wiki/SHA-2
 [SHA2-256]: https://en.wikipedia.org/wiki/SHA-2
 [SHA2-256]: https://en.wikipedia.org/wiki/SHA-2
 [SPKI/SDSI]: https://datatracker.ietf.org/wg/spki/about/
 [SPKI]: https://theworld.com/~cme/html/spki.html
 [Seitan token exchange]: https://book.keybase.io/docs/teams/seitan
 [Steven Vandevelde]: https://github.com/icidasset
+[Storacha]: https://storacha.network/
 [The Structure of Authority]: http://erights.org/talks/no-sep/secnotsep.pdf
 [The computer revolution hasn't happened yet]: https://www.youtube.com/watch?v=oKg1hTOQXoY
 [UCAN Promise]: https://github.com/ucan-wg/promise
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
+[Varsig]: https://github.com/ChainAgnostic/varsig
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
+[`did:key`]: https://w3c-ccg.github.io/did-method-key/
 [browser api crypto key]: https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
 [capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
 [caps as keys]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
