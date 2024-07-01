@@ -110,6 +110,7 @@ btc
 codec
 codecs
 crudGraph
+cryptocurrency
 cryptographic
 cryptographically
 cryptosuite

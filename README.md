@@ -565,7 +565,7 @@ It is possible to use other algorithms, but doing so limits interoperability wit
 
 ## Why must those specific signature algorithms be supported?
 
-In an ideal world, a single algorithm (Ed25519) would be available everywhere. For many historical reasons, P-256 and `secp256k1` are the only practical options for many applications, such as the [WebCrypto API] and many cryptocurrency wallets. A design goal of UCAN is to leverage existing public key infrastructure (PKI), and supporting these three algoritms achieves that goal. Requiring multiple signature types for broad interoperability is not an unusual design choice; for example, [JWT] suports multiple signature algorithms for a similar reason.
+In an ideal world, a single algorithm (Ed25519) would be available everywhere. For many historical reasons, P-256 and `secp256k1` are the only practical options for many applications, such as the [WebCrypto API] and many cryptocurrency wallets. A design goal of UCAN is to leverage existing public key infrastructure (PKI), and supporting these three algorithms achieves that goal. Requiring multiple signature types for broad interoperability is not an unusual design choice; for example, [JWT] supports multiple signature algorithms for a similar reason.
 
 # Related Work and Prior Art
 
