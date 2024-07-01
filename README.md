@@ -394,12 +394,12 @@ All UCANs MUST be canonically encoded with [DAG-CBOR] for signing. A UCAN MAY be
 
 A UCAN token MUST be configured as follows:
 
-| Parameter    | REQUIRED Configuration |
-|--------------|------------------------|
-| Version      | [CIDv1]                | 
-| [Multibase]  | [`base58btc`][^b58btc] | 
-| [Multihash]  | [SHA-256]              |
-| [Multicodec] | [DAG-CBOR]             |
+| Parameter    | REQUIRED Configuration  |
+|--------------|-------------------------|
+| Version      | [CIDv1]                 | 
+| [Multibase]  | [`base58btc`] [^b58btc] | 
+| [Multihash]  | [SHA-256]               |
+| [Multicodec] | [DAG-CBOR]              |
 
 > [!NOTE]
 > All CIDs encoded as above start with the characters `zdpu`.
