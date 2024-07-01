@@ -395,12 +395,12 @@ All UCANs MUST be canonically encoded with [DAG-CBOR] for signing. A UCAN MAY be
 
 A UCAN token MUST be configured as follows:
 
-| Parameter    | REQUIRED Configuration  |
-|--------------|-------------------------|
-| Version      | [CIDv1]                 | 
-| [Multibase]  | [`base58btc`] [^b58btc] | 
-| [Multihash]  | [SHA-256]               |
-| [Multicodec] | [DAG-CBOR]              |
+| Parameter    | REQUIRED Configuration |
+|--------------|------------------------|
+| Version      | [CIDv1]                | 
+| [Multibase]  | [`base58btc`]          | 
+| [Multihash]  | [SHA-256]              |
+| [Multicodec] | [DAG-CBOR]             |
 
 > [!NOTE]
 > All CIDs encoded as above start with the characters `zdpu`.
@@ -563,10 +563,6 @@ If a PITM attack was successfully performed on a UCAN delegation, the proof chai
 
 It is possible to use other algorithms, but doing so limits interoperability with the broader UCAN ecosystem. This is thus considered "off spec" (i.e. non-interoperable). If you choose to extend UCAN with additional algorithms, you MUST include this metadata in the (self-describing) [Varsig] header.
 
-## Why must those specific signature algorithms be supported?
-
-In an ideal world, a single algorithm (Ed25519) would be available everywhere. For many historical reasons, P-256 and `secp256k1` are the only practical options for many applications, such as the [WebCrypto API] and many cryptocurrency wallets. A design goal of UCAN is to leverage existing public key infrastructure (PKI), and supporting these three algorithms achieves that goal. Requiring multiple signature types for broad interoperability is not an unusual design choice; for example, [JWT] supports multiple signature algorithms for a similar reason.
-
 # Related Work and Prior Art
 
 [SPKI/SDSI] is closely related to UCAN. A different encoding format is used, and some details vary (such as a delegation-locking bit), but the core idea and general usage pattern are very close. UCAN can be seen as making these ideas more palatable to a modern audience and adding a few features such as content IDs that were less widespread at the time SPKI/SDSI were written.
@@ -615,7 +611,6 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 
 <!-- Footnotes -->
  
-[^b58btc]: The choice of `base58btc` retains compatibility with common CID tools, and forces a canonical CID encoding unlike `base32`'s case-insensitivity.
 [^pcec]: To be precise, this is a [PC/EC][PACELC] system, which is a critical trade-off for many systems. UCAN can be used to model both PC/EC and PA/EL, but is most typically PC/EL.
 
 <!-- Internal Links -->
