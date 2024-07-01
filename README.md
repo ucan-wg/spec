@@ -2,14 +2,14 @@
 
 ## Editors
 
-- [Brooklyn Zelenka], [Fission]
+- [Brooklyn Zelenka], [Witchcraft Software]
 
 ## Authors
 
-- [Brooklyn Zelenka], [Fission]
-- [Daniel Holmgren], [Bluesky]
 - [Irakli Gozalishvili], [Protocol Labs]
-- [Philipp Krüger], [Fission]
+- [Daniel Holmgren], [Bluesky]
+- [Philipp Krüger], [number zero]
+- [Brooklyn Zelenka], [Witchcraft Software]
 
 ## Sub-Specifications
 
@@ -702,6 +702,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [invocation]: https://github.com/ucan-wg/invocation
 [local-first]: https://www.inkandswitch.com/local-first/
 [multibase]: https://github.com/multiformats/multibase
+[number zero]: https://n0.computer/
 [passkey]: https://www.passkeys.com/
 [promise]: https://github.com/ucan-wg/promise
 [raw data multicodec]: https://github.com/multiformats/multicodec/blob/a03169371c0a4aec0083febc996c38c3846a0914/table.csv?plain=1#L41
@@ -711,3 +712,4 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [time definition]: https://en.wikipedia.org/wiki/Temporal_database
 [trustless]: https://blueskyweb.xyz/blog/3-6-2022-a-self-authenticating-social-protocol
 [ucan.xyz]: https://ucan.xyz
+[Witchcraft Software]: https://github.com/expede
