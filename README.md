@@ -706,13 +706,13 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [The computer revolution hasn't happened yet]: https://www.youtube.com/watch?v=oKg1hTOQXoY
 [UCAN Promise]: https://github.com/ucan-wg/promise
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
-[`base58btc`]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L21
 [Varsig]: https://github.com/ChainAgnostic/varsig
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
 [WebCrypto API]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API
 [Witchcraft Software]: https://github.com/expede
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
+[`base58btc`]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L21
 [`did:key`]: https://w3c-ccg.github.io/did-method-key/
 [`secp256k1`]: https://en.bitcoin.it/wiki/Secp256k1
 [browser api crypto key]: https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
