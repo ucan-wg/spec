@@ -387,7 +387,7 @@ Across all UCAN specifications, the following cryptosuite MUST be supported:
 | Signature | [Ed25519], [P-256], [`secp256k1`] | Preference of Ed25519 is RECOMMENDED |
 | [DID]     | [`did:key`]                       |                                      |
 
-## Wire Encoding
+## Encoding
 
 All UCANs MUST be canonically encoded with [DAG-CBOR] for signing. A UCAN MAY be presented or stored in other [IPLD] formats (such as [DAG-JSON]), but converted to DAG-CBOR for signature validation.
 
