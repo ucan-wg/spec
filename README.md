@@ -269,11 +269,11 @@ flowchart TD
 
 > At the very least every object should have a URL
 >
-> — Alan Kay, [The computer revolution hasn't happened yet]
+> — [Alan Kay], [The computer revolution hasn't happened yet]
 
 > Every Erlang process in the universe should be addressable and introspective
 > 
-> — Joe Armstrong, Code Mesh 2016
+> — [Joe Armstrong], [Code Mesh 2016]
 
 A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the addition of public key verifiability. This unforgeability prevents malicious namespace collisions which can lead to [confused deputies][confused deputy problem].
 
@@ -382,7 +382,7 @@ Across all UCAN specifications, the following cryptosuite MUST be supported:
 
 | Role      | REQUIRED Algorithms               | Notes                                | 
 |-----------|-----------------------------------|--------------------------------------|
-| Hash      | [SHA-256] (SHA2)                  |                                      |
+| Hash      | [SHA-256]                         |                                      |
 | Signature | [Ed25519], [P-256], [`secp256k1`] | Preference of Ed25519 is RECOMMENDED |
 | [DID]     | [`did:key`]                       |                                      |
 
@@ -392,7 +392,17 @@ All UCANs MUST be canonically encoded with [DAG-CBOR] for signing. A UCAN MAY be
 
 ## Content Identifiers
 
-A UCAN token SHOULD be referenced as a [base32][multibase] [CIDv1]. [SHA-256] is the RECOMMENDED hash algorithm. The [DAG-CBOR] codec MUST be supported.
+A UCAN token MUST be configured as follows:
+
+| Parameter    | REQUIRED Configuration |
+|--------------|------------------------|
+| Version      | [CIDv1]                | 
+| [Multibase]  | [`base58btc`][^b58btc] | 
+| [Multihash]  | [SHA-256]              |
+| [Multicodec] | [DAG-CBOR]             |
+
+> [!NOTE]
+> All CIDs encoded as above start with the characters `zdpu`.
 
 The resolution of these addresses is left to the implementation and end-user, and MAY (non-exclusively) include the following: local store, a distributed hash table (DHT), gossip network, or RESTful service.
 
@@ -603,7 +613,8 @@ Thanks to the entire [SPKI WG][SPKI/SDSI] for their closely related pioneering w
 We want to especially recognize [Mark Miller] for his numerous contributions to the field of distributed auth, programming languages, and networked security writ large.
 
 <!-- Footnotes -->
-
+ 
+[^b58btc]: This choice retains compatability with common CID tools, and forces a canonical CID encoding unlike `base32`'s case-insensitivity.
 [^pcec]: To be precise, this is a [PC/EC][PACELC] system, which is a critical trade-off for many systems. UCAN can be used to model both PC/EC and PA/EL, but is most typically PC/EL.
 
 <!-- Internal Links -->
@@ -618,6 +629,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [A Certain Tendency Of The Database Community]: https://arxiv.org/pdf/1510.08473.pdf
 [ACL]: https://en.wikipedia.org/wiki/Access-control_list
 [Alan Karp]: https://github.com/alanhkarp
+[Alan Kay]: https://en.wikipedia.org/wiki/Alan_Kay
 [Alan Shaw]: https://github.com/alanshaw
 [BCP 14]: https://www.rfc-editor.org/info/bcp14
 [BLAKE3]: https://github.com/BLAKE3-team/BLAKE3
@@ -635,6 +647,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
 [Christine Lemmer-Webber]: https://github.com/cwebber
 [Christopher Joel]: https://github.com/cdata
+[Code Mesh 2016]: https://www.codemesh.io/codemesh2016
 [DAG-CBOR]: https://ipld.io/specs/codecs/dag-cbor/spec/
 [DAG-JSON]: https://ipld.io/specs/codecs/dag-json/spec/
 [DID fragment]: https://www.w3.org/TR/did-core/#fragment
@@ -652,10 +665,12 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [GUID]: https://en.wikipedia.org/wiki/Universally_unique_identifier
 [Hannah Howard]: https://github.com/hannahhoward
 [Hugo Dias]: https://github.com/hugomrdias
+[IPLD]: https://ipld.io/
 [Ink & Switch]: https://www.inkandswitch.com/
 [Inversion of control]: https://en.wikipedia.org/wiki/Inversion_of_control
 [Irakli Gozalishvili]: https://github.com/Gozala
 [JWT]: https://www.rfc-editor.org/rfc/rfc7519
+[Joe Armstrong]: https://en.wikipedia.org/wiki/Joe_Armstrong_(programmer)
 [Juan Caballero]: https://github.com/bumblefudge
 [Local-First Auth]: https://github.com/local-first-web/auth
 [Macaroon]: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf
@@ -663,7 +678,10 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Martin Kleppmann]: https://martin.kleppmann.com/
 [Meiklejohn]: https://christophermeiklejohn.com/
 [Mikael Rogers]: https://github.com/mikeal/
+[Multibase]: https://github.com/multiformats/multibase
+[Multicodec]: https://github.com/multiformats/multicodec
 [Multics]: https://en.wikipedia.org/wiki/Multics
+[Multihash]: https://www.multiformats.io/multihash/
 [OCAP]: http://erights.org/elib/capability/index.html
 [OCapN]: https://github.com/ocapn/ocapn
 [P-256]: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf#page=111
@@ -688,6 +706,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [The computer revolution hasn't happened yet]: https://www.youtube.com/watch?v=oKg1hTOQXoY
 [UCAN Promise]: https://github.com/ucan-wg/promise
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
+[`base58btc`]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L21
 [Varsig]: https://github.com/ChainAgnostic/varsig
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
@@ -710,7 +729,6 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [fail-safe]: https://en.wikipedia.org/wiki/Fail-safe
 [invocation]: https://github.com/ucan-wg/invocation
 [local-first]: https://www.inkandswitch.com/local-first/
-[multibase]: https://github.com/multiformats/multibase
 [number zero]: https://n0.computer/
 [passkey]: https://www.passkeys.com/
 [promise]: https://github.com/ucan-wg/promise
