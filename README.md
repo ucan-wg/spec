@@ -1,4 +1,5 @@
-# User Controlled Authorization Network (UCAN) Specification v1.0.0-rc.1
+# User Controlled Authorization Network (UCAN) Specification
+## Version 1.0.0-rc.1
 
 ## Editors
 
@@ -412,7 +413,7 @@ All UCAN formats MUST use the following envelope format:
 
 | Field                             | Type           | Description                                                    |
 |-----------------------------------|----------------|----------------------------------------------------------------|
-| `.0`                              | `Signature`    | A signature by the Payload's `iss` over the `SigPayload` field |
+| `.0`                              | `Bytes`        | A signature by the Payload's `iss` over the `SigPayload` field |
 | `.1`                              | `SigPayload`   | The content that was signed                                    |
 | `.1._h`                           | `VarsigHeader` | The [Varsig] v1 header                                         |
 | `.1.ucan/<subspec-tag>@<version>` | `TokenPayload` | The UCAN token payload                                         |
