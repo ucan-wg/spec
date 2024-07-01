@@ -19,6 +19,7 @@ CRDT
 CRDTs
 Canonicalization
 Compositionality
+Cryptosuite
 DAG
 DAGs
 DHT
@@ -36,8 +37,10 @@ GUID
 Golang
 Gozalishvili
 HEHYSF
+Hardenberg
 Haus
 Holmgren
+IPLD
 Invoker's
 Irakli
 JSON
@@ -53,6 +56,8 @@ Memoized
 Merkle
 Mikael
 MkiTBz
+Multibase
+Multihash
 OCAP
 OCapN
 PITM
@@ -74,6 +79,8 @@ SPKI
 ScopeA
 ScopeB
 Seitan
+SignatureBytes
+Storacha
 Subschemes
 TXT
 TypeScript
@@ -83,7 +90,9 @@ UCANs
 URI
 URIs
 Vandevelde
+Varsig
 WG
+WebCrypto
 WebNative
 Webber
 ZCAP
@@ -97,10 +106,13 @@ auth
 autonumber
 bene
 blockchain
+btc
 codec
 codecs
 crudGraph
+cryptographic
 cryptographically
+cryptosuite
 del
 delegable
 delegator
@@ -118,6 +130,7 @@ hawaii
 init
 inlining
 interconnectivity
+interoperable
 interpretable
 inv
 invoker
