@@ -8,4 +8,10 @@ The NIST report on post-quantum computing will also be released in the next few 
 
 ## SHA-256
 
-While BLAKE3 is faster in software, the SHA2 family is already a requirement of the signature algorithms in UCAN's cryptosuite. SHA-256 is also available effectively everywhere, and doesn't need to shipped as a separate package, which lowers implementation/maintenance complexity, and bundle size.
+While [BLAKE3] is faster in software, the SHA2 family is already a requirement of the signature algorithms in UCAN's cryptosuite. SHA-256 is also available effectively everywhere, and doesn't need to shipped as a separate package, which lowers implementation/maintenance complexity, and bundle size.
+
+<!-- External Links -->
+
+[BLAKE3]: https://github.com/BLAKE3-team/BLAKE3
+[JWT]: https://www.rfc-editor.org/rfc/rfc7519
+[WebCrypto API]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API

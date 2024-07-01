@@ -9,3 +9,7 @@ While BLAKE3 is faster in software, the SHA2 family is already a requirement of 
 ## `base58tc`
 
 The choice of [`base58btc`] retains compatibility with common CID tools, and forces a canonical CID encoding. The other common base at time of writing is `base32`, which is popular due to its compatability with various web technologies such as subdomain handling in browsers. Unfortunately, `base32` is case-insensitive, which poses a problem for CID canonicalization since multiple CIDs map to the same underlying hash.
+
+<!-- External Links -->
+
+[`base58btc`]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L21
