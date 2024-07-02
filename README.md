@@ -542,7 +542,7 @@ For example:
 
 ### Payload
 
-A UCAN Envelope MUST contain at least the following fields:
+A UCAN's Payload MUST contain at least the following fields:
 
 | Field   | Type                                      | Required | Description                                                 |
 |---------|-------------------------------------------|----------|-------------------------------------------------------------|
