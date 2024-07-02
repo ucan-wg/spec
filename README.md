@@ -426,43 +426,28 @@ The wildcard ability grants access to all other capabilities for the specified r
 %%{ init: { 'flowchart': { 'curve': 'linear' } } }%%
 
 flowchart BT
-  *
+  /
 
-  msg/* --> *
+  /msg --> /
   subgraph msgGraph [ ]
-    msg/send --> msg/*
-    msg/receive --> msg/*
+    /msg/send --> /msg
+    /msg/receive --> /msg
   end
 
-  crud/* --> *
+  /crud --> /
   subgraph crudGraph [ ]
-    crud/read --> crud/*
-    crud/mutate --> crud/*
+    /crud/read --> /crud
+    /crud/mutate --> /crud
 
     subgraph mutationGraph [ ]
-        crud/create --> crud/mutate
-        crud/update --> crud/mutate
-        crud/destroy --> crud/mutate
+        /crud/mutate/create --> /crud/mutate
+        /crud/mutate/update --> /crud/mutate
+        /crud/mutate/destroy --> /crud/mutate
     end
   end
 
-  ... --> *
+  ... --> /
 ```
-
-Conceptually it has this shape:
-
-``` ts
-{
-  "cmd": "*",
-  "args": {
-    "cmd": string, // Some other command
-    "args": {[string]: any} // That commad's arguments
-  },
-  // ...
-}
-```
-
-Since the nesting is fully redundant and infinitely nestable, it is instead used only in proof chains, and SHOULD NOT be invoked directly.
 
 ### Reserved Commands
 
