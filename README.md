@@ -335,28 +335,31 @@ The set of capabilities delegated by a UCAN is called its "authority." To frame 
 Merging capability authorities MUST follow set semantics, where the result includes all capabilities from the input authorities. Since broader capabilities automatically include narrower ones, this process is always additive. Capability authorities can be combined in any order, with the result always being at least as broad as each of the original authorities.
 
 ``` plaintext
-                 ┌───────────────────┐  ─┐
-                 │                   │   │
-                 │                   │   │
-┌────────────────┼───┐               │   │
-│                │   │ Subject B     │   │
-│                │   │               │   │       BxZ
-│                │   │     X         │   ├─── Capability
-│     Subject A  │   │               │   │
-│                │   │ Ability Z     │   │
-│         X      │   │               │   │
-│                │   │               │   │
-│     Ability Y  │   │               │   │
-│                └───┼───────────────┘  ─┘
-│                    │
-│                    │
-└────────────────────┘
+                   ┌───────────────────────┐  ┐
+                   │                       │  │
+                   │                       │  │
+                   │                       │  │
+                   │                       │  │
+                   │       Subject B       │  │
+┌──────────────────┼ ─ ─       x           │  │
+│                       │  Ability Z       │  ├──    BxZ
+│                  │                       │  │  Capability
+│                       │                  │  │
+│                  │                       │  │
+│       Subject A       │                  │  │
+│           x      │                       │  │
+│       Ability Y   ─  ─┼──────────────────┘  ┘
+│                       │
+│                       │
+│                       │
+│                       │
+│                       │
+└───────────────────────┘
 
-└──────────────────┬─────────────────┘
-                   │
-
-               AxY U BxZ
-               Capability
+└─────────────────────┬────────────────────┘
+                      │
+                  AxY U BxZ
+                  Capability
 ```
 
 The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Every unique delegated capability MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
