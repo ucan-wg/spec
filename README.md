@@ -414,6 +414,62 @@ Commands MUST be lowercase, and begin with a slash (`/`). Segments MUST be separ
 
 Segment structure is important since shorter Commands prove longer paths. For example, `/` can be used as a proof of _any_ other Command. For example, `/crypto` MAY be used to prove `/crypto/sign` but MUST NOT prove `/stack/pop`.
 
+### `/` AKA "Top"
+
+_"Top" (`/`) is the most powerful ability, and as such it SHOULD be handled with care and used sparingly._
+
+The "top" (or "any", or "wildcard") ability MUST be denoted `/`. This can be thought of as something akin to a super user permission in RBAC. 
+
+The wildcard ability grants access to all other capabilities for the specified resource, across all possible namespaces. The wildcard ability is useful when "linking" agents by delegating all access to another device controlled by the same user, and that should behave as the same agent. It is extremely powerful, and should be used with care. Among other things, it permits the delegate to update a Subject's mutable DID document (change their private keys), revoke UCAN delegations, and use any resources delegated to the Subject by others.
+
+``` mermaid
+%%{ init: { 'flowchart': { 'curve': 'linear' } } }%%
+
+flowchart BT
+  *
+
+  msg/* --> *
+  subgraph msgGraph [ ]
+    msg/send --> msg/*
+    msg/receive --> msg/*
+  end
+
+  crud/* --> *
+  subgraph crudGraph [ ]
+    crud/read --> crud/*
+    crud/mutate --> crud/*
+
+    subgraph mutationGraph [ ]
+        crud/create --> crud/mutate
+        crud/update --> crud/mutate
+        crud/destroy --> crud/mutate
+    end
+  end
+
+  ... --> *
+```
+
+Conceptually it has this shape:
+
+``` ts
+{
+  "cmd": "*",
+  "args": {
+    "cmd": string, // Some other command
+    "args": {[string]: any} // That commad's arguments
+  },
+  // ...
+}
+```
+
+Since the nesting is fully redundant and infinitely nestable, it is instead used only in proof chains, and SHOULD NOT be invoked directly.
+
+### Reserved Commands
+
+#### `/ucan` Namespace
+
+The `/ucan` Command namespace MUST be reserved. This MUST include any ability string matching the regex `^ucan\/.*`. This is important for keeping a space for community-blessed Commands in the future, such as standard library Commands, such as [Revocation].
+
 ## Attenuation
 
 Attenuation is the process of constraining the capabilities in a delegation chain. Each direct delegation MUST either directly restate or attenuate (diminish) its capabilities.
