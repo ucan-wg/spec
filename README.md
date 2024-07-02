@@ -121,9 +121,89 @@ This inverts the usual relationship between resources and users: the resource gr
 
 This additionally allows UCAN to model auth for [eventually consistent and replicated state][overcoming SSI].
 
+# Roles
+
+There are several roles that an agent MAY assume:
+
+| Name      | Description                                                                                      | 
+|-----------|--------------------------------------------------------------------------------------------------|
+| Agent     | The general class of entities and principals that interact with a UCAN                           |
+| Audience  | The Principal delegated to in the current UCAN. Listed in the `aud` field                        |
+| Executor  | The Agent that actually performs the action described in an invocation                           |
+| Invoker   | A Principal that requests an Executor perform some action that uses the Invoker's authority |
+| Issuer    | The Principal of the current UCAN. Listed in the `iss` field                                     |
+| Owner     | A Subject that controls some external resource                                                    |
+| Principal | An agent identified by DID (listed in a UCAN's `iss` or `aud` field)                             |
+| Revoker   | The Issuer listed in a proof chain that revokes a UCAN                                           |
+| Subject   | The Principal who's authority is delegated or invoked                                            |
+| Validator | Any Agent that interprets a UCAN to determine that it is valid, and which capabilities it grants |
+
+``` mermaid
+flowchart TD
+    subgraph Agent
+        subgraph Principal
+            direction TB
+
+            subgraph Issuer
+                direction TB
+                
+                subgraph Subject
+                    direction TB
+                    
+                    Executor
+                    Owner
+                end
+
+                Revoker
+            end
+
+            subgraph Audience
+                Invoker
+            end
+        end
+
+        Validator
+    end
+```
+
+## Subject
+
+> At the very least every object should have a URL
+>
+> — [Alan Kay], [The computer revolution hasn't happened yet]
+
+> Every Erlang process in the universe should be addressable and introspective
+> 
+> — [Joe Armstrong], [Code Mesh 2016]
+
+A [Subject] represents the Agent that a capability is for. A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the addition of public key verifiability. This unforgeability prevents malicious namespace collisions which can lead to [confused deputies][confused deputy problem]. 
+
+### Resource
+
+A resource is some data or process that can be uniquely identified by a [URI]. It can be anything from a row in a database, a user account, storage quota, email address, etc. Resource MAY be as coarse or fine grained as desired. Finer-grained is RECOMMENDED where possible, as it is easier to model the principle of least authority ([PoLA]).
+
+A resource describes the noun of a capability. The resource pointer MUST be provided in [URI] format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
+
+Having a unique agent represent a resource (and act as its manager) is RECOMMENDED. However, to help traditional ACL-based systems transition to certificate capabilities, an agent MAY manage multiple resources, and [act as the registrant in the ACL system][wrapping existing systems].
+
+Unless explicitly stated, the Resource of a UCAN MUST be the Subject.
+
+## Issuer & Audience
+
+The Issuer (`iss`) and Audience (`aud`) can be conceptualized as the sender and receiver (respectively) of a postal letter. Every UCAN MUST be signed with the private key associated with the DID in the `iss` field.
+
+For example:
+
+```js
+"aud": "did:key:z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp",
+"iss": "did:key:zDnaerDaTF5BXEavCrfRZEk316dpbLsfPDZ3WJ5hRTPFU2169",
+```
+
+Please see the [Cryptosuite] section for more detail on DIDs.
+
 # Lifecycle
 
-The UCAN lifecycle has three parts:
+The UCAN lifecycle has four components:
 
 | Spec         | Description                                                              | Requirement Level |
 |--------------|--------------------------------------------------------------------------|-------------------|
@@ -187,7 +267,44 @@ Validation MAY occur at multiple points during a UCAN's lifecycle. The main two 
 
 To avoid the overloaded word "runtime", UCAN adopts the term "execution-time" to express the moment that the executor attempts to use the authority captured in an invocation and associated delegation chain. Validation MUST occur at this time.
 
-## Example
+## Time Bounds
+
+`nbf` and `exp` stand for "not before" and "expires at," respectively. These MUST be expressed as seconds since the Unix epoch in UTC, without time zone or other offset. Taken together, they represent the time bounds for a token. These timestamps MUST be represented as the number of integer seconds since the Unix epoch. Due to limitations[^js-num-size] in numerics for certain common languages, timestamps outside of the range from $-2^{53} – 1$ to $2^{53} – 1$ MUST be rejected as invalid.
+
+The `nbf` field is OPTIONAL. When omitted, the token MUST be treated as valid beginning from the Unix epoch. Setting the `nbf` field to a time in the future MUST delay invoking a UCAN. For example, pre-provisioning access to conference materials ahead of time but not allowing access until the day it starts is achievable with judicious use of `nbf`.
+
+The `exp` field is RECOMMENDED. Following the [principle of least authority][PoLA], it is RECOMMENDED to give a timestamp expiry for UCANs. If the token explicitly never expires, the `exp` field MUST be set to `null`. If the time is in the past at validation time, the token MUST be treated as expired and invalid.
+
+Keeping the window of validity as short as possible is RECOMMENDED. Limiting the time range can mitigate the risk of a malicious user abusing a UCAN. However, this is situationally dependent. It may be desirable to limit the frequency of forced reauthorizations for trusted devices. Due to clock drift, time bounds SHOULD NOT be considered exact. A buffer of ±60 seconds is RECOMMENDED.
+
+Several named points of time in the UCAN lifecycle can be found in the [high level spec][UCAN].
+
+Below are a couple examples:
+
+```js
+{
+  // ...
+  "nbf": 1529496683,
+  "exp": 1575606941
+}
+```
+
+```js
+{
+  // ...
+  "exp": 1575606941
+}
+```
+
+```js
+{
+  // ...
+  "nbf": 1529496683,
+  "exp": null
+}
+```
+
+## Lifecycle Example
 
 Here is a concrete example of all stages of the UCAN lifecycle for database write access.
 
@@ -218,95 +335,6 @@ sequenceDiagram
     Bob ->> DBAgent: invoke(DBAgent, [write, [key, newValue]], proof: [➊,➋])
     DBAgent -X Bob: NAK(➏) [rejected]
 ```
-
-# Terminology
-
-## Roles
-
-There are several roles that an agent MAY assume:
-
-| Name      | Description                                                                                      | 
-|-----------|--------------------------------------------------------------------------------------------------|
-| Agent     | The general class of entities and principals that interact with a UCAN                           |
-| Audience  | The Principal delegated to in the current UCAN. Listed in the `aud` field                        |
-| Executor  | The Agent that actually performs the action described in an invocation                           |
-| Invoker   | A Principal that requests an Executor perform some action that uses the Invoker's authority |
-| Issuer    | The Principal of the current UCAN. Listed in the `iss` field                                     |
-| Owner     | A Subject that controls some external resource                                                    |
-| Principal | An agent identified by DID (listed in a UCAN's `iss` or `aud` field)                             |
-| Revoker   | The Issuer listed in a proof chain that revokes a UCAN                                           |
-| Subject   | The Principal who's authority is delegated or invoked                                            |
-| Validator | Any Agent that interprets a UCAN to determine that it is valid, and which capabilities it grants |
-
-``` mermaid
-flowchart TD
-    subgraph Agent
-        subgraph Principal
-            direction TB
-
-            subgraph Issuer
-                direction TB
-                
-                subgraph Subject
-                    direction TB
-                    
-                    Executor
-                    Owner
-                end
-
-                Revoker
-            end
-
-            subgraph Audience
-                Invoker
-            end
-        end
-
-        Validator
-    end
-```
-
-## Subject
-
-> At the very least every object should have a URL
->
-> — [Alan Kay], [The computer revolution hasn't happened yet]
-
-> Every Erlang process in the universe should be addressable and introspective
-> 
-> — [Joe Armstrong], [Code Mesh 2016]
-
-A Subject MUST be referenced by [DID]. This behaves much like a [GUID], with the addition of public key verifiability. This unforgeability prevents malicious namespace collisions which can lead to [confused deputies][confused deputy problem].
-
-## Resource
-
-A resource is some data or process that can be uniquely identified by a [URI]. It can be anything from a row in a database, a user account, storage quota, email address, etc. Resource MAY be as coarse or fine grained as desired. Finer-grained is RECOMMENDED where possible, as it is easier to model the principle of least authority ([PoLA]).
-
-A resource describes the noun of a capability. The resource pointer MUST be provided in [URI] format. Arbitrary and custom URIs MAY be used, provided that the intended recipient can decode the URI. The URI is merely a unique identifier to describe the pointer to — and within — a resource.
-
-Having a unique agent represent a resource (and act as its manager) is RECOMMENDED. However, to help traditional ACL-based systems transition to certificate capabilities, an agent MAY manage multiple resources, and [act as the registrant in the ACL system][wrapping existing systems].
-
-Unless explicitly stated, the Resource of a UCAN MUST be the Subject.
-
-## Command
-
-Commands are concrete messages ("verbs") that MUST be unambiguously interpretable by the Subject of a UCAN. Commands are REQUIRED in invocations. Some examples include `msg/send`, `crud/read`, and `ucan/revoke`.
-
-Much like other message-passing systems, the specific resource MUST define the behavior for a particular message. For instance, `crud/update` MAY be used to destructively update a database row, or append to a append-only log. Specific messages MAY be created at will; the only restriction is that the Executor understand how to interpret that message in the context of a specific resource.
-
-While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `msg/send` to a typical file system. 
-
-Commands MUST NOT be case-sensitive. There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
-
-The slash convention (`my/command`, `my/other/command`) is only that: a namespacing _convention_. `dostuff`, `my/special/command` and `bbq-case-command` MUST all be accepted. The slash convention is RECOMMENDED to avoid namespace collision.
-
-### Ability
-
-Abilities abstract over [Command]s to allow for extension of UCAN delegations.
-
-Abilities MAY be organized in a hierarchy. A typical example is a superuser capability ("anything") on a file system. Another is read vs write access, such that in an HTTP context, `WRITE` implies `PUT`, `PATCH`, `DELETE`, and so on. Organizing abilities this way allows for adding more options over time in a backward-compatible manner, avoiding the need to reissue UCANs with new resource semantics.
-
-Abilities MUST NOT be case-sensitive. There MUST be at least one path segment as a namespace. For example, `http/put` and `db/put` MUST be treated as unique from each other.
 
 ## Capability
 
@@ -364,6 +392,28 @@ Merging capability authorities MUST follow set semantics, where the result inclu
 
 The capability authority is the total rights of the authorization space down to the relevant volume of authorizations. Individual capabilities MAY overlap; the authority is the union. Every unique delegated capability MUST have equal or narrower capabilities from their delegator. Inside this content space, you can draw a boundary around some resource(s) (their type, identifiers, and paths or children) and their capabilities.
 
+## Command
+
+Commands are concrete messages ("verbs") that MUST be unambiguously interpretable by the Subject of a UCAN. Commands are REQUIRED in invocations. Some examples include `/msg/send`, `/crud/read`, and `/ucan/revoke`.
+
+Much like other message-passing systems, the specific resource MUST define the behavior for a particular message. For instance, `/crud/update` MAY be used to destructively update a database row, or append to a append-only log. Specific messages MAY be created at will; the only restriction is that the Executor understand how to interpret that message in the context of a specific resource.
+
+While arbitrary semantics MAY be described, they MUST apply to the target resource. For instance, it does not make sense to apply `/msg/send` to a typical file system. 
+
+### Segment Structure
+
+Commands MUST be lowercase, and begin with a slash (`/`). Segments MUST be separated by a slash. A trailing slash MUST NOT be present. All of the following are syntactically valid Commands:
+
+* `/`
+* `/crud`
+* `/crud/create`
+* `/stack/pop`
+* `/crypto/sign`
+* `/foo/bar/baz/qux/quux`
+* `/ほげ/ふが`
+
+Segment structure is important since shorter Commands prove longer paths. For example, `/` can be used as a proof of _any_ other Command. For example, `/crypto` MAY be used to prove `/crypto/sign` but MUST NOT prove `/stack/pop`.
+
 ## Attenuation
 
 Attenuation is the process of constraining the capabilities in a delegation chain. Each direct delegation MUST either directly restate or attenuate (diminish) its capabilities.
@@ -377,6 +427,46 @@ Token resolution is transport specific. The exact format is left to the relevant
 3. Collections format
 
 Note that if an instance cannot dereference a CID at runtime, the UCAN MUST fail validation. This is consistent with the [constructive semantics] of UCAN.
+
+# Nonce
+
+The REQUIRED nonce parameter `nonce` MAY be any value. A randomly generated string is RECOMMENDED to provide a unique UCAN, though it MAY also be a monotonically increasing count of the number of links in the hash chain. This field helps prevent replay attacks and ensures a unique CID per delegation. The `iss`, `aud`, and `exp` fields together will often ensure that UCANs are unique, but adding the nonce ensures uniqueness.
+
+The recommended size of the nonce differs by key type. In many cases, a random 12-byte nonce is sufficient. If uncertain, check the nonce in your DID's crypto suite.
+
+This field SHOULD NOT be used to sign arbitrary data, such as signature challenges. See the [`meta`][Metadata] field for more.
+
+Here is a simple example.
+
+``` js
+{
+  // ...
+  "nonce": {"/": {"bytes": "bGlnaHQgd29yay4"}}
+}
+```
+
+# Metadata
+
+The OPTIONAL `meta` field contains a map of arbitrary metadata, facts, and proofs of knowledge. The enclosed data MUST be self-evident and externally verifiable. It MAY include information such as hash preimages, server challenges, a Merkle proof, dictionary data, etc.
+
+The data contained in this map MUST NOT be semantically meaningful to delegation chains.
+
+Below is an example:
+
+``` js
+{
+  // ...
+  "meta": {
+    "challenges": {
+      "example.com": "abcdef",
+      "another.example.net": "12345"
+    },
+    "sha3_256": {
+      "B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9": "hello world"
+    }
+  }
+}
+```
 
 # Canonicalization
 
@@ -449,6 +539,22 @@ For example:
   }
 ]
 ```
+
+### Payload
+
+A UCAN Envelope MUST contain at least the following fields:
+
+| Field   | Type                                      | Required | Description                                                 |
+|---------|-------------------------------------------|----------|-------------------------------------------------------------|
+| `iss`   | `DID`                                     | Yes      | Issuer DID (sender)                                         |
+| `aud`   | `DID`                                     | Yes      | Audience DID (receiver)                                     |
+| `sub`   | `DID`                                     | Yes      | Principal that the chain is about (the [Subject])           |
+| `cmd`   | `String`                                  | Yes      | The [Command] to eventually invoke                          |
+| `args`  | `{String : Any}`                          | Yes      | Any [Arguments] that MUST be present in the Invocation      |
+| `nonce` | `Bytes`                                   | Yes      | Nonce                                                       |
+| `meta`  | `{String : Any}`                          | No       | [Meta] (asserted, signed data) — is not delegated authority |
+| `nbf`   | `Integer` (53-bits[^js-num-size])         | No       | "Not before" UTC Unix Timestamp in seconds (valid from)     |
+| `exp`   | `Integer \| Null` (53-bits[^js-num-size]) | Yes      | Expiration UTC Unix Timestamp in seconds (valid until)      |
 
 # Implementation Recommendations
 
@@ -619,6 +725,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 <!-- Internal Links -->
 
 [Command]: #command
+[Cryptosuite]: #cryptosuite
 [overcoming SSI]: #beyond-single-system-image
 [sub-specifications]: #sub-specifications
 [wrapping existing systems]: #wrapping-existing-systems
