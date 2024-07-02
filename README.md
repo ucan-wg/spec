@@ -412,7 +412,7 @@ Commands MUST be lowercase, and begin with a slash (`/`). Segments MUST be separ
 * `/foo/bar/baz/qux/quux`
 * `/ほげ/ふが`
 
-Segment structure is important since shorter Commands prove longer paths. For example, `/` can be used as a proof of _any_ other Command. For example, `/crypto` MAY be used to prove `/crypto/sign` but MUST NOT prove `/stack/pop`.
+Segment structure is important since shorter Commands prove longer paths. For example, `/` can be used as a proof of _any_ other Command. For example, `/crypto` MAY be used to prove `/crypto/sign` but MUST NOT prove `/stack/pop` or `/cryptocurrency`.
 
 ### `/` AKA "Top"
 
