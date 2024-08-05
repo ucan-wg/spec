@@ -347,7 +347,7 @@ For example, a capability may used to represent the ability to send email from a
 | Field      | Example                                                                                      |
 |------------|----------------------------------------------------------------------------------------------|
 | Subject    | `did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK`                                   |
-| Command    | `msg/send`                                                                                   |
+| Command    | `/msg/send`                                                                                  |
 | Policy     | `["or", ["==", ".from", "mailto:me@example.com"], ["match", ".cc", "mailto:*@example.com"]]` |
 
 For a more complete treatment, please see the [UCAN Delegation][delegation] spec.
