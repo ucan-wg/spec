@@ -179,6 +179,7 @@ runtime
 scalable
 sdarnit
 sequenceDiagram
+significand
 situationally
 stateful
 subdelegate
