@@ -809,7 +809,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Ed25519]: https://en.wikipedia.org/wiki/EdDSA#Ed25519
 [EdDSA]: https://datatracker.ietf.org/doc/html/rfc8032#section-5.1
 [Email about SPKI]: https://web.archive.org/web/20140724054706/http://wiki.erights.org/wiki/Capability-based_Active_Invocation_Certificates
-[FIDO]: https://fidoalliance.org/fido-authentication/
+[FIDO]: https://fidoalliance.org/what-is-fido/
 [Fission]: https://fission.codes
 [GUID]: https://en.wikipedia.org/wiki/Universally_unique_identifier
 [Hannah Howard]: https://github.com/hannahhoward
