@@ -7,6 +7,7 @@ Aud
 Auth
 AuthorityA
 AuthorityB
+AxY
 BCP
 BT
 Bluesky
@@ -110,6 +111,7 @@ btc
 codec
 codecs
 crudGraph
+crypto
 cryptocurrency
 cryptographic
 cryptographically
@@ -154,6 +156,8 @@ namespaces
 namespacing
 nonces
 nota
+num
+numerics
 ocap
 pcec
 plaintext

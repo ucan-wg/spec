@@ -761,6 +761,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 
 <!-- Footnotes -->
  
+[^js-num-size]: JavaScript has a single numeric type ([`Number`][JS Number]) for both integers and floats. This representation is defined as a [IEEE-754] double-precision floating point number, which has a 53-bit significand.
 [^pcec]: To be precise, this is a [PC/EC][PACELC] system, which is a critical trade-off for many systems. UCAN can be used to model both PC/EC and PA/EL, but is most typically PC/EL.
 
 <!-- Internal Links -->
@@ -773,6 +774,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 
 <!-- External Links -->
 
+[IEEE-754]: https://ieeexplore.ieee.org/document/8766229
 [A Certain Tendency Of The Database Community]: https://arxiv.org/pdf/1510.08473.pdf
 [ACL]: https://en.wikipedia.org/wiki/Access-control_list
 [Alan Karp]: https://github.com/alanhkarp
@@ -806,7 +808,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [ECDSA security]: https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm#Security
 [Ed25519]: https://en.wikipedia.org/wiki/EdDSA#Ed25519
 [EdDSA]: https://datatracker.ietf.org/doc/html/rfc8032#section-5.1
-[Email about SPKI]: http://wiki.erights.org/wiki/Capability-based_Active_Invocation_Certificates
+[Email about SPKI]: https://web.archive.org/web/20140724054706/http://wiki.erights.org/wiki/Capability-based_Active_Invocation_Certificates
 [FIDO]: https://fidoalliance.org/fido-authentication/
 [Fission]: https://fission.codes
 [GUID]: https://en.wikipedia.org/wiki/Universally_unique_identifier
@@ -865,7 +867,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [browser api crypto key]: https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
 [capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
 [caps as keys]: http://www.erights.org/elib/capability/duals/myths.html#caps-as-keys
-[certificate capability model]: http://wiki.erights.org/wiki/Capability-based_Active_Invocation_Certificates
+[certificate capability model]: https://web.archive.org/web/20140724054706/http://wiki.erights.org/wiki/Capability-based_Active_Invocation_Certificates
 [confinement]: http://www.erights.org/elib/capability/dist-confine.html
 [confused deputy problem]: https://en.wikipedia.org/wiki/Confused_deputy_problem
 [constructive semantics]: https://en.wikipedia.org/wiki/Intuitionistic_logic
