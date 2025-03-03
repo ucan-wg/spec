@@ -453,7 +453,7 @@ flowchart BT
 
 #### `/ucan` Namespace
 
-The `/ucan` Command namespace MUST be reserved. This MUST include any ability string matching the regex `^ucan\/.*`. This is important for keeping a space for community-blessed Commands in the future, such as standard library Commands, such as [Revocation].
+The `/ucan` Command namespace MUST be reserved. This MUST include any ability string matching the regex `^\/ucan\/.*`. This is important for keeping a space for community-blessed Commands in the future, such as standard library Commands, such as [Revocation].
 
 ## Attenuation
 
