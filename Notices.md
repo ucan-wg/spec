@@ -103,6 +103,14 @@ Specification version: 0.8.0 or later
 
 ---------------------------------------------------------------------------------
 
+Licensee’s name: Petra Jaros
+
+Authorized individual and system identifier: Peeja
+
+Specification version: 0.8.0 or later
+
+---------------------------------------------------------------------------------
+
 ## Withdrawals
 
 Name of party withdrawing:
