@@ -574,8 +574,9 @@ For example:
   {"/": {"bytes": "7aEDQLYvb3lygk9yvAbk0OZD0q+iF9c3+wpZC4YlFThkiNShcVriobPFr/wl3akjM18VvIv/Zw2LtA4uUmB5m8PWEAU"}},
   {
     "h": {"/": {"bytes": "NBIFEgEAcQ"}},
-    "ucan/example@1.0.0-rc.1": {
-      "hello": "world"
+    "ucan/example@1.0.0-rc.1": { // would be a delegation, invocation, or another UCAN type
+      "example-field-1": "field content",
+      "example-field-2": "more content"
     }
   }
 ]
