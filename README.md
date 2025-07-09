@@ -571,10 +571,11 @@ For example:
 
 ``` js
 [
-  {"/": {"bytes": "7aEDQLYvb3lygk9yvAbk0OZD0q+iF9c3+wpZC4YlFThkiNShcVriobPFr/wl3akjM18VvIv/Zw2LtA4uUmB5m8PWEAU"}},
+  { "/": {"bytes": "bdNVZn+uTrQ8bgq5LocO2y3gqIyuEtvYWRUH9YT+SRK6v/SX8bjt+VZ9JIPVTdxkWb6nhVKBt6JGpgnjABpOCA"}},
   {
-    "h": {"/": {"bytes": "NBIFEgEAcQ"}},
+    "h": {"/": {"bytes": "NAAB7QEO0AET"}}, // i.e. signed with Ed25519
     "ucan/example@1.0.0-rc.1": {
+      // Body fields, for example:
       "hello": "world"
     }
   }
