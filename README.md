@@ -573,7 +573,7 @@ For example:
 [
   { "/": {"bytes": "bdNVZn+uTrQ8bgq5LocO2y3gqIyuEtvYWRUH9YT+SRK6v/SX8bjt+VZ9JIPVTdxkWb6nhVKBt6JGpgnjABpOCA"}},
   {
-    "h": {"/": {"bytes": "NAAB7QEO0AETcQ"}}, // i.e. signed with Ed25519, encoded with DAG-CBOR
+    "h": {"/": {"bytes": "NAHtAe0BE3E"}}, // i.e. signed with Ed25519, encoded with DAG-CBOR
     "ucan/example@1.0.0-rc.1": {
       // Body fields, for example:
       "hello": "world"
