@@ -823,7 +823,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Joe Armstrong]: https://en.wikipedia.org/wiki/Joe_Armstrong_(programmer)
 [Juan Caballero]: https://github.com/bumblefudge
 [Local-First Auth]: https://github.com/local-first-web/auth
-[Macaroon]: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/41892.pdf
+[Macaroon]: https://theory.stanford.edu/~ataly/Papers/macaroons.pdf
 [Mark Miller]: https://github.com/erights
 [Martin Kleppmann]: https://martin.kleppmann.com/
 [Meiklejohn]: https://christophermeiklejohn.com/
@@ -863,7 +863,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Witchcraft Software]: https://github.com/expede
 [ZCAP-LD]: https://w3c-ccg.github.io/zcap-spec/
 [`base58btc`]: https://github.com/multiformats/multibase/blob/master/multibase.csv#L21
-[`did:key`]: https://w3c-ccg.github.io/did-method-key/
+[`did:key`]: https://w3c-ccg.github.io/did-key-spec/
 [`secp256k1`]: https://en.bitcoin.it/wiki/Secp256k1
 [browser api crypto key]: https://developer.mozilla.org/en-US/docs/Web/API/CryptoKey
 [capabilities]: https://en.wikipedia.org/wiki/Object-capability_model
