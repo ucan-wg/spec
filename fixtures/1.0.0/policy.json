@@ -1,0 +1,170 @@
+{
+	"valid": [
+		{
+			"args": {
+				"a": [1, 2, { "b": 3 }],
+				"b": 1
+			},
+			"policies": [
+				[
+					["==", ".a", [1, 2, { "b": 3 }]],
+					["==", ".b", 1],
+					["==", ".b", 1.0],
+					["==", ".b", 1.0]
+				],
+				[
+					["!=", ".b", "ddd"],
+					["!=", ".b", null],
+					["!=", ".b", 2],
+					["!=", ".b", { "b": 3 }],
+					["!=", ".b", true],
+					["!=", ".b", false],
+					["not", ["==", ".b", 2]]
+				],
+				[["<", ".b", 2], ["<", ".b", 2.0]],
+				[[">", ".b", 0], [">", ".b", 0.0]],
+				[["<=", ".b", 2], ["<=", ".b", 2.0]],
+				[[">=", ".b", 0], [">=", ".b", 0.0]]
+			]
+		},
+		{
+			"args": {
+				"a": "Alice*, Bob, Carol.",
+				"b": "Alice*, Bob, Dan, Erin, Carol.",
+				"c": "Alice*, Bob  , Carol.",
+				"d": "Alice*, Bob*, Carol."
+			},
+			"policies": [
+				[
+					["like", ".a", "Alice\\*, Bob*, Carol."],
+					["like", ".b", "Alice\\*, Bob*, Carol."],
+					["like", ".c", "Alice\\*, Bob*, Carol."],
+					["like", ".d", "Alice\\*, Bob*, Carol."]
+				]
+			]
+		},
+		{
+			"args": {
+				"name": "Katie",
+				"age": 35,
+				"nationalities": ["Canadian", "South African"]
+			},
+			"policies": [
+				[["and", []]],
+				[["and", [["==", ".name", "Katie"]]]],
+				[[["and", [["==", ".name", "Katie"], ["==", ".age", 35]]]]],
+				[
+					"and",
+					[
+						["==", ".name", "Katie"],
+						["==", ".age", 35],
+						["==", ".nationalities", ["Canadian", "South African"]]
+					]
+				],
+				[["or", []]],
+				[["or", [["==", ".name", "Katie"], [">", ".age", 45]]]],
+				[
+					[
+						"not",
+						[
+							"and",
+							[["==", ".name", "Katie"], ["==", ".nationalities", ["American"]]]
+						]
+					]
+				]
+			]
+		},
+		{
+			"args": { "a": [{ "b": 1 }, { "b": 2 }, { "z": [7, 8, 9] }] },
+			"policies": [[["any", ".a", ["==", ".b", 2]]]]
+		},
+		{
+			"args": {
+				"newsletters": {
+					"recipients": [
+						{ "email": "bob@example.com" },
+						{ "email": "alice@example.com" }
+					]
+				}
+			},
+			"policies": [
+				[
+					[
+						"all",
+						".newsletters",
+						["any", ".recipients", ["==", ".email", "bob@example.com"]]
+					]
+				]
+			]
+		},
+		{
+			"args": {
+				"from": "alice@example.com",
+				"to": ["bob@example.com", "carol@not.example.com"],
+				"title": "Coffee",
+				"body": "Still on for coffee"
+			},
+			"policies": [
+				[
+					["==", ".from", "alice@example.com"],
+					["any", ".to", ["like", ".", "*@example.com"]]
+				]
+			]
+		}
+	],
+	"invalid": [
+		{
+			"args": {
+				"fail1": "Alice*, Bob, Carol",
+				"fail2": "Alice*, Bob*, Carol!",
+				"fail3": "Alice, Bob, Carol.",
+				"fail4": "Alice Cooper, Bob, Carol.",
+				"fail5": " Alice*, Bob, Carol. "
+			},
+			"policies": [
+				[["like", ".fail1", "Alice\\*, Bob*, Carol."]],
+				[["like", ".fail2", "Alice\\*, Bob*, Carol."]],
+				[["like", ".fail3", "Alice\\*, Bob*, Carol."]],
+				[["like", ".fail4", "Alice\\*, Bob*, Carol."]],
+				[["like", ".fail5", "Alice\\*, Bob*, Carol."]]
+			]
+		},
+		{
+			"args": {
+				"name": "Katie",
+				"age": 35,
+				"nationalities": ["Canadian", "South African"]
+			},
+			"policies": [
+				[
+					[
+						"and",
+						[
+							["==", ".name", "Katie"],
+							["==", ".age", 35],
+							["==", ".nationalities", "american"]
+						]
+					]
+				]
+			]
+		},
+		{
+			"args": { "a": [{ "b": 1 }, { "b": 2 }, { "z": [7, 8, 9] }] },
+			"policies": [[["all", ".a", [">", ".b", 0]]]]
+		},
+		{
+			"args": {
+				"from": "alice@example.com",
+				"to": ["carol@elsewhere.example.com"],
+				"title": "Coffee",
+				"body": "Still on for coffee"
+			},
+			"policies": [
+				[
+					["==", ".from", "alice@example.com"],
+					["any", ".to", ["like", ".", "*@example.com"]]
+				]
+			]
+		}
+	]
+}
