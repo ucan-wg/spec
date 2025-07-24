@@ -1,0 +1,32 @@
+{
+	"version": "1.0.0-rc.1",
+	"comments": "Principals private keys encoded as base64pad(varint(0x1300) + privateKey) and all other binary fields are encoded as base64pad.",
+	"principals": {
+		"carol": "gCZC43QGw7ZvYQuKTtBwBy+tdjYrKf0hXU3dd+J0HON5dw==",
+		"bob": "gCZfj9+RzU2U518TMBNK/fjdGQz34sB4iKE6z+9lQDpCIQ==",
+		"alice": "gCa9UfZv+yI5/rvUIt21DaGI7EZJlzFO1uDc5AyJ30c6/w=="
+	},
+	"valid": [
+		{
+			"name": "basic delegation bob > carol",
+			"token": "glhAd7jvZs44lTWmjSG/PWBRXvAdJA6Pq0fj86WQOVBYSw3fLrpjF7OMvjUlTynZZblPHzFsiBeBlUqtbCAHvhppCaJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDY2NtZGgvYWNjb3VudGNleHAaaIIMsWNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttVDlqNmZWWnF6WFY4dTJ3VlZTdTQ5Z1lTUllHU1FuZHVXWEY2Zm9BSnJxemVub25jZUwnbSv2keQn/Kg2KsM=",
+			"cid": "bafyreifqsojs54lpxxyx5xfqxiwkc4paglcyqd7vjzrcyapxi557extz6m",
+			"envelope": {
+				"payload": {
+					"iss": "did:key:z6MkmT9j6fVZqzXV8u2wVVSu49gYSRYGSQnduWXF6foAJrqz",
+					"aud": "did:key:z6MkmJceVoQSHs45cReEXoLtWm1wosCG8RLxfKwhxoqzoTkC",
+					"sub": "did:key:z6MkmT9j6fVZqzXV8u2wVVSu49gYSRYGSQnduWXF6foAJrqz",
+					"cmd": "/account",
+					"pol": [],
+					"exp": 1753353393,
+					"nonce": "J20r9pHkJ/yoNirD"
+				},
+				"signature": "d7jvZs44lTWmjSG/PWBRXvAdJA6Pq0fj86WQOVBYSw3fLrpjF7OMvjUlTynZZblPHzFsiBeBlUqtbCAHvhppCQ==",
+				"alg": "Ed25519",
+				"enc": "DAG-CBOR",
+				"spec": "dlg",
+				"version": "1.0.0-rc.1"
+			}
+		}
+	]
+}
