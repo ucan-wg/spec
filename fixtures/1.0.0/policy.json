@@ -52,13 +52,15 @@
 			"policies": [
 				[["and", []]],
 				[["and", [["==", ".name", "Katie"]]]],
-				[[["and", [["==", ".name", "Katie"], ["==", ".age", 35]]]]],
+				[["and", [["==", ".name", "Katie"], ["==", ".age", 35]]]],
 				[
-					"and",
 					[
-						["==", ".name", "Katie"],
-						["==", ".age", 35],
-						["==", ".nationalities", ["Canadian", "South African"]]
+						"and",
+						[
+							["==", ".name", "Katie"],
+							["==", ".age", 35],
+							["==", ".nationalities", ["Canadian", "South African"]]
+						]
 					]
 				],
 				[["or", []]],
