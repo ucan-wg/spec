@@ -1,0 +1,378 @@
+{
+  "comments": "Encoded as dag-json.",
+  "invalid": [
+    {
+      "description": "it has no proofs",
+      "error": {
+        "name": "InvalidClaim"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhAF7fivUGyq7qB6p9O9XzzA3Fpct17AiqtTGLjz1soHaTI/ik/Q5vRALuuFD4BEZbpvR3+a710lA+JHIS9RqWVA6JhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaAY3N1Yng4ZGlkOmtleTp6Nk1rbUpjZVZvUVNIczQ1Y1JlRVhvTHRXbTF3b3NDRzhSTHhmS3doeG9xem9Ua0NkYXJnc6Blbm9uY2VQAQIDBAECAwQBAgMEAQIDBA"
+        }
+      },
+      "name": "no proof",
+      "proofs": []
+    },
+    {
+      "description": "a proof is not provided or resolvable externally",
+      "error": {
+        "name": "UnavailableProof"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhALmBqgaPi6kKawSh5pxVkDOlGgdNefcmjvnJ3YXE/zX+T1zwRdF4I8qxOjTzRbYijDaShIgLR20i1nPpRO15qC6JhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaB2CpYJQABcRIgMI8CZFZ8CH7BynpUg0BDCfuktrmFJjLSu+KK/DXIDmpjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2RhcmdzoGVub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+        }
+      },
+      "name": "missing proof",
+      "proofs": []
+    },
+    {
+      "description": "a proof is expired",
+      "error": {
+        "name": "Expired"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhAupTs833VJzKG3oeSpebiP/5P8AfBdRxEbUc9DxVRpbKXsysDTSnqftMLktOkWnlVmCGLiLzqh9uWKMQR4ERpCaJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaB2CpYJQABcRIgahqZy6Hcb2Q/Q6g1uJviOY/c7oHsoNyBTh+eDpoV3dJjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2RhcmdzoGVub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+        }
+      },
+      "name": "expired proof",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhAet8bzLxBK7Oeqxt6t/eeTYyHb/wh7odbGXA8weuljc9COjyNhs/DaMd8YyQH2TF3UyB36oEKm/TDY3DGyvkXDqJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhwGmj2GDNjaXNzeDhkaWQ6a2V5Ono2TWttVDlqNmZWWnF6WFY4dTJ3VlZTdTQ5Z1lTUllHU1FuZHVXWEY2Zm9BSnJxemNwb2yAY3N1Yng4ZGlkOmtleTp6Nk1rbVQ5ajZmVlpxelhWOHUyd1ZWU3U0OWdZU1JZR1NRbmR1V1hGNmZvQUpycXplbm9uY2VQAQIDBAECAwQBAgMEAQIDBA"
+          }
+        }
+      ]
+    },
+    {
+      "description": "a proof has a not before time in the future",
+      "error": {
+        "name": "TooEarly"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhAbt3YbyszHCOW27S8A6Xy8fR/S2iDH2L8lYgyBoOkzgoC4Syeg2zcP/Hi7DXDobFrLlYWqgdpemdYKRe4jEOUBaJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaB2CpYJQABcRIghcgCW54v0moLFh3AXOyu5eUzEy73I5sonBNPd+6avkBjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2RhcmdzoGVub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+        }
+      },
+      "name": "inactive proof",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhAcWHiqJIcx2+8bfTXblonOaoi4if0kXWSZnw8ijBAZlblRspyJvt+YGSIMGSEEp/BIPmr2Qem3F/NqvASpitnBaJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xqGNhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y25iZhsAAAA6//RBf2Nwb2yAY3N1Yng4ZGlkOmtleTp6Nk1rbVQ5ajZmVlpxelhWOHUyd1ZWU3U0OWdZU1JZR1NRbmR1V1hGNmZvQUpycXplbm9uY2VQAQIDBAECAwQBAgMEAQIDBA"
+          }
+        }
+      ]
+    },
+    {
+      "description": "the audience of a delegation in the proof chain is not the issuer of the next delegation",
+      "error": {
+        "name": "InvalidAudience"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhAEkMi9DUzO4mlFlP/18M1UWoTRNBc10NdI4zMWO0uenzyXMa1KlWpMAwqQp7kLVnxIixo8EWWn7k0hgOEBqxYC6JhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaC2CpYJQABcRIgwWhshTHRPTHefmFlb/Wpw5T17RqjQJngSGGYnyh6VdnYKlglAAFxEiC4ghKvGhayHcCdoX/DHdKRpuDu0jws1GxmLy3F+eU+7mNzdWJ4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDZGFyZ3OgZW5vbmNlUAEBAwgBAQMIAQEDCAEBAwg"
+        }
+      },
+      "name": "proof principal alignment",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhA47UkXV3nVndtGRqPLlB2F3/TNDd5lg5F8++X6oqe+SENmVD8Jvj3+MwPSEW50vNlpQ3HXv8/RwXax5TFjU/7BaJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa2g3d0p0UmVDZWVUOXlEUjJuUjUyb21LQ2F5UzZ6Ymc4dG5XOEpvazlDSmhrY3BvbIBjc3VieDhkaWQ6a2V5Ono2TWtoN3dKdFJlQ2VlVDl5RFIyblI1Mm9tS0NheVM2emJnOHRuVzhKb2s5Q0poa2Vub25jZVABAgMEAQIDBAECAwQBAgME"
+          }
+        },
+        {
+          "/": {
+            "bytes": "glhAg4P89/nYQzrLHgCddyhPslAuiA/mgfDkIZBRKI2vQs8ybbtLHYSW+uo4Zgfn4blseU4YABu1tJs8ClXSpJ5cDaJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y3BvbIBjc3VieDhkaWQ6a2V5Ono2TWtoN3dKdFJlQ2VlVDl5RFIyblI1Mm9tS0NheVM2emJnOHRuVzhKb2s5Q0poa2Vub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+          }
+        }
+      ]
+    },
+    {
+      "description": "the audience of the delegation is not the issuer of the invocation",
+      "error": {
+        "name": "InvalidAudience"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhAbCTct6BWsI3gfcFEdzxHZJmXLYXYARhMdFFHmf8rsz8EfYjmrcOWuT1uaK04AqU2yI+4eRGAqSOr5BVIUHyADaJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaC2CpYJQABcRIgwWhshTHRPTHefmFlb/Wpw5T17RqjQJngSGGYnyh6VdnYKlglAAFxEiAxt0IXKC9l0kOcshdL7XyDKBu5yx/XQbqLpCe/mHHsAmNzdWJ4OGRpZDprZXk6ejZNa2g3d0p0UmVDZWVUOXlEUjJuUjUyb21LQ2F5UzZ6Ymc4dG5XOEpvazlDSmhrZGFyZ3OgZW5vbmNlUAEBAwgBAQMIAQEDCAEBAwg"
+        }
+      },
+      "name": "invocation principal alignment",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhA47UkXV3nVndtGRqPLlB2F3/TNDd5lg5F8++X6oqe+SENmVD8Jvj3+MwPSEW50vNlpQ3HXv8/RwXax5TFjU/7BaJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa2g3d0p0UmVDZWVUOXlEUjJuUjUyb21LQ2F5UzZ6Ymc4dG5XOEpvazlDSmhrY3BvbIBjc3VieDhkaWQ6a2V5Ono2TWtoN3dKdFJlQ2VlVDl5RFIyblI1Mm9tS0NheVM2emJnOHRuVzhKb2s5Q0poa2Vub25jZVABAgMEAQIDBAECAwQBAgME"
+          }
+        },
+        {
+          "/": {
+            "bytes": "glhAvrf2Fq+KzyVLbMrHV+darhgqtO583QC8U7ZcPV6SgkN6r5fC/SbyzBcoaGxKgrRsE5wHZPXBBlaGAf4H6e40DqJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDY3BvbIBjc3VieDhkaWQ6a2V5Ono2TWtoN3dKdFJlQ2VlVDl5RFIyblI1Mm9tS0NheVM2emJnOHRuVzhKb2s5Q0poa2Vub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+          }
+        }
+      ]
+    },
+    {
+      "description": "the subject is not the same for every delegation in the proof chain",
+      "error": {
+        "name": "InvalidSubject"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhAlO72HaD6YHqVgu74XmgZnd0HUbM0Ho3EE8gDTwOPsje4IcQVFW5k2NCpJvJzt+UVZoCvMl8SVpBbghComHjMBqJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaC2CpYJQABcRIggGQKZ7/wsq5gK+P8q4RqwOZCrhyiIITDpHM/bZIPpyTYKlglAAFxEiAzMIeweQbD1v3f98eSbU4C7tbf1ryRXaejng5zTemcAmNzdWJ4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDZGFyZ3OgZW5vbmNlUAEBAwgBAQMIAQEDCAEBAwg"
+        }
+      },
+      "name": "proof subject alignment",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhA1IoOl5rpsUsdwbfKD6Ly/Tf6h90ODLY5ru2FSDJ9s2Z5/kLmFvBlypu9Ff0fnoa7+pKtVlDsucD5aCYINbhRC6JhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDY3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2Vub25jZVABAgMEAQIDBAECAwQBAgME"
+          }
+        },
+        {
+          "/": {
+            "bytes": "glhA18glIcesPTSsyxIvvSsnrLctcBHs20EEAUI+WSnOJBwBElj2b6z0UhR2pz5MSR8cRxPWdp5NffgA08Hn7EsrB6JhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttVDlqNmZWWnF6WFY4dTJ3VlZTdTQ5Z1lTUllHU1FuZHVXWEY2Zm9BSnJxemVub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+          }
+        }
+      ]
+    },
+    {
+      "description": "the subject of the invocation is not the same as the subject of the delegation",
+      "error": {
+        "name": "InvalidSubject"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhACTPh/BfVEST0S902BlfNjGS/+gEdUbQYDn/iaQxtBrZt9LMzHWWlVaPonKVeZfccvza204WnaO9ieym4lATvC6JhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaC2CpYJQABcRIggGQKZ7/wsq5gK+P8q4RqwOZCrhyiIITDpHM/bZIPpyTYKlglAAFxEiB5gG0dwiUYYCCRXe+TSoHSwOKHwpyjefL80dYHNywzgWNzdWJ4OGRpZDprZXk6ejZNa2g3d0p0UmVDZWVUOXlEUjJuUjUyb21LQ2F5UzZ6Ymc4dG5XOEpvazlDSmhrZGFyZ3OgZW5vbmNlUAEBAwgBAQMIAQEDCAEBAwg"
+        }
+      },
+      "name": "invocation subject alignment",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhA1IoOl5rpsUsdwbfKD6Ly/Tf6h90ODLY5ru2FSDJ9s2Z5/kLmFvBlypu9Ff0fnoa7+pKtVlDsucD5aCYINbhRC6JhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDY3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2Vub25jZVABAgMEAQIDBAECAwQBAgME"
+          }
+        },
+        {
+          "/": {
+            "bytes": "glhAlC+rtXKanMs7eUsDKDbzBoPI1RIoBhxs3nHh/XbBc9Ou5quAnDM987yV+PAgR6X8nmJ8hQozLL3yEJyCKhuyA6JhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2Vub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+          }
+        }
+      ]
+    },
+    {
+      "description": "the invocation is expired",
+      "error": {
+        "name": "Expired"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhAdRZEsVZjlWYsJywI48Ejjc1qPkr68ChTUU6Fgeq1JNY+uTB93mRA+uk5RShNJOVvdjR2fWtqpIiKp1ar4NohBaJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cBpo9hgzY2lhdBpo9XuAY2lzc3g4ZGlkOmtleTp6Nk1rZ0d5a045QVJORmpFem93VnE0bUxQMmtMNE5zeUFhREdYZUpGUTVxRTFiZmdjcHJmgdgqWCUAAXESIDCPAmRWfAh+wcp6VINAQwn7pLa5hSYy0rviivw1yA5qY3N1Yng4ZGlkOmtleTp6Nk1rbUpjZVZvUVNIczQ1Y1JlRVhvTHRXbTF3b3NDRzhSTHhmS3doeG9xem9Ua0NkYXJnc6Blbm9uY2VQBQYHCAUGBwgFBgcIBQYHCA"
+        }
+      },
+      "name": "expired invocation",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhAR4mfb8ah/x4Ec2ncbW1jfm4T/SSqX2rbe7XSLiXZPTRaSsdR94U/dyC0dviEpYjou21f0iC4DUho1DFzms/bAKJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttVDlqNmZWWnF6WFY4dTJ3VlZTdTQ5Z1lTUllHU1FuZHVXWEY2Zm9BSnJxemVub25jZVABAgMEAQIDBAECAwQBAgME"
+          }
+        }
+      ]
+    },
+    {
+      "description": "the signature of a proof is not verifiable",
+      "error": {
+        "name": "InvalidSignature"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhAHU3J47ECvjF9KCPCsIMmur6KzCbZbN1aIhzr7omh4Fpsi+XvLrnTX699HZwgGK4tBf3pi+cFrpxxR10KHxRLAqJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaB2CpYJQABcRIgZ2PkUy2e7sFj+vPz64bBtCo2vEklHkkDcH2bcqqGZu1jc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2RhcmdzoGVub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+        }
+      },
+      "name": "invalid proof signature",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "gkMBAgOiYWhINAHtAe0BE3FzdWNhbi9kbGdAMS4wLjAtcmMuMadjYXVkeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NjbWRpL21zZy9zZW5kY2V4cPZjaXNzeDhkaWQ6a2V5Ono2TWttVDlqNmZWWnF6WFY4dTJ3VlZTdTQ5Z1lTUllHU1FuZHVXWEY2Zm9BSnJxemNwb2yAY3N1Yng4ZGlkOmtleTp6Nk1rbVQ5ajZmVlpxelhWOHUyd1ZWU3U0OWdZU1JZR1NRbmR1V1hGNmZvQUpycXplbm9uY2VQAQIDBAECAwQBAgMEAQIDBA"
+          }
+        }
+      ]
+    },
+    {
+      "description": "the signature of the invocation is not verifiable",
+      "error": {
+        "name": "InvalidSignature"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "gkMBAgOiYWhINAHtAe0BE3FzdWNhbi9pbnZAMS4wLjAtcmMuMahjY21kaS9tc2cvc2VuZGNleHD2Y2lhdBpo9XuAY2lzc3g4ZGlkOmtleTp6Nk1rZ0d5a045QVJORmpFem93VnE0bUxQMmtMNE5zeUFhREdYZUpGUTVxRTFiZmdjcHJmgGNzdWJ4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDZGFyZ3OgZW5vbmNlUAECAwQBAgMEAQIDBAECAwQ"
+        }
+      },
+      "name": "invalid invocation signature",
+      "proofs": []
+    },
+    {
+      "description": "the root delegation has a null subject",
+      "error": {
+        "name": "InvalidClaim"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhAOf76yuhkNFory2OB/FwO+CNAk5gwLG4/Js0G0BcC722fg2ryeoNUG+c55CNufBk+fgH2i8ETe+fzMC0MKju1BqJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaB2CpYJQABcRIgt6n94T9vRWPC57vQapzS7XNBzK9V3I2xeygms8qzRiBjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2RhcmdzoGVub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+        }
+      },
+      "name": "invalid powerline",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhA33+8rqRZRkeqDa0Yw2ihnWeEDIJMRw0NhO9GwJo4Y106Yw6FpzxZZAAHrhHwrSc5KIsz1hjnD9j+6N1IQiz0B6JhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y3BvbIBjc3Vi9mVub25jZVABAgMEAQIDBAECAwQBAgME"
+          }
+        }
+      ]
+    },
+    {
+      "description": "the invocation violates a policy set in an delegation",
+      "error": {
+        "name": "MatchError"
+      },
+      "invocation": {
+        "/": {
+          "bytes": "glhAEthKYbrG9TZn8VtgFRXlLPvkNzruKldy9W0Fsz2uPG7QMwCCSLKVCZ6m6tkleuvfNjFHS7oUPTzlAJoVDPbOA6JhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaB2CpYJQABcRIgxwdNm1TWllZdDo20zoLeaPUWN3JXnT1yd1QNRXaLPyFjc3VieDhkaWQ6a2V5Ono2TWttVDlqNmZWWnF6WFY4dTJ3VlZTdTQ5Z1lTUllHU1FuZHVXWEY2Zm9BSnJxemRhcmdzoWZhbnN3ZXIYKWVub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+        }
+      },
+      "name": "policy violation",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhAJjUfUFt3TlI4pdVLEsOiqy60JIBJ7UPie3bvIdCtPa8pizVxOALlXPXgiPbY04X91l/pqfjLmjfvO0gukE/zBaJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y3BvbIGDYj09Zy5hbnN3ZXIYKmNzdWJ4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6ZW5vbmNlUAECAwQBAgMEAQIDBAECAwQ"
+          }
+        }
+      ]
+    }
+  ],
+  "valid": [
+    {
+      "description": "no proofs, the subject is the issuer so no proof is necessary",
+      "invocation": {
+        "/": {
+          "bytes": "glhAUv3MZ6zkolZCY2CH7qdfIvjMlUTWsLwJ0YJSse71Y6CMxWZiRmCmSQnzF/rWjxqeWibDsAdnwbgeU5ZdehR/CqJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaAY3N1Yng4ZGlkOmtleTp6Nk1rZ0d5a045QVJORmpFem93VnE0bUxQMmtMNE5zeUFhREdYZUpGUTVxRTFiZmdkYXJnc6Blbm9uY2VQAQIDBAECAwQBAgMEAQIDBA"
+        }
+      },
+      "name": "self signed",
+      "proofs": []
+    },
+    {
+      "description": "a single proof that has no expiry",
+      "invocation": {
+        "/": {
+          "bytes": "glhAdcYl9DBuAPXRsY+qsB2kemOcTvJ6vIKAsf3gIYL7imHQNAevH5sW2bKgb9btUM2Xjx9KD9PMHyEeM3Ls0bKJA6JhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaB2CpYJQABcRIgMI8CZFZ8CH7BynpUg0BDCfuktrmFJjLSu+KK/DXIDmpjc3VieDhkaWQ6a2V5Ono2TWttVDlqNmZWWnF6WFY4dTJ3VlZTdTQ5Z1lTUllHU1FuZHVXWEY2Zm9BSnJxemRhcmdzoGVub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+        }
+      },
+      "name": "single non-time bounded proof",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhAR4mfb8ah/x4Ec2ncbW1jfm4T/SSqX2rbe7XSLiXZPTRaSsdR94U/dyC0dviEpYjou21f0iC4DUho1DFzms/bAKJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttVDlqNmZWWnF6WFY4dTJ3VlZTdTQ5Z1lTUllHU1FuZHVXWEY2Zm9BSnJxemVub25jZVABAgMEAQIDBAECAwQBAgME"
+          }
+        }
+      ]
+    },
+    {
+      "description": "a single proof that has no expiry and is active (a not before timestamp in the past)",
+      "invocation": {
+        "/": {
+          "bytes": "glhAOmm+7QD5uqpwCTiJuxauUWr0gTclEBpgddgeVQ+U2t8zEpVESwB+LVts+7IDSCfdo7AWAqg7hRBfc4xHXJ/XCqJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaB2CpYJQABcRIgTH8Q0Iflk+FIroLv27e/IMaijMXphLoS5grrbEfdOBxjc3VieDhkaWQ6a2V5Ono2TWttVDlqNmZWWnF6WFY4dTJ3VlZTdTQ5Z1lTUllHU1FuZHVXWEY2Zm9BSnJxemRhcmdzoGVub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+        }
+      },
+      "name": "single active non-expired proof",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhATG1Om9LOQykef7Xp3WfygLsX1/4Fuul3y9BtWwHwwtXRAlKQg/TF45kmpiCEWPvO3fpeKFle3mrWV7dCEZNIAaJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xqGNhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y25iZhpo9hgzY3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttVDlqNmZWWnF6WFY4dTJ3VlZTdTQ5Z1lTUllHU1FuZHVXWEY2Zm9BSnJxemVub25jZVABAgMEAQIDBAECAwQBAgME"
+          }
+        }
+      ]
+    },
+    {
+      "description": "a proof chain more than one delegation long",
+      "invocation": {
+        "/": {
+          "bytes": "glhAuowwaBvbdDnJ6Ae2iFnbFyrwCSbnodimsqQmuH1dnD7x7hVm5RhTpAr3QNViLZcbJjzDddzKPZKmhOQL9kKjAKJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaC2CpYJQABcRIggGQKZ7/wsq5gK+P8q4RqwOZCrhyiIITDpHM/bZIPpyTYKlglAAFxEiB5gG0dwiUYYCCRXe+TSoHSwOKHwpyjefL80dYHNywzgWNzdWJ4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDZGFyZ3OgZW5vbmNlUAEBAwgBAQMIAQEDCAEBAwg"
+        }
+      },
+      "name": "multiple proofs",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhA1IoOl5rpsUsdwbfKD6Ly/Tf6h90ODLY5ru2FSDJ9s2Z5/kLmFvBlypu9Ff0fnoa7+pKtVlDsucD5aCYINbhRC6JhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDY3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2Vub25jZVABAgMEAQIDBAECAwQBAgME"
+          }
+        },
+        {
+          "/": {
+            "bytes": "glhAlC+rtXKanMs7eUsDKDbzBoPI1RIoBhxs3nHh/XbBc9Ou5quAnDM987yV+PAgR6X8nmJ8hQozLL3yEJyCKhuyA6JhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2Vub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+          }
+        }
+      ]
+    },
+    {
+      "description": "a proof chain more than one delegation long where one or more proofs have an not before time in the past",
+      "invocation": {
+        "/": {
+          "bytes": "glhAKjwCYxC46BAlemzISFY7HeEuwpKbpaGBfBXRMJ/5+DhSsJacos3Jx8gncdFD/QoN5PdYMzLpYAIr0qZyL3M5CKJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaC2CpYJQABcRIggGQKZ7/wsq5gK+P8q4RqwOZCrhyiIITDpHM/bZIPpyTYKlglAAFxEiBawsobXE0KoPwaSppn8fE4S0xycGpJ5svc7uwKNRryVWNzdWJ4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDZGFyZ3OgZW5vbmNlUAEBAwgBAQMIAQEDCAEBAwg"
+        }
+      },
+      "name": "multiple active proofs",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhA1IoOl5rpsUsdwbfKD6Ly/Tf6h90ODLY5ru2FSDJ9s2Z5/kLmFvBlypu9Ff0fnoa7+pKtVlDsucD5aCYINbhRC6JhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDY3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2Vub25jZVABAgMEAQIDBAECAwQBAgME"
+          }
+        },
+        {
+          "/": {
+            "bytes": "glhAGEQPkrF++2YMScD/UnB2gaGhwENHr4uUvGW5vIWmL5845cVBU5uxBknS5dVD+FU5rtuhH7JsExMsw9Gbvn6uBqJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xqGNhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y25iZhpo9hgzY3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2Vub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+          }
+        }
+      ]
+    },
+    {
+      "description": "a proof chain with a powerline delegation (null value for subject)",
+      "invocation": {
+        "/": {
+          "bytes": "glhAO/jcArn1o84J6AwtvnhR3ufYh8KcfgYgCGzy9Y06F7QIGSZHJ9Gp4DbflNnVPc17q7xwTcyB2UCP5AoZcbadDKJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaC2CpYJQABcRIggGQKZ7/wsq5gK+P8q4RqwOZCrhyiIITDpHM/bZIPpyTYKlglAAFxEiBgtvPe1MfYSHFv17tKMFt1TZrb33rglHpO9ZL1bTGXFmNzdWJ4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDZGFyZ3OgZW5vbmNlUAEBAwgBAQMIAQEDCAEBAwg"
+        }
+      },
+      "name": "powerline",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhA1IoOl5rpsUsdwbfKD6Ly/Tf6h90ODLY5ru2FSDJ9s2Z5/kLmFvBlypu9Ff0fnoa7+pKtVlDsucD5aCYINbhRC6JhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21KY2VWb1FTSHM0NWNSZUVYb0x0V20xd29zQ0c4Ukx4Zkt3aHhvcXpvVGtDY3BvbIBjc3VieDhkaWQ6a2V5Ono2TWttSmNlVm9RU0hzNDVjUmVFWG9MdFdtMXdvc0NHOFJMeGZLd2h4b3F6b1RrQ2Vub25jZVABAgMEAQIDBAECAwQBAgME"
+          }
+        },
+        {
+          "/": {
+            "bytes": "glhAGIeARv6xTuoTDPhUnUfrJ+nNTp1DIhvYzmt55gB2vqAzlei5W5QfvGcSOlnZtCGmQjf/LT2pHFGTDJOqvrScB6JhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y3BvbIBjc3Vi9mVub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+          }
+        }
+      ]
+    },
+    {
+      "description": "a policy that matches the invocation arguments",
+      "invocation": {
+        "/": {
+          "bytes": "glhA8GJF1ltl/tiqkXXMVjB9eJMVkWJlbPn9wEE6y2nr1tySr1yjBcEaGZxpIF5MBxgoSn6vNVXSbwR7EBSn6shxBqJhaEg0Ae0B7QETcXN1Y2FuL2ludkAxLjAuMC1yYy4xqGNjbWRpL21zZy9zZW5kY2V4cPZjaWF0Gmj1e4BjaXNzeDhkaWQ6a2V5Ono2TWtnR3lrTjlBUk5GakV6b3dWcTRtTFAya0w0TnN5QWFER1hlSkZRNXFFMWJmZ2NwcmaB2CpYJQABcRIgxwdNm1TWllZdDo20zoLeaPUWN3JXnT1yd1QNRXaLPyFjc3VieDhkaWQ6a2V5Ono2TWttVDlqNmZWWnF6WFY4dTJ3VlZTdTQ5Z1lTUllHU1FuZHVXWEY2Zm9BSnJxemRhcmdzoWZhbnN3ZXIYKmVub25jZVAFBgcIBQYHCAUGBwgFBgcI"
+        }
+      },
+      "name": "policy match",
+      "proofs": [
+        {
+          "/": {
+            "bytes": "glhAJjUfUFt3TlI4pdVLEsOiqy60JIBJ7UPie3bvIdCtPa8pizVxOALlXPXgiPbY04X91l/pqfjLmjfvO0gukE/zBaJhaEg0Ae0B7QETcXN1Y2FuL2RsZ0AxLjAuMC1yYy4xp2NhdWR4OGRpZDprZXk6ejZNa2dHeWtOOUFSTkZqRXpvd1ZxNG1MUDJrTDROc3lBYURHWGVKRlE1cUUxYmZnY2NtZGkvbXNnL3NlbmRjZXhw9mNpc3N4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6Y3BvbIGDYj09Zy5hbnN3ZXIYKmNzdWJ4OGRpZDprZXk6ejZNa21UOWo2ZlZacXpYVjh1MndWVlN1NDlnWVNSWUdTUW5kdVdYRjZmb0FKcnF6ZW5vbmNlUAECAwQBAgMEAQIDBAECAwQ"
+          }
+        }
+      ]
+    }
+  ],
+  "version": "1.0.0-rc.1"
+}
