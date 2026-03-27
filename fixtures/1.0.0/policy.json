@@ -83,13 +83,11 @@
 		{
 			"args": {
 				"newsletters": {
-					{
-						"christmas": {
-							"recipients": [
-								{ "email": "bob@example.com" },
-								{ "email": "alice@example.com" }
-							]
-						}
+					"christmas": {
+						"recipients": [
+							{ "email": "bob@example.com" },
+							{ "email": "alice@example.com" }
+						]
 					}
 				}
 			},
