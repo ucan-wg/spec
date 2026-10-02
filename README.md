@@ -402,7 +402,7 @@ While arbitrary semantics MAY be described, they MUST apply to the target resour
 
 ### Segment Structure
 
-Commands MUST be lowercase, and begin with a slash (`/`). Segments MUST be separated by a slash. A trailing slash MUST NOT be present. All of the following are syntactically valid Commands:
+Commands MUST be lowercase, and begin with a slash (`/`). Segments MUST be separated by a slash. A trailing slash MUST NOT be present. Segment MUST NOT be empty. All of the following are syntactically valid Commands:
 
 * `/`
 * `/crud`
