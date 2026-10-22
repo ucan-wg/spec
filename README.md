@@ -525,6 +525,8 @@ Across all UCAN specifications, the following cryptosuite MUST be supported:
 
 All UCANs MUST be canonically encoded with [DAG-CBOR] for signing. A UCAN MAY be presented or stored in other [IPLD] formats (such as [DAG-JSON]), but converted to DAG-CBOR for signature validation.
 
+The signature MUST use the [canonical encoding][Varsig Canonical Signatures] that [Varsig] defines for its algorithm, for example low-S for ECDSA. Validators MUST reject a UCAN whose signature is not canonical. Otherwise, a third party could derive a second valid signature, and therefore a second CID, for the same UCAN.
+
 ## Content Identifiers
 
 A UCAN token MUST be configured as follows:
@@ -614,7 +616,7 @@ Revocation is irreversible. Suppose the validator learns of revocation by UCAN C
 
 ## Replay Attack Prevention
 
-Replay attack prevention is REQUIRED. Every UCAN token MUST hash to a unique [CIDv1]. Some simple strategies for implementing uniqueness tracking include maintaining a set of previously seen CIDs, or requiring that nonces be monotonically increasing per principal. This MAY be the same structure as a validated UCAN memoization table (if one is implemented).
+Replay attack prevention is REQUIRED. Every UCAN token MUST hash to a unique [CIDv1]. Because UCAN signatures are [canonical][Varsig Canonical Signatures], a third party cannot change the CID of a UCAN without invalidating its signature. Some simple strategies for implementing uniqueness tracking include maintaining a set of previously seen CIDs, or requiring that nonces be monotonically increasing per principal. This MAY be the same structure as a validated UCAN memoization table (if one is implemented).
 
 Maintaining a secondary token expiry index is RECOMMENDED. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
 
@@ -857,6 +859,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [UCAN Promise]: https://github.com/ucan-wg/promise
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
 [Varsig]: https://github.com/ChainAgnostic/varsig
+[Varsig Canonical Signatures]: https://github.com/ChainAgnostic/varsig#canonical-signatures
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
 [WebCrypto API]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API
