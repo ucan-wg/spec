@@ -525,6 +525,8 @@ Across all UCAN specifications, the following cryptosuite MUST be supported:
 
 All UCANs MUST be canonically encoded with [DAG-CBOR] for signing. A UCAN MAY be presented or stored in other [IPLD] formats (such as [DAG-JSON]), but converted to DAG-CBOR for signature validation.
 
+The signature MUST use the [canonical encoding][Varsig Canonical Signatures] that [Varsig] defines for its algorithm, for example low-S for ECDSA. Validators MUST reject a UCAN whose signature is not canonical. Otherwise, a third party could derive a second valid signature, and therefore a second CID, for the same UCAN.
+
 ## Content Identifiers
 
 A UCAN token MUST be configured as follows:
@@ -614,7 +616,7 @@ Revocation is irreversible. Suppose the validator learns of revocation by UCAN C
 
 ## Replay Attack Prevention
 
-Replay attack prevention is REQUIRED. Every UCAN token MUST hash to a unique [CIDv1]. Some simple strategies for implementing uniqueness tracking include maintaining a set of previously seen CIDs, or requiring that nonces be monotonically increasing per principal. This MAY be the same structure as a validated UCAN memoization table (if one is implemented).
+Replay attack prevention is REQUIRED. Every UCAN token MUST hash to a unique [CIDv1]. Because UCAN signatures are [canonical][Varsig Canonical Signatures], a third party cannot change the CID of a UCAN without invalidating its signature. Some simple strategies for implementing uniqueness tracking include maintaining a set of previously seen CIDs, or requiring that nonces be monotonically increasing per principal. This MAY be the same structure as a validated UCAN memoization table (if one is implemented).
 
 Maintaining a secondary token expiry index is RECOMMENDED. This enables garbage collection and more efficient search. In cases of very large stores, normal cache performance techniques MAY be used, such as Bloom filters, multi-level caches, and so on.
 
@@ -794,10 +796,10 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
 [CIDv1]: https://github.com/multiformats/cid
 [CRDT]: https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type
-[Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
+[Capability Myths Demolished]: https://papers.agoric.com/assets/pdf/papers/capability-myths-demolished.pdf
 [Christine Lemmer-Webber]: https://github.com/cwebber
 [Christopher Joel]: https://github.com/cdata
-[Code Mesh 2016]: https://www.codemesh.io/codemesh2016
+[Code Mesh 2016]: https://web.archive.org/web/20250503103359/https://codemesh.io/codemesh2016
 [DAG-CBOR]: https://ipld.io/specs/codecs/dag-cbor/spec/
 [DAG-JSON]: https://ipld.io/specs/codecs/dag-json/spec/
 [DID fragment]: https://www.w3.org/TR/did-core/#fragment
@@ -823,7 +825,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Joe Armstrong]: https://en.wikipedia.org/wiki/Joe_Armstrong_(programmer)
 [Juan Caballero]: https://github.com/bumblefudge
 [Local-First Auth]: https://github.com/local-first-web/auth
-[Macaroon]: https://theory.stanford.edu/~ataly/Papers/macaroons.pdf
+[Macaroon]: https://www.ndss-symposium.org/ndss2014/programme/macaroons-cookies-contextual-caveats-decentralized-authorization-cloud/
 [Mark Miller]: https://github.com/erights
 [Martin Kleppmann]: https://martin.kleppmann.com/
 [Meiklejohn]: https://christophermeiklejohn.com/
@@ -857,6 +859,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [UCAN Promise]: https://github.com/ucan-wg/promise
 [URI]: https://www.rfc-editor.org/rfc/rfc3986
 [Varsig]: https://github.com/ChainAgnostic/varsig
+[Varsig Canonical Signatures]: https://github.com/ChainAgnostic/varsig#canonical-signatures
 [Verifiable credentials]: https://www.w3.org/2017/vc/WG/
 [W3C]: https://www.w3.org/
 [WebCrypto API]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API

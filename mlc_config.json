@@ -1,0 +1,8 @@
+{
+  "ignorePatterns": [
+    { "pattern": "^https://www\\.w3\\.org/" },
+    { "pattern": "^https://fidoalliance\\.org/" },
+    { "pattern": "^https://web\\.archive\\.org/" },
+    { "pattern": "^https://ieeexplore\\.ieee\\.org/" }
+  ]
+}

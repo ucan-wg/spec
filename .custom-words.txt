@@ -90,6 +90,7 @@ UCAN's
 UCANs
 URI
 URIs
+Validators
 Vandevelde
 Varsig
 WG
