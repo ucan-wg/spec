@@ -83,13 +83,11 @@
 		{
 			"args": {
 				"newsletters": {
-					{
-						"christmas": {
-							"recipients": [
-								{ "email": "bob@example.com" },
-								{ "email": "alice@example.com" }
-							]
-						}
+					"christmas": {
+						"recipients": [
+							{ "email": "bob@example.com" },
+							{ "email": "alice@example.com" }
+						]
 					}
 				}
 			},
@@ -157,6 +155,25 @@
 		{
 			"args": { "a": [{ "b": 1 }, { "b": 2 }, { "z": [7, 8, 9] }] },
 			"policies": [[["all", ".a", [">", ".b", 0]]]]
+		},
+		{
+			"args": {
+				"newsletters": {
+					"recipients": [
+						{ "email": "bob@example.com" },
+						{ "email": "alice@example.com" }
+					]
+				}
+			},
+			"policies": [
+				[
+					[
+						"all",
+						".newsletters",
+						["any", ".recipients", ["==", ".email", "bob@example.com"]]
+					]
+				]
+			]
 		},
 		{
 			"args": {
