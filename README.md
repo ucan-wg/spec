@@ -796,10 +796,10 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [CIDv1]: https://docs.ipfs.io/concepts/content-addressing/#identifier-formats
 [CIDv1]: https://github.com/multiformats/cid
 [CRDT]: https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type
-[Capability Myths Demolished]: https://srl.cs.jhu.edu/pubs/SRL2003-02.pdf
+[Capability Myths Demolished]: https://papers.agoric.com/assets/pdf/papers/capability-myths-demolished.pdf
 [Christine Lemmer-Webber]: https://github.com/cwebber
 [Christopher Joel]: https://github.com/cdata
-[Code Mesh 2016]: https://www.codemesh.io/codemesh2016
+[Code Mesh 2016]: https://web.archive.org/web/20250503103359/https://codemesh.io/codemesh2016
 [DAG-CBOR]: https://ipld.io/specs/codecs/dag-cbor/spec/
 [DAG-JSON]: https://ipld.io/specs/codecs/dag-json/spec/
 [DID fragment]: https://www.w3.org/TR/did-core/#fragment
@@ -825,7 +825,7 @@ We want to especially recognize [Mark Miller] for his numerous contributions to 
 [Joe Armstrong]: https://en.wikipedia.org/wiki/Joe_Armstrong_(programmer)
 [Juan Caballero]: https://github.com/bumblefudge
 [Local-First Auth]: https://github.com/local-first-web/auth
-[Macaroon]: https://theory.stanford.edu/~ataly/Papers/macaroons.pdf
+[Macaroon]: https://www.ndss-symposium.org/ndss2014/programme/macaroons-cookies-contextual-caveats-decentralized-authorization-cloud/
 [Mark Miller]: https://github.com/erights
 [Martin Kleppmann]: https://martin.kleppmann.com/
 [Meiklejohn]: https://christophermeiklejohn.com/
