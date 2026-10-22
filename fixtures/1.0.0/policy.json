@@ -158,6 +158,25 @@
 		},
 		{
 			"args": {
+				"newsletters": {
+					"recipients": [
+						{ "email": "bob@example.com" },
+						{ "email": "alice@example.com" }
+					]
+				}
+			},
+			"policies": [
+				[
+					[
+						"all",
+						".newsletters",
+						["any", ".recipients", ["==", ".email", "bob@example.com"]]
+					]
+				]
+			]
+		},
+		{
+			"args": {
 				"from": "alice@example.com",
 				"to": ["carol@elsewhere.example.com"],
 				"title": "Coffee",

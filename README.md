@@ -1,5 +1,5 @@
 # User Controlled Authorization Network (UCAN) Specification
-## Version 1.0.0-rc.1
+## Version 1.0.0
 
 ## Editors
 
@@ -574,7 +574,7 @@ For example:
   { "/": {"bytes": "bdNVZn+uTrQ8bgq5LocO2y3gqIyuEtvYWRUH9YT+SRK6v/SX8bjt+VZ9JIPVTdxkWb6nhVKBt6JGpgnjABpOCA"}},
   {
     "h": {"/": {"bytes": "NAHtAe0BE3E"}}, // i.e. signed with Ed25519, encoded with DAG-CBOR
-    "ucan/example@1.0.0-rc.1": {
+    "ucan/example@1.0.0": {
       // Body fields, for example:
       "hello": "world"
     }
